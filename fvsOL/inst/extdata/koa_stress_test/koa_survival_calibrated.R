@@ -1,6 +1,7 @@
 # koa_survival_calibrated.R   (tuned 2026-06-05; ramp re-tuned 2026-08-05;
-#                              SDImax corrected to 933 metric on 2026-08-06
-#                              after the 1350 value was withdrawn)
+#                              SDImax 1350 withdrawn 2026-08-06; SDImax 933
+#                              withdrawn 2026-08-06 by red team seed 20260806;
+#                              NO SCALAR SDImax IS DEPLOYED IN THIS VERSION)
 # Recommended operational survival for FVS-HI koa, to REPLACE the published
 # cloglog (surv.parm / surv_prob) in HiGy.R.
 #
@@ -11,121 +12,195 @@
 # of 25 cm. A reviewer will sanity check against the imperial number.
 #
 # ============================================================================
-# 2026-08-06 CHANGE NOTE: SDImax IS 933 METRIC (368 IMPERIAL), AN UPPER BOUND.
-# THE 1350 VALUE PREVIOUSLY CARRIED IN THIS FILE IS WITHDRAWN.
+# ==  NO DEFENSIBLE SCALAR SDImax EXISTS FOR THIS DATA. NONE IS DEPLOYED.   ==
+# ==  BOTH 1350 METRIC (533 IMPERIAL) AND 933 METRIC (368 IMPERIAL) ARE     ==
+# ==  WITHDRAWN. SDImax IS NOW A REPORTING-ONLY ARGUMENT DEFAULTING TO NA.  ==
+# ==  THE MORTALITY RAMP IS PARAMETERISED IN ABSOLUTE SDI AND IS UNCHANGED. ==
+# ============================================================================
 #
-# THE WHOLE EPISODE, PLAINLY. The published constant was 500 metric (197
-# imperial). That number was never a pooled-sample quantity: it was fitted on
-# FIA plot-years alone and then carried into an equation estimated on all four
-# sources, so it was wrong in provenance before it was wrong in value. A first
-# correction, dated 2026-08-05, replaced it with 1350 metric (533 imperial) on
-# the strength of a 0.99 quantile regression of the Reineke intercept with the
-# slope fixed at -1.605. That correction has been WITHDRAWN. The estimator used,
-# rq(a_i ~ 1, tau = 0.99) on an intercept-only model, does not fit a boundary at
-# all; on 269 observations it returns an order statistic, so the reported value
-# 1351.50016168609 is one plot-year copied out verbatim, PSP plot 102 subplot 2
-# measured in 2021, and that plot-year rests on FIVE stems spread over an
-# implied area of about 56 m2. The four plot-years that define the frontier
-# carry 5, 12, 14 and 30 stems. Their implied basal areas run to 129 m2 ha-1,
-# three times the highest basal area ever published for koa. Checked against
-# Baker and Scowcroft's own koa growing space index of 15, the most compact
-# crown allometry measured for the species, those four plot-years exceed the
-# non-overlapping-crown packing limit by factors of 3.20, 1.89, 1.82 and 1.50,
-# and the rank correlation between crown-packing overshoot and Reineke SDI
-# across the whole cloud is +0.990. In other words the SDI ranking of this
-# dataset is the overpacking ranking. Plot-years carrying forty stems or more
-# never exceed 924 metric (365 imperial). Compounding this, freeing the Reineke
-# slope on the same data gives an upper-envelope slope between -0.47 and -1.17
-# depending on the estimator, and -1.605 lies outside every interval; because
-# the extreme plot-years all sit at quadratic mean diameters of 22 to 38 cm
-# against a cloud median of 14.8 cm, forcing the steeper theoretical slope
-# inflates exactly those plot-years that then go on to set the quantile, so the
-# bias runs UPWARD and adds to the small-plot artifact rather than offsetting
-# it. Full audit at /users/PUOM0008/crsfaaron/koa_sdimax_audit/.
+# WHY NO SCALAR IS DEPLOYED. The 933 value carried in the previous version of
+# this file was withdrawn by an independent red team pass on 2026-08-06, seed
+# 20260806, artifacts at /users/PUOM0008/crsfaaron/koa_redteam/. Four findings,
+# any one of which would be disqualifying, and which together close the question.
 #
-# WHAT IS DEPLOYED AND WHY. The value in this file is 933 metric (368
-# imperial), with a 95 percent cluster bootstrap percentile interval of 844 to
-# 946 metric (333 to 373 imperial), B = 2000, installations resampled, seed
-# 20260805. It is the 0.99 quantile of the SCREENED cloud: plot-years whose
-# tree list reproduces the reported quadratic mean diameter within 10 percent,
-# which carry at least 20 stems, and which sit at or below the koa closed-crown
-# packing limit. That screen leaves 59 plot-years across 13 installations, and
-# their maximum implied basal area is 39.2 m2 ha-1, just inside the published
-# koa maximum of 42 m2 ha-1, which is the check that the screen is doing what it
-# was meant to do. This constant must be read as an UPPER BOUND and not as a
-# best estimate, because the interval reflects sampling within the screened set
-# and not the screening decision itself. The koa-specific literature
-# independently supports 500 to 650 metric (197 to 256 imperial): Baker and
-# Scowcroft's 2005 crown-based A-line converts to roughly 440 to 530 metric
-# (175 to 210 imperial), and Scowcroft et al.'s 2008 stand, which self-thinned
-# from about 20000 seedlings ha-1 to 1000 trees ha-1 over 23 years and is the
-# best empirical anchor on a genuine koa self-thinning trajectory, sits at 595
-# metric (235 imperial). The screened data and the literature do not agree, and
-# the residual gap is itself the finding: it says the expansion-factor noise has
-# been reduced by screening but not removed. Anything above roughly 950 metric
-# (375 imperial) is not supported by any screened plot-year in this dataset.
-# A defensible sensitivity range to carry through downstream work is 600 to 850
-# metric (237 to 335 imperial).
+# First, the estimator is not an estimator of a boundary in any useful sense. It
+# is quantile(sdi_reineke, 0.99, type = 7) evaluated on n = 59 screened
+# plot-years. The type 7 index is 58.42, so the returned value is a fixed linear
+# blend of order statistics 58 and 59 and nothing else. The other 57 observations
+# enter only through their rank, and perturbing any one of them moves the result
+# by 0.023 percent. Leave one out over the 59 screened plot-years spans 882 to
+# 933 metric (348 to 368 imperial), which is the sensitivity of a two point
+# statistic dressed as a sample quantile.
 #
-# WHY THE CONSTANT IS STILL PROVISIONAL. Plot area and expansion factor are
-# ABSENT from the source files. Implied area has to be back-computed as stems
-# divided by trees per hectare, and doing so exposes 112 distinct implied
-# expansion factors across 269 plot-years, with a median implied area of 193 m2
-# and a tenth percentile of 29 m2. Among the 29 plots remeasured three or more
-# times, only FOUR hold their implied area constant to within 5 percent across
-# remeasurements, with a median within-plot coefficient of variation of 0.198.
-# That is not the signature of a clean fixed-area tally, so the per-hectare
-# expansion cannot be trusted at the individual plot-year level and no estimator
-# run on this cloud can be trusted either. This constant should be revisited
-# against the source inventories once plot area, expansion factor and the
-# minimum measured diameter are obtained from the PSP custodians. [UNKNOWN:
-# whether the PSP network is variable-radius, whether subplots were subsampled,
-# and whether the tree lists were truncated by a minimum diameter that moved
-# between visits. None of the three can be settled from these files.]
+# Second, the reported upper end of the interval is degenerate. The published 95
+# percent upper limit of 946 metric (373 imperial) is the sample maximum bit for
+# bit, and 26.5 percent of the cluster bootstrap draws land exactly on it. An
+# interval whose upper limit is a single observation repeated in a quarter of the
+# replicates is describing the resampling scheme, not the population.
 #
-# HOW THE CONSTANT SHOWS UP IN THE DATA. Under SDImax = 500, 41.4 percent of
-# deduplicated tree records and 27.9 percent of plot-years sit above relative
-# density 1.0, with a maximum RD of 4.39, which is impossible by construction.
-# Under 933 those fall to 5.29 percent and 6.32 percent with a maximum RD of
-# 2.35. Under the withdrawn 1350 they were 0.95 percent and 0.74 percent with a
-# maximum of 1.63, which looks better only because 1350 is large enough to
-# swallow physically impossible plot-years. The screened cloud is the honest
-# test and it passes cleanly: among the 59 screened plot-years NONE exceeds RD
-# 1.0 at SDImax 933 and the maximum is 0.970, against 35.6 percent exceeding 1.0
-# at SDImax 500. Recomputed on Cardinal 2026-08-06 from
+# Third, and decisively, every value on this scale is an extrapolation. NONE of
+# the 59 screened plot-years reaches the Reineke index diameter of 25 cm. Their
+# quadratic mean diameters run from 1.3 to 22.4 cm with a median of 11.3 cm, so
+# every reported SDI is obtained by projecting each plot-year up to 25 cm along a
+# slope of -1.605 that has never been estimated for Acacia koa A. Gray. The free
+# upper envelope slope estimated on these same data is -0.714 to -0.768,
+# depending on the envelope estimator. Forcing -1.605 on a cloud that sits
+# entirely below the index diameter inflates every plot-year, and it inflates the
+# large diameter plot-years most, which are exactly the ones that then set the
+# 0.99 quantile. The direction of the bias is upward and it is not small.
+#
+# Fourth, the screen that produced the number is a tuning knob rather than a
+# filter. The binding element of the screen is the koa crown packing limit, and
+# that limit is set by a growing space index. At growing space index 15 the
+# screen returns 933 metric (368 imperial). At 20 it returns 622 metric (245
+# imperial). At 25 it returns 373 metric (147 imperial). Growing space index 15
+# is the most compact crown allometry ever measured for the species and is the
+# only setting in that series whose output lies above the koa literature. The
+# number was therefore selected, not estimated.
+#
+# THE EARLIER EPISODE, PRESERVED FOR THE RECORD. The published constant was 500
+# metric (197 imperial). That number was never a pooled-sample quantity: it was
+# fitted on FIA plot-years alone and then carried into an equation estimated on
+# all four sources, so it was wrong in provenance before it was wrong in value. A
+# first correction, dated 2026-08-05, replaced it with 1350 metric (533
+# imperial) on the strength of a 0.99 quantile regression of the Reineke
+# intercept with the slope fixed at -1.605. That correction was withdrawn on
+# 2026-08-06. The estimator used, rq(a_i ~ 1, tau = 0.99) on an intercept-only
+# model, does not fit a boundary at all; on 269 observations it returns an order
+# statistic, so the reported value 1351.50016168609 was one plot-year copied out
+# verbatim, PSP plot 102 subplot 2 measured in 2021, and that plot-year rests on
+# FIVE stems spread over an implied area of about 56 m2. The four plot-years that
+# defined the frontier carried 5, 12, 14 and 30 stems, and their implied basal
+# areas ran to 129 m2 ha-1, three times the highest basal area ever published for
+# koa. Checked against Baker and Scowcroft's koa growing space index of 15, those
+# four plot-years exceeded the non-overlapping-crown packing limit by factors of
+# 3.20, 1.89, 1.82 and 1.50, and the rank correlation between crown-packing
+# overshoot and Reineke SDI across the whole cloud is +0.990. In other words the
+# SDI ranking of this dataset is the overpacking ranking. Plot-years carrying
+# forty stems or more never exceed 924 metric (365 imperial). The screened
+# replacement, 933 metric, was an attempt to repair that by filtering rather than
+# by re-estimating, and it inherited both the fixed slope and a screen whose
+# tightest setting was chosen after the fact. Full audit of the 1350 episode at
+# /users/PUOM0008/crsfaaron/koa_sdimax_audit/; audit of the 933 episode at
+# /users/PUOM0008/crsfaaron/koa_redteam/.
+#
+# WHAT REPLACES THE SCALAR: A DIAMETER-CONDITIONAL BOUND. A single number is the
+# wrong object here, because the Reineke index diameter is far outside the data.
+# What the koa literature does support is a maximum stand basal area. Harrington,
+# Fownes, Meinzer and Scowcroft (1995, Oecologia 102:277-284,
+# doi 10.1007/BF00329794) report 42 m2 ha-1 as the highest basal area observed in
+# koa, and that is an external anchor: it is a directly measured quantity at
+# diameters the inventories actually carry, and it does not depend on the slope,
+# the screen, or the expansion factors. No dispersion is published with it, so it
+# is carried here as a single reported maximum and is flagged as such rather than
+# given a fabricated interval. [UNKNOWN: the sampling variability of the 42
+# m2 ha-1 anchor; Harrington et al. report it as an observed maximum, not as an
+# estimate with an interval.]
+#
+# Converting that anchor through the Reineke identity,
+#     BA = SDI * (pi/4) * 25^1.605 / 1e4 * Dq^0.395,
+# gives the bound as a function of quadratic mean diameter rather than as a
+# scalar: 934 metric (369 imperial) at Dq 20 cm, 796 metric (314 imperial) at
+# Dq 30 cm, and 651 metric (257 imperial) at Dq 50 cm. The bound falls with
+# diameter, which is the whole point: quoting one number for a species whose
+# inventory sits at a median Dq of 11.3 cm hides the fact that the number is
+# diameter conditional. Use the bound at the diameter you are actually at.
+#
+# WHAT THE KOA LITERATURE INDEPENDENTLY SUPPORTS, RETAINED. Two independent koa
+# anchors survive the withdrawal of the screened estimate and should continue to
+# be quoted, because neither depends on this dataset's expansion factors or on
+# the fixed slope. Baker and Scowcroft's 2005 crown-based A-line converts to
+# roughly 440 to 530 metric (175 to 210 imperial), an interval that comes from
+# the range of their crown-width allometry rather than from a resampling scheme.
+# Scowcroft et al.'s 2008 stand, which self-thinned from about 20000 seedlings
+# ha-1 to 1000 trees ha-1 over 23 years and is the best empirical anchor on a
+# genuine koa self-thinning trajectory, sits at 595 metric (235 imperial) as a
+# single-stand point with no interval reported. Taken together the koa-specific
+# literature supports roughly 500 to 650 metric (197 to 256 imperial), which is
+# well below both withdrawn values and is consistent with the 42 m2 ha-1 anchor
+# at the diameters those stands were measured at. The persistent gap between that
+# range and anything this dataset produces is itself a finding: it says the
+# problem is in the plot-year records, not in the choice of constant.
+#
+# WHAT WAS WRONG WITH THE EXPANSION-FACTOR STORY, CORRECTED. Earlier versions of
+# this file stated that plot area and expansion factor are ABSENT from the source
+# files and that back-computing them exposes 112 distinct implied expansion
+# factors across 269 plot-years. THAT CLAIM IS FALSE AND IS RETRACTED HERE.
+# AK_SURV.csv carries a fully populated EXPF.0 column with exactly FOUR distinct
+# values, 14.92, 24.80, 49.56 and 185.91 trees ha-1 per stem, corresponding to
+# plot areas of 670.0, 403.2, 201.8 and 53.8 m2. The column is non-missing on all
+# 5,969 rows and is constant within 95 of the 100 plots. The five exceptions are
+# FIA installations carrying both 14.92 and 185.91, which is macroplot and
+# microplot nesting rather than an inconsistency: the 185.91 rows hold stems from
+# 2.5 to 11.7 cm and the 14.92 rows hold stems of 12.7 cm and above. The "112
+# distinct implied expansion factors" figure was an artifact of reconstructing
+# expansion from row counts in an already filtered file, which manufactures a
+# distinct implied area for every distinct surviving row count. It measured the
+# filter, not the inventory.
+#
+# THE REAL LIMITATION, STATED PROPERLY. The relative-density exceedance that
+# originally motivated abandoning 500 is a data quality problem in the plot-year
+# density and diameter records, not a problem in the constant. At any SDImax
+# below 2285 metric (901 imperial) some plot-years still exceed relative density
+# 1.0, and 2285 is set by a single plot-year implying 129.1 m2 ha-1 of basal
+# area, roughly three times the published koa maximum of 42 m2 ha-1. No choice of
+# constant can fix a plot-year that is physically impossible, and raising the
+# constant until the exceedances disappear is the error that produced 1350. The
+# exceedances are the signal that specific plot-year density and diameter records
+# need adjudication against the source inventories, and that is the work item.
+#
+# THE EXCEEDANCE EVIDENCE ITSELF, RETAINED AND REINTERPRETED. Under SDImax 500,
+# 41.4 percent of deduplicated tree records and 27.9 percent of plot-years sit
+# above relative density 1.0, with a maximum RD of 4.39, which is impossible by
+# construction. Under 933 those fall to 5.29 percent and 6.32 percent with a
+# maximum RD of 2.35. Under the withdrawn 1350 they were 0.95 percent and 0.74
+# percent with a maximum of 1.63. That monotone improvement was read at the time
+# as evidence that the larger constants were better. It is not. It is arithmetic:
+# any denominator large enough will absorb any numerator, and 1350 looked best
+# only because it was large enough to swallow physically impossible plot-years.
+# The exceedance count is therefore a diagnostic of the numerator and must never
+# again be used to select the denominator. Recomputed on Cardinal 2026-08-06 from
 # koa_surv_respec/data/surv_recovered_ii.csv (4518 records after the standard
 # deduplication) and koa_surv_respec/out/plot_year_reineke.csv (269 plot-years),
 # the same files that produced the published figures.
 #
-# THE INTERNAL CONSISTENCY CHECK, REDONE. The BA fallback in this function
-# treats RD as BA divided by baph_ref. Setting that path equal to the Reineke
-# path, baph_ref = SDImax * (25/QMD)^1.605 * (pi/4) * (QMD/100)^2, the
-# Reineke-consistent basal area at SDI 933 and QMD 30 cm is 49.2 m2 ha-1, so
-# baph_ref moves from 60 to 49. Running the identity backwards, a baph_ref of 49
-# implies an SDImax of 1090 at QMD 20 cm falling to 759 at QMD 50 cm, bracketing
-# the deployed 933 as it must. The published pairing of 500 with 60 m2 ha-1
-# implied 1335 down to 930 over the same diameter range, which is where the
-# factor of roughly 2.3 disagreement between the two density scales in the
-# published equation came from. At SDImax 933 with baph_ref 49 the two paths
-# agree to within 0.5 percent at QMD 30 cm. Note for the record that the
-# withdrawn file rounded the Reineke basal area at SDI 1350 up to 72 when the
-# exact value is 71.2; here 49.2 is rounded to 49, a difference of 0.4 percent.
+# [UNKNOWN: EXPF.0 settles plot area and expansion factor, but three questions
+# about the PSP network remain open and cannot be settled from these files:
+# whether any part of the network is variable-radius rather than fixed-area,
+# whether subplots were subsampled between visits, and whether the tree lists
+# were truncated by a minimum measured diameter that moved between visits. The
+# last of these bears directly on the impossible plot-years and should be asked
+# of the PSP custodians first.]
+#
+# WHAT THIS MEANS OPERATIONALLY. Relative density is a REPORTING CONVENIENCE in
+# this file and has NO DYNAMICAL ROLE. The mortality ramp is parameterised in
+# absolute SDI, onset at 200 and full lift at 850, so it does not need SDImax and
+# does not use it. With SDImax left at its default of NA the function computes no
+# relative density, returns no relative density, and behaves exactly as it did at
+# SDImax 933. If a caller supplies a value, it is honoured and relative density
+# is computed from it and attached as an attribute for reporting, but no default
+# number is shipped and none should be invented downstream. Any figure, table or
+# manuscript sentence expressed as a percent of SDImax must either name the
+# constant it used and label it as withdrawn, or be restated in absolute SDI.
+# ============================================================================
 #
 # THE RAMP IS NOT AFFECTED, AND THAT IS THE POINT. The self-thinning ramp is
-# parameterised in ABSOLUTE SDI, onset at 200 and full lift at 850, and SDImax
-# cancels identically out of frac = (RD - onset)/(full - onset) once RD is
-# written as SDI/SDImax. This was verified numerically on Cardinal on
-# 2026-08-06 rather than asserted. The survival function evaluated on a grid of
-# 25001 points over SDI 0 to 2500 for both origins agrees between SDImax 500,
-# 933 and 1350 to 1.1e-16. Six 300-year project_cohort runs, two origins by
-# three BYI levels, agree across the three SDImax values to 2.3e-13 in trees
-# ha-1, 7.1e-15 in QMD, 1.4e-14 in basal area and 2.3e-13 in SDI at every one of
-# the 301 annual steps. With ingrowth active, project_psp reaches the same
-# 300-year steady state at 933 as at 1350, natural 16.3 m2 ha-1 at SDI 367 and
-# plantation 15.9 m2 ha-1 at SDI 301, agreeing to 1.1e-13. Realised annual
-# mortality on the observed record is identical to fifteen decimal places at
-# SDImax 500, 933, 1087, 1350 and 1882. THIS IS A CONSTANTS AND DOCUMENTATION
-# CORRECTION, NOT A RE-FIT. The ramp was not re-tuned and must not be.
+# parameterised in ABSOLUTE SDI, onset at 200 and full lift at 850. Under the
+# previous parameterisation SDImax cancelled identically out of
+# frac = (RD - onset)/(full - onset) once RD was written as SDI/SDImax; under the
+# present one it never enters. This was verified numerically on Cardinal rather
+# than asserted. The survival function evaluated on a grid of 25001 points over
+# SDI 0 to 2500 for both origins agreed between SDImax 500, 933 and 1350 to
+# 1.1e-16, and the present absolute-SDI form agrees with the withdrawn 933 form
+# to the same order. Six 300-year project_cohort runs, two origins by three BYI
+# levels, agreed across the three SDImax values to 2.3e-13 in trees ha-1, 7.1e-15
+# in QMD, 1.4e-14 in basal area and 2.3e-13 in SDI at every one of the 301 annual
+# steps. With ingrowth active, project_psp reaches the same 300-year steady
+# state, natural 16.3 m2 ha-1 at SDI 367 and plantation 15.9 m2 ha-1 at SDI 301,
+# agreeing to 1.1e-13. Realised annual mortality on the observed record is
+# identical to fifteen decimal places at SDImax 500, 933, 1087, 1350 and 1882 and
+# at SDImax absent. THIS IS A CONSTANTS AND DOCUMENTATION CORRECTION, NOT A
+# RE-FIT. The ramp was not re-tuned and must not be.
 #
 # CORRECTION OF A FALSE CLAIM MADE ELSEWHERE. It was previously reported that
 # correcting SDImax improved the realised Reineke self-thinning slope from a
@@ -135,24 +210,24 @@
 # invariant to it: holding the ramp fixed in absolute SDI and moving SDImax from
 # 500 to 1350 leaves the slope range bit-identical at all six BYI levels, while
 # holding SDImax at 500 and applying only the re-tuned ramp reproduces the
-# "corrected" range exactly, including the -1.61 that was highlighted against
-# the theoretical -1.605. The entire improvement came from the ramp re-tune and
-# none of it from SDImax. Citing it as evidence for a particular SDImax is
-# circular, since the ramp was re-tuned because SDImax had been changed. The
-# one channel through which SDImax can move a trajectory, holding the
-# thresholds at RD 0.65 and 0.85 so that the absolute onset silently relocates,
-# makes the slope dramatically WORSE, -0.03 to -0.65. No claim of this kind
+# "corrected" range exactly, including the -1.61 that was highlighted against the
+# theoretical -1.605. The entire improvement came from the ramp re-tune and none
+# of it from SDImax. Citing it as evidence for a particular SDImax is circular,
+# since the ramp was re-tuned because SDImax had been changed. The one channel
+# through which SDImax can move a trajectory, holding the thresholds at RD 0.65
+# and 0.85 so that the absolute onset silently relocates, makes the slope
+# dramatically WORSE, -0.03 to -0.65. No self-thinning slope result computed from
+# this model can corroborate a choice of SDImax, and no claim of this kind
 # appears anywhere in this file or in koa_ingrowth.R, and none may be added.
-# ============================================================================
 #
 # WHY THE RAMP WAS RE-TUNED RATHER THAN RESCALED (unchanged from 2026-08-05).
 # The thresholds 0.65 and 0.85 were themselves fitted quantities, tuned against
 # observed mortality UNDER SDImax = 500, which placed the self-thinning onset
 # near SDI 325 and full lift near SDI 425. Two options were evaluated and the
 # second was adopted:
-#   (a) preserve the absolute thresholds 325 and 425 and re-express them as
-#       RD 0.3483 and 0.4555 at SDImax = 933. Dynamically identical to the
-#       published equation; only the reporting denominator changes.
+#   (a) preserve the absolute thresholds 325 and 425 and re-express them on
+#       whatever RD scale was in force. Dynamically identical to the published
+#       equation; only the reporting denominator changes.
 #   (b) re-tune the ramp from the data at the corrected scale. ADOPTED.
 # Both were tested by profile likelihood on the recovered variant (ii) survival
 # data restricted to DBH >= 2.5 cm, the tree list FVS actually carries (n =
@@ -161,58 +236,60 @@
 # threshold location is not confounded with mortality level. Option (a) is
 # rejected, likelihood ratio 67.3 on 2 df, P = 2.4e-15. That test is itself
 # SDImax-free, because both options are stated in absolute SDI, so the result
-# stands unchanged at 933 exactly as it stood at 1350. Simply keeping 0.65 and
-# 0.85 and swapping the denominator is rejected far harder; at SDImax 1350 the
-# profiled likelihood ratio was 137.2, P = 1.6e-30, and maxlift collapsed to
-# 1.7e-11, that is, the self-thinning term switched off entirely and the model
-# degenerated to a constant hazard. The same failure mode recurs at 933, where
-# the naive RD rule would silently relocate onset from SDI 200 to SDI 606 and
-# full lift from 850 to 793; evaluated at the published levels it is rejected
-# against the deployed ramp by a likelihood ratio of 1916.3 on 2 df. That is the
-# failure mode a naive rescale would have shipped at either constant.
+# stands unchanged with no SDImax at all exactly as it stood at 933 and at 1350.
+# Simply keeping 0.65 and 0.85 and swapping the denominator is rejected far
+# harder; at SDImax 1350 the profiled likelihood ratio was 137.2, P = 1.6e-30,
+# and maxlift collapsed to 1.7e-11, that is, the self-thinning term switched off
+# entirely and the model degenerated to a constant hazard. The same failure mode
+# recurred at 933, where the naive RD rule would silently relocate onset from SDI
+# 200 to SDI 606 and full lift from 850 to 793; evaluated at the published levels
+# it is rejected against the deployed ramp by a likelihood ratio of 1916.3 on
+# 2 df. That is the failure mode a naive rescale would have shipped at any
+# constant, and it is the reason the RD scale has now been removed from the
+# dynamics entirely.
 #
-# THE RE-TUNED THRESHOLDS, in absolute SDI so that they do not depend on the
-# disputed constant: onset at SDI 200 metric, 79 imperial (95 percent profile
-# region 75 to 225) and full lift at SDI 850 metric, 335 imperial (95 percent
-# profile region 800 to 925). At SDImax = 933 that is onset RD 0.2144 (0.0804 to
-# 0.2412) and full RD 0.9110 (0.8574 to 0.9914). The full-lift threshold is the
-# well identified one and is stable across samples; the onset is not, and moves
-# to SDI 750 if sub-2.5 cm seedling records are left in. [UNKNOWN: the onset
-# location is sample dependent and should be revisited when the sub-2.5 cm
-# records are adjudicated.]
+# THE RE-TUNED THRESHOLDS, in absolute SDI so that they do not depend on any
+# constant: onset at SDI 200 metric, 79 imperial (95 percent profile region 75 to
+# 225 metric, 30 to 89 imperial) and full lift at SDI 850 metric, 335 imperial
+# (95 percent profile region 800 to 925 metric, 316 to 365 imperial). The
+# full-lift threshold is the well identified one and is stable across samples;
+# the onset is not, and moves to SDI 750 metric (296 imperial) if sub-2.5 cm
+# seedling records are left in. [UNKNOWN: the onset location is sample dependent
+# and should be revisited when the sub-2.5 cm records are adjudicated.]
 #
-# IS FULL LIFT AT RD 0.911 COHERENT. Marginally, and it should be watched. On
-# the substance it is the right shape: a self-thinning term that reaches its
-# maximum only as the stand approaches its own density limit is what the theory
-# asks for, and it is a clear improvement on the withdrawn 1350, where full lift
-# sat at RD 0.630 and implied that koa attains maximum density-dependent
-# mortality at under two thirds of carrying capacity, and on the published 500,
-# where full lift computed to RD 1.70 and was therefore unreachable by
-# construction. The caution is that 0.911 leaves very little headroom. At the
-# lower end of the SDImax interval, 844 metric, full RD would be 1.007, that is,
-# above one, and the ramp would saturate only at densities the constant declares
-# impossible. Because the ramp is parameterised in absolute SDI this is a
-# reporting problem and not a dynamical one, and no projected trajectory changes,
-# but it does mean the RD scale should not be used for interpretation near the
-# top of its range without quoting the interval alongside it.
+# WHERE FULL LIFT SITS ON A RELATIVE SCALE, AND WHY IT IS NOT QUOTED. Full lift
+# at SDI 850 metric is 1.70 of the published 500, 0.911 of the withdrawn 933, and
+# 0.630 of the withdrawn 1350. Under the diameter-conditional bound it is 0.91 at
+# Dq 20 cm, 1.07 at Dq 30 cm and 1.31 at Dq 50 cm. That spread, a factor of 2.7
+# across constants that were all defended in writing within 24 hours, is the
+# argument for not quoting a relative figure at all. On the substance the shape
+# is right: a self-thinning term that reaches its maximum only as the stand
+# approaches its own density limit is what the theory asks for, and it is a clear
+# improvement on the withdrawn 1350, where full lift implied that koa attains
+# maximum density-dependent mortality at under two thirds of carrying capacity,
+# and on the published 500, where full lift computed to RD 1.70 and was therefore
+# unreachable by construction. Because the ramp is parameterised in absolute SDI
+# this is a reporting question and not a dynamical one, and no projected
+# trajectory changes under any of these readings.
 #
 # WHAT WAS DELIBERATELY NOT CHANGED. base_nat, base_plt and maxlift are LEVELS,
 # and the level of koa mortality is currently controlled by an unresolved
-# death-recording convention (the sentinel rows) rather than by SDImax. Fitting
-# them on the recovered data gives base_nat 0.0384 (0.0142 to 0.0510), base_plt
-# 0.0142 (0.0000 to 0.0218) and maxlift 0.0870 (0.0393 to 0.1436), all 95%
-# cluster bootstrap over installation. Those values also REVERSE the published
-# origin ordering: observed annual mortality is 6.41% natural against 2.32%
-# planted on this sample, and the independent cloglog respecification finds a
-# Planted coefficient of -1.151 (wild cluster bootstrap P < 0.001), so planted
-# stock is protective, not the reverse. They are recorded here as
-# base_nat_recovered, base_plt_recovered and maxlift_recovered but are NOT the
-# defaults, because HiGy.R as it stands carries no ingrowth, and with no
+# death-recording convention (the sentinel rows) rather than by any density
+# constant. Fitting them on the recovered data gives base_nat 0.0384 (0.0142 to
+# 0.0510), base_plt 0.0142 (0.0000 to 0.0218) and maxlift 0.0870 (0.0393 to
+# 0.1436), all 95% cluster bootstrap over installation. Those values also REVERSE
+# the published origin ordering: observed annual mortality is 6.41% natural
+# against 2.32% planted on this sample, and the independent cloglog
+# respecification finds a Planted coefficient of -1.151 (wild cluster bootstrap
+# P < 0.001), so planted stock is protective, not the reverse. They are recorded
+# here as base_nat_recovered, base_plt_recovered and maxlift_recovered but are
+# NOT the defaults, because HiGy.R as it stands carries no ingrowth, and with no
 # recruitment a 3.8% per year background draws an operational stand down to 2 to
 # 3 m2 ha-1 of basal area by year 200. With koa_ingrowth active they are safe
 # (steady state 13.5 to 16.3 m2 ha-1 at 300 years). Enable them only once the
-# sentinel convention is settled AND ingrowth is wired into HiGy.R. None of
-# these levels moves with SDImax; all were verified invariant on 2026-08-06.
+# sentinel convention is settled AND ingrowth is wired into HiGy.R. None of these
+# levels moves with SDImax; all were verified invariant on 2026-08-06 and again
+# with SDImax absent.
 #
 # WHY NOT A FITTED GLM. The published per-tree cloglog discriminates well
 # (AUC 0.95) but is numerically unstable applied per tree (annual survival 0.80
@@ -220,37 +297,37 @@
 # Data diagnostics (tune_survival.R) show the survival signal cannot support a
 # free per-tree GLM: only 280 deaths; mortality is lowest in small trees
 # (0-5 cm: 0.04%/yr) not highest; and the apparent BYI effect is an artifact of
-# ONE cluster of high-BYI natural plots (BYI>408: 3.3%/yr vs ~0.15% otherwise),
-# a cluster that contains no plantations, so a BYI mortality effect cannot even
-# be estimated for plantations. Forcing BYI into a GLM yields absurd, unstable
-# rate ratios (~890x per log unit).
+# ONE cluster of high-BYI NATURAL plots (BYI > 408: 3.3%/yr against about
+# 0.15%/yr otherwise), a cluster that contains no plantations. See the origin and
+# BYI paragraph below for why it cannot contain any. Forcing BYI into a GLM
+# yields absurd, unstable rate ratios (about 890x per log unit).
 #
 # DESIGN. Annual mortality = a low density-independent background that differs
 # by origin PLUS a density-dependent self-thinning term that starts at SDI 200
-# (RD 0.214 at SDImax 933), increases LINEARLY to a maximum lift at SDI 850
-# (RD 0.911), and plateaus above. BYI is deliberately NOT a direct mortality
+# metric (79 imperial), increases LINEARLY to a maximum lift at SDI 850 metric
+# (335 imperial), and plateaus above. BYI is deliberately NOT a direct mortality
 # driver; it influences long-term density correctly through GROWTH (higher BYI
-# reaches the self-thinning boundary sooner). Re-verified 2026-08-05 on
-# 300-year projections, 5 extreme starting states x 2 origins x 3 BYI levels =
-# 30 scenarios, plus the original harness starting states: no NaN, no collapse,
+# reaches the self-thinning boundary sooner). Re-verified 2026-08-05 on 300-year
+# projections, 5 extreme starting states x 2 origins x 3 BYI levels = 30
+# scenarios, plus the original harness starting states: no NaN, no collapse,
 # basal area bounded, monotone diameter in every scenario except a plantation
 # started at 80 cm against the 60 cm plantation size cap (an input-validation
-# artifact, not an equation failure). Those runs are unaffected by the 2026-08-06
-# change of constant and were re-executed to confirm it. With koa_ingrowth
-# active the projection reaches a genuine steady state, natural 16.3 m2 ha-1 at
-# SDI 367 (39.3% of SDImax 933) and plantation 15.9 m2 ha-1 at SDI 301 (32.3%),
-# against 15.5 and 18.3 m2 ha-1 under the published equation. Without ingrowth
-# no configuration, published or re-tuned, reaches steady state within 300
-# years; the published equation is still drifting at 6 to 13% per 20 years at
+# artifact, not an equation failure). Those runs are unaffected by the removal of
+# the constant and were re-executed to confirm it. With koa_ingrowth active the
+# projection reaches a genuine steady state, natural 16.3 m2 ha-1 at SDI 367
+# metric (145 imperial) and plantation 15.9 m2 ha-1 at SDI 301 metric (119
+# imperial), against 15.5 and 18.3 m2 ha-1 under the published equation. Without
+# ingrowth no configuration, published or re-tuned, reaches steady state within
+# 300 years; the published equation is still drifting at 6 to 13% per 20 years at
 # year 300, so the earlier claim that all stands reach steady state was a
 # 200-year artifact and does not hold at 300 years. Peak density on the original
-# harness starting states is SDI 345 to 593 in absolute terms, which is 37 to
-# 64% of SDImax 933, was reported as 26 to 44% of the withdrawn 1350, and would
-# be 69 to 119% of the published 500. The absolute peak is the invariant
-# quantity; the percentage is only a statement about which denominator is in use,
-# and should be quoted that way.
+# harness starting states is SDI 345 to 593 metric (136 to 234 imperial) in
+# absolute terms. The absolute peak is the invariant quantity and is the only one
+# quoted here; expressing it as a percentage is only a statement about which
+# denominator is in use, and all the available denominators are withdrawn.
 #
 # Inputs (metric): sdi (stand SDI), baph m2 ha-1 (fallback if sdi missing),
+# qmd cm (quadratic mean diameter, used to make the basal area fallback exact),
 # planted 0/1.
 
 # ORIGIN AND BYI (data-checked). Origin: yes, but the SIGN is now disputed. The
@@ -260,54 +337,112 @@
 # 6.41%/yr against planted 2.32%/yr). The defaults retain the published ordering
 # because they retain the published levels; see the change note above. The
 # difference is 0.3 percentage points and is swamped by the ramp in any stand
-# above SDI 200. BYI: no direct term. Plantations occur only at BYI <= 191
-# (max 191; zero records above 399), so an origin x BYI interaction is not
-# identifiable (confounded). The real dynamics you would expect, plantations
-# and higher-BYI sites self-thinning faster and survival being lower at higher
-# BYI, EMERGE from growth driving stands into the self-thinning ramp sooner
-# (verified: natural self-thinning onset age 14 -> 7 as BYI rises 100 -> 550;
-# plantations onset 5-8 yr, earlier at every BYI). No BYI coefficient.
+# above SDI 200 metric (79 imperial).
 #
-# NOTE ON PARAMETERISATION, STRENGTHENED. onset and full are DERIVED from
-# absolute SDI thresholds and SDImax rather than hard-coded on the RD scale.
-# The ramp is a property of stand density, not of the constant chosen to
-# normalise it, so changing SDImax must move the RD thresholds and leave the
-# absolute ones alone. The events of 5 and 6 August 2026 are the argument for
-# this parameterisation and not against it. SDImax has now been carried at 500,
-# then 1350, then 933 inside a single 24 hour period, and because the thresholds
-# live in absolute SDI, not one projected trajectory changed across any of those
-# revisions. Had the thresholds been left on the RD scale, the same three
-# revisions would have silently relocated the self-thinning onset from SDI 325
-# to 878 to 606 and would have produced three mutually contradictory sets of
+# BYI: no direct term, and the two BYI statements that used to sit forty lines
+# apart in this file are reconciled here so that they cannot be read as
+# contradictory. There is ONE BYI range fact and it has two sides. Among
+# PLANTATION records the maximum by-year index is 191, so the plantation range is
+# BYI <= 191 and there are no plantation records anywhere above it. The earlier
+# clause "zero records above 399" referred to plantation records and is strictly
+# weaker than the 191 maximum, so it is redundant and has been removed rather
+# than carried alongside it. The high-mortality cluster that produces the
+# apparent BYI effect in the diagnostics sits at BYI > 408 and is composed
+# entirely of NATURAL plots. Those two statements are the same fact seen from
+# opposite ends: the cluster lies above 408 and the plantations stop at 191, so
+# the cluster contains no plantations BY CONSTRUCTION, and an origin x BYI
+# interaction is not identifiable because the two factors are confounded by the
+# design of the sample. That is the reason no BYI coefficient appears, not a
+# judgement that BYI does not matter. The real dynamics you would expect,
+# plantations and higher-BYI sites self-thinning faster and survival being lower
+# at higher BYI, EMERGE from growth driving stands into the self-thinning ramp
+# sooner (verified: natural self-thinning onset age 14 -> 7 as BYI rises
+# 100 -> 550; plantations onset 5 to 8 yr, earlier at every BYI).
+#
+# NOTE ON PARAMETERISATION, STRENGTHENED AGAIN. The ramp thresholds are stated in
+# ABSOLUTE SDI and are not derived from, scaled by, or expressed against any
+# maximum. The ramp is a property of stand density, not of a constant chosen to
+# normalise it. The events of 5 and 6 August 2026 are the argument for this
+# parameterisation and not against it. SDImax was carried at 500, then 1350, then
+# 933, and is now absent, all inside a 48 hour period, and because the thresholds
+# live in absolute SDI not one projected trajectory changed across any of those
+# revisions. Had the thresholds been left on the RD scale, the same revisions
+# would have silently relocated the self-thinning onset from SDI 325 to 878 to
+# 606 to undefined and would have produced four mutually contradictory sets of
 # results with no visible edit to any threshold. Do not hard-code onset or full
-# on the RD scale, and do not "simplify" the derivation away. Passing onset or
-# full directly still works and overrides the derivation, but that override
-# exists for diagnostics and should not be used in production.
-koa.SURV.calibrated <- function(sdi = NA, baph = NA, planted = 0,
+# on an RD scale, and do not reintroduce a default SDImax in order to do so.
+koa.SURV.calibrated <- function(sdi = NA, baph = NA, planted = 0, qmd = NA,
                                 base_nat = 0.003, base_plt = 0.006,
-                                SDImax = 933,           # metric (368 imperial);
-                                                        # screened-data UPPER BOUND,
-                                                        # 95% CI 844-946 metric
-                                                        # (333-373 imperial).
-                                                        # Was 500, then 1350
-                                                        # (WITHDRAWN 2026-08-06).
+                                SDImax = NA,            # REPORTING ONLY. No
+                                                        # default value exists.
+                                                        # 500, 1350 and 933 are
+                                                        # all withdrawn. Supply
+                                                        # one only if you intend
+                                                        # to report a relative
+                                                        # density, and name it.
                                 onset_sdi = 200,        # metric (79 imperial);
                                                         # was 325 (= 0.65*500);
                                                         # profile 75-225
                                 full_sdi  = 850,        # metric (335 imperial);
                                                         # was 425 (= 0.85*500);
                                                         # profile 800-925
-                                onset = onset_sdi/SDImax,   # 0.2144 at SDImax 933
-                                full  = full_sdi/SDImax,    # 0.9110 at SDImax 933
+                                onset = NULL,           # diagnostics override,
+                                full  = NULL,           # absolute SDI, not RD
                                 maxlift = 0.15, mort_max = 0.20,
-                                baph_ref = 49) {        # was 60, then 72;
-                                                        # Reineke-consistent BA at
-                                                        # SDI 933, QMD 30 cm = 49.2
-  RD   <- if (!is.na(sdi)) sdi / SDImax else baph / baph_ref    # relative density
+                                baph_ref = 42,          # m2 ha-1; was 60, then
+                                                        # 72, then 49. EXTERNAL
+                                                        # anchor: highest koa
+                                                        # basal area published,
+                                                        # Harrington, Fownes,
+                                                        # Meinzer & Scowcroft
+                                                        # 1995, Oecologia
+                                                        # 102:277-284,
+                                                        # doi 10.1007/BF00329794
+                                qmd_ref = 20) {         # cm; diameter at which
+                                                        # the basal area fallback
+                                                        # is EXACT (42 m2 ha-1
+                                                        # maps to SDI 934 metric,
+                                                        # 369 imperial, at Dq 20)
+  # Reineke conversion constant, (pi/4) * 25^1.605 / 1e4, so that
+  #   BA = kR * SDI * Dq^0.395   and   SDI = BA / (kR * Dq^0.395).
+  # The exponent is 1.605 here, in the drop-in instructions below, and in every
+  # derivation in this header. Do not substitute 1.6.
+  kR <- (pi/4) * 25^1.605 / 1e4
+
+  # Density position on the ramp, in ABSOLUTE SDI. Relative density plays no
+  # part in this calculation and is not required to evaluate it.
+  if (!is.na(sdi)) {
+    sdi_use <- sdi
+  } else {
+    # Basal area fallback. Inverted through the Reineke identity at the stand's
+    # own quadratic mean diameter when one is supplied, which makes the fallback
+    # exact at every diameter, and at qmd_ref = 20 cm otherwise, which is the
+    # diameter at which the external 42 m2 ha-1 anchor is exact. This path no
+    # longer passes through SDImax, which is what broke the old circularity:
+    # baph_ref = 49 was not an independent fallback at all, it was the withdrawn
+    # 933 evaluated at Dq 30 cm (49.23 m2 ha-1) and was 17 percent above the
+    # highest basal area ever published for koa.
+    dq_use  <- if (!is.na(qmd)) pmax(qmd, 0.1) else qmd_ref
+    sdi_use <- baph / (kR * dq_use^0.395)
+  }
+
+  on_sdi  <- if (is.null(onset)) onset_sdi else onset
+  fl_sdi  <- if (is.null(full))  full_sdi  else full
+
   base <- ifelse(planted == 1, base_plt, base_nat)
-  frac <- pmin(pmax((RD - onset) / (full - onset), 0), 1)  # 0 at SDI 200, 1 at 850+
+  frac <- pmin(pmax((sdi_use - on_sdi) / (fl_sdi - on_sdi), 0), 1)  # 0 at SDI
+                                                                   # 200, 1 at
+                                                                   # 850+
   mort <- pmin(pmax(base + maxlift * frac, 0), mort_max)   # annual mortality
-  1 - mort                                                 # annual survival
+  surv <- 1 - mort                                         # annual survival
+
+  # Relative density is a REPORTING CONVENIENCE ONLY and has NO DYNAMICAL ROLE.
+  # It is not computed unless the caller names a maximum, and it never enters
+  # the mortality calculation above. With SDImax = NA nothing is divided by it
+  # and the returned value is a plain numeric, identical to what this function
+  # returned when it shipped a default constant.
+  if (!is.na(SDImax)) attr(surv, "RD") <- sdi_use / SDImax
+  surv
 }
 
 # ---- Re-estimated levels, NOT the defaults ----------------------------------
@@ -316,9 +451,9 @@ koa.SURV.calibrated <- function(sdi = NA, baph = NA, planted = 0,
 # retained). Realised annual mortality on the observed record under these values
 # is 8.07% natural and 2.37% planted, against observed 6.41% and 2.32%; under
 # the retained defaults it is 7.59% and 2.25%. All four of those realised figures
-# are identical at SDImax 500, 933, 1087, 1350 and 1882, which is the direct
-# numerical demonstration that the constant does not touch mortality. Do not
-# enable until the sentinel death-recording convention is resolved and
+# are identical at SDImax 500, 933, 1087, 1350, 1882 and absent, which is the
+# direct numerical demonstration that the constant does not touch mortality. Do
+# not enable until the sentinel death-recording convention is resolved and
 # koa_ingrowth is active in HiGy.R.
 koa.SURV.levels_recovered <- list(
   base_nat_recovered = 0.0384,   # 95% CI 0.0142 to 0.0510  (published 0.003)
@@ -333,10 +468,13 @@ koa.SURV.levels_recovered <- list(
 # stand-level density trajectory while making self-thinning size-realistic
 # (verified: realized stand mortality matches target exactly; over 100 yr it
 # preserves SDI/TPH but raises natural QMD ~6 cm by removing small trees).
-# Unaffected by the SDImax correction: it takes the stand rate as given.
+# Unaffected by the removal of SDImax: it takes the stand rate as given and never
+# refers to a density maximum.
 #
 #   dbh    tree DBH (cm); qmd stand QMD (cm); rDBH = dbh/qmd
-#   expf   tree expansion factor (trees ha-1)
+#   expf   tree expansion factor (trees ha-1). AK_SURV.csv supplies this
+#          directly in EXPF.0, with four values, 14.92, 24.80, 49.56 and 185.91
+#          trees ha-1 per stem; do not reconstruct it from row counts.
 #   m_stand = 1 - koa.SURV.calibrated(sdi = sdi, planted = planted)
 #   beta   concentration of mortality on small trees (default 3)
 
@@ -348,7 +486,7 @@ koa.SURV.allocate <- function(dbh, expf, qmd, m_stand, beta = 3) {
 }
 
 # Drop-in for HiGy.R calc_mortality(): compute stand SDI from the plot summary
-#   (sdi = tph.plot * (qmd/25)^1.6), then either
+#   (sdi = tph.plot * (qmd/25)^1.605), then either
 #   (a) uniform stand rate:
 #       surv = koa.SURV.calibrated(sdi = sdi, planted = stand$planted)
 #       dexpf = expf * (1 - surv) * mort.mult
@@ -356,12 +494,33 @@ koa.SURV.allocate <- function(dbh, expf, qmd, m_stand, beta = 3) {
 #       m_stand = 1 - koa.SURV.calibrated(sdi = sdi, planted = stand$planted)
 #       p_tree  = koa.SURV.allocate(dbh, expf, qmd, m_stand)
 #       dexpf   = expf * p_tree * mort.mult
-# If any calling code hard-codes SDImax = 500, or the withdrawn 1350, change it
-# to 933 in the SAME commit, and make sure koa_ingrowth.R is on the same
-# constant; the two files must not disagree about the density scale. Changing
-# SDImax does not change any projection, but a disagreement between the two
-# files would, because it would put the mortality ramp and the recruitment
-# response on two different density scales.
+#
+# THE EXPONENT IN THAT DROP-IN IS 1.605, NOT 1.6, AND THAT MATTERS. Earlier
+# versions of this file used 1.605 in the header and in the baph_ref derivation
+# but told the implementer to compute stand SDI as tph.plot * (qmd/25)^1.6. The
+# drop-in line is the one somebody actually pastes, so the deployed model would
+# have carried a different density variable from the one every constant in the
+# file was derived against. The two agree exactly at Dq 25 cm and diverge away
+# from it by the factor (Dq/25)^0.005: about 0.46 percent low at Dq 10 cm and
+# about 0.44 percent high at Dq 60 cm. That is small in percentage terms and it
+# is not the point. The point is that the ramp thresholds, the Reineke identity
+# used for the basal area fallback, and the diameter-conditional bound are all
+# stated on the 1.605 scale, so a stand SDI computed on the 1.6 scale is not the
+# same quantity and the ramp would sit at a slightly wrong place at every
+# diameter except 25 cm. At the ramp onset of SDI 200 that is roughly one full
+# SDI unit of silent offset, in a direction that depends on stand diameter and
+# therefore drifts as the stand grows.
+#
+# If any calling code hard-codes SDImax = 500, or the withdrawn 1350, or the
+# withdrawn 933, REMOVE IT rather than replacing it with another number, and make
+# sure koa_ingrowth.R is on the same footing; both files now run without a
+# density maximum. Neither file needs one, and a disagreement between them is no
+# longer possible because neither carries a default. If a relative density must
+# be reported, name the constant used, state that it is a reporting choice, and
+# prefer the diameter-conditional bound from the 42 m2 ha-1 anchor: 934 metric
+# (369 imperial) at Dq 20 cm, 796 metric (314 imperial) at Dq 30 cm, 651 metric
+# (257 imperial) at Dq 50 cm.
 # Refine the constants as Kahikinui, KMR, and Kualoa remeasurements accrue, and
-# treat SDImax as open until plot area and expansion factor arrive from the PSP
-# custodians.
+# treat the density maximum as an open question to be settled by adjudicating
+# the impossible plot-year density and diameter records against the source
+# inventories, not by choosing a larger number.
