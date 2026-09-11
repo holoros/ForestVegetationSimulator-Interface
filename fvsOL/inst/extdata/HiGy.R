@@ -1,6 +1,6 @@
 # $Id: HiGy.R 3968 2026-02-10 10:36:05Z benrice $
 ################################################################################
-# v0.4.0
+# v0.5.0
 #
 # Hawaii Variant of the Forest Vegetation Simulator (FVS-HI)
 #
@@ -16,11 +16,34 @@
 library(dplyr) # needed arrange, mutate, left_join, tibble, select, group_by, summarise, ungroup, case_when, all_of
 library(purrr) # needed for pmap_*
 
-VersionTag = "HiGyV0.4.0"
+VersionTag = "HiGyV0.5.0"
 
 ##############################
 #### major update summary ####
 ####
+
+# version 0.5.0
+  # koa mortality ported onto the deployed engine of record selected by
+  # MORTALITY_RULE_2026-09-12.md AMENDMENT 1 (candidate M1), 11 September 2026.
+  # Two changes, both in front of algebra that did not itself move.
+  #   Stage 1 is now LIVE AS A GATE on the production stand rate. The deployed
+  #   annual rate is m_garcia / p_bar * p(SDI, origin), with p the complementary
+  #   log-log occurrence probability of koa_stage1_p() and p_bar the mean fitted
+  #   annual occurrence over the fitting record, clipped to [0, 0.95]. Dividing
+  #   by p_bar makes the incumbent rate conditional on occurrence and the
+  #   multiplication gates it, so the expected rate over the fitting record is
+  #   unchanged and only the density response moves. The gate is on the path
+  #   calc_mortality() drives, via koa_step_deaths(gate = TRUE).
+  #   Stage 3 now orders deaths by the FITTED TREE-LEVEL SURVIVOR WEIGHT
+  #   w = 1 - koa_surv_annual(...) rather than by relative size. The
+  #   as-published relative-size weight is retained and reachable with
+  #   mode = 'rel_size'.
+  # The Garcia (2009) recursion, the anchored beta, the H_QMD allometry and the
+  # A1 background floor are unchanged. koa_mortality_step() and
+  # koa_allocate_mortality(), the standalone non-production wrappers, keep the
+  # 9 September 2026 behaviour by explicit default (ungated, unfloored, fitted
+  # beta, relative-size weight), so every 0.4.0 arm stays separately
+  # reproducible from this same file.
 
 # version 0.4.0
   # koa mortality ported onto the deposit's deployed arm of record, 9 September
@@ -537,6 +560,68 @@ calc_dht = function(tree.data,
 # still reproduces the 8 September 2026 numbers exactly; it is the fitted-H40
 # arm kept on hand for comparison. koa_h40() is unchanged and still used by
 # koa_mortality_step() and the self-test's cycle-invariance checks.
+#
+# STAGE 1 DEPLOYED AS A GATE, AND STAGE 3 MOVED TO THE FITTED SURVIVOR WEIGHT,
+# 11 September 2026. The manuscript's mortality engine of record moved again on
+# 12 September 2026 under MORTALITY_RULE_2026-09-12.md AMENDMENT 1, which scored
+# five candidates on six pre-registered gates and selected M1. Two things in
+# this file follow it and nothing else does.
+#
+#   1. THE GATE. Stage 1 is no longer only the optional stochastic event of
+#      koa_irregular_event(). A deterministic complementary log-log occurrence
+#      probability is now fitted and deployed, and it multiplies the stand rate:
+#
+#        m_deployed = clip( m_garcia / p_bar * p(SDI, origin),  0, 0.95 )
+#        p(SDI, origin) = 1 - exp(-exp(eta)),  eta clipped to [-30, 5]
+#        eta = b0 + b_lnSDI ln(max(SDI, 1)) + b_planted * planted + ln(YIP)
+#
+#      with p_bar = 0.3600578102962374 the mean fitted annual occurrence over
+#      the fitting record. Dividing by p_bar makes the incumbent unconditional
+#      rate CONDITIONAL on occurrence; multiplying by p gates it. The expected
+#      rate over the fitting record is therefore unchanged by construction, and
+#      the only thing that moves is the density response, which now enters
+#      through occurrence rather than through magnitude. That is the finding the
+#      rule rests on: on 326 plot intervals over 54 plots, koa mortality is
+#      density dependent in HOW OFTEN it happens (ln SDI coefficient on
+#      occurrence +0.1897, plot-clustered 95% interval [+0.0473, +0.3411], AUC
+#      0.667) and density independent in HOW MUCH happens when it does (ln SDI
+#      coefficient on the conditional rate -0.0610, interval [-0.2610, +0.1274]).
+#
+#      Chen et al. (2023) threshold p into a binary indicator that produces exact
+#      zeros in a plot-level prediction. THAT THRESHOLD IS NOT DEPLOYED HERE AND
+#      THE DEVIATION IS DELIBERATE: a projected mean stand over a century is not
+#      a single plot realization, and a hard threshold would put a discontinuity
+#      into a deterministic trajectory that nothing in the koa record supports.
+#      p enters continuously.
+#
+#      The gate is applied AFTER the A1 background floor, because that is where
+#      the deployed engine applies it (it wraps the Python stand_mortality(),
+#      which floors before returning). A CONSEQUENCE WORTH STATING: at low
+#      density, where p < p_bar, the gate scales the A1 floor DOWN, so a flat
+#      stand no longer returns exactly 0.003 or 0.006 yr-1 but that value times
+#      p/p_bar. This is the deployed behaviour and not an oversight.
+#
+#   2. THE STAGE 3 WEIGHT. Deaths are now ordered within the stand by the fitted
+#      tree-level survivor equation, w = 1 - koa_surv_annual(...), rather than by
+#      the as-published relative-size weight exp(-b (DBH/QMD - 1)). Per-tree
+#      rates are still m_stand * w_i / wbar and still renormalized, so THE LEVEL
+#      OF THAT EQUATION DOES NOT ACT: any constant multiplying w cancels between
+#      w_i and wbar, and only the weight's spread across the tree list survives.
+#      That is the same reason Chen uses his Stage 3 as a ranking, and it is why
+#      deploying this equation here does not reopen its known level problems.
+#      The relative-size weight is retained and reachable with mode = 'rel_size'.
+#
+#      koa_surv_annual() IS NOT surv_prob() AND DOES NOT RESOLVE THE TWO
+#      DIVERGENCES FLAGGED ABOVE surv.parm. It is a separate function carrying
+#      the separate constant vector KOA_S3_SURV, transcribed from the deposit's
+#      figshare_v66/koa_equations.py LineageA.SURV, which is manuscript Table 6
+#      on the ALIVE response. surv.parm and surv_prob() are untouched, still
+#      carry the development-snapshot vector and the exp(-exp(eta)) sense, and
+#      mort.engine = 'cloglog' still reproduces every pre-0.3.0 projection
+#      byte for byte. The choice between those two lineages remains open and is
+#      still for Aaron and Ben to settle; it is deliberately not decided here,
+#      and it does not need to be, because a renormalized ordering weight is
+#      insensitive to the level the two lineages disagree about.
 # =============================================================================
 
 # ---- Constants of record ----------------------------------------------------
@@ -556,6 +641,37 @@ KOA_GARCIA_ALLOM_A       = -0.16863070512157105 # H_QMD allometry intercept
 KOA_GARCIA_ALLOM_K_HD    = 1.1719473700506686   # H_QMD allometry slope
 KOA_BASE_NAT             = 0.003    # yr-1, A1 background mortality floor, natural
 KOA_BASE_PLT             = 0.006    # yr-1, A1 background mortality floor, planted
+
+# Stage 1 occurrence gate, deployed 11 September 2026 as the engine of record
+# (MORTALITY_RULE_2026-09-12.md AMENDMENT 1, candidate M1). Complementary
+# log-log occurrence with an ln(YIP) offset, fitted on 326 consecutive plot
+# intervals over 54 plots, AUC 0.6668306527909177. Transcribed AT FULL FITTED
+# PRECISION from the fit's own out_stage1/stage1_fit.json (stage1_beta,
+# stage1_mean_annual_p); no value here is rounded and none is invented.
+# Plot-clustered 95% intervals, for the record and not used by any code path:
+#   intercept [-2.7269211231135864, -1.1071172945674261]
+#   lnSDI     [+0.04729187591110494, +0.34109027071589815]   excludes zero
+#   planted   [-0.45582558486147245, +0.746073666295449]     includes zero
+KOA_S1_INTERCEPT = -1.8660048476490962  # cloglog intercept
+KOA_S1_LNSDI     =  0.18970168229495396 # coefficient on ln(max(SDI, 1))
+KOA_S1_PLANTED   =  0.1833723331227772  # planted-origin offset
+KOA_S1_PBAR      =  0.3600578102962374  # mean fitted ANNUAL occurrence, p_bar
+KOA_S1_SDI_FLOOR = 1.0                  # ln argument floor, as deployed
+KOA_S1_ETA_CLIP  = c(-30, 5)            # linear-predictor clip, as deployed
+KOA_RATE_CAP     = 0.95                 # cap on the gated stand rate, as deployed
+
+# Stage 3 ordering weight, fitted tree-level survivor equation, deployed
+# 11 September 2026. Manuscript Table 6 on the ALIVE response, transcribed from
+# the deposit's figshare_v66/koa_equations.py LineageA.SURV. READ THE HEADER
+# NOTE ABOVE BEFORE COMPARING THIS WITH surv.parm: they are different vectors on
+# different response senses from different lineages, both are deliberate, and
+# this one is used ONLY as a renormalized within-stand ordering weight whose
+# level cancels. It does not touch the retired cloglog path.
+KOA_S3_SURV = c(b0 = 14.102,  b1 =  0.130, b2 = -4.516, b3 =   6.684,
+                b4 = 14.218,  b5 = -2.806, b6 =  2.649, b7 = -21.188)
+KOA_S3_W_FLOOR = 1e-9      # lower clip on the survivor weight, as deployed
+KOA_ALLOC_MODE = "tree_eq" # Stage 3 default: 'tree_eq' fitted survivor weight,
+                           # 'rel_size' the as-published exp(-b (DBH/QMD - 1))
 
 # Empirical irregular-loss distribution: the cohort fraction lost in each of the
 # 60 irregular intervals, meaning those above 0.10 yr-1, read as ndead / ntree
@@ -643,6 +759,90 @@ koa_h40 = function(dbh, ht, expf) {
 koa_h_qmd = function(qmd, a = KOA_GARCIA_ALLOM_A, k_hd = KOA_GARCIA_ALLOM_K_HD) {
   q = pmax(as.numeric(qmd), 1e-6)
   exp((log(q) - a) / k_hd)
+}
+
+### Stage 1 gate: deterministic occurrence probability ####
+
+#' Annual probability that a stand experiences any mortality
+#'
+#' Complementary log-log occurrence with an ln(YIP) offset,
+#'
+#'   p = 1 - exp(-exp(eta)),
+#'   eta = b0 + b_lnSDI ln(max(SDI, 1)) + b_planted * planted + ln(YIP),
+#'
+#' with eta clipped to [-30, 5] before exponentiation exactly as the deployed
+#' source clips it. Ported line for line from the deployed threestage.py
+#' stage1_p(), 11 September 2026. The offset is an exposure term: a longer
+#' interval carries a higher chance of seeing any mortality at all.
+#'
+#' @param sdi Numeric: stand density index at the start of the step, on the
+#'   Reineke exponent koa_sdi() uses. Floored at 1 inside the logarithm.
+#' @param origin Character "Planted"/"Natural" or numeric 1/0.
+#' @param yip Numeric: interval length in years, the ln(YIP) offset. Default 1.
+#'   See koa_gate_rate() for why the GATE is always evaluated at yip = 1.
+#' @param intercept,b_lnsdi,b_planted Numeric: fitted coefficients, defaults
+#'   KOA_S1_INTERCEPT, KOA_S1_LNSDI, KOA_S1_PLANTED.
+#' @param sdi_floor,eta_clip Numeric: deployed guards, KOA_S1_SDI_FLOOR and
+#'   KOA_S1_ETA_CLIP.
+#' @return Numeric: annual occurrence probability on 0 to 1.
+koa_stage1_p = function(sdi, origin = "Natural", yip = 1,
+                        intercept = KOA_S1_INTERCEPT,
+                        b_lnsdi   = KOA_S1_LNSDI,
+                        b_planted = KOA_S1_PLANTED,
+                        sdi_floor = KOA_S1_SDI_FLOOR,
+                        eta_clip  = KOA_S1_ETA_CLIP) {
+  s   = pmax(as.numeric(sdi), sdi_floor)
+  y   = pmax(as.numeric(yip), 1e-9)
+  eta = intercept + b_lnsdi * log(s) + b_planted * koa_planted(origin) + log(y)
+  eta = pmin(pmax(eta, eta_clip[1]), eta_clip[2])
+  1 - exp(-exp(eta))
+}
+
+#' Gate the stand mortality rate on the Stage 1 occurrence probability
+#'
+#' THE DEPLOYED RATE OF RECORD, M1 of MORTALITY_RULE_2026-09-12.md AMENDMENT 1:
+#'
+#'   m_deployed = clip( m_stand / p_bar * p(SDI, origin), 0, 0.95 )
+#'
+#' Dividing the incumbent rate by the mean fitted annual occurrence p_bar makes
+#' it conditional on occurrence, which is the footing Chen's Stage 2 is fitted
+#' on; multiplying by the fitted occurrence then gates it. The mean deployed
+#' rate over the fitting record is unchanged from the ungated engine by
+#' construction, so nothing published moves except through the gate, and the
+#' density response now enters through occurrence. Ported line for line from the
+#' deployed threestage.py rate_M1().
+#'
+#' THE GATE IS ALWAYS EVALUATED AT YIP = 1 AND DOES NOT TAKE A yip ARGUMENT.
+#' What multiplies the rate is the ratio p(SDI) / p_bar, a mean-one relative
+#' density adjustment, and p_bar is an ANNUAL mean. Numerator and denominator
+#' have to sit on the same annual footing or the ratio stops being mean one, so
+#' feeding a multi-year YIP into the numerator alone would silently inflate
+#' every rate. The ratio is dimensionless and applies to a step of any length,
+#' which is what lets the Garcia step keep its exactness in step length. The
+#' deployed engine steps annually and was scored only there.
+#'
+#' WHEN SDI IS NOT AVAILABLE THE RATE PASSES THROUGH UNGATED, which is what the
+#' deployed wrapper does (it returns the raw rate whenever sdi is None or not
+#' finite). It is a silent pass-through there and it is a silent pass-through
+#' here so the two cannot disagree, but it means a caller who wants the gate
+#' must supply SDI. calc_mortality() always does.
+#'
+#' @param m_stand Numeric: the stand step mortality fraction from
+#'   koa_regular_survival(), AFTER the A1 background floor. The gate is applied
+#'   after the floor because the deployed engine applies it there, so at low
+#'   density the floor is scaled down by p / p_bar rather than held.
+#' @param sdi Numeric: stand density index at the start of the step.
+#' @param origin Character "Planted"/"Natural" or numeric 1/0.
+#' @param p_bar Numeric: mean fitted annual occurrence, KOA_S1_PBAR.
+#' @param cap Numeric: upper clip on the gated rate, KOA_RATE_CAP (0.95).
+#' @return Numeric: the gated stand step mortality fraction.
+koa_gate_rate = function(m_stand, sdi, origin = "Natural",
+                         p_bar = KOA_S1_PBAR, cap = KOA_RATE_CAP) {
+  m = as.numeric(m_stand)
+  s = suppressWarnings(as.numeric(sdi))
+  if (length(s) == 0L || !is.finite(s[1])) return(m)
+  p = koa_stage1_p(s[1], origin, yip = 1)
+  pmin(pmax(m / p_bar * p, 0), cap)
 }
 
 ### Stage 2: regular stand-level survival (Garcia 2009) ####
@@ -751,6 +951,50 @@ koa_regular_survival = function(N0, H40_0, H40_1, origin = "Natural",
 
 ### Stage 3: allocation of stand deaths to trees ####
 
+#' Fitted tree-level annual survival, used ONLY as the Stage 3 ordering weight
+#'
+#' Manuscript Table 6 on the ALIVE response, a complementary log-log with an
+#' ln(YIP) offset:
+#'
+#'   P(alive) = clip( 1 - exp(-exp(eta + ln YIP)), 0, 1 )
+#'   eta = b0 + b1 HT + b2 ln(HT) + b3 rHT + b4 ln(clip(CR, 0.01, 0.99))
+#'         + b5 ln(HT / DBH) + b6 ln(max(BYI, 1) / 100) + b7 (BYI / 1000)
+#'
+#' with HT in m, DBH in cm and HT floored at 0.1 m and DBH at 0.1 cm before use.
+#' Ported line for line from the deposit's figshare_v66/koa_equations.py
+#' LineageA.surv_annual(), 11 September 2026.
+#'
+#' THIS IS NOT surv_prob() AND IT IS NOT A SECOND PRODUCTION SURVIVAL EQUATION.
+#' It carries a different coefficient vector (KOA_S3_SURV, Table 6) and the
+#' opposite response sense from surv.parm/surv_prob(), and both of those facts
+#' are the open divergence flagged in the block above surv.parm, which this edit
+#' does not settle. It does not have to. The only use of this function is inside
+#' koa_alloc_frac(mode = 'tree_eq'), where its output becomes a weight that is
+#' immediately renormalized against its own expansion-factor-weighted mean. Any
+#' constant scaling of the weight cancels, so the LEVEL of this equation has no
+#' effect on any number this file returns; only its spread across a tree list
+#' does. Deaths are ORDERED by it, not sized by it.
+#'
+#' @param dbh Numeric: diameter at breast height (cm).
+#' @param ht Numeric: total height (m).
+#' @param cr Numeric: live crown ratio (0 to 1), clipped to 0.01 to 0.99.
+#' @param rht Numeric: relative height, ht divided by the stand height maximum.
+#' @param byi Numeric: biomass yield index (Mg ha-1).
+#' @param yip Numeric: interval length in years, the ln(YIP) offset. Default 1.
+#' @param p Numeric: named coefficient vector, KOA_S3_SURV.
+#' @return Numeric: annual survival probability on 0 to 1.
+koa_surv_annual = function(dbh, ht, cr, rht, byi, yip = 1, p = KOA_S3_SURV) {
+  ht  = pmax(as.numeric(ht),  0.1)
+  dbh = pmax(as.numeric(dbh), 0.1)
+  eta = p[["b0"]] + p[["b1"]] * ht + p[["b2"]] * log(ht) +
+        p[["b3"]] * as.numeric(rht) +
+        p[["b4"]] * log(pmin(pmax(as.numeric(cr), 0.01), 0.99)) +
+        p[["b5"]] * log(ht / dbh) +
+        p[["b6"]] * log(pmax(as.numeric(byi), 1) / 100) +
+        p[["b7"]] * (as.numeric(byi) / 1000)
+  pmin(pmax(1 - exp(-exp(eta + log(yip))), 0), 1)
+}
+
 #' Renormalize per-tree mortality to the stand rate after the cap
 #'
 #' THE SINGLE CARRIER OF THE R1 ALGEBRA IN THIS FILE. koa_alloc_frac() calls it
@@ -832,13 +1076,43 @@ koa_renormalize_to_stand_rate = function(m_i, expf, m_stand, cap = KOA_ALLOC_CAP
 #' renormalized so the expansion-factor-weighted mean equals the stand step
 #' mortality exactly.
 #'
+#' TWO WEIGHTS, ONE ALGEBRA, 11 September 2026. The deployed engine of record
+#' orders deaths by the FITTED TREE-LEVEL SURVIVOR EQUATION and not by relative
+#' size, so mode = 'tree_eq' is now the default and
+#'
+#'   w = clip( 1 - koa_surv_annual(dbh, ht, cr, rht, byi), 1e-9, 1 )
+#'
+#' replaces the relative-size weight above. The paragraph above is the reason
+#' the as-published weight was adequate and it is retained on its merits at
+#' mode = 'rel_size'; the reason the deployed engine moved is that the fitted
+#' equation carries height, crown ratio and relative height as well as size, and
+#' the manuscript already reports it, so using it here removes a second and
+#' redundant ordering rule from the system. Everything after the weight is
+#' identical in both modes: per-tree fractions are m_stand * w_i / wbar, capped,
+#' and renormalized by the single carrier below. BECAUSE OF THAT
+#' RENORMALIZATION THE WEIGHT'S LEVEL CANCELS IN BOTH MODES and only its spread
+#' across the tree list acts.
+#'
 #' @param dbh Numeric: diameter at breast height (cm), live records only.
 #' @param expf Numeric: expansion factor (trees ha-1).
 #' @param deaths_ha Numeric: stand deaths over the step (trees ha-1).
-#' @param b Numeric: steepness of the size weight, 3 as published.
+#' @param b Numeric: steepness of the size weight, 3 as published. mode
+#'   'rel_size' only.
 #' @param cap Numeric: per-tree cap on the step mortality fraction.
+#' @param mode Character: 'tree_eq' (default, KOA_ALLOC_MODE) orders deaths by
+#'   the fitted survivor equation; 'rel_size' uses the as-published
+#'   exp(-b (DBH/QMD - 1)) and reproduces the 9 September 2026 allocation.
+#' @param ht,cr,rht,byi Numeric: required by mode 'tree_eq' and ignored by
+#'   'rel_size'. Each must be either length 1 or the length of dbh. A missing
+#'   one is an error and never a silent fallback to the other weight.
+#' @param surv Numeric: named coefficient vector for the weight, KOA_S3_SURV.
+#' @param w_floor Numeric: lower clip on the survivor weight, KOA_S3_W_FLOOR.
 #' @return Numeric: per-tree step mortality fraction, same length as dbh.
-koa_alloc_frac = function(dbh, expf, deaths_ha, b = KOA_ALLOC_B, cap = KOA_ALLOC_CAP) {
+koa_alloc_frac = function(dbh, expf, deaths_ha, b = KOA_ALLOC_B, cap = KOA_ALLOC_CAP,
+                          mode = KOA_ALLOC_MODE,
+                          ht = NULL, cr = NULL, rht = NULL, byi = NULL,
+                          surv = KOA_S3_SURV, w_floor = KOA_S3_W_FLOOR) {
+  mode = match.arg(mode, c("tree_eq", "rel_size"))
   n = length(dbh)
   if (n == 0L) return(numeric(0))
   dbh = as.numeric(dbh); expf = as.numeric(expf)
@@ -849,9 +1123,30 @@ koa_alloc_frac = function(dbh, expf, deaths_ha, b = KOA_ALLOC_B, cap = KOA_ALLOC
   qmd = sqrt(sum(expf * dbh^2) / N0)
   m_stand = min(max(deaths_ha / N0, 0), 1)
   if (m_stand <= 0) return(rep(0, n))
-  w = exp(-b * (dbh / max(qmd, 0.1) - 1))
+  if (mode == "tree_eq") {
+    miss = c("ht", "cr", "rht", "byi")[c(is.null(ht), is.null(cr), is.null(rht),
+                                         is.null(byi))]
+    if (length(miss))
+      stop(sprintf(paste0("koa_alloc_frac(mode = 'tree_eq') needs %s. The fitted ",
+                          "survivor weight is the deployed Stage 3 ordering and it ",
+                          "cannot be formed from dbh and expf alone. Supply them, or ",
+                          "pass mode = 'rel_size' for the as-published size weight."),
+                   paste(miss, collapse = ", ")))
+    rep_n = function(x, nm) {
+      x = as.numeric(x)
+      if (length(x) == 1L) x = rep(x, n)
+      if (length(x) != n) stop(sprintf("koa_alloc_frac: %s must be length 1 or %d", nm, n))
+      if (any(!is.finite(x))) stop(sprintf("koa_alloc_frac: %s must be finite", nm))
+      x
+    }
+    w = 1 - koa_surv_annual(dbh, rep_n(ht, "ht"), rep_n(cr, "cr"),
+                            rep_n(rht, "rht"), rep_n(byi, "byi"), p = surv)
+    w = pmin(pmax(w, w_floor), 1)
+  } else {
+    w = exp(-b * (dbh / max(qmd, 0.1) - 1))
+  }
   wbar = sum(w * expf) / N0
-  koa_renormalize_to_stand_rate(m_stand * w / wbar, expf, m_stand, cap = cap)
+  koa_renormalize_to_stand_rate(m_stand * w / max(wbar, 1e-9), expf, m_stand, cap = cap)
 }
 
 #' Allocate stand-level deaths to trees by relative diameter
@@ -860,14 +1155,29 @@ koa_alloc_frac = function(dbh, expf, deaths_ha, b = KOA_ALLOC_B, cap = KOA_ALLOC
 #' package and its self-test call this signature and because it returns the
 #' diagnostic columns a reviewer wants to see. It holds no algebra of its own.
 #'
+#' MODE DEFAULTS TO 'rel_size' HERE AND NOT TO THE PRODUCTION DEFAULT, and that
+#' is deliberate. This wrapper and koa_mortality_step() are the standalone
+#' non-production entry points, and the 0.4.0 parity report undertakes that they
+#' keep returning what they returned on 9 September 2026. They therefore pin
+#' their own defaults the same way koa_mortality_step() already pins
+#' beta = KOA_GARCIA_BETA and the floor off. Pass mode = 'tree_eq' with ht, cr,
+#' rht and byi to drive the deployed Stage 3 ordering from a bare tree list.
+#' calc_mortality(), the production path, defaults to 'tree_eq'.
+#'
 #' @param tree_df Dataframe: at least columns dbh (cm) and expf (trees ha-1),
-#'   holding live koa records with dbh > 0 only.
+#'   holding live koa records with dbh > 0 only. Mode 'tree_eq' additionally
+#'   needs ht (m), cr and byi, and uses rht if present or forms it from the
+#'   tree list's own height maximum if not.
 #' @param deaths_ha Numeric: stand deaths over the step (trees ha-1), from
 #'   koa_regular_survival()$deaths plus any irregular loss.
 #' @param b Numeric: steepness of the size weight, 3 as published.
 #' @param cap Numeric: per-tree cap on the step mortality fraction.
+#' @param mode Character: 'rel_size' (default here) or 'tree_eq'.
 #' @return Dataframe: tree_df with rdbh, w_alloc, mort_frac and dexpf added.
-koa_allocate_mortality = function(tree_df, deaths_ha, b = KOA_ALLOC_B, cap = KOA_ALLOC_CAP) {
+#'   w_alloc always reports the weight the chosen mode actually used.
+koa_allocate_mortality = function(tree_df, deaths_ha, b = KOA_ALLOC_B, cap = KOA_ALLOC_CAP,
+                                  mode = "rel_size") {
+  mode = match.arg(mode, c("rel_size", "tree_eq"))
   stopifnot(is.data.frame(tree_df), all(c("dbh", "expf") %in% names(tree_df)))
   if (nrow(tree_df) == 0L) {
     tree_df$rdbh = tree_df$w_alloc = tree_df$mort_frac = tree_df$dexpf = numeric(0)
@@ -876,8 +1186,24 @@ koa_allocate_mortality = function(tree_df, deaths_ha, b = KOA_ALLOC_B, cap = KOA
   dbh = as.numeric(tree_df$dbh); expf = as.numeric(tree_df$expf)
   qmd = sqrt(sum(expf * dbh^2) / sum(expf))
   tree_df$rdbh = dbh / max(qmd, 0.1)
-  tree_df$w_alloc = exp(-b * (tree_df$rdbh - 1))
-  tree_df$mort_frac = koa_alloc_frac(dbh, expf, deaths_ha, b = b, cap = cap)
+  if (mode == "tree_eq") {
+    need = c("ht", "cr", "byi")[!c("ht", "cr", "byi") %in% names(tree_df)]
+    if (length(need))
+      stop(sprintf(paste0("koa_allocate_mortality(mode = 'tree_eq') needs column(s) %s ",
+                          "for the fitted survivor weight."), paste(need, collapse = ", ")))
+    rht = if ("rht" %in% names(tree_df)) as.numeric(tree_df$rht) else
+      as.numeric(tree_df$ht) / max(c(as.numeric(tree_df$ht), 0.1), na.rm = TRUE)
+    tree_df$w_alloc = pmin(pmax(1 - koa_surv_annual(dbh, tree_df$ht, tree_df$cr,
+                                                    rht, tree_df$byi),
+                                KOA_S3_W_FLOOR), 1)
+    tree_df$mort_frac = koa_alloc_frac(dbh, expf, deaths_ha, b = b, cap = cap,
+                                       mode = "tree_eq", ht = tree_df$ht,
+                                       cr = tree_df$cr, rht = rht, byi = tree_df$byi)
+  } else {
+    tree_df$w_alloc = exp(-b * (tree_df$rdbh - 1))
+    tree_df$mort_frac = koa_alloc_frac(dbh, expf, deaths_ha, b = b, cap = cap,
+                                       mode = "rel_size")
+  }
   tree_df$dexpf = expf * tree_df$mort_frac
   tree_df
 }
@@ -954,13 +1280,21 @@ koa_irregular_event = function(sdi = NA, origin = "Natural", yip = 1,
 #' @param base_nat,base_plt Numeric: A1 floor, default NA (off) here to
 #'   preserve the fitted-H40 arm's original unfloored behaviour.
 #' @param mort_mult Numeric: FVS mortality multiplier applied to dexpf.
+#' @param alloc_mode Character: Stage 3 weight, default 'rel_size' HERE so this
+#'   wrapper keeps reproducing the 9 September 2026 numbers exactly, unlike
+#'   calc_mortality() which defaults to the deployed 'tree_eq'. Pass 'tree_eq'
+#'   with ht, cr and byi columns on tree_df to drive the deployed ordering.
+#' @param gate Logical: apply the Stage 1 occurrence gate to the stand rate,
+#'   default FALSE HERE for the same reason. calc_mortality() defaults to TRUE.
+#'   When TRUE the sdi argument is what the gate reads.
 #' @return List: tree (tree_df with rdbh, w_alloc, mort_frac, dexpf) and stand
 #'   (a one-row summary).
 koa_mortality_step = function(tree_df, H40_0 = NA, H40_1, origin = "Natural", yip = 1,
                               sdi = NA, irregular = FALSE, seed = NULL,
                               alpha = KOA_GARCIA_ALPHA, beta = KOA_GARCIA_BETA,
                               planted_background = NA, mort_mult = 1,
-                              base_nat = NA, base_plt = NA) {
+                              base_nat = NA, base_plt = NA,
+                              alloc_mode = "rel_size", gate = FALSE) {
   stopifnot(is.data.frame(tree_df), all(c("dbh", "expf") %in% names(tree_df)))
   live = tree_df$expf > 0 & tree_df$dbh > 0
   td = tree_df[live, , drop = FALSE]
@@ -972,11 +1306,21 @@ koa_mortality_step = function(tree_df, H40_0 = NA, H40_1, origin = "Natural", yi
   if (is.na(sdi)) sdi = koa_sdi(N0, sqrt(sum(td$expf * td$dbh^2) / N0))
   reg = koa_regular_survival(N0, H40_0, H40_1, origin, alpha, beta,
                              planted_background, yip, base_nat, base_plt)
+  # Stage 1 gate, OFF by default in this standalone wrapper; see the argument
+  # documentation above. When on it reproduces koa_step_deaths()'s production
+  # path exactly, gate applied to the post-floor rate and the irregular loss
+  # then taken from the gated survivors.
+  N1_reg = reg$N1; d_reg = reg$deaths
+  if (isTRUE(gate)) {
+    m_gated = koa_gate_rate(reg$m_step, sdi = sdi, origin = origin)
+    N1_reg  = N0 * (1 - m_gated)
+    d_reg   = N0 - N1_reg
+  }
   ev = list(event = FALSE, loss_frac = 0, p_step = 0)
   if (isTRUE(irregular)) ev = koa_irregular_event(sdi, origin, yip, seed = seed)
-  d_irr = ev$loss_frac * reg$N1            # event loss taken from the regular survivors
-  deaths = reg$deaths + d_irr
-  td = koa_allocate_mortality(td, deaths)
+  d_irr = ev$loss_frac * N1_reg            # event loss taken from the regular survivors
+  deaths = d_reg + d_irr
+  td = koa_allocate_mortality(td, deaths, mode = alloc_mode)
   td$dexpf = td$dexpf * mort_mult
   out = tree_df
   out$rdbh = out$w_alloc = out$mort_frac = out$dexpf = 0
@@ -984,7 +1328,7 @@ koa_mortality_step = function(tree_df, H40_0 = NA, H40_1, origin = "Natural", yi
     td[, c("rdbh", "w_alloc", "mort_frac", "dexpf")]
   list(tree = out,
        stand = data.frame(N0 = N0, N1 = N0 - deaths, H40_0 = H40_0, H40_1 = H40_1,
-                          SDI0 = sdi, deaths_regular = reg$deaths,
+                          SDI0 = sdi, deaths_regular = d_reg,
                           deaths_irregular = d_irr, deaths_total = deaths,
                           m_step = deaths / N0, N_limit = reg$N_limit,
                           event = ev$event))
@@ -1006,11 +1350,27 @@ koa_mortality_step = function(tree_df, H40_0 = NA, H40_1, origin = "Natural", yi
 #' @param planted Numeric: 1 planted, 0 natural.
 #' @param yip Numeric: step length in years.
 #' @param irregular Logical: run the stochastic Stage 1.
+#' THE STAGE 1 GATE IS APPLIED HERE AND THIS IS THE ONLY PRODUCTION RATE PATH,
+#' 11 September 2026. calc_mortality()'s garcia branch reaches the Garcia step
+#' through this function and through no other, so gating it here gates
+#' production and leaves koa_regular_survival(), koa_mortality_step() and every
+#' reproduction path untouched. The gate is applied to the post-floor rate
+#' koa_regular_survival() returns, matching the deployed engine, and the
+#' irregular loss is then taken from the GATED survivors. With gate = FALSE the
+#' returned deaths are bitwise the 9 September 2026 value, because that branch
+#' returns reg$deaths itself rather than recomputing it from the rate.
+#'
 #' @param planted_background Numeric: TODO hook, NA and off by default.
-#' @param sdi Numeric: stand density index at the step start, Stage 1 only.
+#' @param sdi Numeric: stand density index at the step start. Read by the
+#'   Stage 1 gate and by the optional stochastic irregular event. WHEN IT IS NOT
+#'   FINITE THE GATE SILENTLY PASSES THE RATE THROUGH UNGATED, matching the
+#'   deployed wrapper; see koa_gate_rate().
+#' @param gate Logical: apply the Stage 1 occurrence gate, default TRUE. Pass
+#'   FALSE to recover the ungated 0.4.0 stand rate exactly.
 #' @return Numeric: total deaths over the step (trees ha-1).
 koa_step_deaths = function(n0, h40_0, h40_1, planted = 0, yip = 1,
-                           irregular = FALSE, planted_background = NA, sdi = NA) {
+                           irregular = FALSE, planted_background = NA, sdi = NA,
+                           gate = TRUE) {
   n0 = as.numeric(n0)[1]
   h0 = as.numeric(h40_0)[1]
   h1 = as.numeric(h40_1)[1]
@@ -1019,10 +1379,18 @@ koa_step_deaths = function(n0, h40_0, h40_1, planted = 0, yip = 1,
   if (!is.finite(h1)) return(0)
   reg = koa_regular_survival(n0, h0, h1, origin = planted[1],
                              planted_background = planted_background, yip = yip)
-  d = reg$deaths
+  s = suppressWarnings(as.numeric(sdi))
+  if (isTRUE(gate) && length(s) && is.finite(s[1])) {
+    m  = koa_gate_rate(reg$m_step, sdi = s[1], origin = planted[1])
+    n1 = n0 * (1 - m)
+    d  = n0 - n1
+  } else {
+    n1 = reg$N1
+    d  = reg$deaths
+  }
   if (isTRUE(irregular)) {
-    ev = koa_irregular_event(sdi = sdi[1], origin = planted[1], yip = yip)
-    d = d + ev$loss_frac * reg$N1
+    ev = koa_irregular_event(sdi = s[1], origin = planted[1], yip = yip)
+    d = d + ev$loss_frac * n1
   }
   min(max(d, 0), n0)
 }
@@ -1161,6 +1529,14 @@ surv_prob = function(dbh, ht, cr, r.ht, byi,
 #' @param planted.background Numeric: TODO hook passed to koa_regular_survival(),
 #'   default NA and off. There is no defensible number for it yet, since the fit
 #'   predicts 0.4% yr⁻¹ for planted stands against 2.2% observed.
+#' @param gate Logical: apply the Stage 1 occurrence gate to the stand rate,
+#'   default TRUE and the deployed engine of record. Pass FALSE to recover the
+#'   ungated 0.4.0 rate exactly. See koa_gate_rate().
+#' @param alloc.mode Character: Stage 3 ordering weight. 'tree_eq' (default,
+#'   KOA_ALLOC_MODE) is the deployed fitted tree-level survivor weight;
+#'   'rel_size' is the as-published exp(-b (DBH/QMD - 1)) and reproduces the
+#'   0.4.0 allocation. 'tree_eq' needs ht, cr and byi on the tree list, which
+#'   HiGYOneStand() always supplies.
 #' @return Dataframe: Tree data with mortality calculations
 calc_mortality = function(tree.data, plot.data,
                           surv.parm.df = surv.parm,
@@ -1170,9 +1546,12 @@ calc_mortality = function(tree.data, plot.data,
                           yip = 1,
                           irregular = FALSE,
                           seed = NULL,
-                          planted.background = NA) {
+                          planted.background = NA,
+                          gate = TRUE,
+                          alloc.mode = KOA_ALLOC_MODE) {
 
   mort.engine = match.arg(mort.engine)
+  alloc.mode  = match.arg(alloc.mode, c("tree_eq", "rel_size"))
 
   # get tree list variable names
   tree.data.names= colnames(tree.data)
@@ -1247,6 +1626,16 @@ calc_mortality = function(tree.data, plot.data,
     tree$ddbh.step = if ('ddbh' %in% colnames(tree)) dplyr::coalesce(tree$ddbh, 0) else 0
     tree$dht.step  = if ('dht'  %in% colnames(tree)) dplyr::coalesce(tree$dht,  0) else 0
 
+    # Relative height for the Stage 3 fitted-survivor weight, added 11 September
+    # 2026. Formed on the SAME plot htmax the retired cloglog branch forms r.ht
+    # on, so the two branches of this function cannot disagree about what
+    # relative height means. The deployed Python projector takes its maximum
+    # over a koa-only tree list, where the two coincide; on an FVS-HI plot that
+    # carries OT records the plot maximum is the file's existing convention and
+    # is kept. Formed in base R before the pipe for the same reason ddbh.step is.
+    tree$rht.step = as.numeric(tree$ht) /
+      pmax(dplyr::coalesce(as.numeric(tree$htmax), as.numeric(tree$ht)), 0.1)
+
     tree = tree %>%
       dplyr::mutate(byi = dplyr::coalesce(byi, 0),
                     live.koa = !is.na(expf) & expf > 0 & !is.na(dbh) & dbh > 0) %>%
@@ -1275,17 +1664,26 @@ calc_mortality = function(tree.data, plot.data,
                     # variable is H_QMD, ported 9 September 2026.
                     h_qmd.0 = koa_h_qmd(qmd.koa),
                     h_qmd.1 = koa_h_qmd(qmd.1.koa),
+                    # Stage 1 gate applied inside koa_step_deaths(), which reads
+                    # sdi.koa. This is the deployed rate of record.
                     deaths.ha = koa_step_deaths(n0.koa, h_qmd.0, h_qmd.1,
                                                 planted = planted.stand,
                                                 yip = yip,
                                                 irregular = irregular,
                                                 planted_background = planted.background,
-                                                sdi = sdi.koa),
+                                                sdi = sdi.koa,
+                                                gate = gate),
+                    # Stage 3 ordering, fitted survivor weight by default.
                     mort.frac = replace(rep(0, dplyr::n()),
                                         live.koa,
                                         koa_alloc_frac(dbh[live.koa],
                                                        expf[live.koa],
-                                                       deaths.ha[1])),
+                                                       deaths.ha[1],
+                                                       mode = alloc.mode,
+                                                       ht  = ht[live.koa],
+                                                       cr  = cr[live.koa],
+                                                       rht = rht.step[live.koa],
+                                                       byi = byi[live.koa])),
                     dexpf = expf * mort.frac,
                     #apply mortality multiplier
                     dexpf = dexpf * mort.mult) %>%

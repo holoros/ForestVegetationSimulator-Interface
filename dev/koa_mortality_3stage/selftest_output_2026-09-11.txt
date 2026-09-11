@@ -1,0 +1,263 @@
+koa mortality self-test against the production HiGy.R, 2026-09-11 11:08:56 
+R: R version 4.5.1 (2025-06-13) 
+production file: /home/aaron/jobs/koa_m1_regen/HiGy.R 
+
+0. Production file
+   VersionTag = HiGyV0.5.0, 2362 lines, 113142 bytes
+  [PASS] VersionTag is HiGyV0.5.0
+   external-input call sites in code (excluding comments): 0
+  [PASS] production file loads no external data and sources no other file
+  [PASS] KOA_GARCIA_ALPHA is defined in the production file
+  [PASS] KOA_GARCIA_BETA is defined in the production file
+  [PASS] KOA_REINEKE_EXP is defined in the production file
+  [PASS] KOA_ALLOC_CAP is defined in the production file
+  [PASS] KOA_IRREG_RATE is defined in the production file
+  [PASS] KOA_IRREG_INTERVAL is defined in the production file
+  [PASS] KOA_ALLOC_B is defined in the production file
+  [PASS] KOA_IRREG_LOSS is defined in the production file
+  [PASS] KOA_GARCIA_BETA_ANCHORED is defined in the production file
+  [PASS] KOA_GARCIA_ALLOM_A is defined in the production file
+  [PASS] KOA_GARCIA_ALLOM_K_HD is defined in the production file
+  [PASS] KOA_BASE_NAT is defined in the production file
+  [PASS] KOA_BASE_PLT is defined in the production file
+  [PASS] KOA_S1_INTERCEPT is defined in the production file
+  [PASS] KOA_S1_LNSDI is defined in the production file
+  [PASS] KOA_S1_PLANTED is defined in the production file
+  [PASS] KOA_S1_PBAR is defined in the production file
+  [PASS] KOA_S1_SDI_FLOOR is defined in the production file
+  [PASS] KOA_S1_ETA_CLIP is defined in the production file
+  [PASS] KOA_RATE_CAP is defined in the production file
+  [PASS] KOA_S3_SURV is defined in the production file
+  [PASS] KOA_S3_W_FLOOR is defined in the production file
+  [PASS] KOA_ALLOC_MODE is defined in the production file
+  [PASS] koa_h_qmd() is defined in the production file
+  [PASS] koa_stage1_p() is defined in the production file
+  [PASS] koa_gate_rate() is defined in the production file
+  [PASS] koa_surv_annual() is defined in the production file
+  [PASS] Stage 1 intercept is exact to the fitted double
+  [PASS] Stage 1 ln(SDI) coefficient is exact to the fitted double
+  [PASS] Stage 1 planted offset is exact to the fitted double
+  [PASS] Stage 1 mean annual occurrence p_bar is exact to the fitted double
+  [PASS] Stage 1 guards match the deployed source (SDI floor 1, eta clip -30 to 5)
+  [PASS] the gated stand rate is capped at 0.95, as deployed
+  [PASS] the ln(SDI) coefficient on occurrence is POSITIVE, the sign the rule rests on
+  [PASS] Stage 3 survivor vector is manuscript Table 6, element for element
+  [PASS] Stage 3 survivor vector is named b0 to b7
+  [PASS] the Stage 3 production default is the fitted survivor weight
+  [PASS] surv.parm is untouched and still carries the development-snapshot vector
+  [PASS] surv_prob() does not reference the Stage 3 survivor vector
+  [PASS] anchored beta matches the deposit's GARCIA_BETA_ANCHORED exactly
+  [PASS] H_QMD allometry intercept matches the deposit's GARCIA_ALLOM_A exactly
+  [PASS] H_QMD allometry slope matches the deposit's GARCIA_ALLOM_K_HD exactly
+  [PASS] A1 floor constants match the deposit's BASE_NAT / BASE_PLT exactly
+   alpha = gamma = 2.96, beta = 0.117 m-1, Reineke exponent 1.605, cap 0.95, b 3
+  [PASS] stand density index exponent is 1.605 and not 1.6
+  [PASS] embedded magnitude vector holds 60 elements
+   withdrawn-ramp constants found in executable code: 0
+  [PASS] the withdrawn Eq. 5b density ramp appears nowhere in executable code
+
+1. Cycle-length invariance of the Garcia step (fitted H40 arm)
+   one 10-year step H40 10 to 20 m from 1,500 trees ha-1: 1068.8547160632
+   ten 1-year sub-steps on the same height path:          1068.8547160632  (diff 4.547e-13)
+   one hundred sub-steps on the same height path:         1068.8547160632  (diff 4.547e-12)
+  [PASS] one 10-year step and ten 1-year steps agree to 1e-6
+  [PASS] one 10-year step and one hundred sub-steps agree to 1e-6
+  [PASS] no regular mortality when H40 is flat (fitted arm, floor off)
+  [PASS] no regular mortality when H40 falls (fitted arm, floor off)
+   stand started at 99.9% of the line at H40 15 m: N1 = 1508.8, line at H40 22 m = 1509.3
+  [PASS] a stand on the line stays beneath it
+
+1b. Cycle-length invariance and the A1 floor (ported H_QMD arm)
+   one 10-year step: 776.3271427063, ten 1-year sub-steps: 776.3271427063 (diff 3.411e-13)
+  [PASS] cycle-length invariance holds on the anchored arm too
+   flat H_QMD, natural: m_step = 0.003000 (floor 0.003), planted: m_step = 0.006000 (floor 0.006)
+  [PASS] flat H_QMD returns the natural A1 floor, not zero
+  [PASS] flat H_QMD returns the planted A1 floor, not zero
+   growing H_QMD 10 to 20 m: m_step = 0.482449 (raw Garcia step, above the 0.003 floor)
+  [PASS] a growing stand's raw Garcia step exceeds the floor and is not clamped to it
+  [PASS] the anchored beta and the fitted beta give different deaths on the same height path, as expected
+
+2. Allocation and the renormalization contract
+   five-tree list, 30 deaths ha-1: mort_frac = 0.086097, 0.024573, 0.005863, 0.000399, 0.000005
+   sum(dexpf) = 30.000000000000 (target 30), expf-weighted mean = 0.051282051282 (target 0.051282051282)
+  [PASS] allocated deaths equal the stand deaths
+  [PASS] mortality fraction decreases with diameter
+
+   AT-3, cap binding, stand rate 0.93 on the same five trees
+   mort_frac = 0.95000000000000, 0.95000000000000, 0.95000000000000, 0.95000000000000, 0.17000000000006
+   expf-weighted mean = 0.93000000000000 (target 0.93), max = 0.95000000000000
+  [PASS] AT-3 weighted mean restored to 0.93
+  [PASS] AT-3 no tree above the 0.95 cap
+  [PASS] AT-3 four trees sit at the cap
+
+   AT-4, infeasible stand rate at or above the cap
+   warning: koa_renormalize_to_stand_rate: stand mortality rate 0.97 is at or above the per-tree cap 0.95, so no allocation can deliver it. Every tree is set to the cap and the stand under delivers by 0.02.
+   mort_frac = 0.9500, 0.9500, 0.9500, 0.9500, 0.9500
+  [PASS] AT-4 issues the infeasibility warning naming the cap
+  [PASS] AT-4 returns every tree at exactly the cap
+
+   The 0.4.0 default is pinned: koa_allocate_mortality() is still relative size
+  [PASS] koa_allocate_mortality() still defaults to the as-published relative-size weight
+  [PASS] its reported w_alloc is the as-published size weight
+  [PASS] mode = 'tree_eq' still delivers the stand deaths exactly
+  [PASS] mode = 'tree_eq' splits the same stand differently from the as-published weight
+  [PASS] mode = 'tree_eq' without the columns it needs fails loudly rather than falling back
+
+   AT-6, single tree receives exactly the stand rate
+   mort_frac = 0.05000000000000000 (target 0.05)
+  [PASS] AT-6 single tree receives the stand rate to machine precision
+
+   AT-1, AT-2 and AT-5 are RETIRED. They describe the withdrawn Eq. 5b ramp and its
+   Eq. 5 cloglog ordering weight, neither of which exists in this file. Their standing
+   replacement is the ramp-absence check in section 0 above.
+
+3. Embedded irregular magnitude vector against plot_interval_pairs_DATA.csv
+   csv: 421 plot intervals, 112 plots, 1383 cohort deaths, 60 irregular intervals carrying 913 deaths (66.0%)
+   csv fractions n = 60, embedded n = 60, max abs elementwise difference = 0.0000000000
+   csv median 0.3176 IQR 0.1635 to 0.6949; embedded median 0.3176 IQR 0.1635 to 0.6949
+  [PASS] embedded magnitude vector matches the source table element for element
+   observed occurrence rate 0.1425 per interval at mean interval 2.6841 yr; embedded 0.14 and 2.68
+  [PASS] embedded occurrence rate matches the source table
+  [PASS] embedded reference interval matches the source table
+   in-sample regular set (360 intervals, 103 plots): predicted deaths 13138 against observed 13595 (-3.4%), RMSE N1 101.1 trees ha-1
+  [PASS] in-sample deaths bias within 10 percent
+   share of regular (N, H40) pairs beneath the limiting line: 0.9944
+  [PASS] at least 99 percent of regular pairs lie beneath the limiting line
+
+   BETA SENSITIVITY ON H40 (frame mismatch, reported not asserted). Fitted beta 0.117000 predicts 13138 regular deaths;
+   the anchored beta 0.16019053617304435 run on H40 (NOT its own frame) predicts 25295, a ratio of 1.925.
+   Observed deaths on those intervals are 13595. See HiGy_v040_parity_report_2026-09-09.md
+   for the anchored arm evaluated correctly, on H_QMD, against the Python deposit source.
+
+4. Stage 1 irregular occurrence (stochastic, off in production)
+   20,000 draws at yip = 2.68: occurrence 0.1400 (target 0.14)
+  [PASS] annualized hazard reproduces the observed occurrence rate
+  [PASS] a longer step carries a higher event probability
+
+5. End to end through calc_mortality()
+   returned columns:  plot, tree, sp, dbh, ht, cr, expf, ddbh, dht, mort.mult, ba, dexpf 
+  [PASS] returned frame is the input columns plus dexpf and nothing else
+   plot 1: N0 585.00, SDI 307.57, H_QMD 12.790445 to 12.919732 m, gated stand deaths 1.7933403597, allocated 1.7933403597
+           ungated stand deaths 1.7550000000, gate factor 1.0218463588 (p/p_bar)
+  [PASS] plot 1 allocated deaths equal the GATED stand deaths
+  [PASS] plot 1 gate factor is exactly p(SDI, origin) / p_bar
+  [PASS] plot 1 gate is inert when no SDI is supplied
+   plot 2: N0 320.00, SDI 200.31, H_QMD 14.033403 to 14.033403 m, gated stand deaths 0.9194728543, allocated 0.9194728543
+           ungated stand deaths 0.9600000000, gate factor 0.9577842232 (p/p_bar)
+  [PASS] plot 2 allocated deaths equal the GATED stand deaths
+  [PASS] plot 2 gate factor is exactly p(SDI, origin) / p_bar
+  [PASS] plot 2 gate is inert when no SDI is supplied
+  [PASS] a plot with no height growth still takes the gated A1 floor, not zero
+
+   The production default is the gated, fitted-survivor-weight engine
+   total dexpf: production 2.7128132140, gate off 2.7150000000, relative-size Stage 3 2.7128132140
+  [PASS] calc_mortality(gate = TRUE) is the default and differs from gate = FALSE
+  [PASS] the Stage 3 weight moves no stand total, only the within-stand split
+  [PASS] the Stage 3 weight does move the within-stand split
+  [PASS] alloc.mode = 'rel_size' returns the same column contract
+  [PASS] an unknown alloc.mode fails loudly
+
+   Confirms the port actually changed production behaviour
+   plot 1: old fitted-H40 arm (as koa_step_deaths defaulted before this port) would give 6.5684492927;
+   ported production calc_mortality() gives 1.7933403597 (uses the current default beta/state/floor).
+  [PASS] production calc_mortality() output differs from the pre-port fitted-H40 arm
+
+   Engine switch
+   garcia total dexpf 2.712813, cloglog total dexpf 125.833871
+  [PASS] mort.engine = 'cloglog' reaches the retired path and returns a different answer
+  [PASS] the retired path returns the same column contract
+
+   mort.mult passthrough
+   mort.mult 1.0 total 2.7128132140, mort.mult 0.5 total 1.3564066070, ratio 0.5000000000
+  [PASS] the FVS mortality multiplier scales allocated mortality exactly
+
+   Missing-increment guard
+   warning raised: calc_mortality(mort.engine = 'garcia'): the tree list carries no ddbh or dht, so the proje
+  [PASS] a tree list without ddbh or dht raises the ordering warning
+   allocated 2.7128132140, expected GATED A1 floor 2.7128132140 (ungated floor would be 2.7150000000)
+  [PASS] a tree list with no growth data takes the GATED A1 floor, matching the deployed engine, not zero
+  [PASS] the gate does scale the A1 floor, which is the deployed behaviour and not an oversight
+
+   Step-length behaviour carried through the allocator
+   one 10-year step total deaths 95.6948983216, ten 1-year steps total 95.6948983216, diff 6.253e-13
+   The stand totals agree; the per-tree split does not, and that is expected rather than a defect,
+   since Stage 3 re-reads the diameter distribution at every step and a ten-step run reallocates
+   ten times against a shrinking small-tree tail.
+  [PASS] stand deaths are invariant to step length through the allocator
+
+6. Stage 1 occurrence gate (deterministic, ON in production)
+        SDI      p nat      p plt   gate nat   gate plt
+       50.0   0.277483   0.323232   0.770661   0.897722
+      100.0   0.309740   0.359363   0.860252   0.998071
+      200.0   0.344777   0.398223   0.957559   1.105998
+      376.8   0.379207   0.436005   1.053182   1.210930
+      400.0   0.382571   0.439675   1.062527   1.221123
+      800.0   0.423023   0.483478   1.174875   1.342779
+     1200.0   0.447843   0.510053   1.243809   1.416585
+     1725.0   0.470727   0.534342   1.307366   1.484046
+  [PASS] occurrence probability is strictly inside 0 and 1 across the SDI grid
+  [PASS] occurrence probability increases monotonically with SDI, both origins
+  [PASS] planted stands carry the higher occurrence probability at every SDI
+  [PASS] at SDI 1 the linear predictor is the intercept alone, ln(SDI) and ln(YIP) both zero
+  [PASS] SDI below the floor of 1 is clamped rather than taking a negative logarithm
+  [PASS] the ln(YIP) offset makes a longer interval more likely to carry mortality
+  [PASS] the planted probability is the cloglog of the fitted linear predictor, term for term
+
+   a reference stand rate of 0.020 yr-1 gated at each density
+   SDI     50.0: natural 0.0154132276, planted 0.0179544462
+   SDI    200.0: natural 0.0191511877, planted 0.0221199522
+   SDI    376.8: natural 0.0210636484, planted 0.0242186055
+   SDI    800.0: natural 0.0234975032, planted 0.0268555712
+   SDI   1725.0: natural 0.0261473145, planted 0.0296809136
+  [PASS] the gated rate increases monotonically with SDI
+  [PASS] at LOW density the gate scales the rate DOWN, because p is below p_bar
+  [PASS] at HIGH density the gate scales the rate UP, because p is above p_bar
+  [PASS] at the same density the planted gate is the stronger of the two
+  [PASS] the gated rate is exactly m / p_bar * p, origin 0
+  [PASS] the gated rate is exactly m / p_bar * p, origin 1
+   the gate is neutral (p = p_bar) at SDI 266.3027 natural
+  [PASS] at the SDI where p equals p_bar the gate returns the incumbent rate unchanged
+  [PASS] and that SDI is where the fitted occurrence equals the mean fitted occurrence
+  [PASS] the gated rate is clipped at 0.95 and does not run past it
+  [PASS] a zero stand rate gates to zero
+  [PASS] a missing SDI passes the rate through UNGATED, matching the deployed wrapper
+  [PASS] so does a NaN SDI
+  [PASS] so does a non-finite SDI
+   natural A1 floor 0.003000 gates to 0.0023119841 at SDI 50 and 0.0039220972 at SDI 1725
+  [PASS] the gate scales the A1 floor in both directions, which is the deployed behaviour
+  [PASS] at SDI 50.0 the gate is one factor 0.770661 applied to every sub-cap rate
+  [PASS] at SDI 266.3 the gate is one factor 1.000000 applied to every sub-cap rate
+  [PASS] at SDI 800.0 the gate is one factor 1.174875 applied to every sub-cap rate
+  [PASS] at SDI 1725.0 the gate is one factor 1.307366 applied to every sub-cap rate
+  [PASS] the A1 floor and a large Garcia step take the identical gate factor
+
+7. Stage 3, the fitted survivor weight against the as-published size weight
+      dbh     expf    w tree_eq   w rel_size  mfrac tree_eq mfrac rel_size
+      5.0    300.0   0.99650149   8.20216641   0.0638966090   0.1007332446
+     12.0    150.0   0.99453600   2.34094796   0.0637705801   0.0287498780
+     20.0     80.0   0.96285524   0.55855246   0.0617391801   0.0068597488
+     35.0     40.0   0.55609421   0.03803640   0.0356572821   0.0004671363
+     60.0     15.0   0.00000477   0.00043194   0.0000003062   0.0000053048
+  [PASS] mode = 'tree_eq' allocates exactly the stand deaths
+  [PASS] mode = 'tree_eq' delivers the stand rate as the weighted mean
+  [PASS] mode = 'tree_eq' respects the per-tree cap
+  [PASS] mode = 'rel_size' allocates exactly the stand deaths
+  [PASS] mode = 'rel_size' delivers the stand rate as the weighted mean
+  [PASS] mode = 'rel_size' respects the per-tree cap
+  [PASS] the two weights give a genuinely different split
+  [PASS] scaling the survivor weight by 0.1 changes no allocated fraction
+  [PASS] scaling the survivor weight by 0.5 changes no allocated fraction
+  [PASS] scaling the survivor weight by 2 changes no allocated fraction
+  [PASS] scaling the survivor weight by 37 changes no allocated fraction
+  [PASS] the fitted survivor weight still puts more mortality on small trees
+  [PASS] so does the as-published size weight
+   spread across the tree list (max fraction / stand rate): tree_eq 1.0649, rel_size 1.6789
+  [PASS] the fitted survivor weight is FLATTER across the diameter distribution than the size weight
+  [PASS] annual survival is strictly inside 0 and 1 on the test list
+  [PASS] the ln(YIP) offset enters the survivor equation as an offset on the ALIVE response
+  [PASS] crown ratio is clipped at 0.99 exactly as the deployed source clips it
+  [PASS] diameter is floored at 0.1 cm exactly as the deployed source floors it
+   koa_surv_annual mean 0.29800166, surv_prob mean 0.59218872 on the same trees
+  [PASS] koa_surv_annual() and surv_prob() are still two different lineages, as flagged in HiGy.R
+
+self-test PASSED
