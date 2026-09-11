@@ -1,0 +1,141 @@
+koa mortality self-test against the production HiGy.R, 2026-09-09 06:58:23 
+R: R version 4.5.1 (2025-06-13) 
+production file: /home/aaron/jobs/koa_ben_port_20260909/HiGy.R 
+
+0. Production file
+   VersionTag = HiGyV0.4.0, 1964 lines, 89170 bytes
+  [PASS] VersionTag is HiGyV0.4.0
+   external-input call sites in code (excluding comments): 0
+  [PASS] production file loads no external data and sources no other file
+  [PASS] KOA_GARCIA_ALPHA is defined in the production file
+  [PASS] KOA_GARCIA_BETA is defined in the production file
+  [PASS] KOA_REINEKE_EXP is defined in the production file
+  [PASS] KOA_ALLOC_CAP is defined in the production file
+  [PASS] KOA_IRREG_RATE is defined in the production file
+  [PASS] KOA_IRREG_INTERVAL is defined in the production file
+  [PASS] KOA_ALLOC_B is defined in the production file
+  [PASS] KOA_IRREG_LOSS is defined in the production file
+  [PASS] KOA_GARCIA_BETA_ANCHORED is defined in the production file
+  [PASS] KOA_GARCIA_ALLOM_A is defined in the production file
+  [PASS] KOA_GARCIA_ALLOM_K_HD is defined in the production file
+  [PASS] KOA_BASE_NAT is defined in the production file
+  [PASS] KOA_BASE_PLT is defined in the production file
+  [PASS] koa_h_qmd() is defined in the production file
+  [PASS] anchored beta matches the deposit's GARCIA_BETA_ANCHORED exactly
+  [PASS] H_QMD allometry intercept matches the deposit's GARCIA_ALLOM_A exactly
+  [PASS] H_QMD allometry slope matches the deposit's GARCIA_ALLOM_K_HD exactly
+  [PASS] A1 floor constants match the deposit's BASE_NAT / BASE_PLT exactly
+   alpha = gamma = 2.96, beta = 0.117 m-1, Reineke exponent 1.605, cap 0.95, b 3
+  [PASS] stand density index exponent is 1.605 and not 1.6
+  [PASS] embedded magnitude vector holds 60 elements
+   withdrawn-ramp constants found in executable code: 0
+  [PASS] the withdrawn Eq. 5b density ramp appears nowhere in executable code
+
+1. Cycle-length invariance of the Garcia step (fitted H40 arm)
+   one 10-year step H40 10 to 20 m from 1,500 trees ha-1: 1068.8547160632
+   ten 1-year sub-steps on the same height path:          1068.8547160632  (diff 4.547e-13)
+   one hundred sub-steps on the same height path:         1068.8547160632  (diff 4.547e-12)
+  [PASS] one 10-year step and ten 1-year steps agree to 1e-6
+  [PASS] one 10-year step and one hundred sub-steps agree to 1e-6
+  [PASS] no regular mortality when H40 is flat (fitted arm, floor off)
+  [PASS] no regular mortality when H40 falls (fitted arm, floor off)
+   stand started at 99.9% of the line at H40 15 m: N1 = 1508.8, line at H40 22 m = 1509.3
+  [PASS] a stand on the line stays beneath it
+
+1b. Cycle-length invariance and the A1 floor (ported H_QMD arm)
+   one 10-year step: 776.3271427063, ten 1-year sub-steps: 776.3271427063 (diff 3.411e-13)
+  [PASS] cycle-length invariance holds on the anchored arm too
+   flat H_QMD, natural: m_step = 0.003000 (floor 0.003), planted: m_step = 0.006000 (floor 0.006)
+  [PASS] flat H_QMD returns the natural A1 floor, not zero
+  [PASS] flat H_QMD returns the planted A1 floor, not zero
+   growing H_QMD 10 to 20 m: m_step = 0.482449 (raw Garcia step, above the 0.003 floor)
+  [PASS] a growing stand's raw Garcia step exceeds the floor and is not clamped to it
+  [PASS] the anchored beta and the fitted beta give different deaths on the same height path, as expected
+
+2. Allocation and the renormalization contract
+   five-tree list, 30 deaths ha-1: mort_frac = 0.086097, 0.024573, 0.005863, 0.000399, 0.000005
+   sum(dexpf) = 30.000000000000 (target 30), expf-weighted mean = 0.051282051282 (target 0.051282051282)
+  [PASS] allocated deaths equal the stand deaths
+  [PASS] mortality fraction decreases with diameter
+
+   AT-3, cap binding, stand rate 0.93 on the same five trees
+   mort_frac = 0.95000000000000, 0.95000000000000, 0.95000000000000, 0.95000000000000, 0.17000000000006
+   expf-weighted mean = 0.93000000000000 (target 0.93), max = 0.95000000000000
+  [PASS] AT-3 weighted mean restored to 0.93
+  [PASS] AT-3 no tree above the 0.95 cap
+  [PASS] AT-3 four trees sit at the cap
+
+   AT-4, infeasible stand rate at or above the cap
+   warning: koa_renormalize_to_stand_rate: stand mortality rate 0.97 is at or above the per-tree cap 0.95, so no allocation can deliver it. Every tree is set to the cap and the stand under delivers by 0.02.
+   mort_frac = 0.9500, 0.9500, 0.9500, 0.9500, 0.9500
+  [PASS] AT-4 issues the infeasibility warning naming the cap
+  [PASS] AT-4 returns every tree at exactly the cap
+
+   AT-6, single tree receives exactly the stand rate
+   mort_frac = 0.05000000000000000 (target 0.05)
+  [PASS] AT-6 single tree receives the stand rate to machine precision
+
+   AT-1, AT-2 and AT-5 are RETIRED. They describe the withdrawn Eq. 5b ramp and its
+   Eq. 5 cloglog ordering weight, neither of which exists in this file. Their standing
+   replacement is the ramp-absence check in section 0 above.
+
+3. Embedded irregular magnitude vector against plot_interval_pairs_DATA.csv
+   csv: 421 plot intervals, 112 plots, 1383 cohort deaths, 60 irregular intervals carrying 913 deaths (66.0%)
+   csv fractions n = 60, embedded n = 60, max abs elementwise difference = 0.0000000000
+   csv median 0.3176 IQR 0.1635 to 0.6949; embedded median 0.3176 IQR 0.1635 to 0.6949
+  [PASS] embedded magnitude vector matches the source table element for element
+   observed occurrence rate 0.1425 per interval at mean interval 2.6841 yr; embedded 0.14 and 2.68
+  [PASS] embedded occurrence rate matches the source table
+  [PASS] embedded reference interval matches the source table
+   in-sample regular set (360 intervals, 103 plots): predicted deaths 13138 against observed 13595 (-3.4%), RMSE N1 101.1 trees ha-1
+  [PASS] in-sample deaths bias within 10 percent
+   share of regular (N, H40) pairs beneath the limiting line: 0.9944
+  [PASS] at least 99 percent of regular pairs lie beneath the limiting line
+
+   BETA SENSITIVITY ON H40 (frame mismatch, reported not asserted). Fitted beta 0.117000 predicts 13138 regular deaths;
+   the anchored beta 0.16019053617304435 run on H40 (NOT its own frame) predicts 25295, a ratio of 1.925.
+   Observed deaths on those intervals are 13595. See HiGy_v040_parity_report_2026-09-09.md
+   for the anchored arm evaluated correctly, on H_QMD, against the Python deposit source.
+
+4. Stage 1 irregular occurrence (stochastic, off in production)
+   20,000 draws at yip = 2.68: occurrence 0.1400 (target 0.14)
+  [PASS] annualized hazard reproduces the observed occurrence rate
+  [PASS] a longer step carries a higher event probability
+
+5. End to end through calc_mortality()
+   returned columns:  plot, tree, sp, dbh, ht, cr, expf, ddbh, dht, mort.mult, ba, dexpf 
+  [PASS] returned frame is the input columns plus dexpf and nothing else
+   plot 1: N0 585.00, H_QMD 12.790445 to 12.919732 m, stand deaths 1.7550000000, allocated 1.7550000000
+  [PASS] plot 1 allocated deaths equal the stand deaths
+   plot 2: N0 320.00, H_QMD 14.033403 to 14.033403 m, stand deaths 0.9600000000, allocated 0.9600000000
+  [PASS] plot 2 allocated deaths equal the stand deaths
+  [PASS] a plot with no height growth still takes the A1 floor (ported arm), not zero
+
+   Confirms the port actually changed production behaviour
+   plot 1: old fitted-H40 arm (as koa_step_deaths defaulted before this port) would give 6.5684492927;
+   ported production calc_mortality() gives 1.7550000000 (uses the current default beta/state/floor).
+  [PASS] production calc_mortality() output differs from the pre-port fitted-H40 arm
+
+   Engine switch
+   garcia total dexpf 2.715000, cloglog total dexpf 125.833871
+  [PASS] mort.engine = 'cloglog' reaches the retired path and returns a different answer
+  [PASS] the retired path returns the same column contract
+
+   mort.mult passthrough
+   mort.mult 1.0 total 2.7150000000, mort.mult 0.5 total 1.3575000000, ratio 0.5000000000
+  [PASS] the FVS mortality multiplier scales allocated mortality exactly
+
+   Missing-increment guard
+   warning raised: calc_mortality(mort.engine = 'garcia'): the tree list carries no ddbh or dht, so the proje
+  [PASS] a tree list without ddbh or dht raises the ordering warning
+   allocated 2.7150000000, expected A1 floor 2.7150000000 (0.003 x natural background)
+  [PASS] a tree list with no growth data takes the A1 floor (ported arm), matching the deposit, not zero
+
+   Step-length behaviour carried through the allocator
+   one 10-year step total deaths 95.6948983216, ten 1-year steps total 95.6948983216, diff 6.253e-13
+   The stand totals agree; the per-tree split does not, and that is expected rather than a defect,
+   since Stage 3 re-reads the diameter distribution at every step and a ten-step run reallocates
+   ten times against a shrinking small-tree tail.
+  [PASS] stand deaths are invariant to step length through the allocator
+
+self-test PASSED
