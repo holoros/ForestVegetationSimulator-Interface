@@ -1,0 +1,57 @@
+--- a/HiGy.R
++++ b/HiGy.R
+@@ -16,7 +16,7 @@
+ library(dplyr) # needed arrange, mutate, left_join, tibble, select, group_by, summarise, ungroup, case_when, all_of
+ library(purrr) # needed for pmap_*
+ 
+-VersionTag = "HiGyV0.5.0"
++VersionTag = "HiGyV0.5.1"   # 0.5.1, 16 September 2026: Stage 1 origin refit and natural mortality calibration in koa_gate_rate()
+ 
+ ##############################
+ #### major update summary ####
+@@ -652,13 +652,22 @@
+ #   intercept [-2.7269211231135864, -1.1071172945674261]
+ #   lnSDI     [+0.04729187591110494, +0.34109027071589815]   excludes zero
+ #   planted   [-0.45582558486147245, +0.746073666295449]     includes zero
+-KOA_S1_INTERCEPT = -1.8660048476490962  # cloglog intercept
+-KOA_S1_LNSDI     =  0.18970168229495396 # coefficient on ln(max(SDI, 1))
+-KOA_S1_PLANTED   =  0.1833723331227772  # planted-origin offset
+-KOA_S1_PBAR      =  0.3600578102962374  # mean fitted ANNUAL occurrence, p_bar
++# ORIGIN REFIT, 16 September 2026. The values above this note describe the fit on the
++# deposited coding. The deployed engine now carries the refit on 294 intervals, with the
++# PSP network recoded planted and thinning-removal intervals censored
++# (out_stage1/stage1_fit.json of engine_origin), transcribed at full precision below.
++KOA_S1_INTERCEPT = -1.67856483466631  # cloglog intercept, origin refit
++KOA_S1_LNSDI     =  0.161863756638461 # coefficient on ln(max(SDI, 1)), origin refit
++KOA_S1_PLANTED   = -0.19099361188623 # planted-origin offset, origin refit
++KOA_S1_PBAR      =  0.313065206550519 # mean fitted ANNUAL occurrence, p_bar, origin refit
+ KOA_S1_SDI_FLOOR = 1.0                  # ln argument floor, as deployed
+ KOA_S1_ETA_CLIP  = c(-30, 5)            # linear-predictor clip, as deployed
+ KOA_RATE_CAP     = 0.95                 # cap on the gated stand rate, as deployed
++# Natural mortality level calibration, 16 September 2026. Multiplier on the gated
++# stand rate of natural stands, solved in engine space so that projected deaths over
++# the 24 natural Stage 1/2 plot intervals equal observed deaths (plot-cluster bootstrap
++# 95% interval 2.04 to 5.42). Planted stands keep 1. Deployed engine: threestage.mort_cal().
++KOA_MORT_CAL = c(natural = 2.59367, planted = 1.0)
+ 
+ # Stage 3 ordering weight, fitted tree-level survivor equation, deployed
+ # 11 September 2026. Manuscript Table 6 on the ALIVE response, transcribed from
+@@ -837,12 +846,15 @@
+ #' @param cap Numeric: upper clip on the gated rate, KOA_RATE_CAP (0.95).
+ #' @return Numeric: the gated stand step mortality fraction.
+ koa_gate_rate = function(m_stand, sdi, origin = "Natural",
+-                         p_bar = KOA_S1_PBAR, cap = KOA_RATE_CAP) {
++                         p_bar = KOA_S1_PBAR, cap = KOA_RATE_CAP,
++                         mort_cal = KOA_MORT_CAL) {
+   m = as.numeric(m_stand)
++  # natural mortality level calibration, 16 September 2026 (threestage.mort_cal)
++  k = if (koa_planted(origin) == 1L) mort_cal[["planted"]] else mort_cal[["natural"]]
+   s = suppressWarnings(as.numeric(sdi))
+-  if (length(s) == 0L || !is.finite(s[1])) return(m)
++  if (length(s) == 0L || !is.finite(s[1])) return(pmin(pmax(m * k, 0), cap))
+   p = koa_stage1_p(s[1], origin, yip = 1)
+-  pmin(pmax(m / p_bar * p, 0), cap)
++  pmin(pmax(pmin(pmax(m / p_bar * p, 0), cap) * k, 0), cap)
+ }
+ 
+ ### Stage 2: regular stand-level survival (Garcia 2009) ####

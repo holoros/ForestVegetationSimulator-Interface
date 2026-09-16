@@ -82,13 +82,37 @@ Uncalibrated, with the deployed correction factor:
 
 ## What you should know before merging
 
-1. **The multipliers are network corrections as much as origin corrections.** Calibrated diameter increment still departs by source: 0.32 for the 109 planted DOFAW records and 2.8 for the natural PSP installation. The natural multipliers also rest on few installations.
-2. **The 2 m yr⁻¹ height clip now binds more often.** Small planted trees on open sites reach it.
-3. **Validation (23 plots) after calibration.**
-   - Mean quadratic mean diameter is equivalent in both origins: +2.95 cm natural and +0.29 cm planted, observed minus projected.
-   - Planted survival is equivalent in mean.
-   - Natural survival is projected 0.31 too high, and natural basal area 10.5 m² ha⁻¹ too high.
-   - The natural error now sits in the mortality level, which is the next recalibration.
+1. **The multipliers are network corrections as much as origin corrections.** Held out by data source (`koa_increment_multiplier_leave_one_source_out.csv`):
+   - The DOFAW plantation grows at 0.32 times the diameter increment predicted by the planted multiplier of the other sources, and KMR at 1.15 times. The planted multiplier is in effect the PSP multiplier.
+   - Held-out FIA natural records grow at 0.59 times their prediction, or 1.12 times when the equation is also refit without FIA.
+   - Resampling the four sources gives diameter multiplier intervals of 0.27 to 1.08 (natural) and 0.51 to 1.81 (planted).
+2. **The 2 m yr⁻¹ height clip binds more often.** Small planted trees on open sites reach it.
+3. **The harness diameter ceiling acts per tree.** The planted 69.7 cm harness ceiling stops the largest planted trees growing by about age 35 in the manuscript projections. FVS-HI does not carry that ceiling.
+
+## Natural mortality level (manuscript v98, engine only)
+
+FVS-HI `HiGy.R` still carries the published survival equation as a rate and has no three-stage mortality, so **this section changes no FVS-HI code**. It documents the deployed Python engine and its R port (`HiGy.R` v0.5.x in the deposit engine folder).
+
+1. **Stage 1/2 refit.** Four PSP intervals (119 to 122, 2019 to 2023) span the 2021 thinning without ending in it, so their removals were counted as deaths. With those censored too, the fit uses 290 of 326 intervals, 118 carrying mortality (`mortality_level/koa_stage12_coefficients_removal_span_censored.csv`). ln(SDI) on occurrence is +0.162, and the interval still excludes zero.
+2. **Level factor.** Each natural interval is projected from its own tree list by the engine. The gated stand rate returns 42% of the observed deaths, so the natural rate is multiplied by **2.59367** (plot-cluster 95% interval 1.93 to 4.16; held-out installations 2.42 to 3.13). Planted stands keep 1.
+3. **Rejected alternatives** (`mortality_level/koa_mortality_level_candidates_*.csv`):
+   - A natural floor of 0.062 yr⁻¹ empties natural stands within 100 years (Reineke -3.41 to -3.50).
+   - The planted factor of 3.60 moves planted validation survival from equivalent to 0.28 below observed and breaks site ordering.
+4. **Effect.**
+   - Natural 100-year Reineke slopes move from -0.52 to -0.75 to -0.97 to -1.21.
+   - Natural validation survival error moves from -0.316 to -0.187, observed minus projected.
+5. **R port.** `patches/HiGy_engine_0.5.0_to_0.5.1_mortality.diff` updates the Stage 1 constants and adds the factor to `koa_gate_rate()`. `parity/parity_mortality_gate.R` matches the engine at 0 difference on 128 points.
+
+## Long-term trajectories and scenarios
+
+`longterm/koa_trajectory_validation_by_horizon.csv` compares 15 plots with three or more measurements at every remeasurement, with and without the natural factor. On the four long natural DOFAW plots (also used for the factor):
+- Survival error is -0.11 at 21 to 35 years, against -0.32 without the factor.
+- The 52-year Kulani plantation is projected to hold more and larger stems than it carried.
+
+`longterm/koa_behavior_scenarios.csv` covers initial density and thinning from below:
+- The largest tree grows more slowly at higher density.
+- Mean QMD does not fall with density, because density-dependent mortality removes the smallest stems.
+- Thinning lowers total yield.
 
 ## Deposit patches
 
@@ -112,6 +136,7 @@ All four functions agree to 9 × 10⁻¹⁶. The results are in `parity/parity_i
 
 ## Open items
 
-1. **Mortality level.** It needs a recalibration by origin now that growth is calibrated. Longer term, the source-level multipliers should give way to stand-level calibration from remeasured trees.
-2. **Deposit release.** Deposit 1.8.0 needs both the height and origin patches merged and a release cut.
-3. **Survival.** FVS-HI still carries the published survival equation as a rate. The manuscript deploys a three-stage mortality structure instead (Section 2.6).
+1. **Planted mortality level.** Short planted intervals imply a rate about 3.6 times the deployed one, while the ten-year planted validation plots match it. Longer planted remeasurement, with removals and fill-in planting recorded separately, is needed.
+2. **Stand-level calibration.** It should replace the source-level growth multipliers.
+3. **Deposit release.** Deposit 1.8.0 needs the height, origin, calibration and mortality patches merged and a release cut. The deposit engine `HiGy.R` still carries the pre-origin increment block.
+4. **FVS-HI survival.** FVS-HI still carries the published survival equation as a rate. Porting the three-stage structure (`koa_gate_rate()` and its helpers) is the route to matching the manuscript.
