@@ -50,7 +50,18 @@
    # RECONCILED 12 August 2026 from 6 to 4 cm yr-1. This file clipped the annual
    # increment at 6 where HiGy.R line 295 and koa_equations.py LineageA clip at 4,
    # and both cannot be right. 4.0 wins because it is the value pull request 31
-@@ -428,20 +432,22 @@
+@@ -351,7 +355,9 @@
+   # computed under, and because it binds on ZERO of the 6,209 fitting records at
+   # the deployed correction factor, so the reconciliation moves no published
+   # number. Source of truth koa_params.DDBH_ANNUAL_CAP.
+-  return(pmin(exp(lp) * CF_dDBH, 4.0))   # upper clip at 4 cm yr-1
++  # origin calibration 2026-09-16: ratio of observed to population-average predicted increment within origin (natural, planted)
++  cal <- ifelse(Planted > 0, 1.58591, 0.38479)
++  return(pmin(exp(lp) * CF_dDBH * cal, 4.0))   # upper clip at 4 cm yr-1
+ }
+ 
+ 
+@@ -428,20 +434,22 @@
    # Planted : 1 if planted stand, 0 if natural
    # BYI     : Biomass Yield Index (Mg ha-1)
  
@@ -83,3 +94,14 @@
    # RECONCILED 12 August 2026, A CONSISTENCY DECISION AND NOT A CORRECTNESS ONE.
    # This file used UNTRUNCATED height in the planted term and clipped the annual
    # height increment at 4 m yr-1. HiGy.R line 431 truncates height at 20 m in that
+@@ -456,7 +464,9 @@
+   # deposit was computed under. This is NOT verified against the fit and must not
+   # be described as if it were. Unlike the diameter clip, this one does change
+   # planted height trajectories above 20 m.
+-  return(pmin(exp(lp) * CF_dHT, 2.0))   # upper clip at 2 m yr-1
++  # origin calibration 2026-09-16: ratio of observed to population-average predicted increment within origin (natural, planted)
++  cal <- ifelse(Planted > 0, 2.65956, 0.52127)
++  return(pmin(exp(lp) * CF_dHT * cal, 2.0))   # upper clip at 2 m yr-1
+ }
+ 
+ 

@@ -1,7 +1,7 @@
 ## parity_increment.R: the R increment carriers against the Python projection engine after the origin refit.
 ## KOA_HIGY=path/to/HiGy.R KOA_KPF=path/to/koa_prediction_functions.R Rscript parity_increment.R
 ## The grid (increment_grid_python.csv, 540 points) was generated from koa_equations.LineageA with
-## CF_dDBH 1.48254 and CF_dHT 1.030, both origins, DBH 2 to 70 cm, BAL 0 to 30, BAPH 5 to 60, CR 0.3 and 0.7,
+## CF_dDBH 1.48254, CF_dHT 1.030 and the origin calibration (0.38479 and 1.58591, 0.52127 and 2.65956), both origins, DBH 2 to 70 cm, BAL 0 to 30, BAPH 5 to 60, CR 0.3 and 0.7,
 ## BYI 50 to 813, HT = 1.5 + 0.35 DBH.
 suppressPackageStartupMessages(library(dplyr))
 here <- dirname(sub("--file=", "", grep("--file=", commandArgs(FALSE), value = TRUE)))

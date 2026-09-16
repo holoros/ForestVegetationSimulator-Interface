@@ -240,7 +240,8 @@ ddbh = function(dbh, bal, ba, cr, byi, planted,
                b6 * sqrt(pmax(ba * dbh, 0)) +
                b7 * planted * pmin(dbh, 45) + 
                b8 * log(pmax(byi, 1)) +
-               b9 * planted) * cf   # planted level shift b9, 2026-09-16 
+               b9 * planted) * cf *   # planted level shift b9, 2026-09-16
+               ifelse(planted > 0, 1.58591, 0.38479)   # origin calibration 2026-09-16: ratio of observed to population-average predicted increment within origin (natural, planted) 
   
   # constrain to between 0 and 4 cm
   ddbh = pmin(pmax(ddbh, 0), 4)
@@ -354,7 +355,8 @@ dht = function(dbh, ht, bal, ba, cr, byi, planted,
               b6 * sqrt(pmax(ba * ht, 0)) +
               b7 * planted * pmin(ht, 20) +   # fitted linear form, 2026-09-16
               b8 * log(pmax(byi, 1)) +
-              b9 * planted) * cf
+              b9 * planted) * cf *
+              ifelse(planted > 0, 2.65956, 0.52127)   # origin calibration 2026-09-16: ratio of observed to population-average predicted increment within origin (natural, planted)
   
   # constrain to between 0 and 2 m
   dht = pmin(pmax(dht, 0), 2)

@@ -33,7 +33,7 @@
    
    # diameter increment
    # The linear predictor below is the functional form only; the nine coefficient
-@@ -308,8 +309,9 @@
+@@ -308,8 +309,10 @@
                 b4 * log(bal + 1) +
                 b5 * log(pmax(cr, 0.01)) + 
                 b6 * sqrt(pmax(ba * dbh, 0)) +
@@ -41,11 +41,12 @@
 -               b8 * log(pmax(byi, 1))) *cf 
 +               b7 * planted * pmin(dbh, 45) + 
 +               b8 * log(pmax(byi, 1)) +
-+               b9 * planted) * cf   # planted level shift b9, 2026-09-16 
++               b9 * planted) * cf *   # planted level shift b9, 2026-09-16
++               ifelse(planted > 0, 1.58591, 0.38479)   # origin calibration 2026-09-16: ratio of observed to population-average predicted increment within origin (natural, planted) 
    
    # Annual diameter increment clip.
    # SOURCE OF TRUTH: koa_params.DDBH_ANNUAL_CAP = 4.0. The value 4 here is
-@@ -372,13 +374,14 @@
+@@ -372,13 +375,14 @@
                    b6 = ddbh.parm$b6[idx], 
                    b7 = ddbh.parm$b7[idx],
                    b8 = ddbh.parm$b8[idx],
@@ -61,7 +62,7 @@
                    # apply dbh increment multiplier
                    ddbh = ddbh * ddbh.mult)
   
-@@ -401,10 +404,11 @@
+@@ -401,10 +405,11 @@
  #### Height increment ####
  
  # Height increment parameters
@@ -76,7 +77,7 @@
  
  
  #' Calculate height increment
-@@ -419,7 +423,7 @@
+@@ -419,7 +424,7 @@
  #' @param b0-b8 Numeric: Species parameters
  #' @return Numeric: Height increment (m)
  dht = function(dbh, ht, bal, ba, cr, byi, planted,
@@ -85,7 +86,7 @@
    
    
    # Height increment correction factor, UNCHANGED at 1.030 on 12 August 2026.
-@@ -460,8 +464,9 @@
+@@ -460,8 +465,10 @@
                b4 * log(bal + 1) +
                b5 * log(pmax(cr, 0.01)) + 
                b6 * sqrt(pmax(ba * ht, 0)) +
@@ -93,11 +94,12 @@
 -              b8 * log(pmax(byi, 1))) *cf
 +              b7 * planted * pmin(ht, 20) +   # fitted linear form, 2026-09-16
 +              b8 * log(pmax(byi, 1)) +
-+              b9 * planted) * cf
++              b9 * planted) * cf *
++              ifelse(planted > 0, 2.65956, 0.52127)   # origin calibration 2026-09-16: ratio of observed to population-average predicted increment within origin (natural, planted)
    
    # Annual height increment clip. SOURCE OF TRUTH: koa_params.DHT_ANNUAL_CAP =
    # 2.0, kept UNCHANGED on 12 August 2026. See the divergence note at cf above:
-@@ -519,11 +524,12 @@
+@@ -519,11 +526,12 @@
                    b6 = dht.parm$b6[idx], 
                    b7 = dht.parm$b7[idx],
                    b8 = dht.parm$b8[idx],

@@ -17,13 +17,13 @@ PSP 122, which regenerated after scarification, stays natural. The reduced codin
 
 ## What changed in HiGy.R
 
-The equation gains one term, a planted level shift b9, and the planted terms now use the fitted form.
+The equation gains one term, a planted level shift b9, the planted terms now use the fitted form, and both increments carry an origin calibration factor (below).
 
 ```
 ddbh = exp(b0 + b1 log(dbh+1) + b2 dbh + b3 bal^2/log(dbh+5) + b4 log(bal+1) + b5 log(cr)
-           + b6 sqrt(ba*dbh) + b7 planted*min(dbh, 45) + b8 log(byi) + b9 planted) * 1.48254,  clipped to [0, 4]
+           + b6 sqrt(ba*dbh) + b7 planted*min(dbh, 45) + b8 log(byi) + b9 planted) * 1.48254 * k_ddbh[origin],  clipped to [0, 4]
 dht  = exp(b0 + b1 log(ht+1)  + b2 ht  + b3 bal^2/log(ht+5)  + b4 log(bal+1) + b5 log(cr)
-           + b6 sqrt(ba*ht)  + b7 planted*min(ht, 20)  + b8 log(byi) + b9 planted) * 1.030,    clipped to [0, 2]
+           + b6 sqrt(ba*ht)  + b7 planted*min(ht, 20)  + b8 log(byi) + b9 planted) * 1.030 * k_dht[origin],     clipped to [0, 2]
 ```
 
 1. **Parameters.** Both `ddbh.parm` and `dht.parm` carry the refit vector and a new `b9` column.
@@ -58,30 +58,44 @@ The four fitted variants (V0 to V3) are in `koa_increment_variants_coefficients.
 
 The ingrowth refit (Eq. 6) is in `koa_ingrowth_origin_coefficients.csv`. FVS-HI does not carry it.
 
+## Origin calibration (second commit)
+
+The population-average form is biased by origin on the fitting data, because the level shift and the data-source random intercept compete for the same contrast. The PSP and KMR PSP sources are entirely planted, while the FIA and most DOFAW records are natural.
+
+Uncalibrated, with the deployed correction factor:
+
+- **Diameter increment.** Natural records are predicted at 1.45 cm yr⁻¹ against 0.56 observed. Planted records are predicted at 1.32 against 2.10.
+- **Height increment.** Natural records are overpredicted by 0.33 m yr⁻¹, and planted records are underpredicted by 1.04 m yr⁻¹.
+
+`ddbh()` and `dht()` therefore now multiply by an origin calibration factor after the correction factor. The factor is the ratio of observed to predicted total annual increment within origin (`koa_increment_origin_calibration.csv`). The 95% intervals come from 2,000 installation-cluster bootstrap resamples.
+
+| | natural | planted |
+|---|---|---|
+| ΔDBH | 0.38479 (0.297 to 0.470) | 1.58591 (1.447 to 1.725) |
+| ΔHT | 0.52127 (0.319 to 0.645) | 2.65956 (2.430 to 2.857) |
+
+**Effect on fit.** Population-average R² rises from 0.109 to 0.359 for diameter increment and from −0.342 to 0.270 for height increment.
+
+**Leave-one-installation-out check.** The equation and the multipliers were both refit with each installation held out.
+- Calibrated R² is 0.347 for diameter and 0.246 for height.
+- Held-out mean bias is within 0.03 cm yr⁻¹ and 0.01 m yr⁻¹ in both origins.
+
 ## What you should know before merging
 
-The level shift and the data-source random intercept compete for the same contrast. The PSP and KMR PSP sources are entirely planted, and the FIA and most DOFAW records are natural. So the population-average form, which is what FVS-HI evaluates, is biased by origin on the fitting data.
-
-**Diameter increment, with the deployed correction factor:**
-- Natural records: predicted 1.45 cm yr⁻¹ against 0.56 observed.
-- Planted records: predicted 1.32 against 2.10 observed.
-
-**Height increment:**
-- Natural records: overpredicted by 0.33 m yr⁻¹.
-- Planted records: underpredicted by 1.04 m yr⁻¹.
-
-**Validation.** On the 23-plot validation, projected basal area runs 20.7 m² ha⁻¹ high on natural plots and 13.5 m² ha⁻¹ low on planted plots.
-
-**Next step.** The manuscript's first priority is a calibration of the population-average increment that is specific to each origin. Until that calibration exists, treat FVS-HI koa growth as biased high in natural stands and low in plantations.
-
-**The 2 m height clip.** It binds more often under the refit, because the planted level shift raises planted height increment by a factor of 2.8 at small heights.
+1. **The multipliers are network corrections as much as origin corrections.** Calibrated diameter increment still departs by source: 0.32 for the 109 planted DOFAW records and 2.8 for the natural PSP installation. The natural multipliers also rest on few installations.
+2. **The 2 m yr⁻¹ height clip now binds more often.** Small planted trees on open sites reach it.
+3. **Validation (23 plots) after calibration.**
+   - Mean quadratic mean diameter is equivalent in both origins: +2.95 cm natural and +0.29 cm planted, observed minus projected.
+   - Planted survival is equivalent in mean.
+   - Natural survival is projected 0.31 too high, and natural basal area 10.5 m² ha⁻¹ too high.
+   - The natural error now sits in the mortality level, which is the next recalibration.
 
 ## Deposit patches
 
 `patches/` holds unified diffs that take the two deposit R carriers from their 1.8.0 height-refit state to the origin refit.
 
 - `HiGy_deposit_1.8.0-height_to_origin.diff`: the same changes as the repo HiGy.R above.
-- `koa_prediction_functions_1.8.0-height_to_origin.diff`: `koa.dDBH.annual()` and `koa.dHT.annual()` get the refit vectors and b9, the linear height planted term and `CF_dDBH` 1.48254.
+- `koa_prediction_functions_1.8.0-height_to_origin.diff`: `koa.dDBH.annual()` and `koa.dHT.annual()` get the refit vectors and b9, the linear height planted term, `CF_dDBH` 1.48254 and the origin calibration.
 
 The Python engine patch (`patch_origin.py`) and the regenerated projections are in the firebreather job `koa_origin_20260916`. That patch also covers the origin recode, the Stage 1 and 2 refit, ingrowth, and validation truncation before thinning.
 
@@ -94,10 +108,10 @@ KOA_HIGY=fvsOL/inst/extdata/HiGy.R KOA_KPF=/path/to/koa_prediction_functions.R \
 
 On a 540-point grid, the test compares `ddbh()`, `dht()`, `koa.dDBH.annual()` and `koa.dHT.annual()` against the patched Python engine. The grid covers both origins, DBH 2 to 70 cm, BAL 0 to 30 m² ha⁻¹, basal area 5 to 60 m² ha⁻¹, CR 0.3 and 0.7, and BYI 50 to 813 Mg ha⁻¹.
 
-All four functions agree to 5 × 10⁻¹⁶. The results are in `parity/parity_increment_results.csv`.
+All four functions agree to 9 × 10⁻¹⁶. The results are in `parity/parity_increment_results.csv`.
 
 ## Open items
 
-1. **Origin-specific calibration.** The population-average increment still needs its origin-specific calibration, as described above.
+1. **Mortality level.** It needs a recalibration by origin now that growth is calibrated. Longer term, the source-level multipliers should give way to stand-level calibration from remeasured trees.
 2. **Deposit release.** Deposit 1.8.0 needs both the height and origin patches merged and a release cut.
 3. **Survival.** FVS-HI still carries the published survival equation as a rate. The manuscript deploys a three-stage mortality structure instead (Section 2.6).
