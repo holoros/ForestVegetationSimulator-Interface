@@ -1,0 +1,117 @@
+--- deposit-1.7.1/koa_prediction_functions.R
++++ deposit-1.8.0/koa_prediction_functions.R
+@@ -103,33 +103,55 @@
+ # ------------------------------------------------------------------------------
+ 
+ # ------------------------------------------------------------------------------
+-# 1. STATIC HEIGHT MODEL
++# 1. STATIC HEIGHT MODEL (refit September 16, 2026; manuscript Table 3)
+ #    Form: HT = (a0 + a1*BYI/100) * (1 - exp(-b*DBH))^c
+-#               * exp(g1*log(BAPH+1) + g2*rDBH)
+-#    Data: AK_HT.csv, n = 10,060; R2 = 0.787; RMSE = 2.47 m
+-#    Note: rDBH = DBH/QMD; the negative g1 reflects stand-level density
+-#          suppression rather than individual suppression (population-average
+-#          formulation).
+-# ------------------------------------------------------------------------------
+-
+-koa.HT <- function(DBH, BAPH, QMD, BYI = 264) {
+-  # DBH  : subject tree DBH (cm)
+-  # BAPH : stand basal area per hectare (m2 ha-1)
+-  # QMD  : stand quadratic mean diameter (cm)
+-  # BYI  : Biomass Yield Index (Mg ha-1); default = 264 (medium site)
+-
+-  a0 <- 19.832
+-  a1 <-  0.106
+-  b  <-  0.044
+-  c  <-  0.863
+-  g1 <- -0.198
+-  g2 <-  0.479
+-
+-  rDBH <- DBH / pmax(QMD, 0.1)
++#               * exp(g1*log(BAPH+1) + g2*rDBH),   floored at 1.37 m
++#    rDBH = DBH / DBH.max, bounded at 1, where DBH.max is the largest live DBH
++#          on the plot at that measurement (the definition the deposited data
++#          carry). The retired vector (a0 19.832 ... g2 0.479) was fitted with
++#          rDBH = DBH/QMD and must not be mixed with this one.
++#    Fit: nlme, random intercept on a0 by data source and installation,
++#         n = 9,829 live-tree records on 143 installations.
++#         Conditional R2 0.863 (RMSE 1.91 m); population-average R2 0.790
++#         (RMSE 2.37 m); leave-one-installation-out R2 0.795 (RMSE 2.34 m).
++#         Population-average predictions pass equivalence at +/-25% for mean
++#         bias (+0.22 m) and slope (0.92) with installation-cluster bootstrap.
++#    SEs: a0 1.3587, a1 0.1440, b 0.000936, c 0.01101, g1 0.004951, g2 0.01554.
++#    Caution: with DBH.max fixed, height peaks near DBH = 140 cm when
++#          DBH.max = 250 cm and declines toward the largest tree, a property
++#          of the negative g2. Within the calibration range (planted ceiling
++#          69.7 cm, natural 90 cm) the curve is monotone up to about 80 cm.
++# ------------------------------------------------------------------------------
++
++koa.HT <- function(DBH, BAPH, QMD = NULL, BYI = 264, DBH.max = NULL) {
++  # DBH     : subject tree DBH (cm), vector
++  # BAPH    : stand basal area (m2 ha-1), scalar or vector
++  # QMD     : retained for signature compatibility only; not used since the
++  #           September 16, 2026 refit (rDBH no longer uses QMD)
++  # BYI     : Biomass Yield Index (Mg ha-1); default 264. NA returns NA.
++  # DBH.max : largest live DBH on the plot (cm), scalar or vector. If NULL it
++  #           is taken as max(DBH), which is only correct when DBH is the
++  #           complete live tree list of ONE plot. A single-tree call without
++  #           DBH.max would silently give rDBH = 1, so it is refused.
++  if (is.null(DBH.max)) {
++    if (length(DBH) < 2L)
++      stop("koa.HT(): pass DBH.max (largest live DBH on the plot) for a single-tree call.")
++    DBH.max <- max(DBH, na.rm = TRUE)
++  }
++  a0 <- 30.1882    # Table 3, refit September 16, 2026
++  a1 <- 1.42629
++  b  <- 0.0184009
++  c  <- 0.817994
++  g1 <- 0.0511083
++  g2 <- -0.35086
++
++  DBH  <- pmax(DBH, 0)                                  # guard: negative DBH
++  BAPH <- pmax(BAPH, 0)                                 # guard: log(BAPH + 1) domain
++  rDBH <- pmin(DBH / pmax(DBH.max, 0.1), 1)             # rDBH = DBH / DBH.max, bounded at 1
+   HT   <- (a0 + a1 * BYI / 100) *
+            (1 - exp(-b * DBH))^c *
+            exp(g1 * log(BAPH + 1) + g2 * rDBH)
+-  return(pmax(HT, 1.37))   # minimum = breast height
++  pmax(HT, 1.37)                                        # minimum = breast height
+ }
+ 
+ 
+@@ -672,7 +694,7 @@
+          "pass guardrail.trigger.sdi and guardrail.target.sdi instead.")
+   }
+ 
+-  DBH.MAX  <- if (Planted) 60 else 90
++  DBH.MAX  <- if (Planted) 69.7 else 90   # harness ceilings, September 16, 2026 (planted raised from 60)
+   if (is.null(init.DBH)) init.DBH <- if (Planted) 3.5 else 2.5
+   if (is.null(init.TPH)) init.TPH <- if (Planted) 1600 else 1000
+ 
+@@ -689,7 +711,7 @@
+   TPH  <- init.TPH
+   BAPH <- TPH * pi / 4 * (DBH / 100)^2
+   QMD  <- DBH
+-  HT   <- koa.HT(DBH, pmax(BAPH, 0.1), QMD, BYI)
++  HT   <- koa.HT(DBH, pmax(BAPH, 0.1), QMD, BYI, DBH.max = DBH)
+   CR   <- 0.65
+ 
+   for (s in seq_len(n)) {
+@@ -761,7 +783,7 @@
+     QMD  <- DBH
+     HT   <- HT  + dHT
+     # Blend dynamic HT with static H-D expectation
+-    HT.static <- koa.HT(DBH, BAPH, QMD, BYI)
++    HT.static <- koa.HT(DBH, BAPH, QMD, BYI, DBH.max = DBH)   # single cohort: the mean tree is the largest
+     HT   <- 0.65 * HT + 0.35 * HT.static
+     HT   <- min(HT, 25 + BYI / 55)   # biological ceiling
+     DBH  <- min(DBH, DBH.MAX)
+@@ -796,7 +818,7 @@
+          col = cols, lwd = 2, bty = "n")
+ 
+   # Predict height and HCB for individual trees
+-  koa.HT(DBH = 30, BAPH = 20, QMD = 25, BYI = 264)
++  koa.HT(DBH = 30, BAPH = 20, BYI = 264, DBH.max = 45)
+   koa.HCB(DBH = 30, HT = 18, BAPH = 20, BAL = 5, BYI = 264)
+ 
+   # Predict annual growth for an individual tree
