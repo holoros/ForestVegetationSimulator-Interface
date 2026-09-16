@@ -1,0 +1,10 @@
+scenario,site,reps,share_rate_ge_0p5,share_cap_bound
+Even-aged natural,High,500,0.0,0.032
+Even-aged natural,Low,500,0.0,0.01
+Even-aged natural,Medium,500,0.0,0.018
+Even-aged planted,High,500,0.0,0.024
+Even-aged planted,Low,500,0.0,0.0
+Even-aged planted,Medium,500,0.0,0.02
+Uneven-aged natural,High,300,0.0033333333333333335,0.0033333333333333335
+Uneven-aged natural,Low,300,0.0033333333333333335,0.0
+Uneven-aged natural,Medium,300,0.0033333333333333335,0.0
