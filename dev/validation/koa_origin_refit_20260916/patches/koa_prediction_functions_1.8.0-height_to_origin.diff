@@ -1,0 +1,85 @@
+--- a/koa_prediction_functions.R
++++ b/koa_prediction_functions.R
+@@ -301,7 +301,7 @@
+ # onset SDI 200 full lift SDI 500 ramp fits the long-term validation better; at
+ # 1.369 the recorded ramp at 200 and 850 does. An editor moving either constant
+ # must know the other was chosen against it.
+-CF_dDBH <- 1.369   # marginal correction factor, nested random intercept
++CF_dDBH <- 1.48254   # marginal correction factor, exp(0.5 * (0.750^2 + 0.475^2)), V3 origin refit 2026-09-16 (was 1.369)
+ 
+ koa.dDBH.annual <- function(DBH, BAL, CR, BAPH, Planted = 0, BYI = 264) {
+   # DBH     : start-of-year DBH (cm)
+@@ -311,15 +311,17 @@
+   # Planted : 1 if planted stand, 0 if natural
+   # BYI     : Biomass Yield Index (Mg ha-1)
+ 
+-  b0 <- -2.4704737
+-  b1 <-  0.2072221
+-  b2 <- -0.0159616
+-  b3 <- -0.0016893
+-  b4 <- -0.2972574
+-  b5 <- -0.4470330
+-  b6 <- -0.0158403
+-  b7 <-  0.0188938
+-  b8 <-  0.4530166
++  b0 <- -2.0972488
++  b1 <-  0.3105931
++  b2 <- -0.0085285
++  b3 <- -0.0019684
++  b4 <- -0.2899832
++  b5 <- -0.2599003
++  b6 <- -0.0105114
++  b7 <- -0.0258191
++  # ORIGIN REFIT V3, 2026-09-16: PSP plantations recoded Planted (31 of 32 installations), planted slope and level shift (b9)
++  b9 <-  0.4018344   # planted level shift
++  b8 <-  0.3108402
+ 
+   # U31, VERIFIED AND UNCHANGED 12 August 2026. The planted term below is
+   # b7 * Planted * DBH on UNTRUNCATED diameter, which is the fitted form. This
+@@ -340,10 +342,12 @@
+   # diameter cap released the term reaches a multiplier of 43.76 at DBH 200 cm.
+   # Under the deployed cap the guard moves one Table 8 cell by 0.4 cm.
+   # Source of truth koa_params.DDBH_PLANTED_GUARD_CM.
++  # 2026-09-16: after the origin recode b7 is NEGATIVE and the planted fitting support reaches 57.0 cm
++  # (99th percentile 44.7 cm, 4,833 planted records); the 45.0 cm guard is retained as declared.
+   lp <- b0 + b1 * log(DBH + 1) + b2 * DBH +
+         b3 * BAL^2 / log(DBH + 5) + b4 * log(BAL + 1) +
+         b5 * log(pmax(CR, 0.01)) + b6 * sqrt(BAPH * DBH) +
+-        b7 * Planted * pmin(DBH, 45.0) + b8 * log(BYI)
++        b7 * Planted * pmin(DBH, 45.0) + b8 * log(BYI) + b9 * Planted
+   # RECONCILED 12 August 2026 from 6 to 4 cm yr-1. This file clipped the annual
+   # increment at 6 where HiGy.R line 295 and koa_equations.py LineageA clip at 4,
+   # and both cannot be right. 4.0 wins because it is the value pull request 31
+@@ -428,20 +432,22 @@
+   # Planted : 1 if planted stand, 0 if natural
+   # BYI     : Biomass Yield Index (Mg ha-1)
+ 
+-  b0 <- -3.382162
+-  b1 <-  0.272454
+-  b2 <- -0.105319
+-  b3 <- -0.000829
+-  b4 <- -0.071718
+-  b5 <- -1.483889
+-  b6 <-  0.033035
+-  b7 <-  0.017887
+-  b8 <-  0.433224
++  b0 <- -4.0426171
++  b1 <-  0.9238575
++  b2 <- -0.1099897
++  b3 <- -0.0012181
++  b4 <- -0.0358816
++  b5 <- -1.5423408
++  b6 <-  0.0486628
++  b7 <- -0.1196098
++  # ORIGIN REFIT V3, 2026-09-16: PSP plantations recoded Planted (31 of 32 installations), planted slope and level shift (b9)
++  b9 <-  1.0236256   # planted level shift
++  b8 <-  0.2471449
+ 
+   lp <- b0 + b1 * log(HT + 1) + b2 * HT +
+         b3 * BAL^2 / log(HT + 5) + b4 * log(BAL + 1) +
+         b5 * log(pmax(CR, 0.01)) + b6 * sqrt(BAPH * HT) +
+-        b7 * sqrt(Planted * pmin(HT, 20.0)) + b8 * log(BYI)
++        b7 * Planted * pmin(HT, 20.0) + b8 * log(BYI) + b9 * Planted
+   # RECONCILED 12 August 2026, A CONSISTENCY DECISION AND NOT A CORRECTNESS ONE.
+   # This file used UNTRUNCATED height in the planted term and clipped the annual
+   # height increment at 4 m yr-1. HiGy.R line 431 truncates height at 20 m in that
