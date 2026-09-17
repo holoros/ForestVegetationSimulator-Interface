@@ -1,0 +1,5 @@
+"check","max_abs_diff","pass"
+"HiGy ddbh vs engine",8.88178419700125e-16,TRUE
+"HiGy dht vs engine",4.44089209850063e-16,TRUE
+"koa.dDBH.annual vs engine",8.88178419700125e-16,TRUE
+"koa.dHT.annual vs engine",4.44089209850063e-16,TRUE

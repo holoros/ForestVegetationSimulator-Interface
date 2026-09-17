@@ -1,0 +1,115 @@
+--- a/HiGy.R
++++ b/HiGy.R
+@@ -234,10 +234,11 @@
+ # symbolic b0 to b8 and no literals, so there is no second in-file copy of the
+ # vector to drift against. No coefficient digit was changed on 12 August 2026;
+ # only the correction factor cf and the planted term truncation moved.
++  # ORIGIN REFIT V3, 2026-09-16: PSP plantations recoded Planted (31 of 32 installations), planted slope and level shift (b9)
+   ddbh.parm = dplyr::tribble(
+-    ~type,    ~species,  ~b0,        ~b1,         ~b2,         ~b3,         ~b4,        ~b5,         ~b6,        ~b7,        ~b8,      
+-    'base',    'AK',   -2.4704737,  0.2072221,  -0.0159616,  -0.0016893,  -0.2972574,  -0.4470330,  -0.0158403,  0.0188938,        0,  
+-    'site',    'AK',   -2.4704737,  0.2072221,  -0.0159616,  -0.0016893,  -0.2972574,  -0.4470330,  -0.0158403,  0.0188938,   0.4530166)
++    ~type,    ~species,  ~b0,        ~b1,         ~b2,         ~b3,         ~b4,        ~b5,         ~b6,        ~b7,        ~b8,       ~b9,
++    'base',    'AK',   -2.0972488,  0.3105931,  -0.0085285,  -0.0019684,  -0.2899832,  -0.2599003,  -0.0105114,  -0.0258191,  0,  0.4018344,
++    'site',    'AK',   -2.0972488,  0.3105931,  -0.0085285,  -0.0019684,  -0.2899832,  -0.2599003,  -0.0105114,  -0.0258191,  0.3108402,  0.4018344)
+ 
+     
+ #' Calculate annual diameter increment 
+@@ -251,7 +252,7 @@
+ #' @param b0-b8 Numeric: Species parameters
+ #' @return Numeric: Diameter increment (cm)
+ ddbh = function(dbh, bal, ba, cr, byi, planted, 
+-                b0, b1, b2, b3, b4, b5, b6, b7, b8) {
++                b0, b1, b2, b3, b4, b5, b6, b7, b8, b9 = 0) {
+   
+   # Diameter increment correction factor.
+   # CHANGED 12 August 2026 from 1.026 to 1.369.
+@@ -277,7 +278,7 @@
+   # an onset 200 full lift 500 ramp fits the long-term validation better; at
+   # 1.369 the recorded ramp at 200 and 850 does. An editor moving either
+   # constant must know the other was chosen against it.
+-  cf = 1.369
++  cf = 1.48254   # marginal correction, exp(0.5 * (0.750^2 + 0.475^2)) from the V3 origin refit, 2026-09-16 (was 1.369; the repo copy carried the withdrawn 1.026)
+   
+   # diameter increment
+   # The linear predictor below is the functional form only; the nine coefficient
+@@ -308,8 +309,10 @@
+                b4 * log(bal + 1) +
+                b5 * log(pmax(cr, 0.01)) + 
+                b6 * sqrt(pmax(ba * dbh, 0)) +
+-               b7 * planted * pmin(dbh, 45.0) +
+-               b8 * log(pmax(byi, 1))) *cf 
++               b7 * planted * pmin(dbh, 45) + 
++               b8 * log(pmax(byi, 1)) +
++               b9 * planted) * cf *   # planted level shift b9, 2026-09-16
++               ifelse(planted > 0, 1.58591, 0.38479)   # origin calibration 2026-09-16: ratio of observed to population-average predicted increment within origin (natural, planted) 
+   
+   # Annual diameter increment clip.
+   # SOURCE OF TRUTH: koa_params.DDBH_ANNUAL_CAP = 4.0. The value 4 here is
+@@ -372,13 +375,14 @@
+                   b6 = ddbh.parm$b6[idx], 
+                   b7 = ddbh.parm$b7[idx],
+                   b8 = ddbh.parm$b8[idx],
++                  b9 = ddbh.parm$b9[idx],
+                   byi = dplyr::coalesce(byi, 0),
+                   planted = dplyr::coalesce(planted, 0),
+                   # 
+                   ddbh = dplyr::case_when(ht<1.3716 ~0,
+                                           TRUE ~ddbh(dbh, bal, ba=ba.plot, cr, 
+                                                      byi, planted, 
+-                                                     b0, b1, b2, b3, b4, b5, b6, b7, b8)),
++                                                     b0, b1, b2, b3, b4, b5, b6, b7, b8, b9)),
+                   # apply dbh increment multiplier
+                   ddbh = ddbh * ddbh.mult)
+  
+@@ -401,10 +405,11 @@
+ #### Height increment ####
+ 
+ # Height increment parameters
++# ORIGIN REFIT V3, 2026-09-16: PSP plantations recoded Planted (31 of 32 installations), planted slope and level shift (b9)
+ dht.parm = dplyr::tribble(
+-  ~type,   ~species,  ~b0,        ~b1,       ~b2,        ~b3,        ~b4,       ~b5,        ~b6,       ~b7,     ~b8,    
+-  'base',  'AK',    -3.382162,  0.272454,  -0.105319,   -0.000829, -0.071718,  -1.483889,  0.033035,  0.017887,  0,   
+-  'site',  'AK',    -3.382162,  0.272454,  -0.105319,   -0.000829, -0.071718,  -1.483889,  0.033035,  0.017887,  0.433224)
++  ~type,   ~species,  ~b0,        ~b1,       ~b2,        ~b3,        ~b4,       ~b5,        ~b6,       ~b7,     ~b8,     ~b9,
++  'base',  'AK',    -4.0426171,  0.9238575,  -0.1099897,  -0.0012181,  -0.0358816,  -1.5423408,  0.0486628,  -0.1196098,  0,  1.0236256,
++  'site',  'AK',    -4.0426171,  0.9238575,  -0.1099897,  -0.0012181,  -0.0358816,  -1.5423408,  0.0486628,  -0.1196098,  0.2471449,  1.0236256)
+ 
+ 
+ #' Calculate height increment
+@@ -419,7 +424,7 @@
+ #' @param b0-b8 Numeric: Species parameters
+ #' @return Numeric: Height increment (m)
+ dht = function(dbh, ht, bal, ba, cr, byi, planted,
+-               b0, b1, b2, b3, b4, b5, b6, b7, b8) {
++               b0, b1, b2, b3, b4, b5, b6, b7, b8, b9 = 0) {
+   
+   
+   # Height increment correction factor, UNCHANGED at 1.030 on 12 August 2026.
+@@ -460,8 +465,10 @@
+               b4 * log(bal + 1) +
+               b5 * log(pmax(cr, 0.01)) + 
+               b6 * sqrt(pmax(ba * ht, 0)) +
+-              b7 * sqrt(planted * pmin(ht, 20)) + 
+-              b8 * log(pmax(byi, 1))) *cf
++              b7 * planted * pmin(ht, 20) +   # fitted linear form, 2026-09-16
++              b8 * log(pmax(byi, 1)) +
++              b9 * planted) * cf *
++              ifelse(planted > 0, 2.65956, 0.52127)   # origin calibration 2026-09-16: ratio of observed to population-average predicted increment within origin (natural, planted)
+   
+   # Annual height increment clip. SOURCE OF TRUTH: koa_params.DHT_ANNUAL_CAP =
+   # 2.0, kept UNCHANGED on 12 August 2026. See the divergence note at cf above:
+@@ -519,11 +526,12 @@
+                   b6 = dht.parm$b6[idx], 
+                   b7 = dht.parm$b7[idx],
+                   b8 = dht.parm$b8[idx],
++                  b9 = dht.parm$b9[idx],
+                   byi = dplyr::coalesce(byi, 0),
+                   planted = dplyr::coalesce(planted, 0),
+                   # 
+                   dht = dht(dbh, ht, bal, ba, cr, byi,
+-                               planted, b0, b1, b2, b3, b4, b5, b6, b7, b8),
++                               planted, b0, b1, b2, b3, b4, b5, b6, b7, b8, b9),
+       #apply ht increment multiplier
+       dht = dht * dht.mult)
+  
