@@ -1,0 +1,53 @@
+--- deposit-1.7.1/HiGy.R
++++ deposit-1.8.0/HiGy.R
+@@ -53,8 +53,8 @@
+ ##### Total height prediction ####
+ ht.pred.parm = dplyr::tribble(
+   ~type,   ~species,  ~a0,      ~a1,    ~b,      ~c,     ~g1,      ~g2,
+-  'base',  'AK',      19.832,   0,      0.044,   0.863,   -0.198,   0.479,
+-  'site',  'AK',      19.832,   0.106,  0.044,   0.863,   -0.198,   0.479)
++  'base',  'AK',      31.8661,   0,      0.0185562,   0.801602,   0.0652061,   -0.329508,   # refit 2026-09-16, rDBH = DBH/DBH.max
++  'site',  'AK',      30.1882,   1.42629,  0.0184009,   0.817994,   0.0511083,   -0.35086)   # refit 2026-09-16, rDBH = DBH/DBH.max
+ 
+ 
+ 
+@@ -65,13 +65,20 @@
+ #' @param ba Numeric: Plot basal area (m^2 per ha)
+ #' @param byi Boolean: Biomass Yield Index (Mg per ha). If NULL or 0, uses basic model
+ #' @param  a0-g2 Numeric: Parameters
++#' @param qmd Numeric: Plot quadratic mean diameter (cm). Unused since the 2026-09-16 refit, kept for compatibility
++#' @param dbh.max Numeric: Largest live DBH on the plot (cm). Required; rDBH = dbh / dbh.max, bounded at 1
+ #' @return Numeric: Predicted height (m)
+ #'
+ #
+ pred_ht= function(dbh,  ba, bal, qmd, byi, 
+-                  a0, a1, b, c, g1, g2){
++                  a0, a1, b, c, g1, g2, dbh.max){
+   
+-  rdbh = dbh/qmd
++  # rDBH is DBH / largest live DBH on the plot (refit 2026-09-16). The retired
++  # vector used dbh/qmd; qmd is kept in the signature for compatibility only.
++  if (missing(dbh.max)) stop("pred_ht(): dbh.max (largest live DBH on the plot) is required since the 2026-09-16 refit")
++  dbh  = pmax(dbh, 0)
++  ba   = pmax(ba, 0)
++  rdbh = pmin(dbh / pmax(dbh.max, 0.1), 1)
+   
+   ht.intercept = ifelse(byi %in% c(NA, 0), 
+                       a0,
+@@ -107,6 +114,7 @@
+     filter(type==ht.parm.type)
+     
+   tree = tree.data %>% 
++    dplyr::group_by(plot) %>% dplyr::mutate(dbh.max = max(dbh, na.rm = TRUE)) %>% dplyr::ungroup() %>%
+     dplyr::left_join(plot.data %>% 
+                        dplyr::select(plot, ba.plot, qmd), 
+                      by = 'plot') %>%
+@@ -121,7 +129,7 @@
+                   g2 = ht.parm$g2[idx], 
+                   byi = coalesce(byi, 0), # maintains vectorized call of pred_ht()
+                   pht = pred_ht(dbh, ba=ba.plot, bal, qmd, byi, 
+-                                a0, a1, b, c, g1, g2)) %>%
++                                a0, a1, b, c, g1, g2, dbh.max = dbh.max)) %>%
+     dplyr::select(dplyr::all_of(tree.data.names), pht)
+   
+   
