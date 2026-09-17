@@ -114,6 +114,27 @@ FVS-HI `HiGy.R` still carries the published survival equation as a rate and has 
 - Mean QMD does not fall with density, because density-dependent mortality removes the smallest stems.
 - Thinning lowers total yield.
 
+## Joint Monte Carlo (manuscript v99, engine only)
+
+`joint_monte_carlo/` replaces the independent projection draws with a table of 500 joint rows (`joint_draws.R`, seed 20260918). The table has one row per even-aged replicate; the uneven-aged scenario reads the first 300.
+
+Each row:
+- resamples the four data sources with replacement (4 resamples lacked an origin and were redrawn);
+- draws both V3 increment vectors from their fixed-effect covariance and recomputes the four origin multipliers on the resampled records;
+- draws the six height parameters jointly;
+- refits Stage 1 on a plot bootstrap, accepted only when both origins have intervals with and without mortality and every coefficient is below 8 in absolute value (19 redraws);
+- samples the natural mortality factor from its plot bootstrap and rescales it by the point over drawn Stage 1 gate on the 23 natural calibration intervals.
+
+The Garcia exponent and the diameter CF stay independent.
+
+`patch_jointmc.py` turns `engine_mort2` into `engine_joint`. `cal_reset`/`cal_draw` read the rows, the table raises on overflow, `joint_assert_clean` joins the state check, and the Fig. S4/S5 skip loop restarts the row counter.
+
+Results:
+- Point projections are identical to v98 (maximum difference 0.0).
+- The natural diameter multiplier spans 0.17 to 1.22 across rows (SD of log 0.500). The rows hold 32 source combinations, so the source spread is coarse.
+- At a reference tree the calibrated diameter increment spreads at an SD of log 0.31 (natural) against 0.46 under the independent scheme, of which the unrecalibrated ln(BYI) draw gives 0.45. About 90% of the joint variance lies between source combinations (`K_reference_spread.csv`).
+- Table S13 interval widths are 0.87 (QMD) and 0.82 (volume) of the independent scheme at the median (`K_interval_widths.csv`). Natural QMD lower limits rise and planted limits fall.
+
 ## Deposit patches
 
 `patches/` holds unified diffs that take the two deposit R carriers from their 1.8.0 height-refit state to the origin refit.
@@ -137,6 +158,6 @@ All four functions agree to 9 × 10⁻¹⁶. The results are in `parity/parity_i
 ## Open items
 
 1. **Planted mortality level.** Short planted intervals imply a rate about 3.6 times the deployed one, while the ten-year planted validation plots match it. Longer planted remeasurement, with removals and fill-in planting recorded separately, is needed.
-2. **Stand-level calibration.** It should replace the source-level growth multipliers.
+2. **Stand-level calibration.** It should replace the source-level growth multipliers. With four sources, the joint Monte Carlo estimates their spread only coarsely.
 3. **Deposit release.** Deposit 1.8.0 needs the height, origin, calibration and mortality patches merged and a release cut. The deposit engine `HiGy.R` still carries the pre-origin increment block.
 4. **FVS-HI survival.** FVS-HI still carries the published survival equation as a rate. Porting the three-stage structure (`koa_gate_rate()` and its helpers) is the route to matching the manuscript.
