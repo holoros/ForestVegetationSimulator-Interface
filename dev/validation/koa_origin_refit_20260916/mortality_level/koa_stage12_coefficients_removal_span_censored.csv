@@ -1,0 +1,13 @@
+fit,term,estimate,lo95,hi95
+published_table,s1_(Intercept),-1.86596890144246,,
+published_table,"s1_log(pmax(sdi, 1))",0.189696798175097,,
+published_table,s1_planted,0.18335627724799,,
+published_table,s2_(Intercept),-1.89973265337683,,
+published_table,"s2_log(pmax(sdi, 1))",-0.061020956979952,,
+published_table,s2_planted,0.18577048450689,,
+origin_recoded_removals_excluded,s1_(Intercept),-1.67856483466631,-2.68638996806559,0.335017484734244
+origin_recoded_removals_excluded,"s1_log(pmax(sdi, 1))",0.161863756638461,0.0132735660582791,0.315156700902509
+origin_recoded_removals_excluded,s1_planted,-0.19099361188623,-2.11440369577566,0.222230240693595
+origin_recoded_removals_excluded,s2_(Intercept),-2.20466779066605,-3.29156421973334,-0.819043045104313
+origin_recoded_removals_excluded,"s2_log(pmax(sdi, 1))",-0.0446862780129723,-0.259071577273745,0.111039832257421
+origin_recoded_removals_excluded,s2_planted,-0.0178500179158784,-0.398265380882187,0.42041794454315
