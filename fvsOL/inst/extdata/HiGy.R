@@ -1,6 +1,6 @@
 # $Id: HiGy.R 3968 2026-02-10 10:36:05Z benrice $
 ################################################################################
-# v0.2.0
+# v0.3.0
 #
 # Hawaii Variant of the Forest Vegetation Simulator (FVS-HI)
 #
@@ -16,11 +16,18 @@
 library(dplyr) # needed arrange, mutate, left_join, tibble, select, group_by, summarise, ungroup, case_when, all_of
 library(purrr) # needed for pmap_*
 
-VersionTag = "HiGyV0.2.0"
+VersionTag = "HiGyV0.3.0"
 
 ##############################
 #### major update summary ####
 ####
+
+# version 0.3.0
+  # refit height, diameter increment, height increment and survival equations (2026-09-17)
+  # height: relative diameter is dbh / plot maximum dbh (was dbh / qmd)
+  # increment: planted level shift (b9), updated Duan correction factors, origin calibration multipliers
+  # height increment: plot basal area (ba.plot) replaces tree basal area in calc_dht()
+  # details in CHANGELOG_HiGy.md
 
 # version 0.2.0
   # updated equations- integration of biomass yield index (BYI) and planted indicator
@@ -39,8 +46,8 @@ VersionTag = "HiGyV0.2.0"
 ##### Total height prediction ####
 ht.pred.parm = dplyr::tribble(
   ~type,   ~species,  ~a0,      ~a1,    ~b,      ~c,     ~g1,      ~g2,
-  'base',  'AK',      19.832,   0,      0.044,   0.863,   -0.198,   0.479,
-  'site',  'AK',      19.832,   0.106,  0.044,   0.863,   -0.198,   0.479)
+  'base',  'AK',      29.602570,  0,         0.018602,  0.809098,  0.061037,  -0.346588,
+  'site',  'AK',      29.602570,  1.113977,  0.018602,  0.809098,  0.061037,  -0.346588)
 
 
 
@@ -49,15 +56,16 @@ ht.pred.parm = dplyr::tribble(
 #' @param dbh Numeric: Diameter at breast height (cm)
 #' @param bal Numeric: Plot basal area larger trees (m^2 per ha)
 #' @param ba Numeric: Plot basal area (m^2 per ha)
+#' @param dbhmax Numeric: Plot maximum diameter at breast height (cm)
 #' @param byi Boolean: Biomass Yield Index (Mg per ha). If NULL or 0, uses basic model
 #' @param  a0-g2 Numeric: Parameters
 #' @return Numeric: Predicted height (m)
 #'
 #
-pred_ht= function(dbh,  ba, bal, qmd, byi, 
+pred_ht= function(dbh,  ba, bal, dbhmax, byi, 
                   a0, a1, b, c, g1, g2){
   
-  rdbh = dbh/qmd
+  rdbh = pmin(dbh/dbhmax, 1)
   
   ht.intercept = ifelse(byi %in% c(NA, 0), 
                       a0,
@@ -94,7 +102,7 @@ calc_ht = function(tree.data, plot.data, byi=stand$byi,
     
   tree = tree.data %>% 
     dplyr::left_join(plot.data %>% 
-                       dplyr::select(plot, ba.plot, qmd), 
+                       dplyr::select(plot, ba.plot, dbhmax), 
                      by = 'plot') %>%
     # Match parameter estimates on species, Koa is currently the default
     # when the model extends to other species, the code may need to be updated to another default species
@@ -106,7 +114,7 @@ calc_ht = function(tree.data, plot.data, byi=stand$byi,
                   g1 = ht.parm$g1[idx], 
                   g2 = ht.parm$g2[idx], 
                   byi = coalesce(byi, 0), # maintains vectorized call of pred_ht()
-                  pht = pred_ht(dbh, ba=ba.plot, bal, qmd, byi, 
+                  pht = pred_ht(dbh, ba=ba.plot, bal, dbhmax, byi, 
                                 a0, a1, b, c, g1, g2)) %>%
     dplyr::select(dplyr::all_of(tree.data.names), pht)
   
@@ -202,9 +210,14 @@ calc_ht = function(tree.data, plot.data, byi=stand$byi,
 
 # Diameter increment parameters
   ddbh.parm = dplyr::tribble(
-    ~type,    ~species,  ~b0,        ~b1,         ~b2,         ~b3,         ~b4,        ~b5,         ~b6,        ~b7,        ~b8,      
-    'base',    'AK',   -2.4704737,  0.2072221,  -0.0159616,  -0.0016893,  -0.2972574,  -0.4470330,  -0.0158403,  0.0188938,        0,  
-    'site',    'AK',   -2.4704737,  0.2072221,  -0.0159616,  -0.0016893,  -0.2972574,  -0.4470330,  -0.0158403,  0.0188938,   0.4530166)
+    ~type,    ~species,  ~b0,        ~b1,         ~b2,         ~b3,         ~b4,        ~b5,         ~b6,        ~b7,        ~b8,        ~b9,
+    'base',    'AK',   -2.3664829,  0.5137942,  -0.0308719,  -0.0019559,  -0.3238710,  -0.0118847,  -0.0071952,  -0.0223510,        0,   0.4495101,
+    'site',    'AK',   -2.3664829,  0.5137942,  -0.0308719,  -0.0019559,  -0.3238710,  -0.0118847,  -0.0071952,  -0.0223510,  0.3481424,   0.4495101)
+
+# Origin calibration multipliers for diameter and height increment
+  origin.calib.parm = dplyr::tribble(
+    ~species,  ~ddbh.natural,  ~ddbh.planted,  ~dht.natural,  ~dht.planted,
+    'AK',      0.43437,        1.53553,        0.54877,       2.73012)
 
     
 #' Calculate annual diameter increment 
@@ -215,12 +228,13 @@ calc_ht = function(tree.data, plot.data, byi=stand$byi,
 #' @param cr Numeric: Live crown ratio (0-1)
 #' @param byi Numeric: Biomass Yield Index (Mg per ha). If NULL or 0, uses base model parameters
 #' @param planted Boolean: Origin indicator (1 = planted, 0 = natural)
-#' @param b0-b8 Numeric: Species parameters
+#' @param b0-b9 Numeric: Species parameters
+#' @param cal Numeric: Origin calibration multiplier (default 1)
 #' @return Numeric: Diameter increment (cm)
 ddbh = function(dbh, bal, ba, cr, byi, planted, 
-                b0, b1, b2, b3, b4, b5, b6, b7, b8) {
+                b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, cal = 1) {
   
-  cf = 1.026   # Duan (1983) smearing correction factor
+  cf = 1.34728   # Duan (1983) smearing correction factor
   
   # diameter increment
   ddbh = exp(b0 + b1*log(dbh+1) + 
@@ -229,8 +243,9 @@ ddbh = function(dbh, bal, ba, cr, byi, planted,
                b4 * log(bal + 1) +
                b5 * log(pmax(cr, 0.01)) + 
                b6 * sqrt(pmax(ba * dbh, 0)) +
-               b7 * planted * pmin(dbh, 40) + 
-               b8 * log(pmax(byi, 1))) *cf 
+               b7 * planted * pmin(dbh, 45) + 
+               b8 * log(pmax(byi, 1)) +
+               b9 * planted) *cf *cal
   
   # constrain to between 0 and 4 cm
   ddbh = pmin(pmax(ddbh, 0), 4)
@@ -281,13 +296,19 @@ calc_ddbh = function(tree.data, plot.data,
                   b6 = ddbh.parm$b6[idx], 
                   b7 = ddbh.parm$b7[idx],
                   b8 = ddbh.parm$b8[idx],
+                  b9 = ddbh.parm$b9[idx],
                   byi = dplyr::coalesce(byi, 0),
                   planted = dplyr::coalesce(planted, 0),
+                  # origin calibration multiplier
+                  oidx = match(sp, origin.calib.parm$species, nomatch = match('AK', origin.calib.parm$species)),
+                  cal = ifelse(planted > 0, 
+                               origin.calib.parm$ddbh.planted[oidx], 
+                               origin.calib.parm$ddbh.natural[oidx]),
                   # 
                   ddbh = dplyr::case_when(ht<1.3716 ~0,
                                           TRUE ~ddbh(dbh, bal, ba=ba.plot, cr, 
                                                      byi, planted, 
-                                                     b0, b1, b2, b3, b4, b5, b6, b7, b8)),
+                                                     b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, cal)),
                   # apply dbh increment multiplier
                   ddbh = ddbh * ddbh.mult)
  
@@ -311,9 +332,9 @@ calc_ddbh = function(tree.data, plot.data,
 
 # Height increment parameters
 dht.parm = dplyr::tribble(
-  ~type,   ~species,  ~b0,        ~b1,       ~b2,        ~b3,        ~b4,       ~b5,        ~b6,       ~b7,     ~b8,    
-  'base',  'AK',    -3.382162,  0.272454,  -0.105319,   -0.000829, -0.071718,  -1.483889,  0.033035,  0.017887,  0,   
-  'site',  'AK',    -3.382162,  0.272454,  -0.105319,   -0.000829, -0.071718,  -1.483889,  0.033035,  0.017887,  0.433224)
+  ~type,   ~species,  ~b0,        ~b1,        ~b2,        ~b3,        ~b4,        ~b5,        ~b6,       ~b7,        ~b8,       ~b9,
+  'base',  'AK',    -4.2936412,  1.2352052,  -0.1476842,  -0.0011966, -0.0542262,  -1.6042988,  0.0574931, -0.1252505,  0,         1.0300277,
+  'site',  'AK',    -4.2936412,  1.2352052,  -0.1476842,  -0.0011966, -0.0542262,  -1.6042988,  0.0574931, -0.1252505,  0.2216682, 1.0300277)
 
 
 #' Calculate height increment
@@ -325,10 +346,11 @@ dht.parm = dplyr::tribble(
 #' @param cr Numeric: Live crown ratio (0-1)
 #' @param byi Numeric: Biomass Yield Index (Mg per ha). If NULL or 0, uses base model parameters
 #' @param planted Boolean: Origin indicator (1 = planted, 0 = natural)
-#' @param b0-b8 Numeric: Species parameters
+#' @param b0-b9 Numeric: Species parameters
+#' @param cal Numeric: Origin calibration multiplier (default 1)
 #' @return Numeric: Height increment (m)
 dht = function(dbh, ht, bal, ba, cr, byi, planted,
-               b0, b1, b2, b3, b4, b5, b6, b7, b8) {
+               b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, cal = 1) {
   
   
   cf = 1.030   # Duan (1983) smearing correction factor
@@ -340,8 +362,9 @@ dht = function(dbh, ht, bal, ba, cr, byi, planted,
               b4 * log(bal + 1) +
               b5 * log(pmax(cr, 0.01)) + 
               b6 * sqrt(pmax(ba * ht, 0)) +
-              b7 * sqrt(planted * pmin(ht, 20)) + 
-              b8 * log(pmax(byi, 1))) *cf
+              b7 * planted * pmin(ht, 20) + 
+              b8 * log(pmax(byi, 1)) +
+              b9 * planted) *cf *cal
   
   # constrain to between 0 and 2 m
   dht = pmin(pmax(dht, 0), 2)
@@ -395,11 +418,17 @@ calc_dht = function(tree.data,
                   b6 = dht.parm$b6[idx], 
                   b7 = dht.parm$b7[idx],
                   b8 = dht.parm$b8[idx],
+                  b9 = dht.parm$b9[idx],
                   byi = dplyr::coalesce(byi, 0),
                   planted = dplyr::coalesce(planted, 0),
+                  # origin calibration multiplier
+                  oidx = match(sp, origin.calib.parm$species, nomatch = match('AK', origin.calib.parm$species)),
+                  cal = ifelse(planted > 0, 
+                               origin.calib.parm$dht.planted[oidx], 
+                               origin.calib.parm$dht.natural[oidx]),
                   # 
-                  dht = dht(dbh, ht, bal, ba, cr, byi,
-                               planted, b0, b1, b2, b3, b4, b5, b6, b7, b8),
+                  dht = dht(dbh, ht, bal, ba=ba.plot, cr, byi,
+                               planted, b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, cal),
       #apply ht increment multiplier
       dht = dht * dht.mult)
  
@@ -425,8 +454,8 @@ calc_dht = function(tree.data,
 # Tree survival probability  parameters
 surv.parm = dplyr::tribble(
   ~type,  ~species,  ~b0,     ~b1,    ~b2,     ~b3,     ~b4,     ~b5,     ~b6,    ~b7,
-  'base',  'AK',     18.133,  0.199,  -5.718,   7.640,  15.678,  -3.396,   0,       0,
-  'site',  'AK',     18.133,  0.199,  -5.718,   7.640,  15.678,  -3.396,  3.039,  -25.102)
+  'base',  'AK',     14.673,  0.151,  -4.860,   7.036,  14.893,  -3.065,   0,       0,
+  'site',  'AK',     14.673,  0.151,  -4.860,   7.036,  14.893,  -3.065,  2.631,  -21.378)
 
 #' Calculate tree survival probability
 #' 
@@ -922,6 +951,8 @@ calc_plot_summary = function(tree.data) {
                      max.tree.id = max(tree, na.rm = TRUE), 
                      # max plot height
                      htmax=max(ht, na.rm = TRUE),
+                     # max plot dbh
+                     dbhmax=max(dbh, na.rm = TRUE),
                      .groups = 'drop') %>%
     # QMD
     dplyr::mutate(qmd = sqrt(ba.plot / (0.00007854 * tph.plot)))

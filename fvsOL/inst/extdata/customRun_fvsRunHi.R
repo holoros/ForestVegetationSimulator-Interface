@@ -128,7 +128,7 @@ fvsRunHi <- function(runOps=NULL, logfile="FvsHi.log", autoload.model=TRUE)
   plot.smry = tree %>% 
     calc_plot_summary()
   
-  # pred_ht: dbh,  ba, bal, qmd, byi, 
+  # pred_ht: dbh,  ba, bal, dbhmax, byi, 
   # pred_hcb: dbh, ht, bal, ba, byi, 
   tree = tree %>% 
     #predicted height (returns pht)
