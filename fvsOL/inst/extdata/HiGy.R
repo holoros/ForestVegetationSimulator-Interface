@@ -1,6 +1,6 @@
 # $Id: HiGy.R 3968 2026-02-10 10:36:05Z benrice $
 ################################################################################
-# v0.3.0
+# v0.3.1
 #
 # Hawaii Variant of the Forest Vegetation Simulator (FVS-HI)
 #
@@ -16,11 +16,19 @@
 library(dplyr) # needed arrange, mutate, left_join, tibble, select, group_by, summarise, ungroup, case_when, all_of
 library(purrr) # needed for pmap_*
 
-VersionTag = "HiGyV0.3.0"
+VersionTag = "HiGyV0.3.1"
 
 ##############################
 #### major update summary ####
 ####
+
+# version 0.3.1
+  # constants refit on the v102 fitting frames (2026-09-18)
+  # frames rebuilt under the data owner's revised deduplication ruling
+  # height, diameter increment, height increment and survival vectors replaced
+  # Duan correction factor for diameter increment and origin calibration multipliers updated
+  # no change to any equation form or code path
+  # details in CHANGELOG_HiGy.md
 
 # version 0.3.0
   # refit height, diameter increment, height increment and survival equations (2026-09-17)
@@ -46,8 +54,8 @@ VersionTag = "HiGyV0.3.0"
 ##### Total height prediction ####
 ht.pred.parm = dplyr::tribble(
   ~type,   ~species,  ~a0,      ~a1,    ~b,      ~c,     ~g1,      ~g2,
-  'base',  'AK',      29.602570,  0,         0.018602,  0.809098,  0.061037,  -0.346588,
-  'site',  'AK',      29.602570,  1.113977,  0.018602,  0.809098,  0.061037,  -0.346588)
+  'base',  'AK',      32.198224,  0,         0.016579,  0.804891,  0.062077,  -0.373262,
+  'site',  'AK',      32.198224,  1.208508,  0.016579,  0.804891,  0.062077,  -0.373262)
 
 
 
@@ -211,13 +219,13 @@ calc_ht = function(tree.data, plot.data, byi=stand$byi,
 # Diameter increment parameters
   ddbh.parm = dplyr::tribble(
     ~type,    ~species,  ~b0,        ~b1,         ~b2,         ~b3,         ~b4,        ~b5,         ~b6,        ~b7,        ~b8,        ~b9,
-    'base',    'AK',   -2.3664829,  0.5137942,  -0.0308719,  -0.0019559,  -0.3238710,  -0.0118847,  -0.0071952,  -0.0223510,        0,   0.4495101,
-    'site',    'AK',   -2.3664829,  0.5137942,  -0.0308719,  -0.0019559,  -0.3238710,  -0.0118847,  -0.0071952,  -0.0223510,  0.3481424,   0.4495101)
+    'base',    'AK',   -1.1509411,  0.3371168,  -0.0143456,  -0.0017722,  -0.4306515,   1.2809352,  -0.0176013,  -0.0176238,        0,   0.4103534,
+    'site',    'AK',   -1.1509411,  0.3371168,  -0.0143456,  -0.0017722,  -0.4306515,   1.2809352,  -0.0176013,  -0.0176238,  0.3045245,   0.4103534)
 
 # Origin calibration multipliers for diameter and height increment
   origin.calib.parm = dplyr::tribble(
     ~species,  ~ddbh.natural,  ~ddbh.planted,  ~dht.natural,  ~dht.planted,
-    'AK',      0.43437,        1.53553,        0.54877,       2.73012)
+    'AK',      0.40548,        1.43606,        0.51917,       2.64739)
 
     
 #' Calculate annual diameter increment 
@@ -234,7 +242,7 @@ calc_ht = function(tree.data, plot.data, byi=stand$byi,
 ddbh = function(dbh, bal, ba, cr, byi, planted, 
                 b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, cal = 1) {
   
-  cf = 1.34728   # Duan (1983) smearing correction factor
+  cf = 1.36869   # Duan (1983) smearing correction factor
   
   # diameter increment
   ddbh = exp(b0 + b1*log(dbh+1) + 
@@ -333,8 +341,8 @@ calc_ddbh = function(tree.data, plot.data,
 # Height increment parameters
 dht.parm = dplyr::tribble(
   ~type,   ~species,  ~b0,        ~b1,        ~b2,        ~b3,        ~b4,        ~b5,        ~b6,       ~b7,        ~b8,       ~b9,
-  'base',  'AK',    -4.2936412,  1.2352052,  -0.1476842,  -0.0011966, -0.0542262,  -1.6042988,  0.0574931, -0.1252505,  0,         1.0300277,
-  'site',  'AK',    -4.2936412,  1.2352052,  -0.1476842,  -0.0011966, -0.0542262,  -1.6042988,  0.0574931, -0.1252505,  0.2216682, 1.0300277)
+  'base',  'AK',    -3.6114059,  1.1203441,  -0.1154809,  -0.0009067, -0.1332027,  -0.5250905,  0.0379597, -0.1240880,  0,         1.0681935,
+  'site',  'AK',    -3.6114059,  1.1203441,  -0.1154809,  -0.0009067, -0.1332027,  -0.5250905,  0.0379597, -0.1240880,  0.2232825, 1.0681935)
 
 
 #' Calculate height increment
@@ -454,8 +462,8 @@ calc_dht = function(tree.data,
 # Tree survival probability  parameters
 surv.parm = dplyr::tribble(
   ~type,  ~species,  ~b0,     ~b1,    ~b2,     ~b3,     ~b4,     ~b5,     ~b6,    ~b7,
-  'base',  'AK',     14.673,  0.151,  -4.860,   7.036,  14.893,  -3.065,   0,       0,
-  'site',  'AK',     14.673,  0.151,  -4.860,   7.036,  14.893,  -3.065,  2.631,  -21.378)
+  'base',  'AK',     14.132,  0.132,  -4.571,   6.721,  14.302,  -2.914,   0,       0,
+  'site',  'AK',     14.132,  0.132,  -4.571,   6.721,  14.302,  -2.914,  2.588,  -20.968)
 
 #' Calculate tree survival probability
 #' 
