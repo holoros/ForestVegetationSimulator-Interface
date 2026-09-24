@@ -3,6 +3,24 @@ unlink("FvsHi.log")
 
 # Note: The form of the function call is very carefully coded. Make sure
 # "runOps" exists if you want them to be used.
+#
+# CHANGED 23 September 2026 for HiGy.R version 0.4.0. Three things move in this
+# file and nothing else does. The run interface gains a mortality engine choice
+# and an irregular-event switch, make_ops() is called with them, and the log
+# records which engine ran so that a projection can be read back later without
+# guessing. The FVS control flow, the dubbing block, the stop points and the
+# tree list round trip are untouched.
+#
+# WHAT THE MORTALITY OPTIONS MEAN. The default engine is the three-stage
+# component of HiGy.R version 0.4.0, which is deterministic; its optional
+# stochastic irregular event is off. The alternative, cloglog, runs the version
+# 0.3.1 tree-level survivor equation and exists so that any projection made
+# before version 0.4.0 can be reproduced. Read the block above surv.parm in
+# HiGy.R before trusting a number the cloglog engine returns, since one
+# unresolved question about that equation is recorded there.
+# Turning the irregular stage on makes the run stochastic, so a run that uses it
+# must record its seed, which is why the seed is set explicitly below rather
+# than left to whatever state the session happens to be in.
 fvsRunHi <- function(runOps=NULL, logfile="FvsHi.log", autoload.model=TRUE)
 {
 
@@ -35,10 +53,22 @@ fvsRunHi <- function(runOps=NULL, logfile="FvsHi.log", autoload.model=TRUE)
 
   # process the ops.
   # Convert Shiny app selections using make_ops()
+  # The four mortality fields are read with is.null() guards so that an older
+  # saved run, whose uiCustomRunOps carries only the two size-cap choices, still
+  # reaches make_ops() and still runs the default engine.
   if(!is.null(runOps)){
     .GlobalEnv$ops = make_ops(use.cap.dbh = runOps$uiHiDbhCap,   
-                              use.cap.ht = runOps$uiHiHtCap)
-    # verbose and rtn.vars will use defaults
+                              use.cap.ht = runOps$uiHiHtCap,
+                              mort.engine = if (is.null(runOps$uiHiMortEngine)) 'garcia'
+                                            else runOps$uiHiMortEngine,
+                              irregular = if (is.null(runOps$uiHiIrregular)) FALSE
+                                          else runOps$uiHiIrregular,
+                              mort.seed = if (is.null(runOps$uiHiMortSeed)) NA
+                                          else suppressWarnings(as.numeric(runOps$uiHiMortSeed)))
+    # verbose, rtn.vars and planted.background will use defaults.
+    # planted.background is a TODO hook in HiGy.R, default NA and off, and it is
+    # deliberately NOT exposed in the interface, because there is no defensible
+    # number for it yet and an interface field would invite one to be invented.
     
   }else{
   # make ops will use all defaults
@@ -47,6 +77,12 @@ fvsRunHi <- function(runOps=NULL, logfile="FvsHi.log", autoload.model=TRUE)
 }
   
   cat ("fvsRunHi, options set\n")
+  cat ("fvsRunHi, mortality engine=", ops$mort.engine,
+       " irregular stage=", ops$irregular,
+       " seed=", ifelse(is.na(ops$mort.seed), "none", ops$mort.seed), "\n")
+  if (isTRUE(ops$irregular))
+    cat ("fvsRunHi: WARNING - the irregular mortality stage is ON, so this run is",
+         "STOCHASTIC and is not reproducible unless the seed above is recorded\n")
 
 ### load FVS species codes
   .GlobalEnv$spcodes = fvsGetSpeciesCodes()
@@ -220,6 +256,13 @@ fvsRunHi <- function(runOps=NULL, logfile="FvsHi.log", autoload.model=TRUE)
     # advance to the next cycle if no tree records
     if (nrow(tree) == 0) next
     
+    # The seed is set once per stand cycle rather than once per year, so a
+    # multi-year cycle draws a distinct irregular event in each of its years
+    # while the whole cycle stays reproducible from the recorded seed. Nothing
+    # in the deterministic path consumes randomness, so this is inert unless the
+    # irregular stage is on.
+    if (isTRUE(ops$irregular) && !is.na(ops$mort.seed)) set.seed(as.numeric(ops$mort.seed))
+
     for (year in stdInfo['year']:stdInfo['cendyear'])
     {
       tree$year = year
@@ -282,12 +325,26 @@ uiHi= function(fvsRun)
               fvsRun$uiCustomRunOps$uiHiDbhCap = "TRUE"
   if (is.null(fvsRun$uiCustomRunOps$uiHiHtCap))
               fvsRun$uiCustomRunOps$uiHiHtCap   = "TRUE"
+  if (is.null(fvsRun$uiCustomRunOps$uiHiMortEngine))
+              fvsRun$uiCustomRunOps$uiHiMortEngine = "garcia"
+  if (is.null(fvsRun$uiCustomRunOps$uiHiIrregular))
+              fvsRun$uiCustomRunOps$uiHiIrregular = "FALSE"
   
   list(
     myRadioGroup("uiHiDbhCap", "Apply diameter limit:",
       c("TRUE", "FALSE"),selected=fvsRun$uiCustomRunOps$uiHiDbhCap),
     myRadioGroup("uiHiHtCap", "Apply height limit:",
-      c("TRUE", "FALSE"),selected=fvsRun$uiCustomRunOps$uiHiHtCap)
+      c("TRUE", "FALSE"),selected=fvsRun$uiCustomRunOps$uiHiHtCap),
+    # garcia is the three-stage component of HiGy.R version 0.4.0 and is the
+    # default. cloglog is the version 0.3.1 tree-level survivor equation and is
+    # offered for reproduction of earlier projections only.
+    myRadioGroup("uiHiMortEngine", "Mortality equation:",
+      c("garcia", "cloglog"),selected=fvsRun$uiCustomRunOps$uiHiMortEngine),
+    # Leaving this FALSE keeps the run deterministic. Setting it TRUE draws
+    # irregular mortality events and makes the run reproducible only from a
+    # recorded seed.
+    myRadioGroup("uiHiIrregular", "Stochastic irregular mortality:",
+      c("FALSE", "TRUE"),selected=fvsRun$uiCustomRunOps$uiHiIrregular)
     
   )
 }

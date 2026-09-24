@@ -1,5 +1,44 @@
 # HiGy.R changelog
 
+## 0.4.0 (2026-09-23)
+
+Branch ClaudeDevelopment. Files changed: fvsOL/inst/extdata/HiGy.R, fvsOL/inst/extdata/customRun_fvsRunHi.R, this file; new folder fvsOL/inst/extdata/HiGy_tests. Mortality only. No growth constant, no growth equation and no growth code path changed from 0.3.1: diff -w of the growth sections is empty, and the 40 case grid of the 0.3.1 commit through calc_ht(), calc_ddbh() and calc_dht() returns zero difference on this file.
+
+### What changed
+
+The three stage Acacia koa A.Gray mortality component replaces the tree level survivor equation as the production mortality path. It follows the structure of Chen et al. (2023).
+
+- Stage 2 is the whole stand model of Garcia (2009), alpha = gamma = 2.96, run on H_QMD with beta anchored at 0.16019053617304435 m⁻¹ and the A1 background floor (0.003 yr⁻¹ natural, 0.006 yr⁻¹ planted).
+- Stage 1 is a complementary log-log occurrence probability in ln(SDI) and origin, applied as a gate on the Stage 2 rate with the expectation over the fitting record preserved (rate divided by p_bar, multiplied by p).
+- The origin mortality level factor is applied to the gated rate: 2.64629 natural, 1 planted.
+- Stage 3 allocates the stand deaths to trees by the respecified tree level mortality equation of 16 September 2026 (Supplemental Table S12: ln DBH, relative height, ln plot BA, ln BAL), the weight the engine of record deploys, and renormalizes to the stand rate. The Eq. 5 survivor weight ('surv_eq5') and the as published relative size weight ('rel_size') stay reachable through alloc.mode.
+- Stand quantities for Stage 2 and the gate are formed on koa records only. OT records take no modelled mortality and keep their expansion factor.
+- calc_mortality() and make_ops() gain mort.engine. The default 'garcia' is the new component; 'cloglog' runs the 0.3.1 body unchanged, so every earlier projection is recoverable. make_ops() also gains irregular, mort.seed and planted.background, all off by default.
+- customRun_fvsRunHi.R exposes the engine choice and the irregular switch in the run interface, logs which engine ran, and seeds the optional irregular stage once per stand cycle.
+
+### Stage 1 constants synced
+
+The production engine carrier (engine_v102 HiGy.R) still held the 12 September 2026 Stage 1 fit. 0.4.0 carries the 16 September 2026 refit, with stand origin recoded from establishment records and thinning removal intervals censored (290 plot intervals over 54 plots).
+
+| Constant | 12 September fit | 0.4.0 |
+|---|---|---|
+| intercept | -1.8660048476490962 | -1.67856483466631 |
+| ln(SDI) | 0.18970168229495396 | 0.161863756638461 |
+| planted | 0.1833723331227772 | -0.19099361188623 |
+| p_bar (mean annual occurrence) | 0.3600578102962374 | 0.313065206550519 |
+
+The planted offset changes sign. Its 95% plot clustered interval is -2.114 to 0.222 and includes zero.
+
+### Checked
+
+The production rate path koa_step_deaths() and the Stage 3 allocation koa_alloc_frac() agree with the Python engine of record on the 18 case fixture set in HiGy_tests/ to a worst relative difference of 1.7e-14. The harness drives those functions directly on a shared H_QMD pair; calc_mortality() was checked separately by hand against the same algebra for a natural and a planted stand. The fixture set fails on 16 cases with the 12 September Stage 1 constants, on 9 natural cases with the level factor removed, and on 10 tree weight cases with the Eq. 5 weight in place of the respecified one, so it detects all three. HiGy_tests/smoke_higyonestand.R runs five years of HiGYOneStand() on a natural and a planted synthetic stand with one OT record, which keeps its expansion factor.
+
+### Open, not decided here
+
+The growth functions calc_ht(), calc_ddbh() and calc_dht() take byi and planted from a global `stand` by default, as in 0.3.1; customRun_fvsRunHi.R sets it. calc_mortality() now receives both from HiGYOneStand()'s own argument.
+
+surv_prob() on the retired cloglog path returns exp(-exp(eta)), while the Python engine reads the same fit as a complementary log-log on the alive response. The production path is unaffected because Stage 3 uses the equation only as a renormalized ordering weight whose level cancels.
+
 ## 0.3.1 (2026-09-18)
 
 Branch ClaudeDevelopment. Files changed: fvsOL/inst/extdata/HiGy.R, this file. Constants only. No equation form, no function signature and no code path changed from 0.3.0.

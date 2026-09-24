@@ -1,0 +1,75 @@
+{
+  "_note": "Shared input cases for the HiGy.R 0.4.0 fixture harness, first written 11 September 2026. ONE source of inputs read by both parity_python_050.py and parity_r_050.R so the two sides cannot drift on what they were asked. Every tree list below is synthetic and was written for this harness. It contains no plot coordinates, no plot identifiers and no observation from the FIA record.",
+  "byi": 264.0,
+  "treelists": {
+    "low": {
+      "dbh":  [5.0, 9.0, 14.0, 20.0, 28.0, 38.0, 52.0],
+      "ht":   [5.0, 8.0, 12.0, 16.0, 20.0, 24.0, 28.0],
+      "cr":   [0.45, 0.48, 0.52, 0.55, 0.58, 0.60, 0.62],
+      "expf": [60.0, 45.0, 30.0, 18.0, 10.0, 5.0, 2.0],
+      "ddbh": [0.35, 0.40, 0.42, 0.38, 0.30, 0.22, 0.15]
+    },
+    "mid": {
+      "dbh":  [5.0, 9.0, 14.0, 20.0, 28.0, 38.0, 52.0],
+      "ht":   [5.0, 8.0, 12.0, 16.0, 20.0, 24.0, 28.0],
+      "cr":   [0.45, 0.48, 0.52, 0.55, 0.58, 0.60, 0.62],
+      "expf": [300.0, 220.0, 150.0, 90.0, 50.0, 25.0, 10.0],
+      "ddbh": [0.35, 0.40, 0.42, 0.38, 0.30, 0.22, 0.15]
+    },
+    "high": {
+      "dbh":  [5.0, 9.0, 14.0, 20.0, 28.0, 38.0, 52.0],
+      "ht":   [5.0, 8.0, 12.0, 16.0, 20.0, 24.0, 28.0],
+      "cr":   [0.45, 0.48, 0.52, 0.55, 0.58, 0.60, 0.62],
+      "expf": [1400.0, 1000.0, 700.0, 420.0, 230.0, 110.0, 45.0],
+      "ddbh": [0.35, 0.40, 0.42, 0.38, 0.30, 0.22, 0.15]
+    },
+    "flat": {
+      "dbh":  [5.0, 9.0, 14.0, 20.0, 28.0, 38.0, 52.0],
+      "ht":   [5.0, 8.0, 12.0, 16.0, 20.0, 24.0, 28.0],
+      "cr":   [0.45, 0.48, 0.52, 0.55, 0.58, 0.60, 0.62],
+      "expf": [300.0, 220.0, 150.0, 90.0, 50.0, 25.0, 10.0],
+      "ddbh": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    },
+    "mid_surge": {
+      "dbh":  [5.0, 9.0, 14.0, 20.0, 28.0, 38.0, 52.0],
+      "ht":   [5.0, 8.0, 12.0, 16.0, 20.0, 24.0, 28.0],
+      "cr":   [0.45, 0.48, 0.52, 0.55, 0.58, 0.60, 0.62],
+      "expf": [300.0, 220.0, 150.0, 90.0, 50.0, 25.0, 10.0],
+      "ddbh": [20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0]
+    },
+    "dense_surge": {
+      "dbh":  [4.0, 5.0, 6.0, 7.0, 9.0, 11.0, 14.0],
+      "ht":   [4.0, 5.0, 6.0, 7.0, 8.5, 10.0, 12.0],
+      "cr":   [0.40, 0.42, 0.45, 0.48, 0.50, 0.52, 0.55],
+      "expf": [5200.0, 3800.0, 2600.0, 1500.0, 800.0, 350.0, 120.0],
+      "ddbh": [7.0, 7.0, 7.0, 7.0, 7.0, 7.0, 7.0]
+    },
+    "dense_clip": {
+      "dbh":  [4.0, 5.0, 6.0, 7.0, 9.0, 11.0, 14.0],
+      "ht":   [4.0, 5.0, 6.0, 7.0, 8.5, 10.0, 12.0],
+      "cr":   [0.40, 0.42, 0.45, 0.48, 0.50, 0.52, 0.55],
+      "expf": [5200.0, 3800.0, 2600.0, 1500.0, 800.0, 350.0, 120.0],
+      "ddbh": [11.0, 11.0, 11.0, 11.0, 11.0, 11.0, 11.0]
+    }
+  },
+  "cases": [
+    {"label": "A_low_nat_treeeq",     "treelist": "low",         "planted": 0, "alloc_mode": "tree_eq",  "sdi_mode": "from_stand", "why": "low SDI, gate scales the rate DOWN (p below p_bar), A1 natural floor scaled with it"},
+    {"label": "B_low_plt_treeeq",     "treelist": "low",         "planted": 1, "alloc_mode": "tree_eq",  "sdi_mode": "from_stand", "why": "same tree list, planted, so the gate carries the origin offset"},
+    {"label": "C_mid_nat_treeeq",     "treelist": "mid",         "planted": 0, "alloc_mode": "tree_eq",  "sdi_mode": "from_stand", "why": "mid SDI, gate close to neutral (p close to p_bar), natural"},
+    {"label": "D_mid_plt_treeeq",     "treelist": "mid",         "planted": 1, "alloc_mode": "tree_eq",  "sdi_mode": "from_stand", "why": "same, planted"},
+    {"label": "E_high_nat_treeeq",    "treelist": "high",        "planted": 0, "alloc_mode": "tree_eq",  "sdi_mode": "from_stand", "why": "high SDI, gate scales the rate UP (p above p_bar), natural"},
+    {"label": "F_high_plt_treeeq",    "treelist": "high",        "planted": 1, "alloc_mode": "tree_eq",  "sdi_mode": "from_stand", "why": "same, planted"},
+    {"label": "G_low_nat_relsize",    "treelist": "low",         "planted": 0, "alloc_mode": "rel_size", "sdi_mode": "from_stand", "why": "as-published relative-size weight on the A tree list"},
+    {"label": "H_mid_nat_relsize",    "treelist": "mid",         "planted": 0, "alloc_mode": "rel_size", "sdi_mode": "from_stand", "why": "as-published weight on the C tree list"},
+    {"label": "I_high_plt_relsize",   "treelist": "high",        "planted": 1, "alloc_mode": "rel_size", "sdi_mode": "from_stand", "why": "as-published weight on the F tree list, planted"},
+    {"label": "J_flat_nat_treeeq",    "treelist": "flat",        "planted": 0, "alloc_mode": "tree_eq",  "sdi_mode": "from_stand", "why": "no QMD growth, natural A1 floor reached then scaled UP by the gate"},
+    {"label": "K_flat_plt_treeeq",    "treelist": "flat",        "planted": 1, "alloc_mode": "tree_eq",  "sdi_mode": "from_stand", "why": "no QMD growth, planted A1 floor reached then scaled UP by the gate"},
+    {"label": "L_surge_nat_treeeq",   "treelist": "mid_surge",   "planted": 0, "alloc_mode": "tree_eq",  "sdi_mode": "from_stand", "why": "substantial stand rate, no cap binding, fitted survivor weight"},
+    {"label": "M_surge_nat_relsize",  "treelist": "mid_surge",   "planted": 0, "alloc_mode": "rel_size", "sdi_mode": "from_stand", "why": "same stand, as-published weight, so the two Stage 3 weights are compared on identical input"},
+    {"label": "N_capbind_nat_treeeq", "treelist": "dense_surge", "planted": 0, "alloc_mode": "tree_eq",  "sdi_mode": "from_stand", "why": "stand rate below the 0.95 cap but the PER-TREE cap binds, so the lambda bisection runs"},
+    {"label": "O_capbind_nat_relsize","treelist": "dense_surge", "planted": 0, "alloc_mode": "rel_size", "sdi_mode": "from_stand", "why": "same stand, as-published weight, lambda bisection runs on a wider weight spread"},
+    {"label": "P_clip_nat_treeeq",    "treelist": "dense_clip",  "planted": 0, "alloc_mode": "tree_eq",  "sdi_mode": "from_stand", "why": "gated rate hits the 0.95 clip, allocation infeasible, both sides warn and put every tree at the cap"},
+    {"label": "Q_nosdi_nat_treeeq",   "treelist": "mid",         "planted": 0, "alloc_mode": "tree_eq",  "sdi_mode": "none",       "why": "SDI not available, gate passes the rate through UNGATED on both sides"},
+    {"label": "R_ungated_nat_treeeq", "treelist": "high",        "planted": 0, "alloc_mode": "tree_eq",  "sdi_mode": "from_stand", "gate": 0, "why": "gate switched off explicitly, recovers the ungated 0.4.0 stand rate on the E tree list"}
+  ]
+}
