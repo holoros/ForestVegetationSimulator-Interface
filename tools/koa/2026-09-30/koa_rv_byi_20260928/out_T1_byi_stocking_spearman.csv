@@ -1,0 +1,19 @@
+set,variable,est,lo,hi,n
+"Eq. 1 plots, all islands (BYI > 0)",SDI,0.533,0.451,0.603,339
+"Eq. 1 plots, all islands (BYI > 0)",RD_QR,0.536,0.457,0.606,339
+"Eq. 1 plots, all islands (BYI > 0)",TPH,0.417,0.328,0.5,339
+"Eq. 1 plots, all islands (BYI > 0)",BA,0.513,0.43,0.587,339
+"Eq. 1 plots, all islands (BYI > 0)",AGBobs,0.393,0.31,0.475,339
+"Eq. 1 plots, all islands (BYI > 0)",H40,-0.148,-0.244,-0.049,339
+"Eq. 1 plots, all islands (BYI > 0)",SDI1,0.542,0.461,0.613,339
+"Eq. 1 plots, all islands (BYI > 0)",RD1,0.546,0.468,0.617,339
+"Eq. 1 plots, all islands (BYI > 0)",TPH1,0.439,0.358,0.517,339
+"Eq. 1 plots, Hawaii Island (BYI > 0)",SDI,0.536,0.445,0.622,235
+"Eq. 1 plots, Hawaii Island (BYI > 0)",RD_QR,0.531,0.432,0.618,235
+"Eq. 1 plots, Hawaii Island (BYI > 0)",TPH,0.374,0.262,0.471,235
+RF training locations incl. zeros (latest visit),SDI,0.96,0.946,0.971,582
+RF training locations incl. zeros (latest visit),RD_QR,0.959,0.945,0.97,582
+RF training locations incl. zeros (latest visit),TPH,0.945,0.927,0.959,582
+"RF training locations, BYI > 0 (latest visit)",SDI,0.517,0.418,0.607,235
+"RF training locations, BYI > 0 (latest visit)",RD_QR,0.509,0.412,0.595,235
+"RF training locations, BYI > 0 (latest visit)",TPH,0.338,0.221,0.443,235

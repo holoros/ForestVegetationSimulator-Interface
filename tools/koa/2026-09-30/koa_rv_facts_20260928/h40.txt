@@ -1,0 +1,193 @@
+koa_longterm_validation.py:4:(koa_mortality_garcia.py): project_psp runs the deployed engine by default (H40 exact from the
+koa_longterm_validation.py:221:            f"state variable {'H_QMD = exp((ln QMD %s %.4f) / %.4f)' % ('-' if P.GARCIA_ALLOM_A >= 0 else '+', abs(P.GARCIA_ALLOM_A), P.GARCIA_ALLOM_K_HD) if P.MORT_ENGINE in P.GARCIA_QMD_ENGINES else 'H40, k_top %s' % P.K_TOP}; "
+koa_longterm_validation.py:223:            f"{P.ONSET_SDI:.0f}, full lift {P.FULL_SDI:.0f}) is RETIRED, 4 September 2026; the H40 arm "
+koa_mortality_garcia.py:12:envelope (koa_params.GARCIA_BETA_ANCHORED = 0.1602). The H40 arm described
+koa_mortality_garcia.py:22:    S^alpha - (beta * H40)^gamma = constant along a stand trajectory,
+koa_mortality_garcia.py:23:    S = 100 / sqrt(N),  N in trees ha-1,  H40 in m,
+koa_mortality_garcia.py:28:    c  = S0^alpha - (beta * H40_0)^gamma
+koa_mortality_garcia.py:29:    S1 = (c + (beta * H40_1)^gamma)^(1/alpha)
+koa_mortality_garcia.py:31:    deaths = N0 - N1   (>= 0 by construction when H40_1 >= H40_0)
+koa_mortality_garcia.py:33:[ASSUMPTION A1, background floor] The form yields zero mortality when H40 does
+koa_mortality_garcia.py:60:[ASSUMPTION A2, H40 in the simulators] H40 is the expansion-factor-weighted
+koa_mortality_garcia.py:61:mean height of the 40 largest-DBH trees ha-1. h40_from_list() computes it
+koa_mortality_garcia.py:63:height is a mean over all live trees, H40 = K_TOP * HT with
+koa_mortality_garcia.py:64:K_TOP = koa_params.K_TOP, measured on the regular plot intervals (see the
+koa_mortality_garcia.py:69:end-of-year H40 is not available when the year's mortality is applied. The
+koa_mortality_garcia.py:70:Garcia step for year t is therefore driven by the REALISED H40 change over the
+koa_mortality_garcia.py:71:previous year, (H40_{t-1}, H40_t), with N_t as the starting density. Path
+koa_mortality_garcia.py:74:change its shape; in the first projected year no previous H40 exists and the
+koa_mortality_garcia.py:100:__all__ = ["garcia_step", "mort_garcia", "h40_from_list", "h40_single_cohort",
+koa_mortality_garcia.py:105:def garcia_step(N0, H40_0, H40_1, alpha=None, beta=None, gamma_over_alpha=None):
+koa_mortality_garcia.py:106:    """Garcia (2009) exact step. Returns N1, the density after H40 has moved
+koa_mortality_garcia.py:107:    from H40_0 to H40_1, given N0 at the start. Vectorised over N0 / H40.
+koa_mortality_garcia.py:109:    When H40_1 <= H40_0 the form produces no deaths and N1 = N0 is returned
+koa_mortality_garcia.py:116:    N0 = np.asarray(N0, float); H0 = np.asarray(H40_0, float); H1 = np.asarray(H40_1, float)
+koa_mortality_garcia.py:128:def mort_garcia(N0, H40_0, H40_1, planted=0, base_nat=None, base_plt=None, **kw):
+koa_mortality_garcia.py:130:        max(1 - N1/N0, base(origin)),  N1 = garcia_step(N0, H40_0, H40_1).
+koa_mortality_garcia.py:136:    N1 = np.asarray(garcia_step(N0a, H40_0, H40_1, **kw), float)
+koa_mortality_garcia.py:144:def h40_from_list(dbh, ht, expf, n_top=40.0):
+koa_mortality_garcia.py:145:    """Exact H40: EXPF-weighted mean height of the n_top largest-DBH trees ha-1
+koa_mortality_garcia.py:146:    in a tree or cohort list. Mirrors h40() in koa_mortality_3stage_FINAL.R
+koa_mortality_garcia.py:168:def h40_single_cohort(ht, k_top=None):
+koa_mortality_garcia.py:169:    """H40 of a stand represented by ONE average cohort: K_TOP * HT (A2)."""
+koa_mortality_garcia.py:170:    k = float(P.K_TOP if k_top is None else k_top)
+koa_mortality_garcia.py:177:# variable H. The spec of record drives it with H40 (arm "garcia", C2). Under
+koa_mortality_garcia.py:183:#     H_QMD = exp((ln QMD - a) / k_HD),   ln QMD = a + k_HD ln H40 fitted on the
+koa_mortality_garcia.py:186:# With H_QMD in place of H40 the limiting line N = 10000 / (beta H_QMD)^2 is a
+koa_mortality_garcia.py:191:# is max(m_garcia on H40, m_ramp) and is composed in the projectors, which own
+koa_mortality_garcia.py:225:    K_TOP * HT for the H40 arms, H_QMD for the QMD arms."""
+koa_mortality_garcia.py:228:    return h40_single_cohort(ht)
+koa_params.py:167:#   S^alpha - (beta * H40)^gamma = constant,  S = 100 / sqrt(N), N trees ha-1,
+koa_params.py:168:#   H40 in m, gamma/alpha fixed at 1 (the free ratio is unidentified on this
+koa_params.py:170:#   Stepping: c = S0^a - (b H40_0)^g; S1 = (c + (b H40_1)^g)^(1/a); N1 = 1e4/S1^2.
+koa_params.py:189:#   "garcia"              C2  Garcia on H40 = K_TOP * HT (spec of record as fitted).
+koa_params.py:193:#                             (_v82_build/numbers_C2_garcia_h40_STRESSTEST.json).
+koa_params.py:201:#   "garcia_max_ramp"     C4  max(m_garcia on H40, m_ramp).
+koa_params.py:237:GARCIA_ALLOM_A = -0.16863070512157105
+koa_params.py:238:GARCIA_ALLOM_K_HD = 1.1719473700506686
+koa_params.py:239:# ln QMD0 = a + k_HD ln H40_0, ordinary least squares on the 360 regular intervals
+koa_params.py:240:# (irreg FALSE, H40 and SDI0 present) of mortality-3stage/plot_interval_pairs_DATA.csv,
+koa_params.py:264:# Fixed, not fitted. Limiting line log N + 2 (gamma/alpha) log H40 = constant.
+koa_params.py:289:# -2 (gamma/alpha) / k_HD with k_HD the slope of ln QMD on ln H40 across the
+koa_params.py:292:K_TOP = 1.146
+koa_params.py:293:# [ASSUMPTION A2] Ratio H40 / (EXPF-weighted mean live height) used to obtain
+koa_params.py:294:# H40 from a single average cohort: H40 = K_TOP * HT_cohort. MEASURED 4
+koa_params.py:298:# h40() definition as koa_mortality_3stage_FINAL_2026-09-04.R (sort by DBH
+koa_params.py:305:# largest-DBH record carries EXPF >= 40 has H40 equal to a single stem height
+koa_params.py:306:# and a plot with equal heights has ratio 1. Multi-cohort lists compute H40
+koa_params.py:307:# exactly and do not use this constant (koa_mortality_garcia.h40_from_list).
+koa_params.py:424:                   "b1": (0.1686, 0.4813)},
+koa_projector.py:52:from koa_mortality_garcia import (mort_garcia, h40_from_list, h40_single_cohort, h_from_qmd,
+koa_projector.py:141:    #   H40 = K_TOP * HT (A2), realised H40 change over the previous year (one
+koa_projector.py:175:    h40_prev = None                                  # Garcia engine: realised H40 of the previous year
+koa_projector.py:210:            # Stage 2. State variable of the single average cohort: K_TOP * HT (A2)
+koa_projector.py:211:            # for the H40 arms, H_QMD for the QMD arms (koa_mortality_garcia.engine_state).
+koa_projector.py:216:            h40_now = engine_state(engine, HT, QMD)
+koa_projector.py:217:            rd_now = (relative_density(TPH, h40_now)
+koa_projector.py:218:                      if (engine in P.GARCIA_DD_ENGINES and np.isfinite(h40_now)) else None)
+koa_projector.py:219:            m = stand_mortality(engine, TPH, h40_prev, h40_now, planted=1 if planted else 0,
+koa_projector.py:226:            h40_prev = h40_now
+koa_projector.py:280:    2026): stand mortality from koa_mortality_garcia.mort_garcia on H40 computed
+koa_projector.py:281:    EXACTLY from the tree list (koa_mortality_garcia.h40_from_list; K_TOP * HT
+koa_projector.py:282:    only when the list holds a single record, A2), realised H40 change over the
+koa_projector.py:297:    h40_prev = None                                  # Garcia engine: realised H40 of the previous year
+koa_projector.py:328:            # Stage 2 on the tree list. H40 arms: H40 exact from the list (A2), a
+koa_projector.py:329:            # single-record list is one average cohort and takes K_TOP * HT. QMD
+koa_projector.py:332:                h40_now = float(h_from_qmd(qmd)) if qmd > 0 else float("nan")
+koa_projector.py:334:                h40_now = h40_from_list(dbh, ht, expf) if len(dbh) > 1 else h40_single_cohort(ht[0])
+koa_projector.py:335:            rd_now = (relative_density(tph, h40_now)
+koa_projector.py:336:                      if (engine in P.GARCIA_DD_ENGINES and np.isfinite(h40_now)) else None)
+koa_projector.py:337:            m_stand = stand_mortality(engine, tph, h40_prev, h40_now, planted=1 if planted else 0,
+koa_projector.py:342:            if np.isfinite(h40_now): h40_prev = h40_now
+regen_figS4S5.py:83:h40_from_list = RC.h40_from_list
+regen_figS4S5.py:84:h40_single_cohort = RC.h40_single_cohort
+regen_figS4S5.py:97:    rows = []; h40_prev = None
+regen_figS4S5.py:114:            h40_now = float(h_from_qmd(qmd)) if qmd > 0 else float("nan")
+regen_figS4S5.py:116:            h40_now = h40_from_list(dbh, ht, expf) if len(dbh) > 1 else h40_single_cohort(ht[0])
+regen_figS4S5.py:117:        rd_now = (relative_density(tph, h40_now)
+regen_figS4S5.py:118:                  if (engine in P.GARCIA_DD_ENGINES and np.isfinite(h40_now)) else None)
+regen_figS4S5.py:119:        m_garcia = RC.stand_mortality(engine, tph, h40_prev, h40_now,
+regen_figS4S5.py:122:        if np.isfinite(h40_now):
+regen_figS4S5.py:123:            h40_prev = h40_now
+regen_figS4S5.py:141:                         RD=(float(relative_density(tph, h40_now))
+regen_figS4S5.py:142:                             if np.isfinite(h40_now) else np.nan)))
+regen_t8_chunked.py:58:  G_garcia_bounded              the EVALUATED H40 arm (C2), all bounds        stress-test record
+regen_t8_chunked.py:426:    # fitted H40 beta (GARCIA_BETA, bootstrapped) is perturbed. An earlier build on 5 September
+regen_t8_chunked.py:566:        row["k_top"] = P.K_TOP if mort_engine in ("garcia", "garcia_max_ramp") else np.nan
+regenerate_uneven_aged.py:18:engine (H40 exact from the cohort list, one-year lag, A1 floor, allocation by relative size
+run_candidates.py:22:from koa_mortality_garcia import (h40_from_list, h40_single_cohort, h_from_qmd,
+run_candidates.py:86:    rows = []; h40_prev = None
+run_candidates.py:103:            h40_now = float(h_from_qmd(qmd)) if qmd > 0 else float("nan")
+run_candidates.py:105:            h40_now = h40_from_list(dbh, ht, expf) if len(dbh) > 1 else h40_single_cohort(ht[0])
+run_candidates.py:106:        rd_now = (relative_density(tph, h40_now)
+run_candidates.py:107:                  if (engine in P.GARCIA_DD_ENGINES and np.isfinite(h40_now)) else None)
+run_candidates.py:108:        m_garcia = stand_mortality(engine, tph, h40_prev, h40_now,
+run_candidates.py:111:        if np.isfinite(h40_now):
+run_candidates.py:112:            h40_prev = h40_now
+HiGy.R:51:  # Garcia (2009) step now driven by H_QMD via the new koa_h_qmd() (was H40),
+HiGy.R:56:  # standalone non-production wrapper, keeps the fitted-H40, unfloored arm by
+HiGy.R:508:# S = 100 / sqrt(N) against top height H40, is deterministic, and is the
+HiGy.R:545:# on H40. This file now implements that arm as the production default: the
+HiGy.R:547:# not H40), and the A1 background floor (0.003 yr-1 natural, 0.006 yr-1
+HiGy.R:559:# own explicit defaults (beta = KOA_GARCIA_BETA = 0.117, H40, no floor) and so
+HiGy.R:560:# still reproduces the 8 September 2026 numbers exactly; it is the fitted-H40
+HiGy.R:561:# arm kept on hand for comparison. koa_h40() is unchanged and still used by
+HiGy.R:629:KOA_GARCIA_BETA    = 0.117   # m-1, limiting line S = beta * H40
+HiGy.R:640:KOA_GARCIA_ALLOM_A       = -0.16863070512157105 # H_QMD allometry intercept
+HiGy.R:641:KOA_GARCIA_ALLOM_K_HD    = 1.1719473700506686   # H_QMD allometry slope
+HiGy.R:716:#' Top height H40 from a tree list
+HiGy.R:718:#' Expansion-factor-weighted mean height of the 40 largest-diameter live trees
+HiGy.R:721:#' weight that completes 40 trees ha-1, so H40 is a continuous function of the
+HiGy.R:729:#' @return Numeric: H40 (m), or NA if no live tree carries a height.
+HiGy.R:730:koa_h40 = function(dbh, ht, expf) {
+HiGy.R:751:#' of H40. Fitted by ordinary least squares on the same 360 regular plot
+HiGy.R:756:#' @param a Numeric: allometry intercept, -0.16863070512157105 as deployed.
+HiGy.R:757:#' @param k_hd Numeric: allometry slope, 1.1719473700506686 as deployed.
+HiGy.R:853:#' S = 100 / sqrt(N) the mean spacing in m and H the top height H40 in m. The
+HiGy.R:858:#'   S1^alpha = S0^alpha - (beta H40_0)^alpha + (beta H40_1)^alpha
+HiGy.R:865:#' component. No regular mortality occurs when H40 does not increase, since
+HiGy.R:867:#' limiting line is S = beta H40, equivalently log N + 2 log H40 constant, which
+HiGy.R:872:#' planted stands against 2.2% observed over 41 intervals, because planted H40
+HiGy.R:887:#' @param H40_0 Numeric: top height (m) at the start of the step.
+HiGy.R:888:#' @param H40_1 Numeric: top height (m) FVS-HI projects for the end of the step.
+HiGy.R:892:#'   beta = KOA_GARCIA_BETA (0.117) for the fitted H40 arm.
+HiGy.R:905:koa_regular_survival = function(N0, H40_0, H40_1, origin = "Natural",
+HiGy.R:911:            is.finite(H40_0), is.finite(H40_1), H40_0 > 0, alpha > 0, beta > 0)
+HiGy.R:915:                           N_limit = 10000 / (beta * H40_1)^2))
+HiGy.R:916:  H1 = max(H40_1, H40_0)                  # no regular mortality without height growth
+HiGy.R:920:  # the general expression on H1 == H40_0 subtracts and then re-adds the same
+HiGy.R:926:  if (H1 <= H40_0) {
+HiGy.R:929:    inner = S0^alpha - (beta * H40_0)^alpha + (beta * H1)^alpha
+HiGy.R:1264:#' @param tree_df Dataframe: dbh (cm), expf (trees ha-1) and, when H40_0 is not
+HiGy.R:1266:#' @param H40_0 Numeric: top height at step start (m), computed from tree_df if NA.
+HiGy.R:1267:#' @param H40_1 Numeric: top height projected for step end (m). Required.
+HiGy.R:1274:#'   beta defaults here to KOA_GARCIA_BETA (0.117, the fitted H40 arm), not
+HiGy.R:1281:#'   preserve the fitted-H40 arm's original unfloored behaviour.
+HiGy.R:1292:koa_mortality_step = function(tree_df, H40_0 = NA, H40_1, origin = "Natural", yip = 1,
+HiGy.R:1302:  if (is.na(H40_0)) {
+HiGy.R:1303:    if (!"ht" %in% names(td)) stop("supply H40_0 or a ht column")
+HiGy.R:1304:    H40_0 = koa_h40(td$dbh, td$ht, td$expf)
+HiGy.R:1307:  reg = koa_regular_survival(N0, H40_0, H40_1, origin, alpha, beta,
+HiGy.R:1330:       stand = data.frame(N0 = N0, N1 = N0 - deaths, H40_0 = H40_0, H40_1 = H40_1,
+HiGy.R:1348:#' @param h40_0 Numeric: top height (m) at the step start.
+HiGy.R:1349:#' @param h40_1 Numeric: top height (m) projected for the step end.
+HiGy.R:1371:koa_step_deaths = function(n0, h40_0, h40_1, planted = 0, yip = 1,
+HiGy.R:1375:  h0 = as.numeric(h40_0)[1]
+HiGy.R:1376:  h1 = as.numeric(h40_1)[1]
+HiGy.R:1499:#' WHY H40 AND NOT topht. koa_h40() is the expansion-factor-weighted mean height
+HiGy.R:1500:#' of the 40 largest-DIAMETER trees ha-1, which is the manuscript Eq. 1
+HiGy.R:1651:                    # ends of the step exactly as h40.0/h40.1 were.
+HiGy.R:1656:                    h40.0   = koa_h40(dbh[live.koa],
+HiGy.R:1659:                    h40.1   = koa_h40(dbh[live.koa] + ddbh.step[live.koa],
+HiGy.R:1662:                    # h40.0/h40.1 are kept above for diagnostics and are no
+HiGy.R:2154:# ha-1 and it is used by the increment equations. It is NOT the H40 the Garcia
+HiGy.R:2155:# step runs on, which is koa_h40(), the expansion-factor-weighted mean height of
+HiGy.R:2156:# the 40 largest-DIAMETER trees ha-1. The two are different quantities and
+koa_mortality_selftest_2026-09-11.R:15:# section-3 in-sample check still exercise the fitted-H40 arm on purpose
+koa_mortality_selftest_2026-09-11.R:16:# (KOA_GARCIA_BETA, floor off), since that is the arm the underlying H40 plot
+koa_mortality_selftest_2026-09-11.R:112:chk(abs(KOA_GARCIA_ALLOM_A - (-0.16863070512157105)) < 1e-15,
+koa_mortality_selftest_2026-09-11.R:114:chk(abs(KOA_GARCIA_ALLOM_K_HD - 1.1719473700506686) < 1e-15,
+koa_mortality_selftest_2026-09-11.R:129:# Pinned to the fitted H40 arm explicitly (beta = KOA_GARCIA_BETA, floor off)
+koa_mortality_selftest_2026-09-11.R:136:cat("\n1. Cycle-length invariance of the Garcia step (fitted H40 arm)\n")
+koa_mortality_selftest_2026-09-11.R:143:cat(sprintf("   one 10-year step H40 10 to 20 m from 1,500 trees ha-1: %.10f\n", one))
+koa_mortality_selftest_2026-09-11.R:149:    "no regular mortality when H40 is flat (fitted arm, floor off)")
+koa_mortality_selftest_2026-09-11.R:151:    "no regular mortality when H40 falls (fitted arm, floor off)")
+koa_mortality_selftest_2026-09-11.R:156:cat(sprintf("   stand started at 99.9%% of the line at H40 15 m: N1 = %.1f, line at H40 22 m = %.1f\n",
+koa_mortality_selftest_2026-09-11.R:264:  # Pinned to the fitted H40 arm explicitly: this table's H40_0/H40_1 columns
+koa_mortality_selftest_2026-09-11.R:265:  # are H40, not H_QMD, and koa_regular_survival()'s own default changed to
+koa_mortality_selftest_2026-09-11.R:268:  reg <- p[!p$irreg & !is.na(p$H40_0) & !is.na(p$H40_1) & p$H40_0 > 0 & p$H40_1 > 0 & !is.na(p$SDI0), ]
+koa_mortality_selftest_2026-09-11.R:271:               reg$N0, reg$H40_0, reg$H40_1)
+koa_mortality_selftest_2026-09-11.R:276:  beneath <- mean(100 / sqrt(reg$N0) >= KOA_GARCIA_BETA * reg$H40_0)
+koa_mortality_selftest_2026-09-11.R:277:  cat(sprintf("   share of regular (N, H40) pairs beneath the limiting line: %.4f\n", beneath))
+koa_mortality_selftest_2026-09-11.R:281:  # pass/fail check. This substitutes the anchored beta into the H40
+koa_mortality_selftest_2026-09-11.R:284:  # calibrated on H_QMD is run on H40, not the anchored arm itself (which
+koa_mortality_selftest_2026-09-11.R:290:               reg$N0, reg$H40_0, reg$H40_1)
+koa_mortality_selftest_2026-09-11.R:291:  cat(sprintf("\n   BETA SENSITIVITY ON H40 (frame mismatch, reported not asserted). Fitted beta %.6f predicts %.0f regular deaths;\n",
+koa_mortality_selftest_2026-09-11.R:293:  cat(sprintf("   the anchored beta %.17f run on H40 (NOT its own frame) predicts %.0f, a ratio of %.3f.\n",
+koa_mortality_selftest_2026-09-11.R:338:  # step on H_QMD (via koa_h_qmd()), ported 9 September 2026, not H40.
+koa_mortality_selftest_2026-09-11.R:382:h0_old <- koa_h40(s1$dbh, s1$ht, s1$expf); h1_old <- koa_h40(s1$dbh + s1$ddbh, s1$ht + s1$dht, s1$expf)
+koa_mortality_selftest_2026-09-11.R:385:cat(sprintf("   plot 1: old fitted-H40 arm (as koa_step_deaths defaulted before this port) would give %.10f;\n", d_old))
+koa_mortality_selftest_2026-09-11.R:387:chk(abs(d_old - d_new) > 1e-9, "production calc_mortality() output differs from the pre-port fitted-H40 arm")
+koa_mortality_selftest_2026-09-11.R:437:big <- koa_mortality_step(tl, H40_1 = 30, origin = "Natural", yip = 10)
+koa_mortality_selftest_2026-09-11.R:438:stp <- tl; tot <- 0; hs <- seq(koa_h40(tl$dbh, tl$ht, tl$expf), 30, length.out = 11)
+koa_mortality_selftest_2026-09-11.R:439:for (i in 2:11) { r <- koa_mortality_step(stp, H40_0 = hs[i - 1], H40_1 = hs[i], yip = 1)

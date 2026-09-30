@@ -1,0 +1,43 @@
+engine,name,old,new
+engine_refit_live,DDBH_b0,-1.1509411,-1.24133867520041
+engine_refit_live,DHT_b0,-3.6114059,-4.20846479373139
+engine_refit_live,DDBH_b1,0.3371168,0.190602964518407
+engine_refit_live,DHT_b1,1.1203441,0.127341964090196
+engine_refit_live,DDBH_b2,-0.0143456,-0.0721881723233038
+engine_refit_live,DHT_b2,-0.1154809,-0.0783282079598022
+engine_refit_live,DDBH_b3,-0.0017722,-0.0031398098242683
+engine_refit_live,DHT_b3,-0.0009067,-0.0001657957749007
+engine_refit_live,DDBH_b4,-0.4306515,-0.165255906101284
+engine_refit_live,DHT_b4,-0.1332027,-0.0948556357763864
+engine_refit_live,DDBH_b5,1.2809352,-0.482225879489019
+engine_refit_live,DHT_b5,-0.5250905,0.0135578922061402
+engine_refit_live,DDBH_b6,-0.0176013,0.0321111102650073
+engine_refit_live,DHT_b6,0.0379597,0.0415518858435687
+engine_refit_live,DDBH_b7,-0.0176238,-0.0186909105480866
+engine_refit_live,DHT_b7,-0.124088,-0.0783668907731241
+engine_refit_live,DDBH_b8,0.3045245,0.303723116349577
+engine_refit_live,DHT_b8,0.2232825,0.56843770202516
+engine_refit_live,DDBH_b9,0.4103534,0.539211784971744
+engine_refit_live,DHT_b9,1.0681935,1.74383235789768
+engine_refit_live,CAL_DDBH_natural,"(0.40548, 1.43606)",0.3298530831961119
+engine_refit_live,CAL_DDBH_planted,"(0.40548, 1.43606)",0.7667438465768736
+engine_refit_live,CAL_DHT_natural,"(0.51917, 2.64739)",0.9724776315075429
+engine_refit_live,CAL_DHT_planted,"(0.51917, 2.64739)",1.0068662908054586
+engine_refit_live,CAL_DDBH_SE_LOG_natural,"(0.07956, 0.05225)",0.07956
+engine_refit_live,CAL_DDBH_SE_LOG_planted,"(0.07956, 0.05225)",0.05225
+engine_refit_live,CAL_DHT_SE_LOG_natural,"(0.14862, 0.04807)",0.14862
+engine_refit_live,CAL_DHT_SE_LOG_planted,"(0.14862, 0.04807)",0.04807
+engine_refit_live,CF_DDBH_MARGINAL,1.36869,1.49422531146822
+engine_refit_live,CF_DHT,1.030,1.08269427389967
+engine_refit_live,MORT_CAL_natural_placeholder,"(2.64629, 1.0)",1.0
+engine_refit_live,MORT_CAL_SE_LOG_natural_placeholder,"(0.18172, 0.0)",0.19069
+engine_refit_live,BAL_COHORT_LIN_B_a0,"(0.5263682685435241, -0.06766300172998005)",0.497797671466119
+engine_refit_live,BAL_COHORT_LIN_B_a1,"(0.5263682685435241, -0.06766300172998005)",-0.0151492746595016
+engine_refit_live,HiGy_cf_ddbh,1.026,1.49422531146822
+engine_refit_live,HiGy_cf_dht,1.03,1.08269427389967
+engine_refit_live,HiGy_ddbh_planted_trunc_cm,40,45
+engine_refit_live,HiGy_dht_planted_term,"sqrt(planted*pmin(ht,20))","planted*pmin(ht,20)"
+engine_refit_live,HiGy_CAL_DDBH,"none (1,1)","(0.32985, 0.76674)"
+engine_refit_live,HiGy_CAL_DHT,"none (1,1)","(0.97248, 1.00687)"
+engine_refit_live,HiGy_ddbh.parm_site,record vector (-2.4704737 ...),refit b0..b9
+engine_refit_live,HiGy_dht.parm_site,record vector (-3.382162 ...),refit b0..b9

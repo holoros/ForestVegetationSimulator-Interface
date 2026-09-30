@@ -1,0 +1,93 @@
+/home/aaron/jobs/koa_v102_20260918/numbers_v99.json:654:  "source": "05_refit_trajectories_with_mai_pai.csv; observed maxima QMD 69.7, BA 76.06, SDI 1,453"
+/home/aaron/jobs/koa_v102_20260918/numbers_v99.json:1883:    "byi_mean": 159.380112379191,
+/home/aaron/jobs/koa_v102_20260918/track2/engine_v102_garcia2047/koa_params.py:178:# _v82_build/hybrid_candidates_2026-09-04.md): no BAPH above 76.06 m2 ha-1 and no SDI
+/home/aaron/jobs/koa_v102_20260918/track2/engine_v102_garcia2047/koa_params.py:1513:# mean diameter ever measured of 69.68 cm. The guard is set at the edge of that
+/home/aaron/jobs/koa_v102_20260918/track2/engine_v102_garcia2047/run_candidates.py:36:OBS = dict(QMD=69.6786879496591, BAPH=76.0621351844664, SDI=1453.46727427237,
+/home/aaron/jobs/koa_v102_20260918/track2/engine_v102/koa_params.py:178:# _v82_build/hybrid_candidates_2026-09-04.md): no BAPH above 76.06 m2 ha-1 and no SDI
+/home/aaron/jobs/koa_v102_20260918/track2/engine_v102/koa_params.py:1513:# mean diameter ever measured of 69.68 cm. The guard is set at the edge of that
+/home/aaron/jobs/koa_v102_20260918/track2/engine_v102/run_candidates.py:36:OBS = dict(QMD=69.6786879496591, BAPH=76.0621351844664, SDI=1453.46727427237,
+/home/aaron/jobs/koa_v102_20260918/track2/engine_v102_inc/koa_params.py:178:# _v82_build/hybrid_candidates_2026-09-04.md): no BAPH above 76.06 m2 ha-1 and no SDI
+/home/aaron/jobs/koa_v102_20260918/track2/engine_v102_inc/koa_params.py:1513:# mean diameter ever measured of 69.68 cm. The guard is set at the edge of that
+/home/aaron/jobs/koa_v102_20260918/track2/engine_v102_inc/run_candidates.py:36:OBS = dict(QMD=69.6786879496591, BAPH=76.0621351844664, SDI=1453.46727427237,
+/home/aaron/jobs/koa_v102_20260918/track2/engine_parityfix/koa_params.py:178:# _v82_build/hybrid_candidates_2026-09-04.md): no BAPH above 76.06 m2 ha-1 and no SDI
+/home/aaron/jobs/koa_v102_20260918/track2/engine_parityfix/koa_params.py:1513:# mean diameter ever measured of 69.68 cm. The guard is set at the edge of that
+/home/aaron/jobs/koa_v102_20260918/track2/engine_parityfix/run_candidates.py:36:OBS = dict(QMD=69.6786879496591, BAPH=76.0621351844664, SDI=1453.46727427237,
+/home/aaron/jobs/koa_v102_20260918/track2/engine_calibcheck2/koa_params.py:178:# _v82_build/hybrid_candidates_2026-09-04.md): no BAPH above 76.06 m2 ha-1 and no SDI
+/home/aaron/jobs/koa_v102_20260918/track2/engine_calibcheck2/koa_params.py:1513:# mean diameter ever measured of 69.68 cm. The guard is set at the edge of that
+/home/aaron/jobs/koa_v102_20260918/track2/engine_calibcheck2/run_candidates.py:36:OBS = dict(QMD=69.6786879496591, BAPH=76.0621351844664, SDI=1453.46727427237,
+/home/aaron/jobs/koa_v102_20260918/track2/engine_calibcheck/koa_params.py:178:# _v82_build/hybrid_candidates_2026-09-04.md): no BAPH above 76.06 m2 ha-1 and no SDI
+/home/aaron/jobs/koa_v102_20260918/track2/engine_calibcheck/koa_params.py:1513:# mean diameter ever measured of 69.68 cm. The guard is set at the edge of that
+/home/aaron/jobs/koa_v102_20260918/track2/engine_calibcheck/run_candidates.py:36:OBS = dict(QMD=69.6786879496591, BAPH=76.0621351844664, SDI=1453.46727427237,
+/home/aaron/jobs/koa_v102_20260918/track2/engine_deployed/koa_params.py:178:# _v82_build/hybrid_candidates_2026-09-04.md): no BAPH above 76.06 m2 ha-1 and no SDI
+/home/aaron/jobs/koa_v102_20260918/track2/engine_deployed/koa_params.py:1513:# mean diameter ever measured of 69.68 cm. The guard is set at the edge of that
+/home/aaron/jobs/koa_v102_20260918/track2/engine_deployed/run_candidates.py:36:OBS = dict(QMD=69.6786879496591, BAPH=76.0621351844664, SDI=1453.46727427237,
+/home/aaron/jobs/koa_v102_20260918/track2/engine_v102_alt/koa_params.py:178:# _v82_build/hybrid_candidates_2026-09-04.md): no BAPH above 76.06 m2 ha-1 and no SDI
+/home/aaron/jobs/koa_v102_20260918/track2/engine_v102_alt/koa_params.py:1513:# mean diameter ever measured of 69.68 cm. The guard is set at the edge of that
+/home/aaron/jobs/koa_v102_20260918/track2/engine_v102_alt/run_candidates.py:36:OBS = dict(QMD=69.6786879496591, BAPH=76.0621351844664, SDI=1453.46727427237,
+/home/aaron/jobs/koa_v102_20260918/track3/numbers_v102.json:654:  "source": "track3/s05/v102/05_refit_trajectories_with_mai_pai.csv; observed maxima QMD 69.7, BA 76.06, SDI 1,453"
+/home/aaron/jobs/koa_v102_20260918/track3/numbers_v102.json:1883:    "byi_mean": 159.380112379191,
+/home/aaron/jobs/koa_v102_20260918/track3/numbers_v102.json:7150:   "planted|Thinned to 500 at age 8|40": 69.68396990374818,
+/home/aaron/jobs/koa_v102_20260918/track3/numbers_v102.json:7151:   "planted|Thinned to 500 at age 8|100": 69.68396990374818,
+/home/aaron/jobs/koa_v102_20260918/track3/logs/koa_numbers_v102.log:37:Uneven-aged natural Medium (264)   40 36.88   29.17   66.04 16.13 188.76  106.54  347.44     4.72       6.68  NaN  45.25 25.54  83.28      False
+/home/aaron/jobs/koa_v102_20260918/track3/logs/koa_numbers_v102.log:39:Uneven-aged natural Medium (264)  100 64.63   53.77   86.95 22.15 399.70  290.71  531.97     4.00       6.66  NaN  95.81 69.68 127.51      False
+/home/aaron/jobs/koa_v102_20260918/track3/engine_v102_nocal/koa_params.py:178:# _v82_build/hybrid_candidates_2026-09-04.md): no BAPH above 76.06 m2 ha-1 and no SDI
+/home/aaron/jobs/koa_v102_20260918/track3/engine_v102_nocal/koa_params.py:1513:# mean diameter ever measured of 69.68 cm. The guard is set at the edge of that
+/home/aaron/jobs/koa_v102_20260918/track3/engine_v102_nocal/run_candidates.py:36:OBS = dict(QMD=69.6786879496591, BAPH=76.0621351844664, SDI=1453.46727427237,
+/home/aaron/jobs/koa_v102_20260918/track3/koa_numbers_v102.py:79:put("envelope_traj_max", env, "track3/s05/v102/05_refit_trajectories_with_mai_pai.csv; observed maxima QMD 69.7, BA 76.06, SDI 1,453")
+/home/aaron/jobs/koa_v102_20260918/gen/fig_v102.log:43:42        OBS                   OBS_BAPH 76.0621352
+/home/aaron/jobs/koa_v102_20260918/gen/superseded/fig4_v102.R:18:OBS_BA_MAX  <- 76.06                             # largest observed BAPH, m2 ha-1
+/home/aaron/jobs/koa_zenodo_180/stage_v190/DEPOSIT_CHANGELOG.md:758:1 to 2, upper basal area limits above 76.06 m² ha⁻¹, 3 to 4, which was not in the audit's list and
+/home/aaron/jobs/koa_zenodo_180/stage_v190/DEPOSIT_CHANGELOG.md:1784:69.68 cm, while the projection reaches 149.5 cm at age 200. Eighteen of 30 rows are above
+/home/aaron/jobs/koa_zenodo_180/stage_v190/DEPOSIT_CHANGELOG.md:1884:14.75 m rather than by 4.44 m. The other anchors are quadratic mean diameter 69.68 cm, basal area
+/home/aaron/jobs/koa_zenodo_180/stage_v190/DEPOSIT_CHANGELOG.md:1885:76.06 m2 ha-1, stand density index 1453.47, and trees per hectare with a 99th percentile of 4,836
+/home/aaron/jobs/koa_zenodo_180/stage_v190/DEPOSIT_CHANGELOG.md:1893:102.24 cm against an observed maximum of 69.68 cm, the worst exceeding it by 32.56 cm.
+/home/aaron/jobs/koa_zenodo_180/stage_v190/DEPOSIT_CHANGELOG.md:1908:of 71.76 to 102.24 cm at age 40 against an observed maximum plot year value of 69.68 cm, so
+/home/aaron/jobs/koa_zenodo_180/stage_v190/DEPOSIT_CHANGELOG.md:2032:**The magnitude anchor was age marginal.** The operative anchor of 69.68 cm for quadratic mean
+/home/aaron/jobs/koa_zenodo_180/stage_v190/DEPOSIT_CHANGELOG.md:2750:constraint K2) minus the observed maximum anchor (69.68 cm), both external to the artifact;
+/home/aaron/jobs/koa_zenodo_180/stage_v190/DEPOSIT_CHANGELOG.md:2824:(exceeds the 69.68 cm ever-measured QMD in 2.3 percent of 300 parameter draws against
+/home/aaron/jobs/koa_zenodo_180/stage_v190/DEPOSIT_CHANGELOG.md:2846:has ZERO in-support exceedances of the 69.68 cm anchor (worst upper limit 58.6 cm) and
+/home/aaron/jobs/koa_zenodo_180/stage_v190/DEPOSIT_CHANGELOG.md:3329:  reproduced exactly: 547 plot-years with at least five stems, BAPH max 76.06, SDI max 1453.47, QMD max
+/home/aaron/jobs/koa_zenodo_180/stage_v190/DEPOSIT_CHANGELOG.md:3330:  69.68, mean height max 23.83, stand age max 52 and median 6.2, age-40 band n = 2 with TPH 173.6).
+/home/aaron/jobs/koa_zenodo_180/stage_v190/DEPOSIT_CHANGELOG.md:3331:  v82 Table 8: 17 of 24 BAPH point estimates and 23 of 24 upper limits exceed 76.06; 13 of 24 SDI
+/home/aaron/jobs/koa_zenodo_180/stage_v190/DEPOSIT_CHANGELOG.md:3332:  points exceed 1453.47 (max 2,855); 3 QMD upper limits exceed 69.68, none at age 40; all six age-40
+/home/aaron/jobs/koa_zenodo_180/stage_v190/DEPOSIT_CHANGELOG.md:3366:above the observed maximum 76.06 m2 ha-1 or SDI above 1,453.47 at ages within the observed 52 yr;
+/home/aaron/jobs/koa_zenodo_180/stage_v190/README.md:618:0.057 to 0.159). Hard gates, in order: no even-aged BAPH above 76.06 m2 ha-1 and no SDI above 1,453.47
+/home/aaron/jobs/koa_zenodo_180/stage_v190/README.md:651:near 70 m2 ha-1 at age 40 to 60. No even-aged point estimate exceeds 76.06 m2 ha-1 (maximum 71.5) or
+/home/aaron/jobs/koa_zenodo_180/stage_v190/README.md:653:76.06, all at ages 60 and 100, beyond the record), SDI at most 1,105. Harness-cap cells: 13 upper
+/home/aaron/jobs/koa_zenodo_180/stage_v190/README.md:717:m2 ha-1 by age 60 to 100, against an observed plot-year maximum of 76.06 m2 ha-1; stand density index
+/home/aaron/jobs/koa_zenodo_180/stage_v190/README.md:926:| `envelope_check_v82.py`, `envelope_check_v82.json` | Observed-envelope anchors recomputed from AK_TREE.csv (76.06 m2 ha-1, 1453.47, 69.68 cm, age-matched bands) and the exceedance counts of the regenerated tables, added 4 September 2026 |
+/home/aaron/jobs/koa_zenodo_180/stage_v190/REPAIR_LOG_2026-09-06e.md:205:| Upper basal area limits above 76.06 m² ha⁻¹ | `numbers_of_record_v82.json` | 3 | 4 |
+/home/aaron/jobs/koa_zenodo_180/stage_v190/SOURCE_OF_TRUTH.md:130:| Upper basal area limits above 76.06 m² ha⁻¹ | 2 | 4 |
+/home/aaron/jobs/koa_zenodo_180/stage_v190/SOURCE_OF_TRUTH.md:135:69.6787 cm, a maximum basal area of 76.0621 m² ha⁻¹ and a maximum stand density index of
+/home/aaron/jobs/koa_zenodo_180/stage_v190/envelope_check_v82.py:4:caption and Section 3.4 carry (76.06 m2 ha-1, 1453.47, 69.68 cm, the age-40
+/home/aaron/jobs/koa_zenodo_180/stage_v190/envelope_check_v82.py:104:            "BAPH_pt_over_76.06_rows": int(cmp.BAPH_pt_over_marginal_max.sum()),
+/home/aaron/jobs/koa_zenodo_180/stage_v190/envelope_check_v82.py:105:            "BAPH_hi_over_76.06_rows": int(cmp.BAPH_hi_over_marginal_max.sum()),
+/home/aaron/jobs/koa_zenodo_180/stage_v190/envelope_check_v82.py:107:            "QMD_hi_over_69.68_rows": int(cmp.QMD_hi_over_marginal_max.sum()),
+/home/aaron/jobs/koa_zenodo_180/stage_v190/envelope_check_v82.py:108:            "QMD_hi_over_69.68_age40_rows": int(a40.QMD_hi_over_marginal_max.sum()),
+/home/aaron/jobs/koa_zenodo_180/stage_v190/envelope_check_v82.py:121:            "BAPH_pt_over_76.06_rows": int((u.BAPH > A["BAPH"]["max"] + TOL).sum()),
+/home/aaron/jobs/koa_zenodo_180/stage_v190/envelope_check_v82.py:123:            "QMD_hi_over_69.68_rows": int((u.QMD_hi > A["QMD"]["max"] + TOL).sum()),
+/home/aaron/jobs/koa_zenodo_180/stage_v190/koa_params.py:178:# _v82_build/hybrid_candidates_2026-09-04.md): no BAPH above 76.06 m2 ha-1 and no SDI
+/home/aaron/jobs/koa_zenodo_180/stage_v190/koa_params.py:1513:# mean diameter ever measured of 69.68 cm. The guard is set at the edge of that
+/home/aaron/jobs/koa_zenodo_180/stage_v190/make_numbers_of_record.py:172:    # The existing keys embed the anchor ROUNDED to two decimals (QMD_hi_over_69.68_rows)
+/home/aaron/jobs/koa_zenodo_180/stage_v190/make_table8_from_variants.py:90:# against an observed maximum plot-year QMD of 69.68 cm on the 547 plot-years in
+/home/aaron/jobs/koa_zenodo_180/stage_v190/run_candidates.py:36:OBS = dict(QMD=69.6786879496591, BAPH=76.0621351844664, SDI=1453.46727427237,
+/home/aaron/jobs/koa_zenodo_180/stage_v190/envelope_check_v82.json:46:   "max": 76.0621351844664,
+/home/aaron/jobs/koa_zenodo_180/stage_v190/envelope_check_v82.json:54:     "max": 76.0621351844664
+/home/aaron/jobs/koa_zenodo_180/stage_v190/envelope_check_v82.json:59:     "max": 76.0621351844664
+/home/aaron/jobs/koa_zenodo_180/stage_v190/envelope_check_v82.json:64:     "max": 76.0621351844664
+/home/aaron/jobs/koa_zenodo_180/stage_v190/envelope_check_v82.json:69:     "max": 76.0621351844664
+/home/aaron/jobs/koa_zenodo_180/stage_v190/envelope_check_v82.json:898:  "BAPH_pt_over_76.06_rows": 0,
+/home/aaron/jobs/koa_zenodo_180/stage_v190/envelope_check_v82.json:899:  "BAPH_hi_over_76.06_rows": 2,
+/home/aaron/jobs/koa_zenodo_180/stage_v190/envelope_check_v82.json:901:  "QMD_hi_over_69.68_rows": 6,
+/home/aaron/jobs/koa_zenodo_180/stage_v190/envelope_check_v82.json:902:  "QMD_hi_over_69.68_age40_rows": 1,
+/home/aaron/jobs/koa_zenodo_180/stage_v190/envelope_check_v82.json:910:  "BAPH_pt_over_76.06_rows": 4,
+/home/aaron/jobs/koa_zenodo_180/stage_v190/envelope_check_v82.json:912:  "QMD_hi_over_69.68_rows": 8,
+/home/aaron/jobs/koa_zenodo_180/stage_v190/numbers_of_record_v102.json:654:  "source": "track3/s05/v102/05_refit_trajectories_with_mai_pai.csv; observed maxima QMD 69.7, BA 76.06, SDI 1,453"
+/home/aaron/jobs/koa_zenodo_180/stage_v190/numbers_of_record_v102.json:1883:    "byi_mean": 159.380112379191,
+/home/aaron/jobs/koa_zenodo_180/stage_v190/numbers_of_record_v102.json:7150:   "planted|Thinned to 500 at age 8|40": 69.68396990374818,
+/home/aaron/jobs/koa_zenodo_180/stage_v190/numbers_of_record_v102.json:7151:   "planted|Thinned to 500 at age 8|100": 69.68396990374818,
+/home/aaron/jobs/koa_selfthin_qr_20260927/out/01_data_envelope.log:7:1:          547 69.67869 76.06214 1453.467     0     0     0
+/home/aaron/jobs/koa_selfthin_qr_20260927/out/01_data_envelope.log:18: 3:     Mauka Natural     4     4     1   69.68  118.7
+/home/aaron/jobs/koa_selfthin_qr_20260927/out/01_data_envelope.log:22: 7:   KMR CAR Planted    19    19     1   59.38  743.4
+/home/aaron/jobs/koa_selfthin_qr_20260927/01_data_envelope.R:13:REC <- list(QMD = 69.6786879496591, BAPH = 76.0621351844664, SDI = 1453.46727427237,
+/home/aaron/jobs/koa_selfthin_qr_20260927/RESULT.md:30:plot-years with QMD 69.6787 cm, basal area 76.0621 m2 ha-1 and SDI 1453.4673, identical to the values of record

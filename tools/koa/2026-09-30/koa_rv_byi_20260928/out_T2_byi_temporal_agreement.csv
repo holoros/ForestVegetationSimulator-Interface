@@ -1,0 +1,29 @@
+comparison,n,mean_BYI,stat,est,lo95,hi95,lo90,hi90,region,tost_mean,tost_slope
+Route 1: first vs second measurement (shape fixed at archived),225,437.784,pear,0.92,0.828,0.961,0.843,0.956,109.446,TRUE,TRUE
+Route 1: first vs second measurement (shape fixed at archived),225,437.784,spear,0.828,0.748,0.886,0.764,0.879,109.446,TRUE,TRUE
+Route 1: first vs second measurement (shape fixed at archived),225,437.784,md,21.064,10.754,31.223,12.653,29.457,109.446,TRUE,TRUE
+Route 1: first vs second measurement (shape fixed at archived),225,437.784,mdp,0.048,0.025,0.071,0.029,0.067,109.446,TRUE,TRUE
+Route 1: first vs second measurement (shape fixed at archived),225,437.784,ccc,0.913,0.82,0.956,0.836,0.95,109.446,TRUE,TRUE
+Route 1: first vs second measurement (shape fixed at archived),225,437.784,slope,0.964,0.84,1.026,0.863,1.019,109.446,TRUE,TRUE
+Route 1: first vs second measurement (shape fixed at archived),225,437.784,within25,0.88,0.836,0.92,0.844,0.916,109.446,TRUE,TRUE
+Route 1: archived (both measurements) vs first only,225,443.963,pear,0.96,0.923,0.978,0.928,0.976,110.991,TRUE,FALSE
+Route 1: archived (both measurements) vs first only,225,443.963,spear,0.94,0.915,0.957,0.918,0.954,110.991,TRUE,FALSE
+Route 1: archived (both measurements) vs first only,225,443.963,md,-33.423,-43.862,-23.937,-41.89,-25.228,110.991,TRUE,FALSE
+Route 1: archived (both measurements) vs first only,225,443.963,mdp,-0.075,-0.095,-0.055,-0.092,-0.058,110.991,TRUE,FALSE
+Route 1: archived (both measurements) vs first only,225,443.963,ccc,0.921,0.879,0.939,0.887,0.936,110.991,TRUE,FALSE
+Route 1: archived (both measurements) vs first only,225,443.963,slope,0.753,0.713,0.811,0.722,0.801,110.991,TRUE,FALSE
+Route 1: archived (both measurements) vs first only,225,443.963,within25,0.92,0.884,0.956,0.889,0.951,110.991,TRUE,FALSE
+Route 1: archived (both measurements) vs second only,225,454.495,pear,0.961,0.923,0.98,0.928,0.978,113.624,TRUE,TRUE
+Route 1: archived (both measurements) vs second only,225,454.495,spear,0.918,0.876,0.946,0.885,0.943,113.624,TRUE,TRUE
+Route 1: archived (both measurements) vs second only,225,454.495,md,-12.359,-21.997,-3.24,-20.318,-4.486,113.624,TRUE,TRUE
+Route 1: archived (both measurements) vs second only,225,454.495,mdp,-0.027,-0.047,-0.007,-0.043,-0.01,113.624,TRUE,TRUE
+Route 1: archived (both measurements) vs second only,225,454.495,ccc,0.942,0.901,0.957,0.909,0.956,113.624,TRUE,TRUE
+Route 1: archived (both measurements) vs second only,225,454.495,slope,0.791,0.743,0.845,0.753,0.835,113.624,TRUE,TRUE
+Route 1: archived (both measurements) vs second only,225,454.495,within25,0.924,0.889,0.956,0.893,0.951,113.624,TRUE,TRUE
+Route 2: first vs second measurement (bounded profile refits),225,1355.316,pear,0.915,0.818,0.957,0.834,0.951,338.829,FALSE,FALSE
+Route 2: first vs second measurement (bounded profile refits),225,1355.316,spear,0.819,0.744,0.876,0.756,0.867,338.829,FALSE,FALSE
+Route 2: first vs second measurement (bounded profile refits),225,1355.316,md,-424.333,-465.098,-387.391,-458.824,-391.957,338.829,FALSE,FALSE
+Route 2: first vs second measurement (bounded profile refits),225,1355.316,mdp,-0.313,-0.339,-0.289,-0.335,-0.293,338.829,FALSE,FALSE
+Route 2: first vs second measurement (bounded profile refits),225,1355.316,ccc,0.734,0.567,0.829,0.584,0.818,338.829,FALSE,FALSE
+Route 2: first vs second measurement (bounded profile refits),225,1355.316,slope,0.733,0.622,0.789,0.64,0.78,338.829,FALSE,FALSE
+Route 2: first vs second measurement (bounded profile refits),225,1355.316,within25,0.307,0.249,0.365,0.258,0.356,338.829,FALSE,FALSE

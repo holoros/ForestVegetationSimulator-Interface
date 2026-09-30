@@ -1,0 +1,31 @@
+set,n,n_surface_NA,stat,est,lo95,hi95
+Hawaii,235,0,R2,-0.334,-0.924,-0.087
+Hawaii,235,0,RMSE,267.002,203.585,348.045
+Hawaii,235,0,bias,-149.537,-179.028,-123.482
+Hawaii,235,0,spear,0.476,0.365,0.591
+Hawaii,235,0,med_obs,405.32,382.644,420.063
+Hawaii,235,0,med_surf,271.202,245.856,301.033
+Oahu,30,2,R2,-3.603,-7.977,-2.162
+Oahu,30,2,RMSE,325.919,265.6,383.996
+Oahu,30,2,bias,-280.421,-341.266,-224.707
+Oahu,30,2,spear,0.138,-0.199,0.468
+Oahu,30,2,med_obs,384.293,349.628,437.121
+Oahu,30,2,med_surf,115.88,107.499,136.99
+Maui County,47,0,R2,-2.671,-5.358,-1.654
+Maui County,47,0,RMSE,385.781,314.845,453.534
+Maui County,47,0,bias,-308.602,-370.729,-243.776
+Maui County,47,0,spear,0.087,-0.212,0.372
+Maui County,47,0,med_obs,443.024,390.327,478.491
+Maui County,47,0,med_surf,118.188,108,177.62
+Kauai,25,0,R2,-3.579,-6.959,-2.256
+Kauai,25,0,RMSE,369.58,283.318,453.105
+Kauai,25,0,bias,-317.394,-394.944,-247.076
+Kauai,25,0,spear,0.095,-0.3,0.485
+Kauai,25,0,med_obs,416.522,328.075,494.888
+Kauai,25,0,med_surf,116.844,76.968,141.161
+Other islands pooled,102,0,R2,-2.963,-4.5,-2.086
+Other islands pooled,102,0,RMSE,365.099,321.501,410.537
+Other islands pooled,102,0,bias,-302.469,-344.097,-263.567
+Other islands pooled,102,0,spear,0.128,-0.067,0.306
+Other islands pooled,102,0,med_obs,408.709,389.59,457.19
+Other islands pooled,102,0,med_surf,117.264,110.072,131.285

@@ -1,0 +1,12 @@
+"stage","n"
+"live-live pairs with DBH > 0",5540
+"dDBH annual < 0",348
+"dDBH annual == 0",365
+"dDBH annual >= 10",37
+"dDBH annual NA",0
+"retained dDBH frame (pre complete-case)",4790
+"of retained, dHT annual < 0",694
+"of retained, dHT annual == 0",235
+"of retained, dHT annual >= 10",4
+"of retained, dHT NA",0
+"retained dHT frame (pre complete-case)",3857
