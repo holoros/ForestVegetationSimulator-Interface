@@ -1,0 +1,7 @@
+koa_v102_20260918/track5_figS/v100/trackC1/C1b_HCB_dropped_record.csv
+koa_v102_20260918/track5_figS/v100/trackC1/C1b_Table4_HCB_coefficients.csv
+koa_v102_20260918/track5_figS/v100/trackC1/C1b_HCB_H6_rain_temp_coefficients.csv
+koa_v102_20260918/track5_figS/v100/trackC1/C1b_FigS1_height_hcb_fit_stats.csv
+koa_v102_20260918/track5_figS/v100/trackC1/FigS1_height_hcb_survival_diagnostics.pdf
+koa_v102_20260918/track5_figS/v100/trackC1/FigS1_height_hcb_survival_diagnostics.png
+koa_v102_20260918/track5_figS/v100/trackC1/C1b_Table4_HCB_b5_variants.csv
