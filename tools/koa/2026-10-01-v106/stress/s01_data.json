@@ -1,0 +1,269 @@
+{
+ "n_live": 9164,
+ "n_inst": 158,
+ "n_plot": 343,
+ "T2": {
+  "DBH": {
+   "n": 9164,
+   "mean": 15.168,
+   "sd": 16.151,
+   "min": 0.02,
+   "med": 11.4,
+   "max": 230.0
+  },
+  "HT": {
+   "n": 9137,
+   "mean": 9.101,
+   "sd": 5.178,
+   "min": 0.3,
+   "med": 7.925,
+   "max": 34.138
+  },
+  "BAPH_noKualoa": {
+   "n": 9053,
+   "mean": 19.469,
+   "sd": 16.119,
+   "min": 0.016,
+   "med": 16.458,
+   "max": 164.233
+  },
+  "BAPH_all": {
+   "n": 9164,
+   "mean": 19.234,
+   "sd": 16.162,
+   "min": 0.0,
+   "med": 16.223,
+   "max": 164.233
+  },
+  "BALl_noKualoa": {
+   "n": 9053,
+   "mean": 10.097,
+   "sd": 11.972,
+   "min": 0.0,
+   "med": 5.981,
+   "max": 164.233
+  },
+  "BAL_old_noKualoa": {
+   "n": 9053,
+   "mean": 7.703,
+   "sd": 10.181,
+   "min": 0.0,
+   "med": 4.321,
+   "max": 164.233
+  },
+  "CR": {
+   "n": 360,
+   "mean": 0.714,
+   "sd": 0.174,
+   "min": 0.1,
+   "med": 0.75,
+   "max": 0.99
+  },
+  "dDBH_cal": {
+   "n": 4971,
+   "mean": 1.71,
+   "sd": 1.605,
+   "min": 0.004,
+   "med": 1.2,
+   "max": 9.9
+  },
+  "dHT_cal": {
+   "n": 4033,
+   "mean": 1.434,
+   "sd": 1.254,
+   "min": 0.009,
+   "med": 1.1,
+   "max": 9.2
+  },
+  "dDBH_all": {
+   "n": 4992,
+   "mean": 1.705,
+   "sd": 1.604,
+   "min": 0.004,
+   "med": 1.2,
+   "max": 9.9
+  },
+  "dHT_all": {
+   "n": 4044,
+   "mean": 1.431,
+   "sd": 1.254,
+   "min": 0.009,
+   "med": 1.1,
+   "max": 9.2
+  },
+  "dDBH_n_lt_0.005": 1
+ },
+ "dDBH_mean_by_planted": [
+  {
+   "Planted": 0.0,
+   "mean": 0.578,
+   "size": 1071
+  },
+  {
+   "Planted": 1.0,
+   "mean": 2.021,
+   "size": 3900
+  }
+ ],
+ "T1_nbyi": 8941,
+ "T1_rec_mean_byi": 318.05,
+ "T1_rec_median_byi": 386.7,
+ "T1_plot_median_byi": 202.8,
+ "T1_nplots_byi": 311,
+ "T1_nobyi_by_source": {
+  "FIA": 112,
+  "Kualoa": 111
+ },
+ "T1_mean_byi_by_source": {
+  "DOFAW": 354.4,
+  "FIA": 406.6,
+  "KMR CAR": 150.7,
+  "KMR PSP": 159.4,
+  "Kahikinui": 194.6,
+  "Kap": 62.1,
+  "Mauka": 198.0,
+  "PSP": 353.7
+ },
+ "T1_records_by_source": {
+  "PSP": 4818,
+  "DOFAW": 1861,
+  "Kahikinui": 1060,
+  "FIA": 473,
+  "KMR PSP": 417,
+  "KMR CAR": 268,
+  "Kualoa": 111,
+  "Kap": 80,
+  "Mauka": 76
+ },
+ "T1_medint_CS": {
+  "DOFAW": 5.0,
+  "FIA": 9.0,
+  "KMR PSP": 1.0,
+  "PSP": 1.0
+ },
+ "T1_medint_CS_total": 1.0,
+ "CS_YIP_range": [
+  "1",
+  "23"
+ ],
+ "CS_YIP_max_by_source": {
+  "DOFAW": 23,
+  "FIA": 9,
+  "KMR PSP": 2,
+  "PSP": 3
+ },
+ "CS_n": 4792,
+ "inst_ge2_all": 70,
+ "inst_ge2_live": 67,
+ "sources_single_visit_plots": {
+  "DOFAW": false,
+  "FIA": false,
+  "KMR CAR": true,
+  "KMR PSP": false,
+  "Kahikinui": true,
+  "Kap": true,
+  "Kualoa": true,
+  "Mauka": true,
+  "PSP": false
+ },
+ "kulani_plots_byi": [
+  {
+   "Plot": "12",
+   "n": "137",
+   "byi": "25.1471304151994"
+  },
+  {
+   "Plot": "23",
+   "n": "499",
+   "byi": "407.594423851859"
+  },
+  {
+   "Plot": "42",
+   "n": "30",
+   "byi": "0.0"
+  }
+ ],
+ "live_byi_zero": [
+  {
+   "Data": "DOFAW",
+   "Install": "Kulani",
+   "Plot": "42",
+   "0": "30"
+  }
+ ],
+ "NO_byi_min": 25.1471304151994,
+ "HCB_byi_min": 129.745692453521,
+ "static_height_n": 9137,
+ "S33_all_consec": 13122,
+ "S33_live_live": 5420,
+ "S33_screened_d": 4813,
+ "S33_screened_h_nested": 3868,
+ "S33_screened_h_independent": 4202,
+ "S33_CS": [
+  4792,
+  3857
+ ],
+ "S33_NO_all": [
+  4992,
+  4044
+ ],
+ "S33_NO_origin": [
+  4971,
+  4033
+ ],
+ "S33_NO_consec_firstlast": {
+  "d": [
+   {
+    "consec": "0",
+    "firstlast": "1",
+    "0": "179"
+   },
+   {
+    "consec": "1",
+    "firstlast": "0",
+    "0": "4653"
+   },
+   {
+    "consec": "1",
+    "firstlast": "1",
+    "0": "160"
+   }
+  ],
+  "h": [
+   {
+    "consec": "0",
+    "firstlast": "1",
+    "0": "176"
+   },
+   {
+    "consec": "1",
+    "firstlast": "0",
+    "0": "3774"
+   },
+   {
+    "consec": "1",
+    "firstlast": "1",
+    "0": "94"
+   }
+  ]
+ },
+ "S33_NO_noorigin_sources": {
+  "d": {
+   "FIA": 21
+  },
+  "h": {
+   "FIA": 11
+  },
+  "d_noorigin_byi_na": 21
+ },
+ "S33_screened_d_notin_CS": {
+  "FIA": 21
+ },
+ "S33_CS_notin_screened": 0,
+ "dHT_obs_planted_gt2": 0.3362,
+ "dHT_obs_planted_ge2": 0.3591,
+ "dHT_obs_natural_gt2": 0.0012,
+ "n_planted_h": 3200,
+ "cap_firstyear_planted_ge2": 0.1594,
+ "cap_firstyear_natural_ge2": 0.0
+}
