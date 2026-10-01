@@ -1,0 +1,2108 @@
+{
+ "task1": {
+  "rows": [
+   [
+    "DBH (cm)",
+    "9,164",
+    "15.2",
+    "16.2",
+    "0.0",
+    "11.4",
+    "230.0"
+   ],
+   [
+    "Height (m)",
+    "9,137",
+    "9.1",
+    "5.2",
+    "0.3",
+    "7.9",
+    "34.1"
+   ],
+   [
+    "Crown ratio",
+    "360",
+    "0.71",
+    "0.17",
+    "0.10",
+    "0.75",
+    "0.99"
+   ],
+   [
+    "BAPH (m^2^ ha^−1^)",
+    "9,053",
+    "19.5",
+    "16.1",
+    "0.0",
+    "16.5",
+    "164.2"
+   ],
+   [
+    "BAL (m^2^ ha^−1^)",
+    "9,053",
+    "10.1",
+    "12.0",
+    "0.0",
+    "6.0",
+    "164.2"
+   ],
+   [
+    "ΔDBH (cm yr^−1^)",
+    "4,971",
+    "1.71",
+    "1.61",
+    "0.00",
+    "1.20",
+    "9.90"
+   ],
+   [
+    "ΔHT (m yr^−1^)",
+    "4,033",
+    "1.43",
+    "1.25",
+    "0.01",
+    "1.10",
+    "9.20"
+   ]
+  ],
+  "unchanged_DBH_HT_CR": [
+   true,
+   true,
+   true
+  ],
+  "old_rows": [
+   [
+    "DBH (cm)",
+    "9,164",
+    "15.2",
+    "16.2",
+    "0.0",
+    "11.4",
+    "230.0"
+   ],
+   [
+    "Height (m)",
+    "9,137",
+    "9.1",
+    "5.2",
+    "0.3",
+    "7.9",
+    "34.1"
+   ],
+   [
+    "Crown ratio",
+    "360",
+    "0.71",
+    "0.17",
+    "0.10",
+    "0.75",
+    "0.99"
+   ],
+   [
+    "BAPH (m^2^ ha^−1^)",
+    "9,164",
+    "19.2",
+    "16.2",
+    "0.0",
+    "16.2",
+    "164.2"
+   ],
+   [
+    "BAL (m^2^ ha^−1^)",
+    "9,164",
+    "10.0",
+    "12.0",
+    "0.0",
+    "5.8",
+    "164.2"
+   ],
+   [
+    "ΔDBH (cm yr^−1^)",
+    "4,992",
+    "1.70",
+    "1.60",
+    "0.00",
+    "1.20",
+    "9.90"
+   ],
+   [
+    "ΔHT (m yr^−1^)",
+    "4,044",
+    "1.43",
+    "1.25",
+    "0.01",
+    "1.10",
+    "9.20"
+   ]
+  ],
+  "n_dDBH_NO": 4992,
+  "n_dDBH_origin": 4971,
+  "n_dDBH_no_origin": 21,
+  "n_dHT_NO": 4044,
+  "n_dHT_origin": 4033,
+  "n_dHT_no_origin": 11,
+  "no_origin_by_source_dDBH": {
+   "FIA": 21
+  },
+  "no_origin_by_source_dHT": {
+   "FIA": 11
+  },
+  "dDBH_min_3dp": "0.004",
+  "dHT_min_3dp": "0.009",
+  "dDBH_below_0005": 1,
+  "dHT_below_0005": 0,
+  "dDBH_all_NO_check": [
+   "4,992",
+   "1.70",
+   "1.60",
+   "0.00",
+   "1.20",
+   "9.90"
+  ],
+  "dHT_all_NO_check": [
+   "4,044",
+   "1.43",
+   "1.25",
+   "0.01",
+   "1.10",
+   "9.20"
+  ],
+  "kualoa_live": 111,
+  "kualoa_live_expf0": 111,
+  "kualoa_live_expf_values": {
+   "0.0": 111
+  },
+  "n_BAPH_BAL": 9053,
+  "BAPH_unrounded": {
+   "n": 9053,
+   "min": 0.0155697696,
+   "median": 16.457674635864002,
+   "max": 164.2330960590321,
+   "mean": 19.46943189340363
+  },
+  "BAL_unrounded": {
+   "n": 9053,
+   "min": 0.0,
+   "median": 5.980810886354304,
+   "max": 164.2330960590321,
+   "mean": 10.096548594651706
+  }
+ },
+ "task2": {
+  "incr_rows_all_consecutive_tree_intervals": 13122,
+  "live_live": 5717,
+  "live_live_dbh_pos_yip_pos": 5420,
+  "live_live_ht_pos_both": 5420,
+  "after_dDBH_screen_before_geo_merge": 4813,
+  "after_dHT_screen_before_geo_merge": 3868,
+  "CS_dDBH": 4792,
+  "CS_dHT": 3857,
+  "CS_dDBH_by_source": {
+   "PSP": 3448,
+   "DOFAW": 973,
+   "KMR PSP": 269,
+   "FIA": 102
+  },
+  "CS_dHT_by_source": {
+   "PSP": 2783,
+   "DOFAW": 750,
+   "KMR PSP": 260,
+   "FIA": 64
+  },
+  "NO_dDBH": 4992,
+  "NO_dHT": 4044,
+  "NO_dDBH_firstlast": 179,
+  "NO_dHT_firstlast": 176,
+  "CAL_dDBH": 4971,
+  "CAL_dHT": 4033,
+  "CAL_dDBH_consec": 4792,
+  "CAL_dHT_consec": 3857,
+  "CAL_dDBH_firstlast": 179,
+  "CAL_dHT_firstlast": 176,
+  "frames/v102/dDBH_v102.csv": 4790,
+  "frames/v102/dHT_v102.csv": 3857
+ },
+ "task3": {
+  "live_records": 9164,
+  "live_with_byi": 8941,
+  "live_byi0": 30,
+  "live_byi0_by_plot": [
+   [
+    "DOFAW",
+    "Kulani",
+    "42",
+    "30"
+   ]
+  ],
+  "live_plots": 343,
+  "live_plots_with_byi": 311,
+  "live_plots_byi0": 1,
+  "live_plot_byi": {
+   "n": 311,
+   "min": 0.0,
+   "median": 202.796651891619,
+   "max": 691.243645818424,
+   "mean": 230.8157387387733
+  },
+  "live_plots_by_source": {
+   "DOFAW": 8,
+   "FIA": 95,
+   "KMR CAR": 33,
+   "KMR PSP": 15,
+   "Kahikinui": 64,
+   "Kap": 53,
+   "Kualoa": 6,
+   "Mauka": 37,
+   "PSP": 32
+  },
+  "live_plots_with_byi_by_source": {
+   "DOFAW": 8,
+   "FIA": 69,
+   "KMR CAR": 33,
+   "KMR PSP": 15,
+   "Kahikinui": 64,
+   "Kap": 53,
+   "Mauka": 37,
+   "PSP": 32
+  },
+  "geo_table_rows": 320,
+  "geo_by_source": {
+   "DOFAW": {
+    "rows": 8,
+    "with_byi": 8,
+    "byi0": 1
+   },
+   "FIA": {
+    "rows": 78,
+    "with_byi": 78,
+    "byi0": 0
+   },
+   "KMR CAR": {
+    "rows": 33,
+    "with_byi": 33,
+    "byi0": 0
+   },
+   "KMR PSP": {
+    "rows": 15,
+    "with_byi": 15,
+    "byi0": 0
+   },
+   "Kahikinui": {
+    "rows": 64,
+    "with_byi": 64,
+    "byi0": 0
+   },
+   "Kap": {
+    "rows": 53,
+    "with_byi": 53,
+    "byi0": 0
+   },
+   "Mauka": {
+    "rows": 37,
+    "with_byi": 37,
+    "byi0": 0
+   },
+   "PSP": {
+    "rows": 32,
+    "with_byi": 32,
+    "byi0": 0
+   }
+  },
+  "geo_byi": {
+   "n": 320,
+   "min": 0.0,
+   "median": 203.579267022933,
+   "max": 812.831034923581,
+   "mean": 237.88303043590923
+  },
+  "geo_byi0": 1,
+  "geo_plots_not_in_live": 9,
+  "record_weighted": {
+   "n": 8941,
+   "min": 0.0,
+   "median": 386.727831362102,
+   "max": 691.243645818424,
+   "mean": 318.05240326586784
+  },
+  "by_source_record_mean": {
+   "DOFAW": 354.4,
+   "FIA": 406.6,
+   "KMR CAR": 150.7,
+   "KMR PSP": 159.4,
+   "Kahikinui": 194.6,
+   "Kap": 62.1,
+   "Kualoa": NaN,
+   "Mauka": 198.0,
+   "PSP": 353.7
+  },
+  "by_source_records_with_byi": {
+   "DOFAW": 1861,
+   "FIA": 361,
+   "KMR CAR": 268,
+   "KMR PSP": 417,
+   "Kahikinui": 1060,
+   "Kap": 80,
+   "Kualoa": 0,
+   "Mauka": 76,
+   "PSP": 4818
+  },
+  "by_source_records_missing_byi": {
+   "DOFAW": 0,
+   "FIA": 112,
+   "KMR CAR": 0,
+   "KMR PSP": 0,
+   "Kahikinui": 0,
+   "Kap": 0,
+   "Kualoa": 111,
+   "Mauka": 0,
+   "PSP": 0
+  },
+  "cal_dDBH_byi": {
+   "n": 4971,
+   "min": 25.1471304151994,
+   "median": 390.146680146691,
+   "max": 691.243645818424,
+   "mean": 339.2909407969285
+  },
+  "cal_dHT_byi": {
+   "n": 4033,
+   "min": 25.1471304151994,
+   "median": 392.594535945042,
+   "max": 691.243645818424,
+   "mean": 341.3606827434976
+  },
+  "cal_dDBH_byi0": 0,
+  "cal_dHT_byi0": 0,
+  "cs_dDBH_byi": {
+   "n": 4792,
+   "min": 25.1471304151994,
+   "median": 390.146680146691,
+   "max": 691.243645818424,
+   "mean": 342.6663935954181
+  },
+  "cs_dHT_byi": {
+   "n": 3857,
+   "min": 25.1471304151994,
+   "median": 392.594535945042,
+   "max": 691.243645818424,
+   "mean": 345.5189125658105
+  },
+  "height_fit_rows": 8914,
+  "height_fit_byi0": 30,
+  "height_fit_byi0_plots": [
+   [
+    "DOFAW",
+    "Kulani",
+    "42",
+    "30"
+   ]
+  ],
+  "hcb_fit_rows": 360,
+  "hcb_fit_byi0": 0,
+  "hcb_byi": {
+   "n": 360,
+   "min": 129.745692453521,
+   "median": 457.4078156180155,
+   "max": 691.243645818424,
+   "mean": 406.37353595680196
+  },
+  "static_height_frame_rows": 9137
+ },
+ "task4": {
+  "cs_dDBH_yip_by_source": [
+   {
+    "Data": "DOFAW",
+    "count": 973,
+    "median": 5.0,
+    "min": 1,
+    "max": 23
+   },
+   {
+    "Data": "FIA",
+    "count": 102,
+    "median": 9.0,
+    "min": 9,
+    "max": 9
+   },
+   {
+    "Data": "KMR PSP",
+    "count": 269,
+    "median": 1.0,
+    "min": 1,
+    "max": 2
+   },
+   {
+    "Data": "PSP",
+    "count": 3448,
+    "median": 1.0,
+    "min": 1,
+    "max": 3
+   }
+  ],
+  "cs_dDBH_yip_all": {
+   "n": 4792,
+   "min": 1.0,
+   "median": 1.0,
+   "max": 23.0,
+   "mean": 2.3764607679465777
+  },
+  "cs_dHT_yip_all": {
+   "n": 3857,
+   "min": 1.0,
+   "median": 1.0,
+   "max": 23.0,
+   "mean": 2.329271454498315
+  },
+  "cs_dDBH_installations": 60,
+  "measurement_years_by_source": {
+   "DOFAW": [
+    1949,
+    1961,
+    1966,
+    1968,
+    1972,
+    1973,
+    1974,
+    1977,
+    1978,
+    1980,
+    1985,
+    1993,
+    1994,
+    2001
+   ],
+   "FIA": [
+    2010,
+    2019
+   ],
+   "KMR CAR": [
+    2025
+   ],
+   "KMR PSP": [
+    2022,
+    2023,
+    2024,
+    2025
+   ],
+   "Kahikinui": [
+    2023,
+    2024
+   ],
+   "Kap": [
+    2019,
+    2020
+   ],
+   "Kualoa": [
+    2025
+   ],
+   "Mauka": [
+    2023
+   ],
+   "PSP": [
+    2007,
+    2009,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2023,
+    2024,
+    2025
+   ]
+  },
+  "plot_visit_gap_by_source": {
+   "DOFAW": {
+    "n": 27,
+    "median": 6.0,
+    "min": 1.0,
+    "max": 23.0
+   },
+   "FIA": {
+    "n": 65,
+    "median": 9.0,
+    "min": 9.0,
+    "max": 9.0
+   },
+   "KMR CAR": "single measurement year",
+   "KMR PSP": {
+    "n": 38,
+    "median": 1.0,
+    "min": 1.0,
+    "max": 1.0
+   },
+   "Kahikinui": "single measurement year",
+   "Kap": "single measurement year",
+   "Kualoa": "single measurement year",
+   "Mauka": "single measurement year",
+   "PSP": {
+    "n": 376,
+    "median": 1.0,
+    "min": 1.0,
+    "max": 3.0
+   }
+  },
+  "installations_total": 160,
+  "installations_ge2_years_all_records": 70,
+  "installations_ge2_years_live_records": 67,
+  "installations_ge2_by_source": {
+   "DOFAW": 4,
+   "FIA": 31,
+   "KMR CAR": 0,
+   "KMR PSP": 1,
+   "Kahikinui": 0,
+   "Kap": 2,
+   "Kualoa": 0,
+   "Mauka": 0,
+   "PSP": 32
+  },
+  "installations_by_source": {
+   "DOFAW": 4,
+   "FIA": 51,
+   "KMR CAR": 1,
+   "KMR PSP": 1,
+   "Kahikinui": 64,
+   "Kap": 4,
+   "Kualoa": 2,
+   "Mauka": 1,
+   "PSP": 32
+  },
+  "plots_ge2_years": 119,
+  "incr_live_live_yip": {
+   "n": 5420,
+   "min": 1.0,
+   "median": 1.0,
+   "max": 23.0,
+   "mean": 2.336531365313653
+  },
+  "incr_live_live_yip_by_source": {
+   "DOFAW": 5.0,
+   "FIA": 9.0,
+   "KMR PSP": 1.0,
+   "PSP": 1.0
+  }
+ },
+ "task5": {
+  "kualoa_installations": 2,
+  "kualoa_plots": 6,
+  "kualoa_years": [
+   2025
+  ],
+  "kualoa_rows": 133,
+  "geo_table": "engine_v103/AK_PLT_GEO.csv (columns: Data,Install,Plot,Origin,OriginYR,BYI,ID; no coordinate columns)",
+  "geo_rows_by_source": {
+   "FIA": 78,
+   "Kahikinui": 64,
+   "Kap": 53,
+   "Mauka": 37,
+   "KMR CAR": 33,
+   "PSP": 32,
+   "KMR PSP": 15,
+   "DOFAW": 8
+  },
+  "geo_rows": 320,
+  "geo_FIA_installations": 38,
+  "geo_FIA_rows": 78,
+  "tree_plots_by_source": {
+   "DOFAW": 8,
+   "FIA": 106,
+   "KMR CAR": 34,
+   "KMR PSP": 16,
+   "Kahikinui": 64,
+   "Kap": 53,
+   "Kualoa": 6,
+   "Mauka": 37,
+   "PSP": 32
+  },
+  "tree_installations_by_source": {
+   "DOFAW": 4,
+   "FIA": 51,
+   "KMR CAR": 1,
+   "KMR PSP": 1,
+   "Kahikinui": 64,
+   "Kap": 4,
+   "Kualoa": 2,
+   "Mauka": 1,
+   "PSP": 32
+  },
+  "live_plots_by_source": {
+   "DOFAW": 8,
+   "FIA": 95,
+   "KMR CAR": 33,
+   "KMR PSP": 15,
+   "Kahikinui": 64,
+   "Kap": 53,
+   "Kualoa": 6,
+   "Mauka": 37,
+   "PSP": 32
+  },
+  "live_installations_by_source": {
+   "DOFAW": 4,
+   "FIA": 49,
+   "KMR CAR": 1,
+   "KMR PSP": 1,
+   "Kahikinui": 64,
+   "Kap": 4,
+   "Kualoa": 2,
+   "Mauka": 1,
+   "PSP": 32
+  },
+  "live_FIA_installations": 49,
+  "live_FIA_subplots": 95,
+  "pltgeo_v2_rows_by_source": {
+   "FIA": 2868,
+   "Kap": 98,
+   "KMR CAR": 75,
+   "Kahikinui": 72,
+   "Mauka": 37,
+   "PSP": 32,
+   "KMR PSP": 17,
+   "DOFAW": 8,
+   "Kualoa": 6
+  }
+ },
+ "task6": {
+  "rows": 862,
+  "origin_missing": 8,
+  "Origin|nlive_all>=5": {
+   "n_plotyears": 166,
+   "top_QMD": [
+    {
+     "Data": "Mauka",
+     "Install": "Mauka",
+     "Plot": "172",
+     "Measure": 2023,
+     "QMD": 69.67868794965908,
+     "BAPH": 9.99823897459464,
+     "SDI": 131.97871964578192,
+     "TPH": 26.22,
+     "nlive_all": 5.0,
+     "nlive_koa": 5.0,
+     "n_live_dbh": 5.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "QMD_dep": 69.6786879496591
+    },
+    {
+     "Data": "Mauka",
+     "Install": "Mauka",
+     "Plot": "120",
+     "Measure": 2023,
+     "QMD": 67.00026352208013,
+     "BAPH": 14.011085439582,
+     "SDI": 178.9944500871062,
+     "TPH": 39.74,
+     "nlive_all": 7.0,
+     "nlive_koa": 7.0,
+     "n_live_dbh": 7.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "QMD_dep": 67.0002635220801
+    },
+    {
+     "Data": "FIA",
+     "Install": "15-1-1-2389",
+     "Plot": "3",
+     "Measure": 2019,
+     "QMD": 55.43848943829548,
+     "BAPH": 71.79276921214631,
+     "SDI": 875.2981967430165,
+     "TPH": 297.41785136600004,
+     "nlive_all": 5.0,
+     "nlive_koa": 1.0,
+     "n_live_dbh": 5.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "QMD_dep": 55.4384894382955
+    },
+    {
+     "Data": "Mauka",
+     "Install": "Mauka",
+     "Plot": "102",
+     "Measure": 2023,
+     "QMD": 52.40865990055797,
+     "BAPH": 12.000685836216,
+     "SDI": 176.75787376560478,
+     "TPH": 55.63,
+     "nlive_all": 6.0,
+     "nlive_koa": 6.0,
+     "n_live_dbh": 6.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "QMD_dep": 52.408659900558
+    },
+    {
+     "Data": "FIA",
+     "Install": "15-1-1-2696",
+     "Plot": "1",
+     "Measure": 2019,
+     "QMD": 45.115576955193646,
+     "BAPH": 47.54566872539273,
+     "SDI": 703.6022406476761,
+     "TPH": 297.41785136600004,
+     "nlive_all": 5.0,
+     "nlive_koa": 1.0,
+     "n_live_dbh": 5.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "QMD_dep": 45.1155769551936
+    }
+   ],
+   "top_BAPH": [
+    {
+     "Data": "FIA",
+     "Install": "15-1-1-2291",
+     "Plot": "2",
+     "Measure": 2019,
+     "BAPH": 164.2330960590321,
+     "QMD": 22.20706380103448,
+     "SDI": 2091.384063631723,
+     "TPH": 4240.2113341808,
+     "nlive_all": 14.0,
+     "nlive_koa": 1.0,
+     "n_live_dbh": 14.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "BAPH_dep": 41.20698470553
+    },
+    {
+     "Data": "FIA",
+     "Install": "15-1-1-2291",
+     "Plot": "2",
+     "Measure": 2010,
+     "BAPH": 147.3103260581173,
+     "QMD": 23.555661252569298,
+     "SDI": 1795.0463773732822,
+     "TPH": 3380.27235329,
+     "nlive_all": 11.0,
+     "nlive_koa": 1.0,
+     "n_live_dbh": 11.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "BAPH_dep": 36.9609688820674
+    },
+    {
+     "Data": "FIA",
+     "Install": "15-1-1-2307",
+     "Plot": "1",
+     "Measure": 2019,
+     "BAPH": 131.63198252090206,
+     "QMD": 44.8613905491125,
+     "SDI": 1958.763903879454,
+     "TPH": 832.7699838248,
+     "nlive_all": 14.0,
+     "nlive_koa": 1.0,
+     "n_live_dbh": 14.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "BAPH_dep": 33.2396171714856
+    },
+    {
+     "Data": "FIA",
+     "Install": "15-1-9-1853",
+     "Plot": "1",
+     "Measure": 2019,
+     "BAPH": 125.01966385166102,
+     "QMD": 15.62186911459954,
+     "SDI": 2029.8823694523808,
+     "TPH": 6522.6104254872,
+     "nlive_all": 18.0,
+     "nlive_koa": 3.0,
+     "n_live_dbh": 18.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "BAPH_dep": 33.1571251330217
+    },
+    {
+     "Data": "FIA",
+     "Install": "15-1-1-2742",
+     "Plot": "4",
+     "Measure": 2010,
+     "BAPH": 102.25261983398134,
+     "QMD": 18.517871750387727,
+     "SDI": 1535.625984528589,
+     "TPH": 3796.6573452024,
+     "nlive_all": 18.0,
+     "nlive_koa": 3.0,
+     "n_live_dbh": 18.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "BAPH_dep": 26.0587489676368
+    }
+   ],
+   "top_SDI_DOFAW": [
+    {
+     "Data": "DOFAW",
+     "Install": "Laupahoehoe",
+     "Plot": "41",
+     "Measure": 2001,
+     "SDI": 880.4284030046733,
+     "BAPH": 46.9816543885033,
+     "QMD": 22.653949863666863,
+     "TPH": 1165.6,
+     "nlive_all": 47.0,
+     "nlive_koa": 37.0,
+     "n_live_dbh": 47.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "SDI_dep": 880.428403004673
+    },
+    {
+     "Data": "DOFAW",
+     "Install": "Waikamoi",
+     "Plot": "25",
+     "Measure": 1968,
+     "SDI": 862.0784232431166,
+     "BAPH": 28.51612050364493,
+     "QMD": 7.714475039703699,
+     "TPH": 6100.8,
+     "nlive_all": 246.0,
+     "nlive_koa": 246.0,
+     "n_live_dbh": 246.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "SDI_dep": 862.078423243117
+    },
+    {
+     "Data": "DOFAW",
+     "Install": "Kulani",
+     "Plot": "23",
+     "Measure": 1985,
+     "SDI": 761.9161049095587,
+     "BAPH": 34.56321284172178,
+     "QMD": 17.055750978149717,
+     "TPH": 1512.8,
+     "nlive_all": 61.0,
+     "nlive_koa": 59.0,
+     "n_live_dbh": 61.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "SDI_dep": 761.916104909559
+    },
+    {
+     "Data": "DOFAW",
+     "Install": "Kulani",
+     "Plot": "23",
+     "Measure": 2001,
+     "SDI": 741.2598999454563,
+     "BAPH": 41.52055919871552,
+     "QMD": 30.44362684786709,
+     "TPH": 570.4,
+     "nlive_all": 23.0,
+     "nlive_koa": 23.0,
+     "n_live_dbh": 23.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "SDI_dep": 741.259899945456
+    },
+    {
+     "Data": "DOFAW",
+     "Install": "Kulani",
+     "Plot": "23",
+     "Measure": 1994,
+     "SDI": 727.2313533022505,
+     "BAPH": 38.15636932958641,
+     "QMD": 25.138038446740843,
+     "TPH": 768.8000000000001,
+     "nlive_all": 31.0,
+     "nlive_koa": 30.0,
+     "n_live_dbh": 31.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "SDI_dep": 1453.46727427237
+    }
+   ]
+  },
+  "Origin|n_live_dbh>=5": {
+   "n_plotyears": 166,
+   "top_QMD": [
+    {
+     "Data": "Mauka",
+     "Install": "Mauka",
+     "Plot": "172",
+     "Measure": 2023,
+     "QMD": 69.67868794965908,
+     "BAPH": 9.99823897459464,
+     "SDI": 131.97871964578192,
+     "TPH": 26.22,
+     "nlive_all": 5.0,
+     "nlive_koa": 5.0,
+     "n_live_dbh": 5.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "QMD_dep": 69.6786879496591
+    },
+    {
+     "Data": "Mauka",
+     "Install": "Mauka",
+     "Plot": "120",
+     "Measure": 2023,
+     "QMD": 67.00026352208013,
+     "BAPH": 14.011085439582,
+     "SDI": 178.9944500871062,
+     "TPH": 39.74,
+     "nlive_all": 7.0,
+     "nlive_koa": 7.0,
+     "n_live_dbh": 7.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "QMD_dep": 67.0002635220801
+    },
+    {
+     "Data": "FIA",
+     "Install": "15-1-1-2389",
+     "Plot": "3",
+     "Measure": 2019,
+     "QMD": 55.43848943829548,
+     "BAPH": 71.79276921214631,
+     "SDI": 875.2981967430165,
+     "TPH": 297.41785136600004,
+     "nlive_all": 5.0,
+     "nlive_koa": 1.0,
+     "n_live_dbh": 5.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "QMD_dep": 55.4384894382955
+    },
+    {
+     "Data": "Mauka",
+     "Install": "Mauka",
+     "Plot": "102",
+     "Measure": 2023,
+     "QMD": 52.40865990055797,
+     "BAPH": 12.000685836216,
+     "SDI": 176.75787376560478,
+     "TPH": 55.63,
+     "nlive_all": 6.0,
+     "nlive_koa": 6.0,
+     "n_live_dbh": 6.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "QMD_dep": 52.408659900558
+    },
+    {
+     "Data": "FIA",
+     "Install": "15-1-1-2696",
+     "Plot": "1",
+     "Measure": 2019,
+     "QMD": 45.115576955193646,
+     "BAPH": 47.54566872539273,
+     "SDI": 703.6022406476761,
+     "TPH": 297.41785136600004,
+     "nlive_all": 5.0,
+     "nlive_koa": 1.0,
+     "n_live_dbh": 5.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "QMD_dep": 45.1155769551936
+    }
+   ],
+   "top_BAPH": [
+    {
+     "Data": "FIA",
+     "Install": "15-1-1-2291",
+     "Plot": "2",
+     "Measure": 2019,
+     "BAPH": 164.2330960590321,
+     "QMD": 22.20706380103448,
+     "SDI": 2091.384063631723,
+     "TPH": 4240.2113341808,
+     "nlive_all": 14.0,
+     "nlive_koa": 1.0,
+     "n_live_dbh": 14.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "BAPH_dep": 41.20698470553
+    },
+    {
+     "Data": "FIA",
+     "Install": "15-1-1-2291",
+     "Plot": "2",
+     "Measure": 2010,
+     "BAPH": 147.3103260581173,
+     "QMD": 23.555661252569298,
+     "SDI": 1795.0463773732822,
+     "TPH": 3380.27235329,
+     "nlive_all": 11.0,
+     "nlive_koa": 1.0,
+     "n_live_dbh": 11.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "BAPH_dep": 36.9609688820674
+    },
+    {
+     "Data": "FIA",
+     "Install": "15-1-1-2307",
+     "Plot": "1",
+     "Measure": 2019,
+     "BAPH": 131.63198252090206,
+     "QMD": 44.8613905491125,
+     "SDI": 1958.763903879454,
+     "TPH": 832.7699838248,
+     "nlive_all": 14.0,
+     "nlive_koa": 1.0,
+     "n_live_dbh": 14.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "BAPH_dep": 33.2396171714856
+    },
+    {
+     "Data": "FIA",
+     "Install": "15-1-9-1853",
+     "Plot": "1",
+     "Measure": 2019,
+     "BAPH": 125.01966385166102,
+     "QMD": 15.62186911459954,
+     "SDI": 2029.8823694523808,
+     "TPH": 6522.6104254872,
+     "nlive_all": 18.0,
+     "nlive_koa": 3.0,
+     "n_live_dbh": 18.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "BAPH_dep": 33.1571251330217
+    },
+    {
+     "Data": "FIA",
+     "Install": "15-1-1-2742",
+     "Plot": "4",
+     "Measure": 2010,
+     "BAPH": 102.25261983398134,
+     "QMD": 18.517871750387727,
+     "SDI": 1535.625984528589,
+     "TPH": 3796.6573452024,
+     "nlive_all": 18.0,
+     "nlive_koa": 3.0,
+     "n_live_dbh": 18.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "BAPH_dep": 26.0587489676368
+    }
+   ],
+   "top_SDI_DOFAW": [
+    {
+     "Data": "DOFAW",
+     "Install": "Laupahoehoe",
+     "Plot": "41",
+     "Measure": 2001,
+     "SDI": 880.4284030046733,
+     "BAPH": 46.9816543885033,
+     "QMD": 22.653949863666863,
+     "TPH": 1165.6,
+     "nlive_all": 47.0,
+     "nlive_koa": 37.0,
+     "n_live_dbh": 47.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "SDI_dep": 880.428403004673
+    },
+    {
+     "Data": "DOFAW",
+     "Install": "Waikamoi",
+     "Plot": "25",
+     "Measure": 1968,
+     "SDI": 862.0784232431166,
+     "BAPH": 28.51612050364493,
+     "QMD": 7.714475039703699,
+     "TPH": 6100.8,
+     "nlive_all": 246.0,
+     "nlive_koa": 246.0,
+     "n_live_dbh": 246.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "SDI_dep": 862.078423243117
+    },
+    {
+     "Data": "DOFAW",
+     "Install": "Kulani",
+     "Plot": "23",
+     "Measure": 1985,
+     "SDI": 761.9161049095587,
+     "BAPH": 34.56321284172178,
+     "QMD": 17.055750978149717,
+     "TPH": 1512.8,
+     "nlive_all": 61.0,
+     "nlive_koa": 59.0,
+     "n_live_dbh": 61.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "SDI_dep": 761.916104909559
+    },
+    {
+     "Data": "DOFAW",
+     "Install": "Kulani",
+     "Plot": "23",
+     "Measure": 2001,
+     "SDI": 741.2598999454563,
+     "BAPH": 41.52055919871552,
+     "QMD": 30.44362684786709,
+     "TPH": 570.4,
+     "nlive_all": 23.0,
+     "nlive_koa": 23.0,
+     "n_live_dbh": 23.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "SDI_dep": 741.259899945456
+    },
+    {
+     "Data": "DOFAW",
+     "Install": "Kulani",
+     "Plot": "23",
+     "Measure": 1994,
+     "SDI": 727.2313533022505,
+     "BAPH": 38.15636932958641,
+     "QMD": 25.138038446740843,
+     "TPH": 768.8000000000001,
+     "nlive_all": 31.0,
+     "nlive_koa": 30.0,
+     "n_live_dbh": 31.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "SDI_dep": 1453.46727427237
+    }
+   ]
+  },
+  "Origin_recode|nlive_all>=5": {
+   "n_plotyears": 166,
+   "top_QMD": [
+    {
+     "Data": "Mauka",
+     "Install": "Mauka",
+     "Plot": "172",
+     "Measure": 2023,
+     "QMD": 69.67868794965908,
+     "BAPH": 9.99823897459464,
+     "SDI": 131.97871964578192,
+     "TPH": 26.22,
+     "nlive_all": 5.0,
+     "nlive_koa": 5.0,
+     "n_live_dbh": 5.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "QMD_dep": 69.6786879496591
+    },
+    {
+     "Data": "Mauka",
+     "Install": "Mauka",
+     "Plot": "120",
+     "Measure": 2023,
+     "QMD": 67.00026352208013,
+     "BAPH": 14.011085439582,
+     "SDI": 178.9944500871062,
+     "TPH": 39.74,
+     "nlive_all": 7.0,
+     "nlive_koa": 7.0,
+     "n_live_dbh": 7.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "QMD_dep": 67.0002635220801
+    },
+    {
+     "Data": "FIA",
+     "Install": "15-1-1-2389",
+     "Plot": "3",
+     "Measure": 2019,
+     "QMD": 55.43848943829548,
+     "BAPH": 71.79276921214631,
+     "SDI": 875.2981967430165,
+     "TPH": 297.41785136600004,
+     "nlive_all": 5.0,
+     "nlive_koa": 1.0,
+     "n_live_dbh": 5.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "QMD_dep": 55.4384894382955
+    },
+    {
+     "Data": "Mauka",
+     "Install": "Mauka",
+     "Plot": "102",
+     "Measure": 2023,
+     "QMD": 52.40865990055797,
+     "BAPH": 12.000685836216,
+     "SDI": 176.75787376560478,
+     "TPH": 55.63,
+     "nlive_all": 6.0,
+     "nlive_koa": 6.0,
+     "n_live_dbh": 6.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "QMD_dep": 52.408659900558
+    },
+    {
+     "Data": "FIA",
+     "Install": "15-1-1-2696",
+     "Plot": "1",
+     "Measure": 2019,
+     "QMD": 45.115576955193646,
+     "BAPH": 47.54566872539273,
+     "SDI": 703.6022406476761,
+     "TPH": 297.41785136600004,
+     "nlive_all": 5.0,
+     "nlive_koa": 1.0,
+     "n_live_dbh": 5.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "QMD_dep": 45.1155769551936
+    }
+   ],
+   "top_BAPH": [
+    {
+     "Data": "FIA",
+     "Install": "15-1-1-2291",
+     "Plot": "2",
+     "Measure": 2019,
+     "BAPH": 164.2330960590321,
+     "QMD": 22.20706380103448,
+     "SDI": 2091.384063631723,
+     "TPH": 4240.2113341808,
+     "nlive_all": 14.0,
+     "nlive_koa": 1.0,
+     "n_live_dbh": 14.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "BAPH_dep": 41.20698470553
+    },
+    {
+     "Data": "FIA",
+     "Install": "15-1-1-2291",
+     "Plot": "2",
+     "Measure": 2010,
+     "BAPH": 147.3103260581173,
+     "QMD": 23.555661252569298,
+     "SDI": 1795.0463773732822,
+     "TPH": 3380.27235329,
+     "nlive_all": 11.0,
+     "nlive_koa": 1.0,
+     "n_live_dbh": 11.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "BAPH_dep": 36.9609688820674
+    },
+    {
+     "Data": "FIA",
+     "Install": "15-1-1-2307",
+     "Plot": "1",
+     "Measure": 2019,
+     "BAPH": 131.63198252090206,
+     "QMD": 44.8613905491125,
+     "SDI": 1958.763903879454,
+     "TPH": 832.7699838248,
+     "nlive_all": 14.0,
+     "nlive_koa": 1.0,
+     "n_live_dbh": 14.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "BAPH_dep": 33.2396171714856
+    },
+    {
+     "Data": "FIA",
+     "Install": "15-1-9-1853",
+     "Plot": "1",
+     "Measure": 2019,
+     "BAPH": 125.01966385166102,
+     "QMD": 15.62186911459954,
+     "SDI": 2029.8823694523808,
+     "TPH": 6522.6104254872,
+     "nlive_all": 18.0,
+     "nlive_koa": 3.0,
+     "n_live_dbh": 18.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "BAPH_dep": 33.1571251330217
+    },
+    {
+     "Data": "FIA",
+     "Install": "15-1-1-2742",
+     "Plot": "4",
+     "Measure": 2010,
+     "BAPH": 102.25261983398134,
+     "QMD": 18.517871750387727,
+     "SDI": 1535.625984528589,
+     "TPH": 3796.6573452024,
+     "nlive_all": 18.0,
+     "nlive_koa": 3.0,
+     "n_live_dbh": 18.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "BAPH_dep": 26.0587489676368
+    }
+   ],
+   "top_SDI_DOFAW": [
+    {
+     "Data": "DOFAW",
+     "Install": "Laupahoehoe",
+     "Plot": "41",
+     "Measure": 2001,
+     "SDI": 880.4284030046733,
+     "BAPH": 46.9816543885033,
+     "QMD": 22.653949863666863,
+     "TPH": 1165.6,
+     "nlive_all": 47.0,
+     "nlive_koa": 37.0,
+     "n_live_dbh": 47.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "SDI_dep": 880.428403004673
+    },
+    {
+     "Data": "DOFAW",
+     "Install": "Waikamoi",
+     "Plot": "25",
+     "Measure": 1968,
+     "SDI": 862.0784232431166,
+     "BAPH": 28.51612050364493,
+     "QMD": 7.714475039703699,
+     "TPH": 6100.8,
+     "nlive_all": 246.0,
+     "nlive_koa": 246.0,
+     "n_live_dbh": 246.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "SDI_dep": 862.078423243117
+    },
+    {
+     "Data": "DOFAW",
+     "Install": "Kulani",
+     "Plot": "23",
+     "Measure": 1985,
+     "SDI": 761.9161049095587,
+     "BAPH": 34.56321284172178,
+     "QMD": 17.055750978149717,
+     "TPH": 1512.8,
+     "nlive_all": 61.0,
+     "nlive_koa": 59.0,
+     "n_live_dbh": 61.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "SDI_dep": 761.916104909559
+    },
+    {
+     "Data": "DOFAW",
+     "Install": "Kulani",
+     "Plot": "23",
+     "Measure": 2001,
+     "SDI": 741.2598999454563,
+     "BAPH": 41.52055919871552,
+     "QMD": 30.44362684786709,
+     "TPH": 570.4,
+     "nlive_all": 23.0,
+     "nlive_koa": 23.0,
+     "n_live_dbh": 23.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "SDI_dep": 741.259899945456
+    },
+    {
+     "Data": "DOFAW",
+     "Install": "Kulani",
+     "Plot": "23",
+     "Measure": 1994,
+     "SDI": 727.2313533022505,
+     "BAPH": 38.15636932958641,
+     "QMD": 25.138038446740843,
+     "TPH": 768.8000000000001,
+     "nlive_all": 31.0,
+     "nlive_koa": 30.0,
+     "n_live_dbh": 31.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "SDI_dep": 1453.46727427237
+    }
+   ]
+  },
+  "Origin_recode|n_live_dbh>=5": {
+   "n_plotyears": 166,
+   "top_QMD": [
+    {
+     "Data": "Mauka",
+     "Install": "Mauka",
+     "Plot": "172",
+     "Measure": 2023,
+     "QMD": 69.67868794965908,
+     "BAPH": 9.99823897459464,
+     "SDI": 131.97871964578192,
+     "TPH": 26.22,
+     "nlive_all": 5.0,
+     "nlive_koa": 5.0,
+     "n_live_dbh": 5.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "QMD_dep": 69.6786879496591
+    },
+    {
+     "Data": "Mauka",
+     "Install": "Mauka",
+     "Plot": "120",
+     "Measure": 2023,
+     "QMD": 67.00026352208013,
+     "BAPH": 14.011085439582,
+     "SDI": 178.9944500871062,
+     "TPH": 39.74,
+     "nlive_all": 7.0,
+     "nlive_koa": 7.0,
+     "n_live_dbh": 7.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "QMD_dep": 67.0002635220801
+    },
+    {
+     "Data": "FIA",
+     "Install": "15-1-1-2389",
+     "Plot": "3",
+     "Measure": 2019,
+     "QMD": 55.43848943829548,
+     "BAPH": 71.79276921214631,
+     "SDI": 875.2981967430165,
+     "TPH": 297.41785136600004,
+     "nlive_all": 5.0,
+     "nlive_koa": 1.0,
+     "n_live_dbh": 5.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "QMD_dep": 55.4384894382955
+    },
+    {
+     "Data": "Mauka",
+     "Install": "Mauka",
+     "Plot": "102",
+     "Measure": 2023,
+     "QMD": 52.40865990055797,
+     "BAPH": 12.000685836216,
+     "SDI": 176.75787376560478,
+     "TPH": 55.63,
+     "nlive_all": 6.0,
+     "nlive_koa": 6.0,
+     "n_live_dbh": 6.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "QMD_dep": 52.408659900558
+    },
+    {
+     "Data": "FIA",
+     "Install": "15-1-1-2696",
+     "Plot": "1",
+     "Measure": 2019,
+     "QMD": 45.115576955193646,
+     "BAPH": 47.54566872539273,
+     "SDI": 703.6022406476761,
+     "TPH": 297.41785136600004,
+     "nlive_all": 5.0,
+     "nlive_koa": 1.0,
+     "n_live_dbh": 5.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "QMD_dep": 45.1155769551936
+    }
+   ],
+   "top_BAPH": [
+    {
+     "Data": "FIA",
+     "Install": "15-1-1-2291",
+     "Plot": "2",
+     "Measure": 2019,
+     "BAPH": 164.2330960590321,
+     "QMD": 22.20706380103448,
+     "SDI": 2091.384063631723,
+     "TPH": 4240.2113341808,
+     "nlive_all": 14.0,
+     "nlive_koa": 1.0,
+     "n_live_dbh": 14.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "BAPH_dep": 41.20698470553
+    },
+    {
+     "Data": "FIA",
+     "Install": "15-1-1-2291",
+     "Plot": "2",
+     "Measure": 2010,
+     "BAPH": 147.3103260581173,
+     "QMD": 23.555661252569298,
+     "SDI": 1795.0463773732822,
+     "TPH": 3380.27235329,
+     "nlive_all": 11.0,
+     "nlive_koa": 1.0,
+     "n_live_dbh": 11.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "BAPH_dep": 36.9609688820674
+    },
+    {
+     "Data": "FIA",
+     "Install": "15-1-1-2307",
+     "Plot": "1",
+     "Measure": 2019,
+     "BAPH": 131.63198252090206,
+     "QMD": 44.8613905491125,
+     "SDI": 1958.763903879454,
+     "TPH": 832.7699838248,
+     "nlive_all": 14.0,
+     "nlive_koa": 1.0,
+     "n_live_dbh": 14.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "BAPH_dep": 33.2396171714856
+    },
+    {
+     "Data": "FIA",
+     "Install": "15-1-9-1853",
+     "Plot": "1",
+     "Measure": 2019,
+     "BAPH": 125.01966385166102,
+     "QMD": 15.62186911459954,
+     "SDI": 2029.8823694523808,
+     "TPH": 6522.6104254872,
+     "nlive_all": 18.0,
+     "nlive_koa": 3.0,
+     "n_live_dbh": 18.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "BAPH_dep": 33.1571251330217
+    },
+    {
+     "Data": "FIA",
+     "Install": "15-1-1-2742",
+     "Plot": "4",
+     "Measure": 2010,
+     "BAPH": 102.25261983398134,
+     "QMD": 18.517871750387727,
+     "SDI": 1535.625984528589,
+     "TPH": 3796.6573452024,
+     "nlive_all": 18.0,
+     "nlive_koa": 3.0,
+     "n_live_dbh": 18.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "BAPH_dep": 26.0587489676368
+    }
+   ],
+   "top_SDI_DOFAW": [
+    {
+     "Data": "DOFAW",
+     "Install": "Laupahoehoe",
+     "Plot": "41",
+     "Measure": 2001,
+     "SDI": 880.4284030046733,
+     "BAPH": 46.9816543885033,
+     "QMD": 22.653949863666863,
+     "TPH": 1165.6,
+     "nlive_all": 47.0,
+     "nlive_koa": 37.0,
+     "n_live_dbh": 47.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "SDI_dep": 880.428403004673
+    },
+    {
+     "Data": "DOFAW",
+     "Install": "Waikamoi",
+     "Plot": "25",
+     "Measure": 1968,
+     "SDI": 862.0784232431166,
+     "BAPH": 28.51612050364493,
+     "QMD": 7.714475039703699,
+     "TPH": 6100.8,
+     "nlive_all": 246.0,
+     "nlive_koa": 246.0,
+     "n_live_dbh": 246.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "SDI_dep": 862.078423243117
+    },
+    {
+     "Data": "DOFAW",
+     "Install": "Kulani",
+     "Plot": "23",
+     "Measure": 1985,
+     "SDI": 761.9161049095587,
+     "BAPH": 34.56321284172178,
+     "QMD": 17.055750978149717,
+     "TPH": 1512.8,
+     "nlive_all": 61.0,
+     "nlive_koa": 59.0,
+     "n_live_dbh": 61.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "SDI_dep": 761.916104909559
+    },
+    {
+     "Data": "DOFAW",
+     "Install": "Kulani",
+     "Plot": "23",
+     "Measure": 2001,
+     "SDI": 741.2598999454563,
+     "BAPH": 41.52055919871552,
+     "QMD": 30.44362684786709,
+     "TPH": 570.4,
+     "nlive_all": 23.0,
+     "nlive_koa": 23.0,
+     "n_live_dbh": 23.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "SDI_dep": 741.259899945456
+    },
+    {
+     "Data": "DOFAW",
+     "Install": "Kulani",
+     "Plot": "23",
+     "Measure": 1994,
+     "SDI": 727.2313533022505,
+     "BAPH": 38.15636932958641,
+     "QMD": 25.138038446740843,
+     "TPH": 768.8000000000001,
+     "nlive_all": 31.0,
+     "nlive_koa": 30.0,
+     "n_live_dbh": 31.0,
+     "Origin": "Natural",
+     "Origin_recode": "Natural",
+     "SDI_dep": 1453.46727427237
+    }
+   ]
+  },
+  "DOFAW_natural_plotyears_SDIdep_600_950": [
+   {
+    "Install": "Kulani",
+    "Plot": "23",
+    "Measure": 1977,
+    "SDI_dep": 662.383351784048,
+    "SDI": 662.3833517840482,
+    "BAPH_dep": 25.8110826497315,
+    "BAPH": 25.811082649731457,
+    "nlive_all": 103.0
+   },
+   {
+    "Install": "Kulani",
+    "Plot": "23",
+    "Measure": 1985,
+    "SDI_dep": 761.916104909559,
+    "SDI": 761.9161049095587,
+    "BAPH_dep": 34.5632128417218,
+    "BAPH": 34.56321284172178,
+    "nlive_all": 61.0
+   },
+   {
+    "Install": "Kulani",
+    "Plot": "23",
+    "Measure": 2001,
+    "SDI_dep": 741.259899945456,
+    "SDI": 741.2598999454563,
+    "BAPH_dep": 41.5205591987155,
+    "BAPH": 41.52055919871552,
+    "nlive_all": 23.0
+   },
+   {
+    "Install": "Laupahoehoe",
+    "Plot": "41",
+    "Measure": 1985,
+    "SDI_dep": 617.427056451819,
+    "SDI": 617.4270564518193,
+    "BAPH_dep": 26.2558049626094,
+    "BAPH": 26.25580496260945,
+    "nlive_all": 77.0
+   },
+   {
+    "Install": "Laupahoehoe",
+    "Plot": "41",
+    "Measure": 1993,
+    "SDI_dep": 602.245401776018,
+    "SDI": 602.2454017760178,
+    "BAPH_dep": 29.0724899063491,
+    "BAPH": 29.072489906349123,
+    "nlive_all": 41.0
+   },
+   {
+    "Install": "Laupahoehoe",
+    "Plot": "41",
+    "Measure": 2001,
+    "SDI_dep": 880.428403004673,
+    "SDI": 880.4284030046733,
+    "BAPH_dep": 46.9816543885033,
+    "BAPH": 46.9816543885033,
+    "nlive_all": 47.0
+   },
+   {
+    "Install": "Waikamoi",
+    "Plot": "25",
+    "Measure": 1968,
+    "SDI_dep": 862.078423243117,
+    "SDI": 862.0784232431166,
+    "BAPH_dep": 28.5161205036449,
+    "BAPH": 28.51612050364493,
+    "nlive_all": 246.0
+   },
+   {
+    "Install": "Waikamoi",
+    "Plot": "25",
+    "Measure": 1973,
+    "SDI_dep": 719.650368041401,
+    "SDI": 719.650368041401,
+    "BAPH_dep": 28.8037648243551,
+    "BAPH": 28.803764824355135,
+    "nlive_all": 85.0
+   }
+  ],
+  "DOFAW_natural_plotyears_SDI_600_950": [
+   {
+    "Install": "Kulani",
+    "Plot": "23",
+    "Measure": 1977,
+    "SDI_dep": 662.383351784048,
+    "SDI": 662.3833517840482,
+    "BAPH_dep": 25.8110826497315,
+    "BAPH": 25.811082649731457,
+    "nlive_all": 103.0
+   },
+   {
+    "Install": "Kulani",
+    "Plot": "23",
+    "Measure": 1985,
+    "SDI_dep": 761.916104909559,
+    "SDI": 761.9161049095587,
+    "BAPH_dep": 34.5632128417218,
+    "BAPH": 34.56321284172178,
+    "nlive_all": 61.0
+   },
+   {
+    "Install": "Kulani",
+    "Plot": "23",
+    "Measure": 1994,
+    "SDI_dep": 1453.46727427237,
+    "SDI": 727.2313533022505,
+    "BAPH_dep": 76.0621351844664,
+    "BAPH": 38.15636932958641,
+    "nlive_all": 31.0
+   },
+   {
+    "Install": "Kulani",
+    "Plot": "23",
+    "Measure": 2001,
+    "SDI_dep": 741.259899945456,
+    "SDI": 741.2598999454563,
+    "BAPH_dep": 41.5205591987155,
+    "BAPH": 41.52055919871552,
+    "nlive_all": 23.0
+   },
+   {
+    "Install": "Laupahoehoe",
+    "Plot": "41",
+    "Measure": 1985,
+    "SDI_dep": 617.427056451819,
+    "SDI": 617.4270564518193,
+    "BAPH_dep": 26.2558049626094,
+    "BAPH": 26.25580496260945,
+    "nlive_all": 77.0
+   },
+   {
+    "Install": "Laupahoehoe",
+    "Plot": "41",
+    "Measure": 1993,
+    "SDI_dep": 602.245401776018,
+    "SDI": 602.2454017760178,
+    "BAPH_dep": 29.0724899063491,
+    "BAPH": 29.072489906349123,
+    "nlive_all": 41.0
+   },
+   {
+    "Install": "Laupahoehoe",
+    "Plot": "41",
+    "Measure": 2001,
+    "SDI_dep": 880.428403004673,
+    "SDI": 880.4284030046733,
+    "BAPH_dep": 46.9816543885033,
+    "BAPH": 46.9816543885033,
+    "nlive_all": 47.0
+   },
+   {
+    "Install": "Waikamoi",
+    "Plot": "25",
+    "Measure": 1968,
+    "SDI_dep": 862.078423243117,
+    "SDI": 862.0784232431166,
+    "BAPH_dep": 28.5161205036449,
+    "BAPH": 28.51612050364493,
+    "nlive_all": 246.0
+   },
+   {
+    "Install": "Waikamoi",
+    "Plot": "25",
+    "Measure": 1973,
+    "SDI_dep": 719.650368041401,
+    "SDI": 719.650368041401,
+    "BAPH_dep": 28.8037648243551,
+    "BAPH": 28.803764824355135,
+    "nlive_all": 85.0
+   }
+  ],
+  "DOFAW_natural_plot_max_SDI": [
+   {
+    "Install": "Laupahoehoe",
+    "Plot": "41",
+    "SDI_max": 880.4284030046733,
+    "SDI_dep_max": 880.428403004673,
+    "n": 6
+   },
+   {
+    "Install": "Waikamoi",
+    "Plot": "25",
+    "SDI_max": 862.0784232431166,
+    "SDI_dep_max": 862.078423243117,
+    "n": 4
+   },
+   {
+    "Install": "Kulani",
+    "Plot": "23",
+    "SDI_max": 761.9161049095587,
+    "SDI_dep_max": 1453.46727427237,
+    "n": 6
+   },
+   {
+    "Install": "Waiakea",
+    "Plot": "14",
+    "SDI_max": 514.1953187870049,
+    "SDI_dep_max": 514.195318787005,
+    "n": 2
+   },
+   {
+    "Install": "Waiakea",
+    "Plot": "11",
+    "SDI_max": 411.80939872267663,
+    "SDI_dep_max": 411.809398722677,
+    "n": 2
+   },
+   {
+    "Install": "Waiakea",
+    "Plot": "24",
+    "SDI_max": 398.79038233092007,
+    "SDI_dep_max": 450.961307639913,
+    "n": 7
+   },
+   {
+    "Install": "Kulani",
+    "Plot": "42",
+    "SDI_max": 34.01114100504459,
+    "SDI_dep_max": 34.0111410050446,
+    "n": 1
+   }
+  ],
+  "all_max_BAPH_dep": [
+   {
+    "Data": "PSP",
+    "Install": "106",
+    "Plot": "6",
+    "Measure": 2021,
+    "BAPH_dep": 256.645357892154,
+    "BAPH": 50.872353795648,
+    "SDI_dep": 3177.29433892459,
+    "SDI": 925.7619379034325,
+    "Origin": "Planted"
+   },
+   {
+    "Data": "PSP",
+    "Install": "104",
+    "Plot": "4",
+    "Measure": 2021,
+    "BAPH_dep": 129.129956903178,
+    "BAPH": 65.381082521832,
+    "SDI_dep": 2196.38970762642,
+    "SDI": 1109.273100645113,
+    "Origin": "Planted"
+   },
+   {
+    "Data": "Kap",
+    "Install": "K01",
+    "Plot": "102",
+    "Measure": 2020,
+    "BAPH_dep": 91.39870907244,
+    "BAPH": 91.39870907244,
+    "SDI_dep": 1739.02874336181,
+    "SDI": 1739.028743361812,
+    "Origin": "Natural"
+   }
+  ],
+  "projection_peaks_age_le_100": {
+   "even|nat|100": {
+    "SDI": 425.9351170626027,
+    "SDI_age": 95,
+    "BAPH": 26.87223301075898,
+    "BAPH_age": 100,
+    "QMD100": 47.27747075885974,
+    "years": 100
+   },
+   "even|nat|264": {
+    "SDI": 428.13077249273806,
+    "SDI_age": 62,
+    "BAPH": 28.957418236602567,
+    "BAPH_age": 100,
+    "QMD100": 59.96981950375843,
+    "years": 100
+   },
+   "even|nat|450": {
+    "SDI": 428.8406883575392,
+    "SDI_age": 49,
+    "BAPH": 29.05764672340704,
+    "BAPH_age": 82,
+    "QMD100": 65.36260375227708,
+    "years": 100
+   },
+   "even|plt|100": {
+    "SDI": 879.5818565389598,
+    "SDI_age": 47,
+    "BAPH": 54.91704023706368,
+    "BAPH_age": 84,
+    "QMD100": 52.025399467132935,
+    "years": 100
+   },
+   "even|plt|264": {
+    "SDI": 884.7973440582675,
+    "SDI_age": 31,
+    "BAPH": 56.65209714620372,
+    "BAPH_age": 83,
+    "QMD100": 57.34190152603144,
+    "years": 100
+   },
+   "even|plt|450": {
+    "SDI": 888.5791889289657,
+    "SDI_age": 25,
+    "BAPH": 57.23534485356398,
+    "BAPH_age": 72,
+    "QMD100": 59.78954676967505,
+    "years": 100
+   },
+   "uneven|nat|100": {
+    "SDI": 579.7017053957699,
+    "SDI_age": 100,
+    "BAPH": 41.38916886682087,
+    "BAPH_age": 100,
+    "QMD100": 64.54567258196815,
+    "years": 100
+   },
+   "uneven|nat|264": {
+    "SDI": 603.3389399514443,
+    "SDI_age": 100,
+    "BAPH": 46.84612414888024,
+    "BAPH_age": 100,
+    "QMD100": 79.81700702460742,
+    "years": 100
+   },
+   "uneven|nat|450": {
+    "SDI": 624.1967561530479,
+    "SDI_age": 100,
+    "BAPH": 50.36570856584192,
+    "BAPH_age": 100,
+    "QMD100": 87.97854689596677,
+    "years": 100
+   }
+  },
+  "traj_columns": [
+   "year",
+   "QMD",
+   "BAPH",
+   "TPH",
+   "SDI",
+   "m_garcia",
+   "m_stand",
+   "m_realised",
+   "g_surv",
+   "bal_conv",
+   "MORT_BA",
+   "DBHMAX",
+   "HT",
+   "dQMD",
+   "selection",
+   "VOL",
+   "MORT_VOL",
+   "origin",
+   "planted",
+   "byi",
+   "site"
+  ],
+  "uneven_traj_columns": [
+   "BAPH",
+   "TPH",
+   "QMD",
+   "SDI",
+   "ingrowth",
+   "MORT_BA",
+   "DBHMAX",
+   "age",
+   "BYI",
+   "Site",
+   "HT",
+   "ht_guard",
+   "Vol",
+   "MAI",
+   "MORT_VOL"
+  ],
+  "tree_level_output_in_out_m1": [
+   "Fig5_scenarios_M1.png",
+   "FigS4_natural_M1.png",
+   "FigS5_planted_M1.png",
+   "FigS6_validation_M1.png",
+   "FigS8_bakuzis_M1.png",
+   "FigS9_natural_vs_planted_M1.png",
+   "bakuzis_slopes_M1.csv",
+   "figS4_point_nat_M1.csv",
+   "figS5_point_plt_M1.csv",
+   "koa_bakuzis_input_M1.csv",
+   "reps_evenaged_M1.csv",
+   "table8_evenaged_M1.csv",
+   "traj_M1.csv",
+   "uneven_aged_reps_M1.csv",
+   "uneven_aged_table8_M1.csv",
+   "uneven_aged_traj_M1.csv",
+   "validation_M1.csv",
+   "validation_M1.json"
+  ]
+ },
+ "task9": {
+  "a_reineke_uneven_low_11_100_slope_lnTPH_on_lnQMD": -1.1755199975899313,
+  "a_variant_10_100": -1.151621803679825,
+  "a_bakuzis_slopes_M1": [
+   {
+    "origin": "natural",
+    "site": 100,
+    "slope": -1.5495134748669892,
+    "status": "OK"
+   },
+   {
+    "origin": "natural",
+    "site": 264,
+    "slope": -1.8521727246680304,
+    "status": "OK"
+   },
+   {
+    "origin": "natural",
+    "site": 450,
+    "slope": -2.032056704476436,
+    "status": "OK"
+   },
+   {
+    "origin": "planted",
+    "site": 100,
+    "slope": -2.033386317566565,
+    "status": "OK"
+   },
+   {
+    "origin": "planted",
+    "site": 264,
+    "slope": -2.322170540177824,
+    "status": "FLAG"
+   },
+   {
+    "origin": "planted",
+    "site": 450,
+    "slope": -2.5611185829359955,
+    "status": "FLAG"
+   }
+  ],
+  "b_CF": 1.3688773718109937,
+  "c_pct_below": 4.510544922589299
+ }
+}
