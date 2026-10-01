@@ -1,0 +1,74 @@
+{
+ "Uneven-aged natural|Low (100)": {
+  "pt_window": "30",
+  "med_window": "33 (21 to 97)",
+  "share10": "0",
+  "med_int": "33 (21 to 91)",
+  "share_none": "0.02",
+  "n_reps": 300
+ },
+ "Uneven-aged natural|Medium (264)": {
+  "pt_window": "20",
+  "med_window": "22 (15 to 78)",
+  "share10": "0",
+  "med_int": "22 (15 to 78)",
+  "share_none": "0",
+  "n_reps": 300
+ },
+ "Uneven-aged natural|High (450)": {
+  "pt_window": "17",
+  "med_window": "17 (12 to 73)",
+  "share10": "0.01",
+  "med_int": "17 (12 to 73)",
+  "share_none": "0",
+  "n_reps": 300
+ },
+ "Even-aged natural|Low (100)": {
+  "pt_window": "37",
+  "med_window": "24 (10 to 56)",
+  "share10": "0.47",
+  "med_int": "38 (21 to 59)",
+  "share_none": "0.272",
+  "n_reps": 500
+ },
+ "Even-aged natural|Medium (264)": {
+  "pt_window": "25",
+  "med_window": "24 (10 to 43)",
+  "share10": "0.22",
+  "med_int": "26 (13 to 44)",
+  "share_none": "0.202",
+  "n_reps": 500
+ },
+ "Even-aged natural|High (450)": {
+  "pt_window": "20",
+  "med_window": "19 (10 to 32)",
+  "share10": "0.23",
+  "med_int": "21 (12 to 34)",
+  "share_none": "0.216",
+  "n_reps": 500
+ },
+ "Even-aged planted|Low (100)": {
+  "pt_window": "12",
+  "med_window": "11 (10 to 16)",
+  "share10": "0.35",
+  "med_int": "11 (6 to 16)",
+  "share_none": "0",
+  "n_reps": 500
+ },
+ "Even-aged planted|Medium (264)": {
+  "pt_window": "10",
+  "med_window": "10 (10 to 11)",
+  "share10": "0.94",
+  "med_int": "8 (5 to 11)",
+  "share_none": "0",
+  "n_reps": 500
+ },
+ "Even-aged planted|High (450)": {
+  "pt_window": "10",
+  "med_window": "10 (10 to 10)",
+  "share10": "0.99",
+  "med_int": "7 (5 to 9)",
+  "share_none": "0",
+  "n_reps": 500
+ }
+}

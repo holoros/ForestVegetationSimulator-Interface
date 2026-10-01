@@ -1,0 +1,10 @@
+306,311c306,307
+<         # increment (RT-F, section 3). The percentile rule of record now runs here.
+<         # KNOWN RESIDUAL, stated rather than hidden: the fitted percentile ranks over
+<         # every plot-year record, dead and zero-diameter included, and a projected list
+<         # carries none of those, so this path still sits above the fitted quantity. The
+<         # cohort path is fitted against the target directly; this one cannot be,
+<         # because the offset depends on a record set that is not projected.
+---
+>         # increment (RT-F, section 3). The percentile rule of record now runs here,
+>         # expf weighted since v103 (stand_bal with expf, KP.BAL_PERCENTILE_WEIGHTED).
