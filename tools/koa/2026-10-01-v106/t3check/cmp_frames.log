@@ -1,0 +1,51 @@
+nlme 3.1.170 R version 4.5.1 (2025-06-13) 
+rows tj 16914 ak 16914 sh 9137 stress 8914 
+positional key match tj vs ak: 1 
+dup keys tj 0 ak 0 sh 0 
+sh rows vs ak rows identical (common cols)? 
+ common cols 36 ; ak-only: KeyDupFlag StatusConflictFlag ; sh-only:  
+job n 8914 inst 143 ; stress n 8914 inst 143 
+keys job not in stress 0 ; stress not in job 0 
+  dbh   rows differing (>1e-9):     0  max abs diff 0
+  ht    rows differing (>1e-9):     0  max abs diff 0
+  baph  rows differing (>1e-9):     0  max abs diff 0
+  rDBH  rows differing (>1e-9):   395  max abs diff 0.936306
+  byi   rows differing (>1e-9):     0  max abs diff -Inf
+Warning message:
+In max(dd, na.rm = TRUE) : no non-missing arguments to max; returning -Inf
+source of stress rDBH: AK_TREE DBH.max; job rDBH: max over live expf>0 stems in tree_join plot-year
+                               key    dbh    rd_max      rDBH    baph    BAPH
+1003   DOFAW|Laupahoehoe|41|1985|1 16.002 0.6057692 0.5727273 26.2558 26.2558
+1004 DOFAW|Laupahoehoe|41|1985|105 20.574 0.7788462 0.7363636 26.2558 26.2558
+1005 DOFAW|Laupahoehoe|41|1985|108 13.462 0.5096154 0.4818182 26.2558 26.2558
+1006 DOFAW|Laupahoehoe|41|1985|109 11.938 0.4519231 0.4272727 26.2558 26.2558
+1007 DOFAW|Laupahoehoe|41|1985|110  7.366 0.2788462 0.2636364 26.2558 26.2558
+1008 DOFAW|Laupahoehoe|41|1985|113 14.986 0.5673077 0.5363636 26.2558 26.2558
+1009  DOFAW|Laupahoehoe|41|1985|12 10.160 0.3846154 0.3636364 26.2558 26.2558
+1010 DOFAW|Laupahoehoe|41|1985|128 12.446 0.4711538 0.4454545 26.2558 26.2558
+[1] key  baph BAPH
+<0 rows> (or 0-length row.names)
+printed vector PA on job frame: R2 0.7878 RMSE 2.3876 bias(obs-pred) 0.3928
+printed vector PA on stress frame: R2 0.7888 RMSE 2.3820 bias(obs-pred) 0.3621
+job frame, job start (v92 vector) 
+  nls : 23.59351 -0.28047 0.03118 0.83037 0.08226 -0.29306  RSS 46071.00 
+  nlme: 28.92883 0.96679 0.01703 0.79225 0.07684 -0.34331  logLik -18714.882  iter 6  warn:  
+job frame, stress start (Table 3 vector) 
+  nls : 23.59355 -0.28047 0.03118 0.83037 0.08226 -0.29306  RSS 46071.00 
+  nlme: 28.92892 0.96679 0.01703 0.79225 0.07684 -0.34331  logLik -18714.882  iter 6  warn:  
+stress frame, job start (v92 vector) 
+  nls : 23.32222 -0.27053 0.03091 0.82332 0.08243 -0.28476  RSS 45902.28 
+  nlme: 25.47118 0.60375 0.01723 0.76041 0.09256 -0.27779  logLik -18761.748  iter 2  warn:  
+stress frame, stress start (Table 3 vector) 
+  nls : 23.32225 -0.27053 0.03091 0.82332 0.08243 -0.28476  RSS 45902.28 
+  nlme: 25.47118 0.60375 0.01723 0.76041 0.09256 -0.27779  logLik -18761.748  iter 2  warn:  
+static frame rows with byi joined 8914 of 9137 
+static-frame job-def n 8914 inst 143 ; keys identical to job frame: TRUE 
+  dbh   rows differing (>1e-9):     0  max abs diff 0
+  ht    rows differing (>1e-9):     0  max abs diff 0
+  baph  rows differing (>1e-9):     0  max abs diff 0
+  rDBH  rows differing (>1e-9):    10  max abs diff 0.426267
+static_height_frame_v103 + tree_join byi, job definition and start 
+  nls : 23.87619 -0.28082 0.03112 0.83303 0.08076 -0.29919  RSS 46021.82 
+  nlme: 29.13673 0.97818 0.01694 0.79283 0.07610 -0.34553  logLik -18713.362  iter 200  warn: maximum number of iterations (maxIter = 200) reached without convergence 
+CMP DONE

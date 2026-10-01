@@ -1,0 +1,25 @@
+byi stress vs tree_join max abs diff: 0 
+tree_join vs AK_TREE: dbh equal TRUE ; status equal 1 ; expf equal TRUE ; baph equal TRUE 
+plot-years with live stems: 739 ; DBH.max differs from job max: 73 
+  of those, DBH.max equals max over ALL stems (any status): 13 ; equals max over live stems ignoring expf: 0 ; DBH.max < job max: 0 
+   DOFAW|Laupahoehoe|41|1985  job max 26.416  DBH.max 27.94  carrier status/expf/ht:  
+   DOFAW|Laupahoehoe|41|1993  job max 32.5  DBH.max 33.02  carrier status/expf/ht:  
+   DOFAW|Laupahoehoe|41|2001  job max 47.498  DBH.max 48.26  carrier status/expf/ht:  
+   DOFAW|Waiakea|14|1961  job max 34.544  DBH.max 67.564  carrier status/expf/ht:  
+   DOFAW|Waiakea|14|1966  job max 36.576  DBH.max 65.532  carrier status/expf/ht:  
+   FIA|15-1-1-2291|2|2010  job max 34.544  DBH.max 156.21  carrier status/expf/ht:  
+   FIA|15-1-1-2291|2|2019  job max 37.846  DBH.max 157.734  carrier status/expf/ht:  
+   FIA|15-1-1-2291|4|2010  job max 40.64  DBH.max 74.168  carrier status/expf/ht:  
+   FIA|15-1-1-2307|1|2019  job max 27.94  DBH.max 79.502  carrier status/expf/ht:  
+   FIA|15-1-1-2317|1|2010  job max 17.018  DBH.max 24.13  carrier status/expf/ht:  
+   FIA|15-1-1-2317|3|2010  job max 13.462  DBH.max 35.814  carrier status/expf/ht:  
+   FIA|15-1-1-2317|3|2019  job max 16.002  DBH.max 37.846  carrier status/expf/ht:  
+
+        dead expf<=0/NA             dead expf>0 no stem carries DBH.max 
+                      2                      11                      60 
+height-frame records affected: 395 rows in 57 plot-years
+static frame rDBH == DBH/DBH.max: 6.661338e-16 
+stress frame, nlme started at the job optimum: 25.47116 0.60375 0.01723 0.76041 0.09256 -0.27779  logLik -18761.748 
+static frame (own rDBH) n 8914 
+static frame with deposited rDBH: 25.47115 0.60375 0.01723 0.76041 0.09256 -0.27779  logLik -18761.748 
+DIAG DONE
