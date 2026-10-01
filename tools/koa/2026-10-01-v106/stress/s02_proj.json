@@ -1,0 +1,382 @@
+{
+ "even": {
+  "nat_100": {
+   "reineke_11_100": -1.017,
+   "max_SDI_col": 425.9,
+   "max_SDIq": 415.2,
+   "max_BA": 27.48,
+   "vol40": 106.33,
+   "vol100": 207.95,
+   "C40": 25.49,
+   "net_cul": 37,
+   "gross_cul": 62,
+   "vol_peak_age": 154,
+   "mean_mrealised_100": 0.0102,
+   "mean_mstand_100": 0.0102,
+   "ann_stem_loss_geo": 0.0102,
+   "qmd40": 27.42
+  },
+  "nat_264": {
+   "reineke_11_100": -1.285,
+   "max_SDI_col": 428.1,
+   "max_SDIq": 417.4,
+   "max_BA": 29.04,
+   "vol40": 160.16,
+   "vol100": 263.81,
+   "C40": 38.39,
+   "net_cul": 25,
+   "gross_cul": 41,
+   "vol_peak_age": 102,
+   "mean_mrealised_100": 0.0114,
+   "mean_mstand_100": 0.0114,
+   "ann_stem_loss_geo": 0.0114,
+   "qmd40": 34.75
+  },
+  "nat_450": {
+   "reineke_11_100": -1.419,
+   "max_SDI_col": 428.8,
+   "max_SDIq": 418.1,
+   "max_BA": 29.06,
+   "vol40": 197.4,
+   "vol100": 275.84,
+   "C40": 47.32,
+   "net_cul": 20,
+   "gross_cul": 33,
+   "vol_peak_age": 82,
+   "mean_mrealised_100": 0.0119,
+   "mean_mstand_100": 0.0119,
+   "ann_stem_loss_geo": 0.012,
+   "qmd40": 39.61
+  },
+  "plt_100": {
+   "reineke_11_100": -1.461,
+   "max_SDI_col": 879.6,
+   "max_SDIq": 857.5,
+   "max_BA": 54.92,
+   "vol40": 368.22,
+   "vol100": 450.43,
+   "C40": 88.26,
+   "net_cul": 12,
+   "gross_cul": 15,
+   "vol_peak_age": 98,
+   "mean_mrealised_100": 0.0096,
+   "mean_mstand_100": 0.0096,
+   "ann_stem_loss_geo": 0.0096,
+   "qmd40": 37.8
+  },
+  "plt_264": {
+   "reineke_11_100": -1.608,
+   "max_SDI_col": 884.8,
+   "max_SDIq": 862.5,
+   "max_BA": 56.65,
+   "vol40": 448.22,
+   "vol100": 491.65,
+   "C40": 107.44,
+   "net_cul": 8,
+   "gross_cul": 11,
+   "vol_peak_age": 87,
+   "mean_mrealised_100": 0.0101,
+   "mean_mstand_100": 0.0101,
+   "ann_stem_loss_geo": 0.0102,
+   "qmd40": 44.5
+  },
+  "plt_450": {
+   "reineke_11_100": -1.698,
+   "max_SDI_col": 888.6,
+   "max_SDIq": 866.2,
+   "max_BA": 57.24,
+   "vol40": 490.44,
+   "vol100": 514.91,
+   "C40": 117.56,
+   "net_cul": 7,
+   "gross_cul": 9,
+   "vol_peak_age": 72,
+   "mean_mrealised_100": 0.0104,
+   "mean_mstand_100": 0.0104,
+   "ann_stem_loss_geo": 0.0105,
+   "qmd40": 46.99
+  }
+ },
+ "uneven": {
+  "100": {
+   "reineke_11_100": -1.176,
+   "max_SDI": 579.7,
+   "max_BA": 41.39,
+   "net_cul": 30,
+   "gross_cul": 58
+  },
+  "264": {
+   "reineke_11_100": -1.293,
+   "max_SDI": 603.3,
+   "max_BA": 46.85,
+   "net_cul": 20,
+   "gross_cul": 37
+  },
+  "450": {
+   "reineke_11_100": -1.315,
+   "max_SDI": 624.2,
+   "max_BA": 50.37,
+   "net_cul": 17,
+   "gross_cul": 29
+  }
+ },
+ "SC": [
+  {
+   "group": "density",
+   "origin": "natural",
+   "label": "1000 stems",
+   "TPH40": 262.9,
+   "D100_40": 47.92,
+   "DBHMAX40": 57.04,
+   "QMD40": 36.3,
+   "QMD100": 65.55,
+   "TY40": 192.7,
+   "reineke": -1.669
+  },
+  {
+   "group": "density",
+   "origin": "natural",
+   "label": "2000 stems",
+   "TPH40": 224.6,
+   "D100_40": 51.69,
+   "DBHMAX40": 56.43,
+   "QMD40": 40.51,
+   "QMD100": 78.98,
+   "TY40": 213.1,
+   "reineke": -1.864
+  },
+  {
+   "group": "density",
+   "origin": "natural",
+   "label": "250 stems",
+   "TPH40": 172.4,
+   "D100_40": 41.25,
+   "DBHMAX40": 57.72,
+   "QMD40": 35.19,
+   "QMD100": 59.02,
+   "TY40": 113.65,
+   "reineke": -0.805
+  },
+  {
+   "group": "density",
+   "origin": "natural",
+   "label": "500 stems",
+   "TPH40": 244.6,
+   "D100_40": 44.78,
+   "DBHMAX40": 57.59,
+   "QMD40": 34.75,
+   "QMD100": 59.97,
+   "TY40": 160.16,
+   "reineke": -1.285
+  },
+  {
+   "group": "density",
+   "origin": "planted",
+   "label": "1200 stems",
+   "TPH40": 346.2,
+   "D100_40": 61.11,
+   "DBHMAX40": 69.39,
+   "QMD40": 44.5,
+   "QMD100": 57.34,
+   "TY40": 448.22,
+   "reineke": -1.608
+  },
+  {
+   "group": "density",
+   "origin": "planted",
+   "label": "2400 stems",
+   "TPH40": 320.0,
+   "D100_40": 66.86,
+   "DBHMAX40": 69.05,
+   "QMD40": 47.85,
+   "QMD100": 57.77,
+   "TY40": 491.31,
+   "reineke": -1.902
+  },
+  {
+   "group": "density",
+   "origin": "planted",
+   "label": "300 stems",
+   "TPH40": 204.0,
+   "D100_40": 55.75,
+   "DBHMAX40": 68.92,
+   "QMD40": 47.88,
+   "QMD100": 62.01,
+   "TY40": 303.16,
+   "reineke": -0.928
+  },
+  {
+   "group": "density",
+   "origin": "planted",
+   "label": "600 stems",
+   "TPH40": 292.9,
+   "D100_40": 57.85,
+   "DBHMAX40": 69.26,
+   "QMD40": 45.08,
+   "QMD100": 58.78,
+   "TY40": 386.56,
+   "reineke": -1.274
+  },
+  {
+   "group": "thinning",
+   "origin": "natural",
+   "label": "Thinned to 250 at age 15",
+   "TPH40": 171.2,
+   "D100_40": 43.98,
+   "DBHMAX40": 57.88,
+   "QMD40": 38.11,
+   "QMD100": 62.36,
+   "TY40": 143.74,
+   "reineke": -1.151
+  },
+  {
+   "group": "thinning",
+   "origin": "natural",
+   "label": "Unthinned",
+   "TPH40": 244.6,
+   "D100_40": 44.78,
+   "DBHMAX40": 57.59,
+   "QMD40": 34.75,
+   "QMD100": 59.97,
+   "TY40": 160.16,
+   "reineke": -1.285
+  },
+  {
+   "group": "thinning",
+   "origin": "planted",
+   "label": "Thinned to 500 at 8 and 250 at 20",
+   "TPH40": 188.3,
+   "D100_40": 60.51,
+   "DBHMAX40": 69.66,
+   "QMD40": 52.02,
+   "QMD100": 63.23,
+   "TY40": 402.53,
+   "reineke": -1.618
+  },
+  {
+   "group": "thinning",
+   "origin": "planted",
+   "label": "Thinned to 500 at age 8",
+   "TPH40": 262.0,
+   "D100_40": 60.59,
+   "DBHMAX40": 69.02,
+   "QMD40": 47.8,
+   "QMD100": 59.88,
+   "TY40": 421.46,
+   "reineke": -1.331
+  },
+  {
+   "group": "thinning",
+   "origin": "planted",
+   "label": "Unthinned",
+   "TPH40": 346.2,
+   "D100_40": 61.11,
+   "DBHMAX40": 69.39,
+   "QMD40": 44.5,
+   "QMD100": 57.34,
+   "TY40": 448.22,
+   "reineke": -1.608
+  }
+ ],
+ "DOFAW_nat_plot_maxSDI": [
+  {
+   "Install": "Kulani",
+   "Plot": "23",
+   "maxSDI": "761.9",
+   "nyrs": "6",
+   "maxBA": "41.5"
+  },
+  {
+   "Install": "Kulani",
+   "Plot": "42",
+   "maxSDI": "34.0",
+   "nyrs": "1",
+   "maxBA": "0.8"
+  },
+  {
+   "Install": "Laupahoehoe",
+   "Plot": "41",
+   "maxSDI": "880.4",
+   "nyrs": "6",
+   "maxBA": "47.0"
+  },
+  {
+   "Install": "Waiakea",
+   "Plot": "11",
+   "maxSDI": "411.8",
+   "nyrs": "2",
+   "maxBA": "19.8"
+  },
+  {
+   "Install": "Waiakea",
+   "Plot": "14",
+   "maxSDI": "514.2",
+   "nyrs": "2",
+   "maxBA": "29.2"
+  },
+  {
+   "Install": "Waiakea",
+   "Plot": "24",
+   "maxSDI": "398.8",
+   "nyrs": "7",
+   "maxBA": "17.7"
+  },
+  {
+   "Install": "Waikamoi",
+   "Plot": "25",
+   "maxSDI": "862.1",
+   "nyrs": "4",
+   "maxBA": "28.8"
+  }
+ ],
+ "DOFAW_maxBA": [
+  "Laupahoehoe",
+  "41",
+  2001,
+  46.98
+ ],
+ "PSP_maxBA": 68.94,
+ "note_koa_only_recompute": "AK_TREE holds koa rows only; stand columns are all-species rebuilt values",
+ "DOFAW_koa_only_maxSDI": [
+  {
+   "Install": "Kulani",
+   "Plot": "12",
+   "sdi": "349.7"
+  },
+  {
+   "Install": "Kulani",
+   "Plot": "23",
+   "sdi": "760.3"
+  },
+  {
+   "Install": "Kulani",
+   "Plot": "42",
+   "sdi": "34.0"
+  },
+  {
+   "Install": "Laupahoehoe",
+   "Plot": "41",
+   "sdi": "704.9"
+  },
+  {
+   "Install": "Waiakea",
+   "Plot": "11",
+   "sdi": "411.8"
+  },
+  {
+   "Install": "Waiakea",
+   "Plot": "14",
+   "sdi": "395.0"
+  },
+  {
+   "Install": "Waiakea",
+   "Plot": "24",
+   "sdi": "398.8"
+  },
+  {
+   "Install": "Waikamoi",
+   "Plot": "25",
+   "sdi": "862.1"
+  }
+ ]
+}

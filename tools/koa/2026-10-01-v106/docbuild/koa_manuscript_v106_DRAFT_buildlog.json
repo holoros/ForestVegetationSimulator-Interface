@@ -1,0 +1,369 @@
+[
+[
+"SET",
+"Acacia koa A. Gray (koa) is Hawaii’s most valuable"
+],
+[
+"SET",
+"Recent US Forest Service Forest Inventory and Anal"
+],
+[
+"SET",
+"Two defects in the assembled tables were repaired"
+],
+[
+"SET",
+"where η = b0 + b1√(HT/100)"
+],
+[
+"SET",
+"where Δ is the periodic annual increment, size is "
+],
+[
+"SET",
+"The increment equations were selected under a rule"
+],
+[
+"SET",
+"Competition is BAL = (1 − BA.perc) × BAPH (Eq. 7)"
+],
+[
+"SET",
+"Projected over the 24 natural plot intervals, the "
+],
+[
+"SET",
+"The height equation explains 86.2% of height varia"
+],
+[
+"SET",
+"The deployed increment equations (Table 4) explain"
+],
+[
+"SET",
+"Within the Kulani installation, the only one holdi"
+],
+[
+"SET",
+"On the 17 remeasured plots (Table S25; Fig. S5), p"
+],
+[
+"SET",
+"Split by origin, mean QMD is equivalent in both"
+],
+[
+"SET",
+"Along trajectories (Fig. 5; Table S27), projected "
+],
+[
+"SET",
+"Table 5 and Fig. 4 give the 100-year projections"
+],
+[
+"SET",
+"Planted volume peaks at age 72, 87 and 98"
+],
+[
+"SET",
+"This study delivers the first linked individual-tr"
+],
+[
+"SET",
+"Koa mortality occurrence rose with stand density, "
+],
+[
+"SET",
+"Three properties of the increment calibration limi"
+],
+[
+"SET",
+"BYI is a conditional asymptote far beyond observed"
+],
+[
+"SET",
+"The assembled tree-level dataset (AK_TREE.csv"
+],
+[
+"SET",
+"Table 1. Data sources in the koa permanent plot ne"
+],
+[
+"SET",
+"Table 2. Summary statistics for tree and stand var"
+],
+[
+"SET",
+"Table 5. Projected koa stand development for even-"
+],
+[
+"SUB",
+"The goal of this analysis was to synthes",
+"The equations were developed for the ini"
+],
+[
+"SUB",
+"Because the KMR PSP source is entirely p",
+"so that the total annual increment proje"
+],
+[
+"SUB",
+"with ηd = c0 + c1ln(DBH)",
+"so the equation was respecified on the d"
+],
+[
+"SUB",
+"Given the limitations of the tree-level ",
+"and gated by the Stage 1 probability so "
+],
+[
+"SUB",
+"The linked GY system was evaluated from ",
+"Trajectories were rerun with the level f"
+],
+[
+"SUB",
+"The increment samples span rainfall",
+"Planted stands grew faster in diameter t"
+],
+[
+"SUB",
+"Eq. 1 returned a conditional asymptote f",
+"and the 320 growth-model plots carry val"
+],
+[
+"SUB",
+"The Kona random forest reached an out-of",
+"With a local out-of-bag error of about 1"
+],
+[
+"SUB",
+"The tree-level survival equation ordered",
+"In the earlier fit on the unrepaired int"
+],
+[
+"SUB",
+"Magnitude given occurrence showed no det",
+"On the repaired recovered sample, Eq. 5 "
+],
+[
+"SUB",
+"The ingrowth expectation (Eq. 6) has d0 ",
+", within 0.06 standard errors of the ear"
+],
+[
+"SUB",
+"The ingrowth expectation (Eq. 6) has d0 ",
+"(47.1 trees ha−1 yr−1 on the deposited f"
+],
+[
+"SUB",
+"The conditional fit statistics sit at or",
+"and the one within-installation comparis"
+],
+[
+"SUB",
+"Faster planted growth at small sizes is ",
+"and in the refitted height equation its "
+],
+[
+"SUB",
+"Faster planted growth at small sizes is ",
+"and none of the refits on that definitio"
+],
+[
+"SUB",
+"Mortality was the component furthest fro",
+"Size-independent agents of this kind int"
+],
+[
+"SUB",
+"The tree-level survival equation was res",
+"and the only natural units outside the c"
+],
+[
+"SUB",
+"For management, net MAI culminates early",
+"On sites with BYI above 250, projected s"
+],
+[
+"SUB",
+"This study developed five individual-tre",
+"no preregistered increment candidate met"
+],
+[
+"SUB",
+"Net MAI culminates at 7 to 12 years in p",
+"Net MAI culminates at 7 to 12 years in p"
+],
+[
+"SUB",
+"[dataset] Weiskittel, A.R., Sprecher, I.",
+"Version 1.9.3."
+],
+[
+"SUB",
+"Fig. 1. Koa (Acacia koa) permanent plot ",
+"with the number of mapped plot locations"
+],
+[
+"SUB",
+"Fig. 1. Koa (Acacia koa) permanent plot ",
+"The two Kualoa plots on Oʻahu have no re"
+],
+[
+"SUB",
+"Fig. 2. Biomass Yield Index (BYI, index ",
+"Fig. 2. Biomass Yield Index (BYI, index "
+],
+[
+"SUB",
+"Fig. 2. Biomass Yield Index (BYI, index ",
+"and runs from 78 on the least productive"
+],
+[
+"SUB",
+"Fig. 4. Projected koa stand development",
+"and dashed lines the largest QMD (69.7 c"
+],
+[
+"SUB",
+"Fig. 5. Long-term trajectory validation",
+"for the repaired system (filled) and the"
+],
+[
+"SUB",
+"Fig. 5. Long-term trajectory validation",
+"and the points near +0.99 in (d) are PSP"
+],
+[
+"SUB",
+"Notes. All estimates differ from zero at",
+"An installation-cluster bootstrap of the"
+],
+[
+"SUB",
+"Notes. All estimates differ from zero at",
+"and it was not repeated on the repaired "
+],
+[
+"SUB",
+"Table 3. Parameter estimates for the Cha",
+"with the repaired stand covariates."
+],
+[
+"SUB",
+"Table 4. Parameter estimates for the log",
+"The ΔDBH vector is the published fit to "
+],
+[
+"SUB",
+"Table 4. Parameter estimates for the log",
+"and those of the earlier ΔDBH bootstrap "
+],
+[
+"SUB",
+"Notes. Intervals are the 2.5th and 97.5t",
+"No point estimate exceeds 56.5 m2 ha−1 o"
+],
+[
+"POST",
+"The linked GY system was evaluated from ",
+"Trajectories were rerun with the level f"
+],
+[
+"POST",
+"Table 5. Projected koa stand development",
+"and their coverage was not recomputed fo"
+],
+[
+"POST",
+"Notes. Intervals are the 2.5th and 97.5t",
+"Their coverage was not recomputed (earli"
+],
+[
+"POST",
+"Split by origin, mean QMD is equivalent ",
+"Monte Carlo coverage was not recomputed "
+],
+[
+"POST",
+"The FVS-HI variant (HiGy.R,",
+"and still carries an earlier survival eq"
+],
+[
+"POST",
+"Table 5 and Fig. 4 give the 100-year pro",
+"whereas the three long natural DOFAW plo"
+],
+[
+"POST",
+"Koa mortality occurrence rose with stand",
+"well below the 760 to 880 reached on the"
+],
+[
+"POST",
+"The deployed increment equations (Table ",
+"whereas 35.9% of planted records grew fa"
+],
+[
+"POST",
+"The goal of this analysis was to synthes",
+"(1) derive and map a spatially explicit "
+],
+[
+"POST",
+"The goal of this analysis was to synthes",
+"against remeasured plots; and (4)"
+],
+[
+"POST",
+"Table 1. Data sources in the koa permane",
+"plot median 203 over 311 plots"
+],
+[
+"POST",
+"Fig. 6. Behavior of the koa system",
+"mark the largest trees reaching the 69.7"
+],
+[
+"POST",
+"Acacia koa A. Gray (koa) is Hawaii’s mos",
+"and on the two natural plots outside eve"
+],
+[
+"POST",
+"Fig. 4. Projected koa stand development",
+"The gray field marks ages beyond the 52-"
+],
+[
+"POST",
+"Fig. 1. Koa (Acacia koa) permanent plot ",
+"Positions are offset at random within 50"
+],
+[
+"POST",
+"Pinheiro, J., Bates, D., R Core Team, 20",
+"Pinheiro, J., Bates, D., R Core Team, 20"
+],
+[
+"POST",
+"The height and crown equations were cros",
+"nlme (Pinheiro et al., 2023)"
+],
+[
+"FIG",
+"Fig4"
+],
+[
+"FIG",
+"Fig5"
+],
+[
+"SKIP",
+"non-run child sdt in paragraph: Mean BYI"
+],
+[
+"SUPFIX",
+0
+]
+]
