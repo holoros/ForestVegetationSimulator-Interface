@@ -1,0 +1,38 @@
+1c1,5
+< ## joint_draws_v103.R (2026-09-30, Stage A2). joint_draws_v102.R adapted to the v103 deployment. Same design: source resampling with both
+---
+> ## joint_draws_v103_inst.R (2026-09-30, closeout, red team must-change 5). Copy of a2/joint_draws_v103.R with ONE design change: the
+> ## multiplier resample keeps every data source and resamples its installations (Data|Install) with replacement within source, as the
+> ## constants bootstrap track2/inc/boot_v103.R does; one installation draw per row is applied to both the dDBH and dHT frames. Everything
+> ## else (vector draws, pairing of vector j with the re-solve, height, Stage 1, kmort, seed, N) is unchanged. Output a2/closeout/jointmc/out.
+> ## Original header: joint_draws_v102.R adapted to the v103 deployment. Same design: source resampling with both
+25c29,33
+< csolve <- function(resp, b, s) { GUARD <<- GD[[resp]]; d <- FR[[resp]]; dd <- d[unlist(split(seq_len(nrow(d)), d$Data)[s], use.names = FALSE), ]
+---
+> FR <- lapply(FR, function(d) { d$inst <- paste(d$Data, d$Install, sep = "|"); d }); SPI <- lapply(FR, function(d) split(seq_len(nrow(d)), d$inst))
+> IU <- unique(do.call(rbind, lapply(FR, function(d) unique(d[, c("inst", "Data")])))); IU <- IU[order(IU$Data, IU$inst), ]
+> ids_by_src <- split(IU$inst, IU$Data); logm("installations by source (union of frames):", paste(names(ids_by_src), lengths(ids_by_src), collapse = " "))
+> rows_of <- function(resp, s) { sp <- SPI[[resp]]; unlist(sp[s[s %in% names(sp)]], use.names = FALSE) }
+> csolve <- function(resp, b, s) { GUARD <<- GD[[resp]]; d <- FR[[resp]]; dd <- d[rows_of(resp, s), ]
+27c35
+< k0 <- c(csolve("dDBH", B0$dDBH, srcs), csolve("dHT", B0$dHT, srcs)); eng <- c(getpair("CAL_DDBH"), getpair("CAL_DHT"))
+---
+> k0 <- c(csolve("dDBH", B0$dDBH, IU$inst), csolve("dHT", B0$dHT, IU$inst)); eng <- c(getpair("CAL_DDBH"), getpair("CAL_DHT"))
+47,48c55,56
+<   repeat { s <- sample(srcs, length(srcs), replace = TRUE)
+<     if (all(sapply(FR, function(d) all(c(0, 1) %in% d$Planted[d$Data %in% s])))) break; rej <- rej + 1L }
+---
+>   repeat { s <- unlist(lapply(ids_by_src, function(v) sample(v, length(v), replace = TRUE)), use.names = FALSE)
+>     if (all(sapply(names(FR), function(r) all(c(0, 1) %in% FR[[r]]$Planted[rows_of(r, s)])))) break; rej <- rej + 1L }
+63c71
+< MCOUT <- file.path(W, "a2/mc/out")
+---
+> MCOUT <- file.path(W, "a2/closeout/jointmc/out")
+68c76
+<   data.frame(draw = i - 1L, sources = paste(sort(x$s), collapse = "|"),
+---
+>   data.frame(draw = i - 1L, sources = paste(sort(unique(sub("\\|.*", "", x$s))), collapse = "|"), n_inst_distinct = length(unique(x$s)),
+76c84
+< num <- K[, sapply(K, is.numeric) & names(K) != "draw"]
+---
+> num <- K[, sapply(K, is.numeric) & !(names(K) %in% c("draw", "n_inst_distinct"))]

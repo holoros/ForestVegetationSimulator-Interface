@@ -1,0 +1,44 @@
+{
+ "DOFAW": {
+  "baph": "20.3",
+  "mort": "55.5"
+ },
+ "FIA": {
+  "baph": "40.3",
+  "mort": "29.1"
+ },
+ "KMR CAR": {
+  "baph": "8.9",
+  "mort": "1.1"
+ },
+ "KMR PSP": {
+  "baph": "4.6",
+  "mort": "2.6"
+ },
+ "Kahikinui": {
+  "baph": "16.0",
+  "mort": "0.7"
+ },
+ "Kap": {
+  "baph": "40.3",
+  "mort": "0.0"
+ },
+ "Kualoa": {
+  "baph": "n/a",
+  "mort": "0.0"
+ },
+ "Mauka": {
+  "baph": "6.8",
+  "mort": "0.0"
+ },
+ "PSP": {
+  "baph": "19.6",
+  "mort": "39.6"
+ },
+ "Total": {
+  "dbh": "15.2",
+  "ht": "9.1",
+  "baph": "19.2",
+  "mort": "38.3"
+ }
+}
