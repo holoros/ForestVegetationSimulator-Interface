@@ -1,5 +1,25 @@
 # HiGy.R changelog
 
+## 0.4.1 (2026-09-25)
+
+Branch ClaudeDevelopment, commit e89182c. Files changed: fvsOL/inst/extdata/HiGy.R (+44, −12). BAL construction only. No mortality constant, no growth constant, no equation form and no function signature changed from 0.4.0. The commit landed without a change log entry; this entry was written on 2026-10-05 from the commit message and the diff.
+
+### What changed
+
+calc_bal() now defaults to the percentile construction of record, BAL = BAPH × (1 − BA.perc), with BA.perc the unweighted minimum tie diameter percentile over the records in the plot year. This transcribes koa_equations.bal_percentile_fraction and koa_equations.stand_bal of the deployed v102 engine. mode = "cumsum" retains the descending cumulative sum of 0.4.0 and reproduces every pre 0.4.1 projection.
+
+### Why
+
+0.4.0 carried the deployed Stage 3 ordering weight (KOA_S3_RESPEC, the respecified Eq. 5a of Table S12) and the current mortality level, but evaluated that weight on a BAL the deployed engine does not compute. The level of the weight cancels under renormalization; its spread across the tree list does not, and the spread is what this corrects.
+
+### Checked
+
+Against the deposit carrier over 40 tree lists and 630 stems, including partial ties and four cases reaching the 0.95 per tree allocation cap: BAL percentile against the deployed engine 2.274e-13; per tree mortality fraction against the deployed engine 4.441e-16; mode = "cumsum" against 0.4.0 exactly 0; 0.4.0 to 0.4.1 movement in the per tree fraction up to 0.2172, mean 0.0286.
+
+### Not in this version
+
+The v103 engine (30 September 2026; Zenodo 1.9.5, doi:10.5281/zenodo.22997704) weights the percentile by expansion factor, BAL_i = BA_plot × (W≥i − w_i) / (W − w_i) with ties counted as at least as large, so dead weight leaves the ranking as a stand thins, and the v103 increment constants were fitted with that definition. Neither the weighted construction nor the v103 constants are in this file. They follow as 0.4.2 in a separate commit once the Midgard corrections to 0.4.0 have landed, so the two sets of changes stay independently revertable.
+
 ## 0.4.0 (2026-09-23)
 
 Branch ClaudeDevelopment. Files changed: fvsOL/inst/extdata/HiGy.R, fvsOL/inst/extdata/customRun_fvsRunHi.R, this file; new folder fvsOL/inst/extdata/HiGy_tests. Mortality only. No growth constant, no growth equation and no growth code path changed from 0.3.1: diff -w of the growth sections is empty, and the 40 case grid of the 0.3.1 commit through calc_ht(), calc_ddbh() and calc_dht() returns zero difference on this file.
