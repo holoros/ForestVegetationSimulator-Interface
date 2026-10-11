@@ -1592,6 +1592,9 @@ ING.TreeList=function(Sum.temp,INGROWTH,MinDBH)
       InTree1 = rbind(InTree1,InTree2)
     }  
   }
+  # TREE numbers are unique across the stand, not within a plot, so number the
+  # ingrowth records after the largest TREE in any plot to avoid collisions.
+  if (nrow(InTree1)) InTree1$TREE = max(Sum.temp$maxTREE) + seq_len(nrow(InTree1))
   InTree1
 }
 
@@ -1765,7 +1768,7 @@ make_fvs_tree=function(tree.list, orgtree.list, num.plots, mort.model, cm.to.in=
                   dg=DG, # customary units
                   htg=HTG, # customary units
                   mort=MORT, # stand level TPA
-                  cratio=CR) %>% 
+                  cratio=CR*100) %>% # CR is a proportion; FVS expects percent
     dplyr::anti_join(tree.list, 
                      by='TREE')
   
@@ -2513,8 +2516,10 @@ AcadianGYOneStand <- function(tree,stand=NULL,ops=NULL)
     if (!is.null(ingrow))
     {
       # get predicted heights and HCB, use plot CCF and BA as BAL.
-      CCF =Sum.temp[ingrow[,"PLOT"],"CCF"]
-      BAPH=Sum.temp[ingrow[,"PLOT"],"BAPH"]
+      # match on PLOT values; PLOT IDs are not row numbers of Sum.temp
+      prow=match(as.character(ingrow[,"PLOT"]),as.character(Sum.temp$PLOT))
+      CCF =Sum.temp[prow,"CCF"]
+      BAPH=Sum.temp[prow,"BAPH"]
       ingrow$HT=mapply(HTPred,SPP=ingrow$SP,DBH=ingrow$DBH,CSI=CSI,
                        CCF=CCF,BAL=BAPH)                     
       ingrow$HCB=mapply(HCBPred,SPP=ingrow$SP,DBH=ingrow$DBH,HT=ingrow$HT,

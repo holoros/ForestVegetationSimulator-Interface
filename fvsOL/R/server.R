@@ -415,7 +415,7 @@ cat ("onSessionEnded, globals$saveOnExit=",globals$saveOnExit,
     if (length(delList)) lapply(delList,function(x) unlink(x))  
     #note: the stopApp function returns to the R process that called shinyApp()
     if (globals$reloadAppIsSet == 0) stopApp()
-    globals$reloadAppIsSet == 0
+    globals$reloadAppIsSet = 0
   })
   
   if (isLocal()) {
@@ -544,7 +544,7 @@ cat ("have exclusive lock\n")
         # filter records selected from selected tables.
         qry = paste0("create table temp.Cases as select _RowID_,CaseID,Variant ",
                      "from FVS_Cases where FVS_Cases.KeywordFile in ",
-                     paste0("('",paste(input$runs,collapse="','"),"')"))
+                     paste0("(",paste(DBI::dbQuoteString(dbGlb$dbOcon,input$runs),collapse=","),")"))
 cat("qry=",qry,"\n")
         dbExecute(dbGlb$dbOcon,"drop table if exists temp.Cases")
         rtn = dbExecute(dbGlb$dbOcon,qry) 
@@ -823,8 +823,8 @@ cat ("tbs7=",tbs,"\n")
             else dbd$CmpSummary = c(dbd$CmpSummary,
             c("CmpTPrdTpa","CmpTPrdTCuFt","CmpTPrdMCuFt","CmpTPrdBdFt"))
         }
-        if (!is.null(dbd[["CmpSummary_East"]])) dbd$CmpSummary = c(dbd$CmpSummary_East,
-            c("CmpTPrdTpa","CmpTPrdTCuFt","CmpTPrdMCuFt","CmpTPrdBdFt"))
+        if (!is.null(dbd[["CmpSummary_East"]])) dbd$CmpSummary_East = c(dbd$CmpSummary_East,
+            c("CmpTPrdTpa","CmpTPrdMCuFt","CmpTPrdSCuFt","CmpTPrdSBdFt"))
         if (length(dbd)) fvsOutData$dbLoadData <- dbd
         sel = intersect(tbs, c("FVS_Summary2","FVS_Summary2_East")) #not both!
         if (length(sel)==0) sel = intersect(tbs, c("FVS_Summary","FVS_Summary_East")) #not both!
@@ -1134,6 +1134,14 @@ cat ("sqlRunQuery\n")
         {                                  
           iq = iq+1
 cat ("sqlRunQuery, qry=",qry,"\n")
+          # ATTACH (and VACUUM INTO) can create or overwrite files anywhere the
+          # server can write; DETACH and PRAGMA settings can break the app's connections
+          if (grepl("^\\s*(attach|detach)\\b|\\bvacuum\\b|^\\s*pragma\\b.*=",qry,ignore.case=TRUE))
+          {
+            msgtxt = paste0(msgtxt,"query ",iq," refused: ATTACH, DETACH, VACUUM and PRAGMA settings are not allowed\n")
+            updateTextInput(session=session, inputId="sqlOutput", label="", value=msgtxt)
+            next
+          }
           res = try (dbGetQuery(dbGlb$dbOcon,qry))
           msgtxt = if (class(res) == "data.frame" && ncol(res) && nrow(res)) 
             paste0(msgtxt,"query ",iq," returned a data frame with ",nrow(res),
@@ -1236,7 +1244,7 @@ cat ("sqlSel input$sqlSel=",input$sqlSel," isnull=",
       sel = as.numeric(input$sqlSel)
       if(is.na(sel)) sel = as.numeric(match(input$sqlSel,names(globals$customQueries)))
 cat ("sqlSel sel=",sel,"\n")
-      if (length(globals$customQueries) >= sel || !is.null(sel)) 
+      if (!is.na(sel) && length(globals$customQueries) >= sel) 
       {
         updateTextInput(session=session, inputId="sqlTitle", 
           value=names(globals$customQueries)[sel])
@@ -2133,8 +2141,15 @@ cat("sumOnSpecies=",sumOnSpecies," sumOnDBHClass=",sumOnDBHClass,"\n")
       if(nchar(str)<10) return(str)
       if(substr(str,1,10)=="expression")
       {
-        rtn = try(eval(parse(text=str)))
-        if (class(rtn)=="expression") return(rtn)
+        # only evaluate a single expression(...) call; expression() does not
+        # evaluate its arguments, so no user code runs (labels are user input)
+        pe = try(parse(text=str),silent=TRUE)
+        if (!inherits(pe,"try-error") && length(pe)==1 && is.call(pe[[1]]) &&
+            identical(pe[[1]][[1]],as.name("expression")))
+        {
+          rtn = try(eval(pe[[1]],envir=baseenv()))
+          if (class(rtn)=="expression") return(rtn)
+        }
       } 
       str
     }
@@ -2333,7 +2348,7 @@ cat("ylim=",ylim," rngy=",rngy," brky=",brky,"\n")
       p = p + geom_line(aes(x=xseq,y=yseq,group=RelDen, linetype=as.character(l_type)), linewidth = 0.5, data=DMDguideLines)
       label_info <- DMDguideLines |> group_by(RelDen, StandID) |> slice_tail(n = 1)
       p = p +  geom_text(aes(x=xseq, y=yseq, label=paste0("SDI: ",RelDen)), data=label_info, 
-        hjust = "left", vjust = "cener", size = 2)
+        hjust = "left", vjust = "center", size = 2)
 
       p = p + geom_ribbon(data = DensityManagementZone, mapping = aes(x = xseq, ymin = ymin, ymax = ymax, alpha = 0.85))
       p = p + geom_line(aes(x=xseq,y=yseq,group=RelDen),show.legend=FALSE,
@@ -2472,11 +2487,17 @@ cat ("inVars globals$activeVariants=",globals$activeVariants,
   isolate({
 cat ("in reloadStandSelection\n")
     if (is.null(input$inTabs) || is.null(input$inVars)) return()
+    # both values are pasted into SQL below; accept only a real table and a variant code
+    if (!isTRUE(input$inTabs %in% dbListTables(dbGlb$dbIcon)) ||
+        length(input$inVars) != 1 || !grepl("^[A-Za-z0-9]+$",input$inVars)) return()
     sid = if (input$inTabs %in% c("FVS_PlotInit","FVS_PlotInit_Plot")) "StandPlot_ID" else "Stand_ID"      
     grps = try(dbGetQuery(dbGlb$dbIcon,paste0('select ',sid,",Groups, INV_YEAR from ",input$inTabs,
               ' where lower(variant) like "%',tolower(input$inVars),'%"')))
-    grps <- subset(grps, !is.na(grps[grep("inv_year",tolower(names(grps)))]))
-    grps <- subset(grps, grps[grep("inv_year",tolower(names(grps)))] !="")
+    if (class(grps) != "try-error")
+    {
+      grps <- subset(grps, !is.na(grps[grep("inv_year",tolower(names(grps)))]))
+      grps <- subset(grps, grps[grep("inv_year",tolower(names(grps)))] !="")
+    }
     if (class(grps) == "try-error" || is.null(grps) || nrow(grps) == 0)
     {
       dbExecute(dbGlb$dbIcon,"drop table if exists temp.Grps")
@@ -2493,9 +2514,9 @@ cat ("in reloadStandSelection\n")
         if(any(!is.na(match(test,CRsubModels)))){
           CRsubModels <- CRsubModels[na.omit(match(test,CRsubModels))]
           for(i in 1:length(CRsubModels)){
-            subgrps <- try(dbGetQuery(dbGlb$dbIcon,paste0('select ',sid,",Groups from ",input$inTabs,
+            subgrps <- try(dbGetQuery(dbGlb$dbIcon,paste0('select ',sid,",Groups, INV_YEAR from ",input$inTabs,
                                                           ' where lower(variant) like "%',tolower(CRsubModels[i]),'%"')))
-            if(length(subgrps))grps <- rbind(grps,subgrps)
+            if(class(subgrps) == "data.frame" && nrow(subgrps)) grps <- rbind(grps,subgrps)
           }
         }
       }
@@ -4614,6 +4635,7 @@ cat ("in buildKeywords, oReopn=",oReopn," kwPname=",kwPname,"\n")
       # if not using the default run script, load the one requested.    
       if (globals$fvsRun$runScript != "fvsRun")
       {
+        if (!grepl("^[A-Za-z0-9_]+$",globals$fvsRun$runScript)) return()
         rsFn = paste0("customRun_",globals$fvsRun$runScript,".R")
         if (!file.exists(rsFn)) rsFn = system.file("extdata", rsFn,
                                                    package="fvsOL")
@@ -4715,7 +4737,7 @@ cat ("in buildKeywords, oReopn=",oReopn," kwPname=",kwPname,"\n")
       for (i in 1:length(allSum)) 
       { 
         X = c(X,allSum[[i]][,"Year"])
-        Y = c(Y,allSum[[i]][,"TCuFt"]) * unitConv
+        Y = c(Y,allSum[[i]][,"TCuFt"] * unitConv)
         ltag = gsub(x=names(allSum)[i],pattern=";.*$",replacement="")
         ltag = gsub(x=ltag,pattern="^SId=",replacement="")
         Stand=c(Stand,c(rep(ltag,nrow(allSum[[i]]))))
@@ -4752,9 +4774,9 @@ cat ("in buildKeywords, oReopn=",oReopn," kwPname=",kwPname,"\n")
   observe({  
     if (input$bkgKill == 0) return()
     isolate ({
-      if (!is.null(input$bkgRuns))
+      if (isPlainName(input$bkgRuns))
       {
-        uuid=sub(".pidStatus","",input$bkgRuns)
+        uuid=sub(".pidStatus","",input$bkgRuns,fixed=TRUE)
         killIfRunning(uuid)
         removeFVSRunFiles(uuid)
       }
@@ -4852,12 +4874,12 @@ cat ("qry=",qry," class(dat)=",class(dat),"\n")
     output$dlPrjBackup <- downloadHandler(filename=function ()
       isolate({
         bckupPick <- input$pickBackup
-        if (file.exists(bckupPick)) bckupPick else "NoBackup.txt"
+        if (isPlainName(bckupPick) && file.exists(bckupPick)) bckupPick else "NoBackup.txt"
       }),  
       content=function (tf = tempfile())
       {
         sfile = input$pickBackup
-        if (file.exists(sfile)) file.copy(sfile,tf) else
+        if (isPlainName(sfile) && file.exists(sfile)) file.copy(sfile,tf) else
           cat (file=tf,"Backup does not exist.\n")
       }, contentType="zip")
     
@@ -4867,7 +4889,7 @@ cat ("qry=",qry," class(dat)=",class(dat),"\n")
       content=function (tf = tempfile())
       {
         sfile = paste0(input$runSel,".out")
-        if (file.exists(sfile))
+        if (isPlainName(sfile) && file.exists(sfile))
         {
           file.copy(sfile,tf)
           # use perl to change line endings, ignore if an error is detected
@@ -4880,7 +4902,7 @@ cat ("qry=",qry," class(dat)=",class(dat),"\n")
       content=function (tf = tempfile())
       {
         sfile = paste0(input$runSel,".key")
-        if (file.exists(sfile)) file.copy(sfile,tf) else
+        if (isPlainName(sfile) && file.exists(sfile)) file.copy(sfile,tf) else
           cat (file=tf,"Keywords not yet created.\n")
       }, contentType="text")
   
@@ -6061,7 +6083,7 @@ cat ("delete all runs and outputs\n")
     if(input$delZipBackup > 0)
     {
       fl = isolate(input$pickBackup)
-      if (is.null(fl)) return()
+      if (!isPlainName(fl)) return()
       if (file.exists(fl))
       {
         unlink(fl)
@@ -6124,7 +6146,7 @@ cat ("delete all runs and outputs\n")
           Sys.sleep(.2)
         }
       }
-      if (createdFVSbin) unlink("FVSbin")
+      if (createdFVSbin) unlink("FVSbin",recursive=TRUE)
       if (ocon) dbGlb$dbOcon <- dbConnect(dbDriver("SQLite"),dbGlb$dbOcon@dbname)   
       if (icon) dbGlb$dbIcon <- dbConnect(dbDriver("SQLite"),dbGlb$dbIcon@dbname)   
       Sys.sleep(.2)
@@ -6187,7 +6209,7 @@ cat ("prjBackupUpload=",prjBackupUpload,"\n")
   ## restorePrjBackup 
   observeEvent(input$restorePrjBackup,
   {
-    if (is.na(input$pickBackup) || is.null(input$pickBackup) || !file.exists(input$pickBackup))
+    if (!isPlainName(input$pickBackup) || !file.exists(input$pickBackup))
     { 
         session$sendCustomMessage(type = "dialogContentUpdate",
         message = list(id = "restorePrjBackupDlg",
@@ -6229,7 +6251,7 @@ cat ("prjBackupUpload=",prjBackupUpload,"\n")
   
   observeEvent(input$restorePrjBackupDlgBtnA,{  
     isolate({
-       if (is.na(input$pickBackup) || is.null(input$pickBackup) || !file.exists(input$pickBackup)) return()
+       if (!isPlainName(input$pickBackup) || !file.exists(input$pickBackup)) return()
         progress <- shiny::Progress$new(session,min=1,max=5)
         progress$set(message = "Unzipping project backup",value = 2)
         fvsWorkBackup = input$pickBackup
@@ -6241,8 +6263,9 @@ cat ("restorePrjBackupDlgBtB fvsWorkBackup=",fvsWorkBackup,"\n")
           icon = class(dbGlb$dbIcon) == "SQLiteConnection" && dbIsValid(dbGlb$dbIcon)
           if (ocon) dbDisconnect(dbGlb$dbOcon)
           if (icon) dbDisconnect(dbGlb$dbIcon)
-          td <- tempdir()
-          rtn = try(unzip (paste0(getwd(),"/",fvsWorkBackup),exdir=td,
+          td <- tempfile("pbk")
+          dir.create(td)
+          rtn = try(safeUnzip(paste0(getwd(),"/",fvsWorkBackup),exdir=td,
                     overwrite=TRUE,junkpaths=FALSE))
           if (class(rtn)=="try-error") return()
           zipConts <- dir(td,include.dirs=TRUE,recursive=TRUE)
@@ -6273,7 +6296,7 @@ cat ("restorePrjBackupDlgBtB fvsWorkBackup=",fvsWorkBackup,"\n")
       
   observeEvent(input$restorePrjBackupDlgBtnB,{  
     isolate({
-        if (is.na(input$pickBackup) || is.null(input$pickBackup) || !file.exists(input$pickBackup)) return()
+        if (!isPlainName(input$pickBackup) || !file.exists(input$pickBackup)) return()
         if(globals$prjFilesOnly){
           globals$prjFilesOnly = FALSE
           return()
@@ -6294,9 +6317,15 @@ cat ("restorePrjBackupDlgBtnA fvsWorkBackup=",fvsWorkBackup,"\n")
           suppressWarnings(dir.create(td))
           setwd(td)
           lapply(dir(),function(x) unlink(x,recursive=TRUE,force=TRUE))
-          rtn = try(unzip (paste0(curdir,"/",fvsWorkBackup),exdir=td,
+          rtn = try(safeUnzip(paste0(curdir,"/",fvsWorkBackup),exdir=td,
                     overwrite=TRUE,junkpaths=FALSE))
-          if (class(rtn)=="try-error") return()
+          if (class(rtn)=="try-error") 
+          {
+            setwd(curdir)
+            if (ocon) dbGlb$dbOcon <- dbConnect(dbDriver("SQLite"),dbGlb$dbOcon@dbname)
+            if (icon) dbGlb$dbIcon <- dbConnect(dbDriver("SQLite"),dbGlb$dbIcon@dbname)
+            return()
+          }
           zipConts <- dir(td,include.dirs=TRUE,recursive=TRUE)
           del=NULL
           # TODO: most of this list is related to old versions the software (pre "package")
@@ -6355,7 +6384,7 @@ cat ("restorePrjBackupDlgBtnA fvsWorkBackup=",fvsWorkBackup,"\n")
     if(input$PrjDelete > 0)
     {            
       isolate({
-        if (is.null(input$PrjDelSelect)) 
+        if (!isPlainName(input$PrjDelSelect)) 
         {
           output$delPrjActionMsg <- renderUI(HTML("No project selected."))
           session$sendCustomMessage(type = "dialogContentUpdate",
@@ -6380,7 +6409,7 @@ cat ("PrjDelete, input$PrjDelSelect=",input$PrjDelSelect,"\n")
     {
 cat("delete project button.") 
       isolate({
-        if (is.null(input$PrjDelSelect)) 
+        if (!isPlainName(input$PrjDelSelect)) 
         {
           output$delPrjActionMsg <- renderUI(HTML("No project selected."))
         } else {
@@ -6566,7 +6595,7 @@ cat ("tabDescSel2, tab=",tab,"\n")
     } else {
       frm=system.file("extdata", "FVS_Data.db.default", package="fvsOL")
       file.copy(frm,"FVS_Data.db",overwrite=TRUE)
-      frm=system.file("extdata", "SpatialData.RData.default",ppackage="fvsOL")
+      frm=system.file("extdata", "SpatialData.RData.default",package="fvsOL")
       file.copy(frm,"SpatialData.RData",overwrite=TRUE)
     }
     dbGlb$dbIcon <- dbConnect(dbDrv,"FVS_Data.db") 
@@ -6652,9 +6681,10 @@ cat ("tabDescSel2, tab=",tab,"\n")
         return()
       } 
       fext = tools::file_ext(fname)
-      if (! (fext %in% c("accdb","mdb","db","sqlite","xlsx"))) 
+      # the member name is later passed to the shell (mdbtools); refuse unsafe names
+      if (! (fext %in% c("accdb","mdb","db","sqlite","xlsx")) || !grepl("^[A-Za-z0-9_ .-]+$",fname)) 
       {
-        output$step1ActionMsg = renderText(".zip did not contain one of the suitable file types described in Step 1.")
+        output$step1ActionMsg = renderText(".zip did not contain one of the suitable file types described in Step 1, or its file name has characters other than letters, digits, space, '.', '_' and '-'.")
         lapply (dir(dirname(input$uploadNewDB$datapath),full.names=TRUE),unlink)
         progress$close()
         session$sendCustomMessage(type="jsCode",
@@ -6673,7 +6703,7 @@ cat ("fext=",fext," fname=",fname," fdir=",fdir,"\n")
 cat("curDir=",curDir," input dir=",getwd(),"\n")
       pgm = if (exists("mdbToolsDir")) file.path(normalizePath(mdbToolsDir),"mdb-schema") else "mdb-schema"
       if (.Platform$OS.type == "windows") pgm=paste0(pgm,".exe") 
-      cmd = paste0(pgm," ",fname)
+      cmd = paste0(pgm," ",shQuote(fname,type=if (.Platform$OS.type == "windows") "cmd" else "sh"))
 cat ("cmd=",cmd,"\n")
       schema = if (.Platform$OS.type == "windows") try(shell(cmd,intern=TRUE)) else
                                                    try(system(cmd,intern=TRUE))
@@ -6698,6 +6728,20 @@ cat ("cmd=",cmd,"\n")
       tbln=unlist(lapply(schema[tbls],function(x) if (length(grep("]",x,fixed=TRUE)))
         scan(text=x,what="character",sep="]",quiet=TRUE)[2] else
         scan(text=x,what="character",quiet=TRUE)[3]))
+      # table names and schema text come from the uploaded file and reach the shell
+      # and sqlite3; refuse anything that could escape quoting or add dot commands
+      if (!all(grepl("^[A-Za-z0-9_ .-]+$",tbln)) || any(grepl("^\\s*\\.",schema)))
+      {
+        setwd(curDir)
+        progress$close()
+        output$step1ActionMsg = renderText("Table names may only contain letters, digits, space, '.', '_' and '-'.")
+        session$sendCustomMessage(type = "resetFileInputHandler","uploadNewDB")
+        session$sendCustomMessage(type="jsCode",
+                                  list(code= "$('#installTrainDB').prop('disabled',false)"))
+        session$sendCustomMessage(type="jsCode",
+                                  list(code= "$('#installEmptyDB').prop('disabled',false)"))
+        return()
+      }
       schema = gsub(" Long Integer"," Integer",schema,ignore.case=TRUE)
       schema = gsub(" Int"," Integer",schema,ignore.case=TRUE)
       schema = gsub(" Integereger"," Integer",schema,ignore.case=TRUE)
@@ -6737,7 +6781,8 @@ cat ("cmd=",cmd,"\n")
       {
         progress$set(message = paste0("Export table ",tab), value = 3)
         cat ("begin;\n",file="sqlite3.import",append=TRUE)
-        cmd = paste0 (pgm," -I sqlite ",fname," ",tab," >> sqlite3.import")
+        cmd = paste0 (pgm," -I sqlite ",shQuote(fname,type=if (.Platform$OS.type == "windows") "cmd" else "sh"),
+                      ' "',tab,'" >> sqlite3.import')
         cat ("cmd=",cmd,"\n")
         result = if (.Platform$OS.type == "windows") shell(cmd,intern=TRUE) else system(cmd,intern=TRUE)
         cat ("commit;\n",file="sqlite3.import",append=TRUE)
@@ -6955,7 +7000,7 @@ cat ("qry=",qry,"\nrtn=",rtn,"\n")
         qry="update FVS_StandInit set Groups = 'All_Stands' where Groups is null;"
         rtn=try(dbExecute(dbo,qry))
 cat ("qry=",qry,"\nrtn=",rtn,"\n")
-        qry="update FVS_StandInit set Stand_CN = (select Stand_ID from FVS_StandInit) where Stand_CN is null;"
+        qry="update FVS_StandInit set Stand_CN = Stand_ID where Stand_CN is null;"
         rtn=try(dbExecute(dbo,qry))
 cat ("qry=",qry,"\nrtn=",rtn,"\n")
       }
@@ -6968,13 +7013,13 @@ cat ("qry=",qry,"\nrtn=",rtn,"\n")
         qry="update FVS_PlotInit set Groups = 'All_Plots' where Groups is null;"
         rtn=try(dbExecute(dbo,qry))
 cat ("qry=",qry,"\nrtn=",rtn,"\n")
-        qry="update FVS_PlotInit set Stand_CN = (select Stand_ID from FVS_PlotInit) where Stand_CN is null;"
+        qry="update FVS_PlotInit set Stand_CN = Stand_ID where Stand_CN is null;"
         rtn=try(dbExecute(dbo,qry))
 cat ("qry=",qry,"\nrtn=",rtn,"\n")
       }     
       if ("fvs_treeinit" %in% ltabs)
       {
-        qry="update FVS_TreeInit set Stand_CN = (select Stand_ID from FVS_TreeInit) where Stand_CN is null;"
+        qry="update FVS_TreeInit set Stand_CN = Stand_ID where Stand_CN is null;"
         rtn=try(dbExecute(dbo,qry))
 cat ("qry=",qry,"\nrtn=",rtn,"\n")
       }     
@@ -7137,10 +7182,10 @@ cat ("calling fixFVSKeywords\n")
     {
       i = i+1
       progress$set(message = paste0("Setting up index for table ",tb), value=i)
-      if (tolower(tb) == "fvs_climattr") 
+      if (tolower(tb) == "fvs_climattrs") 
       {
         rtn = try(dbExecute(dbGlb$dbIcon,"drop index if exists StdScnIndex"))
-        if (class(try)!="try-error") 
+        if (class(rtn)!="try-error") 
         {
           qry = "create index StdScnIndex on FVS_ClimAttrs (Stand_ID, Scenario);"
 cat ("index creation, qry=",qry,"\n")
@@ -7153,7 +7198,7 @@ cat ("index creation, qry=",qry,"\n")
         {
           tbinx = paste0("idx",tb)
           rtn = try(dbExecute(dbGlb$dbIcon,paste0("drop index if exists ",tbinx)))
-          if (class(try)!="try-error") 
+          if (class(rtn)!="try-error") 
           {
             qry = paste0("create index ",tbinx," on ",tb," (Stand_ID);")
 cat ("index creation, qry=",qry,"\n")
@@ -7167,7 +7212,7 @@ cat ("index creation, qry=",qry,"\n")
         {
           tbinx = paste0("idx",tb)
           rtn = try(dbExecute(dbGlb$dbIcon,paste0("drop index if exists ",tbinx)))
-          if (class(try)!="try-error") 
+          if (class(rtn)!="try-error") 
           {
             qry = paste0("create index ",tbinx," on ",tb," (Stand_ID);")
 cat ("index creation, qry=",qry,"\n")
@@ -7182,7 +7227,7 @@ cat ("index creation, qry=",qry,"\n")
         {
           tbinx = paste0("idx",tb)
           rtn = try(dbExecute(dbGlb$dbIcon,paste0("drop index if exists ",tbinx)))
-          if (class(try)!="try-error") 
+          if (class(rtn)!="try-error") 
           {
             qry = paste0("create index ",tbinx," on ",tb," (StandPlot_ID);")
 cat ("index creation, qry=",qry,"\n")
@@ -7198,7 +7243,7 @@ cat ("index creation, qry=",qry,"\n")
         {
           tbinx = paste0("idx",tb)
           rtn = try(dbExecute(dbGlb$dbIcon,paste0("drop index if exists ",tbinx)))
-          if (class(try)!="try-error") 
+          if (class(rtn)!="try-error") 
           {
             qry = paste0("create index ",tbinx," on ",tb," (StandPlot_ID);")
             cat ("index creation, qry=",qry,"\n")
@@ -7213,7 +7258,7 @@ cat ("index creation, qry=",qry,"\n")
         {
           tbinx = paste0("idx",tb)
           rtn = try(dbExecute(dbGlb$dbIcon,paste0("drop index if exists ",tbinx)))
-          if (class(try)!="try-error") 
+          if (class(rtn)!="try-error") 
           {
             qry = paste0("create index ",tbinx," on ",tb," (StandPlot_ID);")
             cat ("index creation, qry=",qry,"\n")
@@ -7227,7 +7272,7 @@ cat ("index creation, qry=",qry,"\n")
         {
           tbinx = paste0("idx",tb)
           rtn = try(dbExecute(dbGlb$dbIcon,paste0("drop index if exists ",tbinx)))
-          if (class(try)!="try-error") 
+          if (class(rtn)!="try-error") 
           {
             qry = paste0("create index ",tbinx," on ",tb," (Stand_ID);")
 cat ("index creation, qry=",qry,"\n")
@@ -7326,8 +7371,8 @@ cat("qry=",qry,"\n")
         if (class(rtn)=="try-error") cat ("removing duplicated Stand_IDs failed.")
       }          
       if (tolower(tab) == "fvs_groupaddfilesandkeywords") 
-        dbExecute(dbGlb$dbIcon,paste0("delete from ",tab," where 'Groups' in ",
-                    " (select 'Groups' from addnew.",tab,")"))
+        dbExecute(dbGlb$dbIcon,paste0("delete from ",tab," where Groups in ",
+                    " (select Groups from addnew.",tab,")"))
       # homogenize table structure and then do the insert from ...
       newTdef = dbGetQuery(dbGlb$dbIcon,paste0("pragma addnew.table_info(",tab,")"))
       trgTdef = dbGetQuery(dbGlb$dbIcon,paste0("pragma        table_info(",tab,")"))
@@ -7373,7 +7418,7 @@ cat ("qry=",qry,"\nrtn=",rtn,"\n")
     {
       i = i+1
       progress$set(message = paste0("Setting up index for table ",tb), value=i)
-      if (tolower(tb) == "fvs_climttr") 
+      if (tolower(tb) == "fvs_climattrs") 
       {
         dbExecute(dbGlb$dbIcon,"drop index if exists StdScnIndex")
         dbExecute(dbGlb$dbIcon,"create index StdScnIndex on FVS_ClimAttrs (Stand_ID, Scenario);")
@@ -7517,7 +7562,7 @@ cat ("add column qry=",qry,"\n")
       sids=if (class(sids)=="try-error") NA else sids[,1]
       isid=charmatch("stand_id",tolower(names(indat)))
       msg=NULL
-      if (!(is.na(sids) || is.na(isid))) 
+      if (!(identical(sids,NA) || is.na(isid))) 
       {
         tokeep=is.na(match(indat[,isid],sids))
         ntokill=sum(!tokeep)
@@ -7939,7 +7984,7 @@ cat ("editSelDBvars, input$editSelDBvars=",input$editSelDBvars," mode=",input$mo
       if (is.null(dbGlb$tbl)) return()
       input$disprows
       newBot <- min(dbGlb$rows[2]+dbGlb$disprows,nrow(dbGlb$tbl))
-      newTop <- max(newBot-dbGlb$disprows-1,1)
+      newTop <- max(newBot-dbGlb$disprows+1,1)
       dbGlb$rows <- c(newTop,newBot)
       output$tbl <- renderRHandsontable(rhandsontable(dbGlb$tbl[newTop:newBot,
         union(c("Delete"),isolate(input$editSelDBvars)),
@@ -8189,7 +8234,7 @@ cat ("mapUpload, filename=",input$mapUpload$datapath," ending=",fileEnding,"\n")
         progress$set(message = "Unzipping",value = 1)
         curdir = getwd()
         setwd(mapDir)
-        unzip(zipName)
+        try(safeUnzip(zipName))
         unlink(zipName)
         if (length(dir(mapDir)) > 1) mapDir = dirname(mapDir)
         progress$set(message = "Getting layers",value = 2)
@@ -8426,7 +8471,7 @@ cat ("input$mapUpLayers, number of layers (choices)=",length(choices)," selected
         dir.create(tmpPrj)
         tmpPrj = file.path(getwd(),tmpPrj)
         setwd(tmpPrj)
-        uz = try(unzip(input$uploadRunsRdat$datapath))
+        uz = try(safeUnzip(input$uploadRunsRdat$datapath))
         if (class(uz)=="try-error") 
         {
 cat("uploaded zip failed\n")
@@ -8645,7 +8690,8 @@ cat(" input$impSpatialDataDlgBtn=",input$impSpatialDataDlgBtn,"\n")
   customRunOps <- function ()                                             
   {
     isolate({
-      if (length(input$runScript) == 0)
+      # the name selects a customRun_<name>.R file to source; allow only plain names
+      if (length(input$runScript) != 1 || !grepl("^[A-Za-z0-9_]+$",input$runScript))
       {  
 cat ("in customRunOps runScript is empty\n")
         return()
@@ -8721,7 +8767,7 @@ cat ("Manage project hit\n")
 cat ("Make new project, input$PrjNewTitle=",input$PrjNewTitle,"\n")
       if (nchar(input$PrjNewTitle)==0) return()
       prjid = if (file.exists("projectId.txt")) scan("projectId.txt",
-         what="character",sep="\n",quiet=TRUE) else NUL
+         what="character",sep="\n",quiet=TRUE) else NULL
       fbin = Sys.readlink(fvsBin) #will be na if file does not exist, "" if not symbolic link.
       if (is.na(fbin)) return()
       curdir = getwd()
@@ -8768,7 +8814,7 @@ cat("PrjOpen to=",newPrj," dir.exists(newPrj)=",dir.exists(newPrj),
       { 
         if (isLocal()) 
         {
-        file.remove('./ProjectIsLocked.txt')
+        unlink("projectIsLocked.txt")
         setwd(newPrj)
         globals$reloadAppIsSet=1
         session$reload()    
@@ -8905,7 +8951,7 @@ cat("PrjOpen to=",newPrj," dir.exists(newPrj)=",dir.exists(newPrj),
               return()
             }
 
-            file.remove('./ProjectIsLocked.txt')
+            unlink("projectIsLocked.txt")
             setwd(dirPath)
             globals$reloadAppIsSet=1
             session$reload()

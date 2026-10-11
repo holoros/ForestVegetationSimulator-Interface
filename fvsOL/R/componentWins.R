@@ -823,7 +823,7 @@ ShelterwoodWin.mkKeyWrd <- function(input,output)
       paste0("ThinBBA   %10s%10s%10s%10s%10s%10s%10s\n",
              "ThinSDI   %10s  Parms(BSDIMax*%s,%s,%s,%s,%s,%s)\n"),
       input$f1, input$swf4, 1, input$swf2, 999, 0, 999,
-      (as.numeric(input$f1)+as.numeric(input$f7)), (as.numeric((input$swf4))/100), 1, 0, input$swf2, 999, 0)
+      (as.numeric(input$f1)+as.numeric(input$f7)), (as.numeric((input$f12))/100), 1, 0, input$swf2, 999, 0)
   # Prep cut=Yes, Residual % of MaxSDI, Shelterwood residual BA/AC, Removal cut=Yes
   else if (input$swf3 == "1" && input$swf5 == "4" && input$f8 == "1" && input$swf13 == "5") 
     sprintf(

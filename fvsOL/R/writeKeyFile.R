@@ -463,7 +463,7 @@ writeKeyFile <- function (globals,dbIcon,keyFileName=NULL,verbose=TRUE)
   wtofix=list()
   for (sf in stofix)
   {
-    idxs=grep(sf,stds,fixed=TRUE)
+    idxs=which(stds == sf)
     if (length(idxs)) wtofix[[sf]] = rwts[idxs]/sum(rwts[idxs])
   }
   extns = globals$activeFVS[globals$fvsRun$FVSpgm][[1]]
@@ -471,6 +471,7 @@ writeKeyFile <- function (globals,dbIcon,keyFileName=NULL,verbose=TRUE)
   defaultOut = sub ("FVSOut",globals$fvsRun$uuid,defaultOut)
   if (is.null(keyFileName)) keyFileName=paste0(globals$fvsRun$uuid,".key")
   fc = file(description=keyFileName,open="wt")
+  on.exit(close(fc))  # also closes on the early error returns
   cat ("!!title:",globals$fvsRun$title,"\n",file=fc)
   cat ("!!uuid: ",globals$fvsRun$uuid,"\n",file=fc)
   cat ("!!built:",format(Sys.time(), 
@@ -499,7 +500,7 @@ writeKeyFile <- function (globals,dbIcon,keyFileName=NULL,verbose=TRUE)
       cat ("StandCN\n",fvsInit$STANDPLOT_CN[sRowp],"\n",file=fc,sep="")
       }else cat ("StandCN\n",std$sid,"\n",file=fc,sep="")
     cat ("MgmtId\n",globals$fvsRun$defMgmtID,"\n",file=fc,sep="") 
-    if (length(std$invyr) == 0) std$invyr = as.character(thisYr) 
+    if (length(std$invyr) == 0) std$invyr = format(Sys.time(),"%Y") 
     ninvyr = as.numeric(std$invyr)
     cat ("InvYear       ",std$invyr,"\n",file=fc,sep="")
     thiscyc = union(seq(ninvyr,cycleat[1],as.numeric(globals$fvsRun$cyclelen)),cycleat)
@@ -719,7 +720,6 @@ writeKeyFile <- function (globals,dbIcon,keyFileName=NULL,verbose=TRUE)
     cat ("Process\n\n",file=fc)    
   }
   cat ("Stop\n",file=fc)    
-  close(fc)
   msg = paste0("Num stands=",length(stds)," keyFileName=",keyFileName,
         " Run title=",globals$fvsRun$title)
   if (verbose) cat ("End of writeKeyFile, msg=",msg,"\n")

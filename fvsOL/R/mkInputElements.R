@@ -4,14 +4,14 @@ mkeltList <- function (pkeys,prms,globals,input,output,
   waitYears <- NULL
   eltList <- if (cndflag) 
   {
-    waityrs <- getPstring(pkeys,"waitYears",globals$activeVariants[1])
+    waitYears <- getPstring(pkeys,"waitYears",globals$activeVariants[1])
     if (is.null(waitYears)) waitYears <- "999"
     fpvs <- if (identical(globals$currentEditCmp,globals$NULLfvsCmp)) NULL else
             globals$currentEditCmp$reopn["waitYears"]    
     list(
       h5("Settings for the condition:"),    
       mkTextInput ("waitYears", "Years before condition can become true again:",
-                   waityrs, fpvs))
+                   waitYears, fpvs))
   } else list()
   f = 0
   repeat

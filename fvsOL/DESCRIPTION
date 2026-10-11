@@ -12,7 +12,8 @@ Depends:
   ggplot2 (>= 3.3.3), parallel (>= 4.0.0), RSQLite (>= 2.2.4), plyr (>= 1.8.6), dplyr (>= 1.0.4), 
   colourpicker (>= 1.1.0), rgl (>= 0.105.0), leaflet (>= 2.0.4.1), zip (>= 2.1.1), openxlsx (>= 4.2.3), 
   shinyFiles (>= 0.9.3)
-Suggests: nlme (>= 3.1-140)
+Imports: DBI, fs
+Suggests: nlme (>= 3.1-140), sf, digest
 License: MIT
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2

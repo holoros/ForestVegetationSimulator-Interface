@@ -26,7 +26,7 @@ shinyUI(fixedPage(
        Shiny.addCustomMessageHandler("resetFileInputHandler", function(x) {   
            var el = $("#" + x);
            el.replaceWith(el = el.clone(true));
-           var idƒ = "#" + x + "_progress";     
+           var id = "#" + x + "_progress";     
            $(id).css("visibility", "hidden");});'
       ),       
       tags$head(tags$script(HTML('
