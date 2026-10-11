@@ -463,7 +463,7 @@ writeKeyFile <- function (globals,dbIcon,keyFileName=NULL,verbose=TRUE)
   wtofix=list()
   for (sf in stofix)
   {
-    idxs=grep(sf,stds,fixed=TRUE)
+    idxs=which(stds == sf)
     if (length(idxs)) wtofix[[sf]] = rwts[idxs]/sum(rwts[idxs])
   }
   extns = globals$activeFVS[globals$fvsRun$FVSpgm][[1]]

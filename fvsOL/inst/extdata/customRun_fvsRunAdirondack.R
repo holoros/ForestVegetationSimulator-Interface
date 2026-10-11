@@ -43,6 +43,7 @@ fvsRunAdirondack <- function(runOps,logfile="Adirondack.log")
   MtoFT   = fvsUnitConversion("MtoFT")
   ACRtoHA = fvsUnitConversion("ACRtoHA")
   HAtoACR = fvsUnitConversion("HAtoACR")
+  M3toFT3 = fvsUnitConversion("M3toFT3")
   spcodes = fvsGetSpeciesCodes()
   stdIds  = fvsGetStandIDs()
 
@@ -87,7 +88,10 @@ fvsRunAdirondack <- function(runOps,logfile="Adirondack.log")
     incr$tree$HT   = incr$tree$HT   * FTtoM
     incr$tree$DG   = incr$tree$DG   * INtoCM
     incr$tree$HTG  = incr$tree$HTG  * FTtoM
-    incr$tree$EXPF = incr$tree$EXPF * ACRtoHA
+    # FVS tpa is stand level trees per acre; AdirondackGY sums EXPF by PLOT, so
+    # convert to plot level trees per hectare (each plot treated as a stand).
+    nplots = max(1,as.numeric(room["nplots"]),na.rm=TRUE)
+    incr$tree$EXPF = incr$tree$EXPF * nplots * HAtoACR
 
     cat ("fvsRunAdirondack: calling AdirondackGY, year=",stdInfo["year"],"\n") 
                        
@@ -96,7 +100,6 @@ fvsRunAdirondack <- function(runOps,logfile="Adirondack.log")
                  MinDBH=MinDBH,CutPoint=CutPoint,   # >0 uses threshold probability (>0-1).
                  mortModel=mortModel)
     #compute the growth
-    save(incr,stand,ops,file="test.RData")
     incr = AdirondackGYOneStand(incr$tree,stand,ops)
     cat ("return from AdirondackGY, names(incr)=",names(incr)," nrows=",
           unlist(lapply(incr,nrow)),"\n")                     
@@ -109,7 +112,7 @@ fvsRunAdirondack <- function(runOps,logfile="Adirondack.log")
             cratio=ifelse(incr$tree$CRATIO < 0, incr$tree$CRATIO,
                    -round((1-((incr$tree$HCB+incr$tree$dHCB) / 
                               (incr$tree$HT +incr$tree$dHT)))*100,0)))
-    if (!is.null(incr$tree$dEXPF)) tofvs$mort=incr$tree$dEXPF*HAtoACR 
+    if (!is.null(incr$tree$dEXPF)) tofvs$mort=incr$tree$dEXPF/nplots*ACRtoHA 
 
     fvsSetTreeAttrs(tofvs)
 
@@ -120,10 +123,11 @@ fvsRunAdirondack <- function(runOps,logfile="Adirondack.log")
     {
       toadd = data.frame(dbh    =incr$ingrow$DBH*CMtoIN,
                          species=match(incr$ingrow$SP,spcodes[,"fvs"]),
-                         ht     =incr$ingrow$HT*MtoFT,
-                         cratio =incr$ingrow$CR,
+                         # ING.TreeList does not predict HT or CR; zero lets FVS dub them
+                         ht     =if (is.null(incr$ingrow$HT)) 0 else incr$ingrow$HT*MtoFT,
+                         cratio =if (is.null(incr$ingrow$CR)) 0 else incr$ingrow$CR,
                          plot   =as.numeric(incr$ingrow$PLOT),
-                         tpa    =incr$ingrow$EXPF*ACRtoHA)
+                         tpa    =incr$ingrow$EXPF/nplots*ACRtoHA)
 
       if (nrow(toadd) < room["maxtrees"] - room["ntrees"]) 
       {

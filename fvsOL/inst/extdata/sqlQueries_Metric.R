@@ -412,3 +412,82 @@ from FVS_Down_Wood_Cov inner join FVS_Down_Wood_Vol
   on FVS_Down_Wood_Cov.CaseID = FVS_Down_Wood_Vol.CaseID and
      FVS_Down_Wood_Cov.Year = FVS_Down_Wood_Vol.Year;"
 
+
+# Calibration statistics carry no units, so the definition matches sqlQueries.R
+Create_CmpCalibStats = "
+drop table if exists temp.CmpCalibStatsLG; 
+create table temp.CmpCalibStatsLG as 
+  select 
+    MgmtID, 
+    asSpecies,
+    SpeciesFVSnum,
+    'LG' as TreeSize,
+    COUNT(TreeSize) as NumStands,
+    MIN(ScaleFactor) as MinSF,
+    MAX(ScaleFactor) as MaxSF,
+    AVG(ScaleFactor) as MeanSF,    
+    SQRT(((sum(ScaleFactor * ScaleFactor) - 
+      (sum(ScaleFactor) * sum(ScaleFactor))/count(TreeSize))/ 
+      (count(TreeSize)-1))) as StDevSF,
+    SUM(NumTrees) as TotNumTrees,
+    SUM(NumTrees*ReadCorMult)/sum(NumTrees) as MeanReadCorMult
+  from (select * from FVS_CalibStats where TreeSize == 'LG' and
+        CaseID in (select CaseID from temp.Cases))
+  join FVS_Cases using (CaseID) 
+  group by MgmtID,Species;
+  
+drop table if exists temp.CmpCalibStatsSM;
+create table temp.CmpCalibStatsSM as
+  select 
+    MgmtID,
+    asSpecies,
+    SpeciesFVSnum,
+    'SM' as TreeSize,
+    COUNT(TreeSize) as NumStands,
+    MIN(ScaleFactor) as MinSF,
+    MAX(ScaleFactor) as MaxSF,
+    AVG(ScaleFactor) as MeanSF,
+    SQRT(((sum(ScaleFactor * ScaleFactor) - 
+      (sum(ScaleFactor) * sum(ScaleFactor))/count(TreeSize))/ 
+      (count(TreeSize)-1))) as StDevSF,
+    SUM(NumTrees) as TotNumTrees,
+    SUM(NumTrees*ReadCorMult)/sum(NumTrees) as MeanReadCorMult
+  from (select * from FVS_CalibStats where TreeSize == 'SM' and
+        CaseID in (select CaseID from temp.Cases))
+  join FVS_Cases using (CaseID)       
+  group by MgmtID,Species;         
+
+insert into temp.CmpCalibStatsLG 
+  select 
+    MgmtID,
+    Species,
+    SpeciesFVSnum,
+    TreeSize,
+    NumStands,
+    MinSF,
+    MaxSF,
+    MeanSF,
+    StDevSF,
+    TotNumTrees,
+    MeanReadCorMult
+  from temp.CmpCalibStatsSM
+  group by MgmtID,Species;
+  
+drop table if exists CmpCalibStats;
+create table CmpCalibStats as 
+  select 
+    distinct MgmtID,
+    Species,
+    SpeciesFVSnum,
+    TreeSize,
+    NumStands,
+    MinSF,
+    MaxSF,
+    MeanSF,
+    StDevSF,
+    TotNumTrees,
+    MeanReadCorMult
+  from temp.CmpCalibStatsLG
+  order by MgmtID,Species;
+drop table if exists temp.CmpCalibStatsLG;
+drop table if exists temp.CmpCalibStatsSM;"

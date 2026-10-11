@@ -823,8 +823,8 @@ cat ("tbs7=",tbs,"\n")
             else dbd$CmpSummary = c(dbd$CmpSummary,
             c("CmpTPrdTpa","CmpTPrdTCuFt","CmpTPrdMCuFt","CmpTPrdBdFt"))
         }
-        if (!is.null(dbd[["CmpSummary_East"]])) dbd$CmpSummary = c(dbd$CmpSummary_East,
-            c("CmpTPrdTpa","CmpTPrdTCuFt","CmpTPrdMCuFt","CmpTPrdBdFt"))
+        if (!is.null(dbd[["CmpSummary_East"]])) dbd$CmpSummary_East = c(dbd$CmpSummary_East,
+            c("CmpTPrdTpa","CmpTPrdMCuFt","CmpTPrdSCuFt","CmpTPrdSBdFt"))
         if (length(dbd)) fvsOutData$dbLoadData <- dbd
         sel = intersect(tbs, c("FVS_Summary2","FVS_Summary2_East")) #not both!
         if (length(sel)==0) sel = intersect(tbs, c("FVS_Summary","FVS_Summary_East")) #not both!
@@ -4715,7 +4715,7 @@ cat ("in buildKeywords, oReopn=",oReopn," kwPname=",kwPname,"\n")
       for (i in 1:length(allSum)) 
       { 
         X = c(X,allSum[[i]][,"Year"])
-        Y = c(Y,allSum[[i]][,"TCuFt"]) * unitConv
+        Y = c(Y,allSum[[i]][,"TCuFt"] * unitConv)
         ltag = gsub(x=names(allSum)[i],pattern=";.*$",replacement="")
         ltag = gsub(x=ltag,pattern="^SId=",replacement="")
         Stand=c(Stand,c(rep(ltag,nrow(allSum[[i]]))))
@@ -6955,7 +6955,7 @@ cat ("qry=",qry,"\nrtn=",rtn,"\n")
         qry="update FVS_StandInit set Groups = 'All_Stands' where Groups is null;"
         rtn=try(dbExecute(dbo,qry))
 cat ("qry=",qry,"\nrtn=",rtn,"\n")
-        qry="update FVS_StandInit set Stand_CN = (select Stand_ID from FVS_StandInit) where Stand_CN is null;"
+        qry="update FVS_StandInit set Stand_CN = Stand_ID where Stand_CN is null;"
         rtn=try(dbExecute(dbo,qry))
 cat ("qry=",qry,"\nrtn=",rtn,"\n")
       }
@@ -6968,13 +6968,13 @@ cat ("qry=",qry,"\nrtn=",rtn,"\n")
         qry="update FVS_PlotInit set Groups = 'All_Plots' where Groups is null;"
         rtn=try(dbExecute(dbo,qry))
 cat ("qry=",qry,"\nrtn=",rtn,"\n")
-        qry="update FVS_PlotInit set Stand_CN = (select Stand_ID from FVS_PlotInit) where Stand_CN is null;"
+        qry="update FVS_PlotInit set Stand_CN = Stand_ID where Stand_CN is null;"
         rtn=try(dbExecute(dbo,qry))
 cat ("qry=",qry,"\nrtn=",rtn,"\n")
       }     
       if ("fvs_treeinit" %in% ltabs)
       {
-        qry="update FVS_TreeInit set Stand_CN = (select Stand_ID from FVS_TreeInit) where Stand_CN is null;"
+        qry="update FVS_TreeInit set Stand_CN = Stand_ID where Stand_CN is null;"
         rtn=try(dbExecute(dbo,qry))
 cat ("qry=",qry,"\nrtn=",rtn,"\n")
       }     
@@ -7326,8 +7326,8 @@ cat("qry=",qry,"\n")
         if (class(rtn)=="try-error") cat ("removing duplicated Stand_IDs failed.")
       }          
       if (tolower(tab) == "fvs_groupaddfilesandkeywords") 
-        dbExecute(dbGlb$dbIcon,paste0("delete from ",tab," where 'Groups' in ",
-                    " (select 'Groups' from addnew.",tab,")"))
+        dbExecute(dbGlb$dbIcon,paste0("delete from ",tab," where Groups in ",
+                    " (select Groups from addnew.",tab,")"))
       # homogenize table structure and then do the insert from ...
       newTdef = dbGetQuery(dbGlb$dbIcon,paste0("pragma addnew.table_info(",tab,")"))
       trgTdef = dbGetQuery(dbGlb$dbIcon,paste0("pragma        table_info(",tab,")"))

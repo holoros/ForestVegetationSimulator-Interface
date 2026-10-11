@@ -148,9 +148,13 @@ fvsRunHi <- function(runOps=NULL, logfile="FvsHi.log")
     #predicted height to crown base (returns phcb)
     calc_hcb(plot.data = plot.smry) %>% 
     #use predicted height to crown base if cr is missing 
-    dplyr::mutate(hcb= dplyr::case_when(phcbrow==TRUE & model.ex==FALSE & mgmtcd!=9 ~phcb, 
+    dplyr::mutate(newhcb = dplyr::coalesce(phcbrow==TRUE & model.ex==FALSE & mgmtcd!=9, FALSE),
+                  hcb= dplyr::case_when(newhcb ~phcb, 
                                         TRUE ~hcb),
-                  cratio = round((1-(hcb/ht))*100, 1)) %>% 
+                  # only recompute cratio where hcb was predicted; hcb was not
+                  # updated for dubbed heights, so keep the existing cr there
+                  cratio = ifelse(newhcb, round((1-(hcb/ht))*100, 1),
+                                          round(cr*100, 1))) %>% 
     dplyr::arrange(tree) %>% 
     dplyr::select(ht, 
                   cratio)

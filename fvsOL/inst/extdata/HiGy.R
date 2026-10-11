@@ -90,16 +90,16 @@ calc_ht = function(tree.data, plot.data, rain=stand$rain, temp=stand$temp,
                      by = 'plot') %>%
     # Match parameter estimates on species, Koa is currently the default
     # when the model extends to other species, the code may need to be updated to another default species
-    dplyr::mutate(idx = match(sp, ht.pred.parm.df$species, nomatch = match('AK', ht.pred.parm.df$species)),
-                  b0 = ht.pred.parm.df$b0[idx], 
-                  b1 = ht.pred.parm.df$b1[idx], 
-                  b2 = ht.pred.parm.df$b2[idx], 
-                  b3 = ht.pred.parm.df$b3[idx], 
-                  b4 = ht.pred.parm.df$b4[idx], 
-                  b5 = ht.pred.parm.df$b5[idx], 
-                  b6 = ht.pred.parm.df$b6[idx], 
-                  b7 = ht.pred.parm.df$b7[idx], 
-                  b8 = ht.pred.parm.df$b8[idx],
+    dplyr::mutate(idx = match(sp, ht.parm$species, nomatch = match('AK', ht.parm$species)),
+                  b0 = ht.parm$b0[idx], 
+                  b1 = ht.parm$b1[idx], 
+                  b2 = ht.parm$b2[idx], 
+                  b3 = ht.parm$b3[idx], 
+                  b4 = ht.parm$b4[idx], 
+                  b5 = ht.parm$b5[idx], 
+                  b6 = ht.parm$b6[idx], 
+                  b7 = ht.parm$b7[idx], 
+                  b8 = ht.parm$b8[idx],
                   rain=rain, 
                   temp=temp, # maintains vectorized call of pred_ht()
                   pht = pred_ht(dbh, bal, ba=ba.plot, rain, temp, 
@@ -233,7 +233,7 @@ calc_ddbh = function(tree.data, plot.data,
                        dplyr::select(plot, ba.plot), 
                      by = 'plot') %>%
     # Match parameter estimates on species, Koa is currently the default
-    dplyr::mutate(idx = match(sp, ddbh.parm$species, nomatch = match('AK', ddbh.parm$species)),
+    dplyr::mutate(idx = match(sp, ddbh.parm.df$species, nomatch = match('AK', ddbh.parm.df$species)),
                   b0 = ddbh.parm.df$b0[idx],
                   b1 = ddbh.parm.df$b1[idx],
                   b2 = ddbh.parm.df$b2[idx], 
@@ -351,7 +351,7 @@ calc_dht = function(tree.data,
                   temp=temp,
       # use purrr::reduce() to generate annual height increment
       dht.prj = purrr::reduce(1:12, 
-                              ~.x + dht(dbh, ht, bal, ba=ba.plot, rain, temp,
+                              ~.x + dht(dbh, .x, bal, ba=ba.plot, rain, temp,
                                         b0, b1, b2, b3, b4, b5, b6, b7, b8),
                               .init = ht),
       #apply ht increment multiplier
@@ -769,7 +769,8 @@ make_fvs_tree=function(tree.data, orgtree.list, num.plots){
                   dg, # customary units
                   htg, # customary units
                   mort, # stand level TPA
-                  cr) %>% 
+                  cratio=cr) %>% 
+    dplyr::mutate(cratio=cratio*100) %>% # cr is a proportion; FVS expects percent
     dplyr::anti_join(tree.list, 
                      by='tree')
   # customary to metric option

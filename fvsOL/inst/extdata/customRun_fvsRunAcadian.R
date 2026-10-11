@@ -33,7 +33,7 @@ fvsRunAcadian <- function(runOps, logfile="Acadian.log")
   mortModel= if (is.null(runOps$uiAcadianMort)) "Acadian" else
                runOps$uiAcadianMort
   CutPoint = if (is.null(runOps$uiAcadianCutPoint)) 0.95 else
-               as.numeric(runOps$uiAcadianCutPoin)
+               as.numeric(runOps$uiAcadianCutPoint)
   volLogic = if (is.null(runOps$uiAcadianVolume)) "Base Model" else
                runOps$uiAcadianVolume
   wThinMod = if (is.null(runOps$uiAcadianTHIN)) FALSE else
@@ -210,7 +210,7 @@ fvsRunAcadian <- function(runOps, logfile="Acadian.log")
     ops   = list(verbose=TRUE,
                  INGROWTH=INGROWTH,
                  MinDBH=MinDBH, # ingrowth minimum DBH
-                 CutPoint=0.5,   # ingrowth cut point >0 uses threshold probability (>0-1).
+                 CutPoint=CutPoint,   # ingrowth cut point >0 uses threshold probability (>0-1).
                  mortType="continuous", #mortType="discrete",
                  SBW=SBW,
                  THINMOD=THINMOD,

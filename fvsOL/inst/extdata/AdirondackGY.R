@@ -432,7 +432,7 @@ SUNY.dDBH=function(SPP,TYPE,DBH,BAL,BA,CSI){
   {b0=-6.184018928;  b1=0.019519878; b2=-0.001987463; b3=-0.021141816; b4=0.0; b5=1.800040865}
   else if(SPP=='BF') {b0=-2.592405733;  b1=1.205637581; b2=-0.055607527; b3=-0.006418332; b4=-0.201335088; b5=0.0}
   else if(SPP=='EH') {b0=-1.750785553;  b1=0.577486763; b2=-0.011261662; b3=-0.005718925; b4=-0.179518414; b5=0.0}
-  else if(TYPE=='HW' & SPP!='AB' & SPP!='RM' & SPP!='SM' & SPP!='YB' & SPP!='WA' & SPP!='BA' & SPP!='RO' & SPP!='QA')
+  else if(TYPE=='HW' & SPP!='AB' & SPP!='RM' & SPP!='SM' & SPP!='YB' & SPP!='RB' & SPP!='WA' & SPP!='BA' & SPP!='RO' & SPP!='QA')
   {b0=-1.51972882;  b1=0.32313807; b2=-0.02246780; b3=-0.02861302; b4=0.0; b5=0.0}
   else if(TYPE=='SW' & SPP!='EH' & SPP!='WC' & SPP!='WP' & SPP!='BF' & SPP!='RS' & SPP!='WS' & SPP!='BS' & SPP!='RN') 
   {b0=-3.42030179;  b1=1.05993031; b2=-0.03010462; b3=-0.01828509; b4=-0.05407572; b5=0.0}
@@ -459,7 +459,7 @@ SUNY.dHT=function(SPP,TYPE,HT,DBH,BAL,BA){
   else if(SPP=='BC') {b0=-2.626046; b1=-0.1226641; b2=0.8261186; b3=-0.05829911; b4=-0.01207503; b5=-0.004878126; b6=0.3740947}
   else if(SPP=='BF') {b0=-2.723272; b1=-0.1036923; b2=0.8261186; b3=-0.05829911; b4=-0.01207503; b5=-0.004878126; b6=0.3740947}
   else if(SPP=='EH') {b0=-2.840891; b1=-0.1169127; b2=0.8261186; b3=-0.05829911; b4=-0.01207503; b5=-0.004878126; b6=0.3740947}
-  else if(TYPE=='HW' & SPP!='AB' & SPP!='RM' & SPP!='SM' & SPP!='YB' & SPP!='WA' & SPP!='BA' & SPP!='RO' & SPP!='QA')
+  else if(TYPE=='HW' & SPP!='AB' & SPP!='RM' & SPP!='SM' & SPP!='YB' & SPP!='RB' & SPP!='WA' & SPP!='BA' & SPP!='RO' & SPP!='QA')
   {b0=-2.756019; b1=-0.1110807; b2=0.8261186; b3=-0.05829911; b4=-0.01207503; b5=-0.004878126; b6=0.3740947}
   else if(TYPE=='SW' & SPP!='EH' & SPP!='WC' & SPP!='WP' & SPP!='BF' & SPP!='RS' & SPP!='WS' & SPP!='BS' & SPP!='RN') 
   {b0=-2.753201; b1=-0.1081164; b2=0.8261186; b3=-0.05829911; b4=-0.01207503; b5=-0.004878126; b6=0.3740947}
@@ -2101,7 +2101,7 @@ AdirondackGYOneStand=function(tree,stand,ops)
   #Crown base height...need this to be annual change: dHCB...computed here
   #in a difference equation format. 
   tree$HCB = mapply(SUNY.BHT,SPP=tree$SP,TYPE=tree$SPtype,
-             tree$DBH+tree$dDBH,HT=tree$HT+tree$dHT,BAL=tree$BAL,
+             tree$DBH,HT=tree$HT,BAL=tree$BAL,
              CSI=CSI,BA=tree$BAPH)
 
   tree$dHCB= mapply(SUNY.BHT,SPP=tree$SP,TYPE=tree$SPtype,
