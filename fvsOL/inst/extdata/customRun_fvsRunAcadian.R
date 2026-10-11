@@ -32,7 +32,7 @@ fvsRunAcadian <- function(runOps, logfile="Acadian.log")
                runOps$uiAcadianMinDBH)
   mortModel= if (is.null(runOps$uiAcadianMort)) "Acadian" else
                runOps$uiAcadianMort
-  CutPoint = if (is.null(runOps$uiAcadianCutPoint)) 0.95 else
+  CutPoint = if (is.null(runOps$uiAcadianCutPoint)) 0.5 else
                as.numeric(runOps$uiAcadianCutPoint)
   volLogic = if (is.null(runOps$uiAcadianVolume)) "Base Model" else
                runOps$uiAcadianVolume
@@ -350,7 +350,7 @@ cat ("in uiAcadian uiAcadianVolume=",
   if (is.null(fvsRun$uiCustomRunOps$uiAcadianMort))
               fvsRun$uiCustomRunOps$uiAcadianMort     = "Acadian"
   if (is.null(fvsRun$uiCustomRunOps$uiAcadianCutPoint))
-              fvsRun$uiCustomRunOps$uiAcadianCutPoint  = "0.95"
+              fvsRun$uiCustomRunOps$uiAcadianCutPoint  = "0.5"
   if (is.null(fvsRun$uiCustomRunOps$uiAcadianVolume))
               fvsRun$uiCustomRunOps$uiAcadianVolume   = "Acadian"
   if (is.null(fvsRun$uiCustomRunOps$uiAcadianTHIN))
