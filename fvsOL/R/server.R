@@ -4621,6 +4621,7 @@ cat ("in buildKeywords, oReopn=",oReopn," kwPname=",kwPname,"\n")
       # if not using the default run script, load the one requested.    
       if (globals$fvsRun$runScript != "fvsRun")
       {
+        if (!grepl("^[A-Za-z0-9_]+$",globals$fvsRun$runScript)) return()
         rsFn = paste0("customRun_",globals$fvsRun$runScript,".R")
         if (!file.exists(rsFn)) rsFn = system.file("extdata", rsFn,
                                                    package="fvsOL")
@@ -4759,9 +4760,9 @@ cat ("in buildKeywords, oReopn=",oReopn," kwPname=",kwPname,"\n")
   observe({  
     if (input$bkgKill == 0) return()
     isolate ({
-      if (!is.null(input$bkgRuns))
+      if (isPlainName(input$bkgRuns))
       {
-        uuid=sub(".pidStatus","",input$bkgRuns)
+        uuid=sub(".pidStatus","",input$bkgRuns,fixed=TRUE)
         killIfRunning(uuid)
         removeFVSRunFiles(uuid)
       }
@@ -4859,12 +4860,12 @@ cat ("qry=",qry," class(dat)=",class(dat),"\n")
     output$dlPrjBackup <- downloadHandler(filename=function ()
       isolate({
         bckupPick <- input$pickBackup
-        if (file.exists(bckupPick)) bckupPick else "NoBackup.txt"
+        if (isPlainName(bckupPick) && file.exists(bckupPick)) bckupPick else "NoBackup.txt"
       }),  
       content=function (tf = tempfile())
       {
         sfile = input$pickBackup
-        if (file.exists(sfile)) file.copy(sfile,tf) else
+        if (isPlainName(sfile) && file.exists(sfile)) file.copy(sfile,tf) else
           cat (file=tf,"Backup does not exist.\n")
       }, contentType="zip")
     
@@ -4874,7 +4875,7 @@ cat ("qry=",qry," class(dat)=",class(dat),"\n")
       content=function (tf = tempfile())
       {
         sfile = paste0(input$runSel,".out")
-        if (file.exists(sfile))
+        if (isPlainName(sfile) && file.exists(sfile))
         {
           file.copy(sfile,tf)
           # use perl to change line endings, ignore if an error is detected
@@ -4887,7 +4888,7 @@ cat ("qry=",qry," class(dat)=",class(dat),"\n")
       content=function (tf = tempfile())
       {
         sfile = paste0(input$runSel,".key")
-        if (file.exists(sfile)) file.copy(sfile,tf) else
+        if (isPlainName(sfile) && file.exists(sfile)) file.copy(sfile,tf) else
           cat (file=tf,"Keywords not yet created.\n")
       }, contentType="text")
   
@@ -6068,7 +6069,7 @@ cat ("delete all runs and outputs\n")
     if(input$delZipBackup > 0)
     {
       fl = isolate(input$pickBackup)
-      if (is.null(fl)) return()
+      if (!isPlainName(fl)) return()
       if (file.exists(fl))
       {
         unlink(fl)
@@ -6194,7 +6195,7 @@ cat ("prjBackupUpload=",prjBackupUpload,"\n")
   ## restorePrjBackup 
   observeEvent(input$restorePrjBackup,
   {
-    if (is.na(input$pickBackup) || is.null(input$pickBackup) || !file.exists(input$pickBackup))
+    if (!isPlainName(input$pickBackup) || !file.exists(input$pickBackup))
     { 
         session$sendCustomMessage(type = "dialogContentUpdate",
         message = list(id = "restorePrjBackupDlg",
@@ -6236,7 +6237,7 @@ cat ("prjBackupUpload=",prjBackupUpload,"\n")
   
   observeEvent(input$restorePrjBackupDlgBtnA,{  
     isolate({
-       if (is.na(input$pickBackup) || is.null(input$pickBackup) || !file.exists(input$pickBackup)) return()
+       if (!isPlainName(input$pickBackup) || !file.exists(input$pickBackup)) return()
         progress <- shiny::Progress$new(session,min=1,max=5)
         progress$set(message = "Unzipping project backup",value = 2)
         fvsWorkBackup = input$pickBackup
@@ -6250,7 +6251,7 @@ cat ("restorePrjBackupDlgBtB fvsWorkBackup=",fvsWorkBackup,"\n")
           if (icon) dbDisconnect(dbGlb$dbIcon)
           td <- tempfile("pbk")
           dir.create(td)
-          rtn = try(unzip (paste0(getwd(),"/",fvsWorkBackup),exdir=td,
+          rtn = try(safeUnzip(paste0(getwd(),"/",fvsWorkBackup),exdir=td,
                     overwrite=TRUE,junkpaths=FALSE))
           if (class(rtn)=="try-error") return()
           zipConts <- dir(td,include.dirs=TRUE,recursive=TRUE)
@@ -6281,7 +6282,7 @@ cat ("restorePrjBackupDlgBtB fvsWorkBackup=",fvsWorkBackup,"\n")
       
   observeEvent(input$restorePrjBackupDlgBtnB,{  
     isolate({
-        if (is.na(input$pickBackup) || is.null(input$pickBackup) || !file.exists(input$pickBackup)) return()
+        if (!isPlainName(input$pickBackup) || !file.exists(input$pickBackup)) return()
         if(globals$prjFilesOnly){
           globals$prjFilesOnly = FALSE
           return()
@@ -6302,7 +6303,7 @@ cat ("restorePrjBackupDlgBtnA fvsWorkBackup=",fvsWorkBackup,"\n")
           suppressWarnings(dir.create(td))
           setwd(td)
           lapply(dir(),function(x) unlink(x,recursive=TRUE,force=TRUE))
-          rtn = try(unzip (paste0(curdir,"/",fvsWorkBackup),exdir=td,
+          rtn = try(safeUnzip(paste0(curdir,"/",fvsWorkBackup),exdir=td,
                     overwrite=TRUE,junkpaths=FALSE))
           if (class(rtn)=="try-error") 
           {
@@ -6369,7 +6370,7 @@ cat ("restorePrjBackupDlgBtnA fvsWorkBackup=",fvsWorkBackup,"\n")
     if(input$PrjDelete > 0)
     {            
       isolate({
-        if (is.null(input$PrjDelSelect)) 
+        if (!isPlainName(input$PrjDelSelect)) 
         {
           output$delPrjActionMsg <- renderUI(HTML("No project selected."))
           session$sendCustomMessage(type = "dialogContentUpdate",
@@ -6394,7 +6395,7 @@ cat ("PrjDelete, input$PrjDelSelect=",input$PrjDelSelect,"\n")
     {
 cat("delete project button.") 
       isolate({
-        if (is.null(input$PrjDelSelect)) 
+        if (!isPlainName(input$PrjDelSelect)) 
         {
           output$delPrjActionMsg <- renderUI(HTML("No project selected."))
         } else {
@@ -8219,7 +8220,7 @@ cat ("mapUpload, filename=",input$mapUpload$datapath," ending=",fileEnding,"\n")
         progress$set(message = "Unzipping",value = 1)
         curdir = getwd()
         setwd(mapDir)
-        unzip(zipName)
+        try(safeUnzip(zipName))
         unlink(zipName)
         if (length(dir(mapDir)) > 1) mapDir = dirname(mapDir)
         progress$set(message = "Getting layers",value = 2)
@@ -8456,7 +8457,7 @@ cat ("input$mapUpLayers, number of layers (choices)=",length(choices)," selected
         dir.create(tmpPrj)
         tmpPrj = file.path(getwd(),tmpPrj)
         setwd(tmpPrj)
-        uz = try(unzip(input$uploadRunsRdat$datapath))
+        uz = try(safeUnzip(input$uploadRunsRdat$datapath))
         if (class(uz)=="try-error") 
         {
 cat("uploaded zip failed\n")
@@ -8675,7 +8676,8 @@ cat(" input$impSpatialDataDlgBtn=",input$impSpatialDataDlgBtn,"\n")
   customRunOps <- function ()                                             
   {
     isolate({
-      if (length(input$runScript) == 0)
+      # the name selects a customRun_<name>.R file to source; allow only plain names
+      if (length(input$runScript) != 1 || !grepl("^[A-Za-z0-9_]+$",input$runScript))
       {  
 cat ("in customRunOps runScript is empty\n")
         return()

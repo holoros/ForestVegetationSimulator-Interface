@@ -140,14 +140,32 @@ cat ("kill cmd =",cmd,"\n")
 }
     
    
+# TRUE when x is a single file or directory name with no path parts, used to
+# check client-supplied names before they reach file operations
+isPlainName = function (x)
+  is.character(x) && length(x)==1 && !is.na(x) && nzchar(x) &&
+  !grepl("[/\\\\[:cntrl:]]",x) && !x %in% c(".","..")
+
+# unzip only when no member is an absolute path or climbs out with "..",
+# so an uploaded archive cannot write outside the extraction directory
+safeUnzip = function (zipfile,...)
+{
+  nms = utils::unzip(zipfile,list=TRUE)$Name
+  if (any(grepl("^([/\\\\]|[A-Za-z]:)|(^|[/\\\\])\\.\\.([/\\\\]|$)",nms)))
+    stop("zip file contains unsafe member paths")
+  utils::unzip(zipfile,...)
+}
+
 removeFVSRunFiles = function (uuid,all=FALSE)
 {
+  if (!isPlainName(uuid) || nchar(uuid) < 8) return()
   if (file.exists(uuid)) 
   {
     unlink(paste0(uuid,"/",dir(uuid)), recursive = TRUE, force = TRUE)
     unlink(uuid)
   }
-  fls = dir(pattern=uuid)
+  fls = dir()
+  fls = fls[grepl(uuid,fls,fixed=TRUE)]
   if (!all) fls = setdiff(fls,paste0(uuid,".RData"))
   unlink(fls, recursive = TRUE, force = TRUE)
 }
