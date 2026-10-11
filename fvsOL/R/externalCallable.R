@@ -821,7 +821,7 @@ extnAddStands <- function(prjDir=getwd(),runUUID,stands,
   if (!file.exists(dbfile)) stop ("FVS_Data.db must exist")
   db = connectFVSProjectDB(prjDir)
   fvsRun=loadFVSRun(db,runUUID)                       
-  if (is.null("fvsRun")) stop("run data not found")
+  if (is.null(fvsRun)) stop("run data not found")
   if (attr(class(fvsRun),"package") != "fvsOL") stop("Don't recognize the loaded run object")
   dbcon <- dbConnect(dbDriver("SQLite"),dbfile)            
   on.exit({
@@ -884,7 +884,7 @@ extnAddStands <- function(prjDir=getwd(),runUUID,stands,
     addkeys <- fvsInit[row,"FVSKEYWORDS"]
     if (!is.null(addkeys) && !is.na(addkeys) && nchar(addkeys) && addkeys != "NA") 
     {
-      nadd$ncmps=nadd$cmps+1
+      nadd$ncmps=nadd$ncmps+1
       newstd$cmps <- append(newstd$cmps,mkfvsCmp(kwds=addkeys,uuid=uuidgen(),
         exten="base", atag="k",kwdName=paste0("From: ",stdInit),variant=variant, 
         title=paste0("From: ",stdInit)))
@@ -897,7 +897,7 @@ extnAddStands <- function(prjDir=getwd(),runUUID,stands,
     need <- setdiff(grps, have)
     for (grp in need) 
     {
-      nadd$grps = nadd$grps+1
+      nadd$ngrps = nadd$ngrps+1
       newgrp <- mkfvsGrp(grp=grp,uuid=uuidgen())              
       grprow <- if (!is.null(grpAddKey)) 
         grep(grp,grpAddKey[,"GROUPS"],fixed=TRUE) else c()
@@ -906,7 +906,7 @@ extnAddStands <- function(prjDir=getwd(),runUUID,stands,
         addkeys <- grpAddKey[grow,"FVSKEYWORDS"]
         if (!is.null(addkeys) && !is.na(addkeys))
         {
-          nadd$ncmps=nadd$cmps+1
+          nadd$ncmps=nadd$ncmps+1
           newgrp$cmps[[length(newgrp$cmps)+1]] <- 
             mkfvsCmp(kwds=addkeys,uuid=uuidgen(),atag="k",exten="base",
                      kwdName="From: FVS_GroupAddFilesAndKeywords",
@@ -915,7 +915,7 @@ extnAddStands <- function(prjDir=getwd(),runUUID,stands,
         addfiles <- AddFiles(grpAddKey[grow,"ADDFILES"])
         for (addf in names(addfiles)) 
         {
-          nadd$ncmps=nadd$cmps+1
+          nadd$ncmps=nadd$ncmps+1
           newgrp$cmps[[length(newgrp$cmps)+1]] <-
           mkfvsCmp(kwds=as.character(addfiles[addf]),uuid=uuidgen(),atag="k",exten="base",
             kwdName=paste0("AddFile: ",addf),title=paste0("AddFile: ",addf))
@@ -1154,7 +1154,7 @@ extnErrorScan <- function (outfile)
       {
         hit=scan(text=line,what="character",quiet=TRUE)
         pgmRV=grep("RV:",hit,fixed=TRUE)
-        pgmRV=if(is.na(pgmRV)) NA else hit[pgmRV]
+        pgmRV=if(!length(pgmRV)) NA else hit[pgmRV[1]]
       }
     }         
     hit=grep("STAND ID= ",line,fixed=TRUE)
@@ -1182,7 +1182,7 @@ extnErrorScan <- function (outfile)
       errs[unlist(lapply(errs,nchar)) == 0] <- NULL
       paste0(paste0(names(unlist(errs)),": ",unlist(errs)),collapse="<br>")
     } else "No errors found")
-  if (!foundSum) outerrs <- append(errs,"Run failure")
+  if (!foundSum) outerrs <- append(outerrs,"Run failure")
   attr(outerrs,"pgmRV")=if (is.na(pgmRV)) " " else pgmRV
   outerrs
 }

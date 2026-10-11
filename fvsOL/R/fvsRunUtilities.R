@@ -75,7 +75,7 @@ cat("resetfvsRun\n")
 mkpair <- function(alist)
 {
 cat("mkpair, length(alist)=",length(alist),"\n")
-  if (length(list) == 0) return(list())
+  if (length(alist) == 0) return(list())
   l <- as.list(as.character(1:length(alist)))
   names(l) <- names(alist)
   l
@@ -343,7 +343,7 @@ cat ("findStand, search=",search,"\n")
   if (first==1) return(NULL) else first=1
   for (i in first:globals$foundStand)
   {
-    if (length(grep(search,globals$fvsRun$stands[i]$sid)))
+    if (length(grep(search,globals$fvsRun$stands[[i]]$sid)))
     {
       globals$foundStand=as.integer(i)
       return(globals$fvsRun$stands[[i]]$uuid)
@@ -1766,8 +1766,9 @@ mkFVSProjectDB <- function (prjDir=getwd())
       run=FVS_Runs[i]
       runFile = file.path(prjDir,paste0(names(run),".RData"))
       if (!file.exists(runFile)) next
+      if (exists("saveFvsRun",inherits=FALSE)) rm(saveFvsRun)
       rtn = try(load(runFile))
-      if (class(rtn) == "try.error" || !exists("saveFvsRun")) next
+      if (class(rtn) == "try-error" || !exists("saveFvsRun",inherits=FALSE)) next
       df = data.frame(uuid=names(run),name=unlist(run),time=attr(which="time",x=run[[1]]),
            run=I(list(extnToRaw(saveFvsRun))))
       row = dbGetQuery(db,paste0("select rowid from FVSRuns where (uuid='",names(run),"');"))

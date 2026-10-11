@@ -415,7 +415,7 @@ cat ("onSessionEnded, globals$saveOnExit=",globals$saveOnExit,
     if (length(delList)) lapply(delList,function(x) unlink(x))  
     #note: the stopApp function returns to the R process that called shinyApp()
     if (globals$reloadAppIsSet == 0) stopApp()
-    globals$reloadAppIsSet == 0
+    globals$reloadAppIsSet = 0
   })
   
   if (isLocal()) {
@@ -1236,7 +1236,7 @@ cat ("sqlSel input$sqlSel=",input$sqlSel," isnull=",
       sel = as.numeric(input$sqlSel)
       if(is.na(sel)) sel = as.numeric(match(input$sqlSel,names(globals$customQueries)))
 cat ("sqlSel sel=",sel,"\n")
-      if (length(globals$customQueries) >= sel || !is.null(sel)) 
+      if (!is.na(sel) && length(globals$customQueries) >= sel) 
       {
         updateTextInput(session=session, inputId="sqlTitle", 
           value=names(globals$customQueries)[sel])
@@ -2133,8 +2133,15 @@ cat("sumOnSpecies=",sumOnSpecies," sumOnDBHClass=",sumOnDBHClass,"\n")
       if(nchar(str)<10) return(str)
       if(substr(str,1,10)=="expression")
       {
-        rtn = try(eval(parse(text=str)))
-        if (class(rtn)=="expression") return(rtn)
+        # only evaluate a single expression(...) call; expression() does not
+        # evaluate its arguments, so no user code runs (labels are user input)
+        pe = try(parse(text=str),silent=TRUE)
+        if (!inherits(pe,"try-error") && length(pe)==1 && is.call(pe[[1]]) &&
+            identical(pe[[1]][[1]],as.name("expression")))
+        {
+          rtn = try(eval(pe[[1]],envir=baseenv()))
+          if (class(rtn)=="expression") return(rtn)
+        }
       } 
       str
     }
@@ -2333,7 +2340,7 @@ cat("ylim=",ylim," rngy=",rngy," brky=",brky,"\n")
       p = p + geom_line(aes(x=xseq,y=yseq,group=RelDen, linetype=as.character(l_type)), linewidth = 0.5, data=DMDguideLines)
       label_info <- DMDguideLines |> group_by(RelDen, StandID) |> slice_tail(n = 1)
       p = p +  geom_text(aes(x=xseq, y=yseq, label=paste0("SDI: ",RelDen)), data=label_info, 
-        hjust = "left", vjust = "cener", size = 2)
+        hjust = "left", vjust = "center", size = 2)
 
       p = p + geom_ribbon(data = DensityManagementZone, mapping = aes(x = xseq, ymin = ymin, ymax = ymax, alpha = 0.85))
       p = p + geom_line(aes(x=xseq,y=yseq,group=RelDen),show.legend=FALSE,
@@ -6124,7 +6131,7 @@ cat ("delete all runs and outputs\n")
           Sys.sleep(.2)
         }
       }
-      if (createdFVSbin) unlink("FVSbin")
+      if (createdFVSbin) unlink("FVSbin",recursive=TRUE)
       if (ocon) dbGlb$dbOcon <- dbConnect(dbDriver("SQLite"),dbGlb$dbOcon@dbname)   
       if (icon) dbGlb$dbIcon <- dbConnect(dbDriver("SQLite"),dbGlb$dbIcon@dbname)   
       Sys.sleep(.2)
@@ -6241,7 +6248,8 @@ cat ("restorePrjBackupDlgBtB fvsWorkBackup=",fvsWorkBackup,"\n")
           icon = class(dbGlb$dbIcon) == "SQLiteConnection" && dbIsValid(dbGlb$dbIcon)
           if (ocon) dbDisconnect(dbGlb$dbOcon)
           if (icon) dbDisconnect(dbGlb$dbIcon)
-          td <- tempdir()
+          td <- tempfile("pbk")
+          dir.create(td)
           rtn = try(unzip (paste0(getwd(),"/",fvsWorkBackup),exdir=td,
                     overwrite=TRUE,junkpaths=FALSE))
           if (class(rtn)=="try-error") return()
@@ -6296,7 +6304,13 @@ cat ("restorePrjBackupDlgBtnA fvsWorkBackup=",fvsWorkBackup,"\n")
           lapply(dir(),function(x) unlink(x,recursive=TRUE,force=TRUE))
           rtn = try(unzip (paste0(curdir,"/",fvsWorkBackup),exdir=td,
                     overwrite=TRUE,junkpaths=FALSE))
-          if (class(rtn)=="try-error") return()
+          if (class(rtn)=="try-error") 
+          {
+            setwd(curdir)
+            if (ocon) dbGlb$dbOcon <- dbConnect(dbDriver("SQLite"),dbGlb$dbOcon@dbname)
+            if (icon) dbGlb$dbIcon <- dbConnect(dbDriver("SQLite"),dbGlb$dbIcon@dbname)
+            return()
+          }
           zipConts <- dir(td,include.dirs=TRUE,recursive=TRUE)
           del=NULL
           # TODO: most of this list is related to old versions the software (pre "package")
@@ -6566,7 +6580,7 @@ cat ("tabDescSel2, tab=",tab,"\n")
     } else {
       frm=system.file("extdata", "FVS_Data.db.default", package="fvsOL")
       file.copy(frm,"FVS_Data.db",overwrite=TRUE)
-      frm=system.file("extdata", "SpatialData.RData.default",ppackage="fvsOL")
+      frm=system.file("extdata", "SpatialData.RData.default",package="fvsOL")
       file.copy(frm,"SpatialData.RData",overwrite=TRUE)
     }
     dbGlb$dbIcon <- dbConnect(dbDrv,"FVS_Data.db") 
@@ -6652,9 +6666,10 @@ cat ("tabDescSel2, tab=",tab,"\n")
         return()
       } 
       fext = tools::file_ext(fname)
-      if (! (fext %in% c("accdb","mdb","db","sqlite","xlsx"))) 
+      # the member name is later passed to the shell (mdbtools); refuse unsafe names
+      if (! (fext %in% c("accdb","mdb","db","sqlite","xlsx")) || !grepl("^[A-Za-z0-9_ .-]+$",fname)) 
       {
-        output$step1ActionMsg = renderText(".zip did not contain one of the suitable file types described in Step 1.")
+        output$step1ActionMsg = renderText(".zip did not contain one of the suitable file types described in Step 1, or its file name has characters other than letters, digits, space, '.', '_' and '-'.")
         lapply (dir(dirname(input$uploadNewDB$datapath),full.names=TRUE),unlink)
         progress$close()
         session$sendCustomMessage(type="jsCode",
@@ -6673,7 +6688,7 @@ cat ("fext=",fext," fname=",fname," fdir=",fdir,"\n")
 cat("curDir=",curDir," input dir=",getwd(),"\n")
       pgm = if (exists("mdbToolsDir")) file.path(normalizePath(mdbToolsDir),"mdb-schema") else "mdb-schema"
       if (.Platform$OS.type == "windows") pgm=paste0(pgm,".exe") 
-      cmd = paste0(pgm," ",fname)
+      cmd = paste0(pgm," ",shQuote(fname,type=if (.Platform$OS.type == "windows") "cmd" else "sh"))
 cat ("cmd=",cmd,"\n")
       schema = if (.Platform$OS.type == "windows") try(shell(cmd,intern=TRUE)) else
                                                    try(system(cmd,intern=TRUE))
@@ -6698,6 +6713,20 @@ cat ("cmd=",cmd,"\n")
       tbln=unlist(lapply(schema[tbls],function(x) if (length(grep("]",x,fixed=TRUE)))
         scan(text=x,what="character",sep="]",quiet=TRUE)[2] else
         scan(text=x,what="character",quiet=TRUE)[3]))
+      # table names and schema text come from the uploaded file and reach the shell
+      # and sqlite3; refuse anything that could escape quoting or add dot commands
+      if (!all(grepl("^[A-Za-z0-9_ .-]+$",tbln)) || any(grepl("^\\s*\\.",schema)))
+      {
+        setwd(curDir)
+        progress$close()
+        output$step1ActionMsg = renderText("Table names may only contain letters, digits, space, '.', '_' and '-'.")
+        session$sendCustomMessage(type = "resetFileInputHandler","uploadNewDB")
+        session$sendCustomMessage(type="jsCode",
+                                  list(code= "$('#installTrainDB').prop('disabled',false)"))
+        session$sendCustomMessage(type="jsCode",
+                                  list(code= "$('#installEmptyDB').prop('disabled',false)"))
+        return()
+      }
       schema = gsub(" Long Integer"," Integer",schema,ignore.case=TRUE)
       schema = gsub(" Int"," Integer",schema,ignore.case=TRUE)
       schema = gsub(" Integereger"," Integer",schema,ignore.case=TRUE)
@@ -6737,7 +6766,8 @@ cat ("cmd=",cmd,"\n")
       {
         progress$set(message = paste0("Export table ",tab), value = 3)
         cat ("begin;\n",file="sqlite3.import",append=TRUE)
-        cmd = paste0 (pgm," -I sqlite ",fname," ",tab," >> sqlite3.import")
+        cmd = paste0 (pgm," -I sqlite ",shQuote(fname,type=if (.Platform$OS.type == "windows") "cmd" else "sh"),
+                      ' "',tab,'" >> sqlite3.import')
         cat ("cmd=",cmd,"\n")
         result = if (.Platform$OS.type == "windows") shell(cmd,intern=TRUE) else system(cmd,intern=TRUE)
         cat ("commit;\n",file="sqlite3.import",append=TRUE)
@@ -7137,10 +7167,10 @@ cat ("calling fixFVSKeywords\n")
     {
       i = i+1
       progress$set(message = paste0("Setting up index for table ",tb), value=i)
-      if (tolower(tb) == "fvs_climattr") 
+      if (tolower(tb) == "fvs_climattrs") 
       {
         rtn = try(dbExecute(dbGlb$dbIcon,"drop index if exists StdScnIndex"))
-        if (class(try)!="try-error") 
+        if (class(rtn)!="try-error") 
         {
           qry = "create index StdScnIndex on FVS_ClimAttrs (Stand_ID, Scenario);"
 cat ("index creation, qry=",qry,"\n")
@@ -7153,7 +7183,7 @@ cat ("index creation, qry=",qry,"\n")
         {
           tbinx = paste0("idx",tb)
           rtn = try(dbExecute(dbGlb$dbIcon,paste0("drop index if exists ",tbinx)))
-          if (class(try)!="try-error") 
+          if (class(rtn)!="try-error") 
           {
             qry = paste0("create index ",tbinx," on ",tb," (Stand_ID);")
 cat ("index creation, qry=",qry,"\n")
@@ -7167,7 +7197,7 @@ cat ("index creation, qry=",qry,"\n")
         {
           tbinx = paste0("idx",tb)
           rtn = try(dbExecute(dbGlb$dbIcon,paste0("drop index if exists ",tbinx)))
-          if (class(try)!="try-error") 
+          if (class(rtn)!="try-error") 
           {
             qry = paste0("create index ",tbinx," on ",tb," (Stand_ID);")
 cat ("index creation, qry=",qry,"\n")
@@ -7182,7 +7212,7 @@ cat ("index creation, qry=",qry,"\n")
         {
           tbinx = paste0("idx",tb)
           rtn = try(dbExecute(dbGlb$dbIcon,paste0("drop index if exists ",tbinx)))
-          if (class(try)!="try-error") 
+          if (class(rtn)!="try-error") 
           {
             qry = paste0("create index ",tbinx," on ",tb," (StandPlot_ID);")
 cat ("index creation, qry=",qry,"\n")
@@ -7198,7 +7228,7 @@ cat ("index creation, qry=",qry,"\n")
         {
           tbinx = paste0("idx",tb)
           rtn = try(dbExecute(dbGlb$dbIcon,paste0("drop index if exists ",tbinx)))
-          if (class(try)!="try-error") 
+          if (class(rtn)!="try-error") 
           {
             qry = paste0("create index ",tbinx," on ",tb," (StandPlot_ID);")
             cat ("index creation, qry=",qry,"\n")
@@ -7213,7 +7243,7 @@ cat ("index creation, qry=",qry,"\n")
         {
           tbinx = paste0("idx",tb)
           rtn = try(dbExecute(dbGlb$dbIcon,paste0("drop index if exists ",tbinx)))
-          if (class(try)!="try-error") 
+          if (class(rtn)!="try-error") 
           {
             qry = paste0("create index ",tbinx," on ",tb," (StandPlot_ID);")
             cat ("index creation, qry=",qry,"\n")
@@ -7227,7 +7257,7 @@ cat ("index creation, qry=",qry,"\n")
         {
           tbinx = paste0("idx",tb)
           rtn = try(dbExecute(dbGlb$dbIcon,paste0("drop index if exists ",tbinx)))
-          if (class(try)!="try-error") 
+          if (class(rtn)!="try-error") 
           {
             qry = paste0("create index ",tbinx," on ",tb," (Stand_ID);")
 cat ("index creation, qry=",qry,"\n")
@@ -7373,7 +7403,7 @@ cat ("qry=",qry,"\nrtn=",rtn,"\n")
     {
       i = i+1
       progress$set(message = paste0("Setting up index for table ",tb), value=i)
-      if (tolower(tb) == "fvs_climttr") 
+      if (tolower(tb) == "fvs_climattrs") 
       {
         dbExecute(dbGlb$dbIcon,"drop index if exists StdScnIndex")
         dbExecute(dbGlb$dbIcon,"create index StdScnIndex on FVS_ClimAttrs (Stand_ID, Scenario);")
@@ -7517,7 +7547,7 @@ cat ("add column qry=",qry,"\n")
       sids=if (class(sids)=="try-error") NA else sids[,1]
       isid=charmatch("stand_id",tolower(names(indat)))
       msg=NULL
-      if (!(is.na(sids) || is.na(isid))) 
+      if (!(identical(sids,NA) || is.na(isid))) 
       {
         tokeep=is.na(match(indat[,isid],sids))
         ntokill=sum(!tokeep)
@@ -7939,7 +7969,7 @@ cat ("editSelDBvars, input$editSelDBvars=",input$editSelDBvars," mode=",input$mo
       if (is.null(dbGlb$tbl)) return()
       input$disprows
       newBot <- min(dbGlb$rows[2]+dbGlb$disprows,nrow(dbGlb$tbl))
-      newTop <- max(newBot-dbGlb$disprows-1,1)
+      newTop <- max(newBot-dbGlb$disprows+1,1)
       dbGlb$rows <- c(newTop,newBot)
       output$tbl <- renderRHandsontable(rhandsontable(dbGlb$tbl[newTop:newBot,
         union(c("Delete"),isolate(input$editSelDBvars)),
@@ -8721,7 +8751,7 @@ cat ("Manage project hit\n")
 cat ("Make new project, input$PrjNewTitle=",input$PrjNewTitle,"\n")
       if (nchar(input$PrjNewTitle)==0) return()
       prjid = if (file.exists("projectId.txt")) scan("projectId.txt",
-         what="character",sep="\n",quiet=TRUE) else NUL
+         what="character",sep="\n",quiet=TRUE) else NULL
       fbin = Sys.readlink(fvsBin) #will be na if file does not exist, "" if not symbolic link.
       if (is.na(fbin)) return()
       curdir = getwd()
@@ -8768,7 +8798,7 @@ cat("PrjOpen to=",newPrj," dir.exists(newPrj)=",dir.exists(newPrj),
       { 
         if (isLocal()) 
         {
-        file.remove('./ProjectIsLocked.txt')
+        unlink("projectIsLocked.txt")
         setwd(newPrj)
         globals$reloadAppIsSet=1
         session$reload()    
@@ -8905,7 +8935,7 @@ cat("PrjOpen to=",newPrj," dir.exists(newPrj)=",dir.exists(newPrj),
               return()
             }
 
-            file.remove('./ProjectIsLocked.txt')
+            unlink("projectIsLocked.txt")
             setwd(dirPath)
             globals$reloadAppIsSet=1
             session$reload()

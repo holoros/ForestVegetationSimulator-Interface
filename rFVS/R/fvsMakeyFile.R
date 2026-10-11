@@ -25,6 +25,7 @@ fvsMakeKeyFile <- function (keyFileName=NULL,runTitle=NULL,standIDs=NULL,
 {
   trim <- function (x) gsub("^\\s+|\\s+$","",x)
   if (is.null(standIDs)) stop("standIds must be specified.")
+  if (is.null(runTitle)) runTitle = ""
                      
   if (is.null(keyFileName)) keyFileName=tempfile(pattern="fvs",fileext=".key",tmpdir=getwd())
   if (file.exists(keyFileName)) unlink(keyFileName)
@@ -61,14 +62,14 @@ fvsMakeKeyFile <- function (keyFileName=NULL,runTitle=NULL,standIDs=NULL,
       if (class(moreKeywords) == "data.frame") for (row in 1:nrow(moreKeywords))
       {
         if (nchar(moreKeywords[row,1])==0) next
-        kw=sprintf("%-10s",trim(moreKeywords[row,1]),file=fc)       
-        if (ncol(morekeywords)>1) 
+        kw=sprintf("%-10s",trim(moreKeywords[row,1]))
+        if (ncol(moreKeywords)>1) 
         {
           for (col in 2:ncol(moreKeywords))
             kw=paste0(kw,sprintf("%10s",trim(as.character(moreKeywords[row,col]))))
         }
+        cat(kw,"\n",sep="",file=fc)
       }
-      cat(kw,"\n",file=fc)
     }
     cat ("\nProcess\n",sep="",file=fc)
   }

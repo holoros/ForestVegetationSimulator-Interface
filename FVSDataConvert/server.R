@@ -26,7 +26,7 @@ shinyServer(function(input, output, session)
     }
     #make sure the sink stack is empty
     while (sink.number()) sink()
-    sink("FVSOnline.log")
+    sink("FVSDataConvert.log")
   }
 
 cat ("FVSDataConvert server start.\n")
@@ -65,7 +65,13 @@ cat ("fext=",fext,"\n")
         session$sendCustomMessage(type = "resetFileInputHandler","uploadNewDB")
         progress$close()
         return()
-      } else fname=paste0(paste0,dirname(input$uploadNewDB$datapath),"/",fname)
+      } else if (!grepl("^[A-Za-z0-9_ .-]+$",fname))
+      {
+        output$actionMsg = renderText("File name inside the .zip may only contain letters, digits, space, '.', '_' and '-'.")
+        session$sendCustomMessage(type = "resetFileInputHandler","uploadNewDB")
+        progress$close()
+        return()
+      } else fname=paste0(dirname(input$uploadNewDB$datapath),"/",fname)
       fext = tools::file_ext(fname)
       if (! (fext %in% c("accdb","mdb","xlsx"))) 
       {
@@ -82,9 +88,10 @@ cat ("fext=",fext," fname=",fname," fdir=",fdir," dbOutFile=",dbOutFile,"\n")
     {
       progress$set(message = "Process schema", value = 2)
       fnschema = paste0(fdir,"/schema")
+      # fname is either Shiny's datapath or a zip member name checked above
       cmd = if (.Platform$OS.type == "windows") 
-        shQuote(paste0("C:/FVS/mdbtools/mdb-schema ",fname)) else
-        paste0(paste0("mdb-schema ",fname))
+        paste0("C:/FVS/mdbtools/mdb-schema ",shQuote(fname,type="cmd")) else
+        paste0("mdb-schema ",shQuote(fname))
 cat ("cmd=",cmd,"\n")
       schema = if (.Platform$OS.type == "windows") try(shell(cmd,intern=TRUE)) else 
                                                    try(system(cmd,intern=TRUE))
@@ -107,6 +114,15 @@ cat ("cmd=",cmd,"\n")
       tbln=unlist(lapply(schema[tbls],function(x) if (length(grep("]",x,fixed=TRUE)))
         scan(text=x,what="character",sep="]",quiet=TRUE)[2] else
         scan(text=x,what="character",quiet=TRUE)[3]))
+      # table names and schema text come from the uploaded file and are passed
+      # to the shell and to sqlite3; refuse anything that could escape quoting
+      if (!all(grepl("^[A-Za-z0-9_ .-]+$",tbln)) || any(grepl("^\\s*\\.",schema)))
+      {
+        progress$close()
+        output$actionMsg = renderText("Table names may only contain letters, digits, space, '.', '_' and '-'.")
+        session$sendCustomMessage(type = "resetFileInputHandler","uploadNewDB")
+        return()
+      }
       schema = gsub(" Long Integer"," Integer",schema,ignore.case=TRUE)
       schema = gsub(" Int"," Integer",schema,ignore.case=TRUE)
       schema = gsub(" Integereger"," Integer",schema,ignore.case=TRUE)
@@ -128,7 +144,9 @@ cat ("cmd=",cmd,"\n")
         progress$set(message = paste0("Export table ",tab), value = 3)
         cat ("begin;\n",file=sqlImp,append=TRUE)
         cmd = paste0 (if (.Platform$OS.type == "windows") "C:/FVS/mdbtools/" else "",
-                       "mdb-export -I sqlite ",fname,' "',tab,'" >> ',sqlImp)
+                       "mdb-export -I sqlite ",
+                       shQuote(fname,type=if (.Platform$OS.type == "windows") "cmd" else "sh"),
+                       ' "',tab,'" >> ',sqlImp)
         cat ("cmd=",cmd,"\n")
         result = if (.Platform$OS.type == "windows") shell(cmd,intern=TRUE) else system(cmd,intern=TRUE)
         cat ("commit;\n",file=sqlImp,append=TRUE)
