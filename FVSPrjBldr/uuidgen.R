@@ -10,6 +10,22 @@ uuidgen <- function (n=1)
 
 # NLCrookston, Dec 2014.
 
+# The project URL is the only access control on a hosted project, so use the
+# OS random source directly when it exists; the Mersenne Twister path below
+# is predictable once its 32 bit seed is recovered.
+  if (file.exists("/dev/urandom"))
+  {
+    rn <- file("/dev/urandom",open="rb",raw=TRUE)
+    on.exit(close(rn))
+    return(vapply(seq_len(n),function (i)
+    {
+      b <- as.integer(readBin(rn,"raw",16))
+      b[7] <- bitwOr(bitwAnd(b[7],0x0f),0x40)  # version 4
+      b[9] <- bitwOr(bitwAnd(b[9],0x3f),0x80)  # RFC 4122 variant
+      h <- paste(sprintf("%02x",b),collapse="")
+      paste(substring(h,c(1,9,13,17,21),c(8,12,16,20,32)),collapse="-")
+    },""))
+  }
   ss <- if (exists(".Random.seed",envir=.GlobalEnv)) 
         get(".Random.seed",envir=.GlobalEnv) else NULL
   cp <- Sys.getpid()

@@ -1058,7 +1058,8 @@ extnSimulateRun <- function(prjDir=getwd(),runUUID,fvsBin="FVSBin",ncpu=detectCo
   }
   rscript=paste0(runUUID,".Rscript")
   pidStat=paste0(runUUID,".pidStatus")
-  cat ('cat (Sys.getpid()," ',fvsRun$title,'; ',ncpu,' CPUs; ",',
+  # deparse() quotes and escapes the title, which is user text, for the generated script
+  cat ('cat (Sys.getpid(),',deparse(paste0(" ",fvsRun$title,"; ",ncpu," CPUs; ")),',',
        'format(Sys.time(),"%Y-%m-%d_%H_%M_%S"),"\\n",sep="",file="',
        pidStat,'")\n',sep="",file=rscript)
   if (!is.na(libpaths)) cat(libpaths,"\n",file=rscript,append=TRUE) 

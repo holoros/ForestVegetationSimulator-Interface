@@ -544,7 +544,7 @@ cat ("have exclusive lock\n")
         # filter records selected from selected tables.
         qry = paste0("create table temp.Cases as select _RowID_,CaseID,Variant ",
                      "from FVS_Cases where FVS_Cases.KeywordFile in ",
-                     paste0("('",paste(input$runs,collapse="','"),"')"))
+                     paste0("(",paste(DBI::dbQuoteString(dbGlb$dbOcon,input$runs),collapse=","),")"))
 cat("qry=",qry,"\n")
         dbExecute(dbGlb$dbOcon,"drop table if exists temp.Cases")
         rtn = dbExecute(dbGlb$dbOcon,qry) 
@@ -1134,6 +1134,14 @@ cat ("sqlRunQuery\n")
         {                                  
           iq = iq+1
 cat ("sqlRunQuery, qry=",qry,"\n")
+          # ATTACH (and VACUUM INTO) can create or overwrite files anywhere the
+          # server can write; DETACH and PRAGMA settings can break the app's connections
+          if (grepl("^\\s*(attach|detach)\\b|\\bvacuum\\b|^\\s*pragma\\b.*=",qry,ignore.case=TRUE))
+          {
+            msgtxt = paste0(msgtxt,"query ",iq," refused: ATTACH, DETACH, VACUUM and PRAGMA settings are not allowed\n")
+            updateTextInput(session=session, inputId="sqlOutput", label="", value=msgtxt)
+            next
+          }
           res = try (dbGetQuery(dbGlb$dbOcon,qry))
           msgtxt = if (class(res) == "data.frame" && ncol(res) && nrow(res)) 
             paste0(msgtxt,"query ",iq," returned a data frame with ",nrow(res),
@@ -2479,11 +2487,17 @@ cat ("inVars globals$activeVariants=",globals$activeVariants,
   isolate({
 cat ("in reloadStandSelection\n")
     if (is.null(input$inTabs) || is.null(input$inVars)) return()
+    # both values are pasted into SQL below; accept only a real table and a variant code
+    if (!isTRUE(input$inTabs %in% dbListTables(dbGlb$dbIcon)) ||
+        length(input$inVars) != 1 || !grepl("^[A-Za-z0-9]+$",input$inVars)) return()
     sid = if (input$inTabs %in% c("FVS_PlotInit","FVS_PlotInit_Plot")) "StandPlot_ID" else "Stand_ID"      
     grps = try(dbGetQuery(dbGlb$dbIcon,paste0('select ',sid,",Groups, INV_YEAR from ",input$inTabs,
               ' where lower(variant) like "%',tolower(input$inVars),'%"')))
-    grps <- subset(grps, !is.na(grps[grep("inv_year",tolower(names(grps)))]))
-    grps <- subset(grps, grps[grep("inv_year",tolower(names(grps)))] !="")
+    if (class(grps) != "try-error")
+    {
+      grps <- subset(grps, !is.na(grps[grep("inv_year",tolower(names(grps)))]))
+      grps <- subset(grps, grps[grep("inv_year",tolower(names(grps)))] !="")
+    }
     if (class(grps) == "try-error" || is.null(grps) || nrow(grps) == 0)
     {
       dbExecute(dbGlb$dbIcon,"drop table if exists temp.Grps")
@@ -2500,9 +2514,9 @@ cat ("in reloadStandSelection\n")
         if(any(!is.na(match(test,CRsubModels)))){
           CRsubModels <- CRsubModels[na.omit(match(test,CRsubModels))]
           for(i in 1:length(CRsubModels)){
-            subgrps <- try(dbGetQuery(dbGlb$dbIcon,paste0('select ',sid,",Groups from ",input$inTabs,
+            subgrps <- try(dbGetQuery(dbGlb$dbIcon,paste0('select ',sid,",Groups, INV_YEAR from ",input$inTabs,
                                                           ' where lower(variant) like "%',tolower(CRsubModels[i]),'%"')))
-            if(length(subgrps))grps <- rbind(grps,subgrps)
+            if(class(subgrps) == "data.frame" && nrow(subgrps)) grps <- rbind(grps,subgrps)
           }
         }
       }
