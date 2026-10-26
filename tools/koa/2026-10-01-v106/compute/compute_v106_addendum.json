@@ -1,0 +1,306 @@
+{
+ "natural_ge5_by_source": {
+  "DOFAW": {
+   "n": 28,
+   "BAPH_max": 46.98,
+   "BAPH_at": "Laupahoehoe 41 2001",
+   "QMD_max": 31.95,
+   "QMD_at": "Waikamoi 25 2001",
+   "SDI_max": 880.4,
+   "SDI_at": "Laupahoehoe 41 2001"
+  },
+  "FIA": {
+   "n": 123,
+   "BAPH_max": 164.23,
+   "BAPH_at": "15-1-1-2291 2 2019",
+   "QMD_max": 55.44,
+   "QMD_at": "15-1-1-2389 3 2019",
+   "SDI_max": 2091.4,
+   "SDI_at": "15-1-1-2291 2 2019"
+  },
+  "Kap": {
+   "n": 6,
+   "BAPH_max": 91.4,
+   "BAPH_at": "K01 102 2020",
+   "QMD_max": 29.0,
+   "QMD_at": "K01 205 2019",
+   "SDI_max": 1739.0,
+   "SDI_at": "K01 102 2020"
+  },
+  "Mauka": {
+   "n": 4,
+   "BAPH_max": 14.01,
+   "BAPH_at": "Mauka 120 2023",
+   "QMD_max": 69.68,
+   "QMD_at": "Mauka 172 2023",
+   "SDI_max": 225.6,
+   "SDI_at": "Mauka 163 2023"
+  },
+  "PSP": {
+   "n": 5,
+   "BAPH_max": 10.16,
+   "BAPH_at": "122 22 2025",
+   "QMD_max": 22.85,
+   "QMD_at": "122 22 2025",
+   "SDI_max": 207.5,
+   "SDI_at": "122 22 2025"
+  }
+ },
+ "plot_intervals_v103_DOFAW_natural_max_sdi": [
+  [
+   "Kulani",
+   "23",
+   "812.9"
+  ],
+  [
+   "Laupahoehoe",
+   "41",
+   "623.0"
+  ],
+  [
+   "Waiakea",
+   "11",
+   "435.5"
+  ],
+  [
+   "Waiakea",
+   "14",
+   "419.8"
+  ],
+  [
+   "Waiakea",
+   "24",
+   "423.6"
+  ],
+  [
+   "Waikamoi",
+   "25",
+   "924.3"
+  ]
+ ],
+ "plotyear_DOFAW_natural_max_SDI": [
+  [
+   "Kulani",
+   "23",
+   "761.9",
+   "1453.5"
+  ],
+  [
+   "Kulani",
+   "42",
+   "34.0",
+   "34.0"
+  ],
+  [
+   "Laupahoehoe",
+   "41",
+   "880.4",
+   "880.4"
+  ],
+  [
+   "Waiakea",
+   "11",
+   "411.8",
+   "411.8"
+  ],
+  [
+   "Waiakea",
+   "14",
+   "514.2",
+   "514.2"
+  ],
+  [
+   "Waiakea",
+   "24",
+   "398.8",
+   "451.0"
+  ],
+  [
+   "Waikamoi",
+   "25",
+   "862.1",
+   "862.1"
+  ]
+ ],
+ "byi_error_layer": {
+  "local_rmse_table": [
+   {
+    "model": "Kona",
+    "BYI": 0,
+    "local_rmse": 78.0
+   },
+   {
+    "model": "Kona",
+    "BYI": 25,
+    "local_rmse": 107.7
+   },
+   {
+    "model": "Kona",
+    "BYI": 50,
+    "local_rmse": 129.7
+   },
+   {
+    "model": "Kona",
+    "BYI": 100,
+    "local_rmse": 160.7
+   },
+   {
+    "model": "Kona",
+    "BYI": 150,
+    "local_rmse": 183.0
+   },
+   {
+    "model": "Kona",
+    "BYI": 200,
+    "local_rmse": 222.8
+   },
+   {
+    "model": "Kona",
+    "BYI": 264,
+    "local_rmse": 291.9
+   },
+   {
+    "model": "Kona",
+    "BYI": 300,
+    "local_rmse": 297.0
+   },
+   {
+    "model": "Kona",
+    "BYI": 400,
+    "local_rmse": 297.4
+   },
+   {
+    "model": "Kona",
+    "BYI": 450,
+    "local_rmse": 306.7
+   },
+   {
+    "model": "Kona",
+    "BYI": 600,
+    "local_rmse": 356.7
+   },
+   {
+    "model": "Kona",
+    "BYI": 800,
+    "local_rmse": 419.1
+   },
+   {
+    "model": "Kona",
+    "BYI": 1000,
+    "local_rmse": 419.1
+   },
+   {
+    "model": "Kona",
+    "BYI": 1256,
+    "local_rmse": 419.1
+   },
+   {
+    "model": "statewide",
+    "BYI": 0,
+    "local_rmse": 84.0
+   },
+   {
+    "model": "statewide",
+    "BYI": 25,
+    "local_rmse": 114.3
+   },
+   {
+    "model": "statewide",
+    "BYI": 50,
+    "local_rmse": 137.5
+   },
+   {
+    "model": "statewide",
+    "BYI": 100,
+    "local_rmse": 174.6
+   },
+   {
+    "model": "statewide",
+    "BYI": 150,
+    "local_rmse": 207.4
+   },
+   {
+    "model": "statewide",
+    "BYI": 200,
+    "local_rmse": 221.6
+   },
+   {
+    "model": "statewide",
+    "BYI": 264,
+    "local_rmse": 240.8
+   },
+   {
+    "model": "statewide",
+    "BYI": 300,
+    "local_rmse": 245.5
+   },
+   {
+    "model": "statewide",
+    "BYI": 400,
+    "local_rmse": 258.1
+   },
+   {
+    "model": "statewide",
+    "BYI": 450,
+    "local_rmse": 271.7
+   },
+   {
+    "model": "statewide",
+    "BYI": 600,
+    "local_rmse": 320.4
+   },
+   {
+    "model": "statewide",
+    "BYI": 800,
+    "local_rmse": 384.8
+   },
+   {
+    "model": "statewide",
+    "BYI": 1000,
+    "local_rmse": 410.4
+   },
+   {
+    "model": "statewide",
+    "BYI": 1256,
+    "local_rmse": 410.4
+   }
+  ],
+  "u_quantiles": [
+   {
+    "panel": "arch",
+    "q": 0.05,
+    "u": 78.7847565823547
+   },
+   {
+    "panel": "arch",
+    "q": 0.5,
+    "u": 167.557510651073
+   },
+   {
+    "panel": "arch",
+    "q": 0.95,
+    "u": 299.423081226706
+   },
+   {
+    "panel": "isl",
+    "q": 0.05,
+    "u": 78.2014367156116
+   },
+   {
+    "panel": "isl",
+    "q": 0.5,
+    "u": 159.082653415567
+   },
+   {
+    "panel": "isl",
+    "q": 0.95,
+    "u": 313.850952514695
+   }
+  ],
+  "fig2u_log": [
+   "cells arch 232610  isl 904064",
+   "arch : u range 78 419.1  median 167.6  share of cells with BYI above model OOB range: 0.0015",
+   "isl : u range 78 419.1  median 159.1  share of cells with BYI above model OOB range: 0.0028"
+  ]
+ }
+}

@@ -1,0 +1,329 @@
+[
+[
+"SUB",
+"This file supports the manuscript named ",
+"Tables S1 to S32 and Figures S1 to S8"
+],
+[
+"SUB",
+"Tree data were compiled from eight monit",
+"Measurement intervals ranged from 1 to 16 years (m"
+],
+[
+"SUB",
+"Thinning removals are a second property ",
+"Of the 158 installations, 151 have at least two me"
+],
+[
+"SUB",
+"The repair rules were written into the j",
+"22 had deposited values 1.9 to 2.1 times the rebui"
+],
+[
+"SUB",
+"The repair moved at least one covariate ",
+"since they rebuild stand values from the live list"
+],
+[
+"SUB",
+"Aboveground biomass for each FIA subplot",
+"are illustrative levels within the range of plot B"
+],
+[
+"SUB",
+"The deployed crown base vector, carried ",
+"The preregistered rule required both a lower RMSE "
+],
+[
+"SUB",
+"Preregistered selection. Before any incr",
+"Preregistered selection."
+],
+[
+"SUB",
+"Back-transformation and calibration. The",
+"exp(0.5 × (0.586222 + 0.533222)) = 1.369"
+],
+[
+"SUB",
+"Solved within each data source on the re",
+"tested on twenty pre-registered installation split"
+],
+[
+"SUB",
+"Re-solved constants. Holding the publish",
+"4.7% and 1.6% below the calibration-frame values"
+],
+[
+"SUB",
+"Because the level factor was solved on i",
+"The pooled natural survival error was −0.057 (RMSE"
+],
+[
+"SUB",
+"Stand-level calibration was tested under",
+"On the four natural plots it removed most of the Q"
+],
+[
+"SUB",
+"Stand-level calibration was tested under",
+"it raised the QMD error by 2.21 cm (0.19 to 4.04) "
+],
+[
+"SUB",
+"Data flags. Kulani plot 12 has a mapped ",
+"which places their trajectory points near +0.99 in"
+],
+[
+"SUB",
+"Table S30 gives the full projection grid",
+"The natural stands therefore never reach half of t"
+],
+[
+"SUB",
+"Bakuzis matrix. The modified Bakuzis mat",
+"−1.20, −1.29 and −1.32 for uneven-aged stands, so "
+],
+[
+"SUB",
+"Each annual step (1) computes BAL by Eq.",
+"Ingrowth enters at 2.5 cm (Eq. 6), truncated"
+],
+[
+"SUB",
+"[dataset] Weiskittel, A.R., Sprecher, I.",
+"Version 1.9.3."
+],
+[
+"SUB",
+"Table S8. Fit statistics of the height e",
+"Bias is observed minus predicted."
+],
+[
+"SUB",
+"Table S16. Performance of the five koa c",
+"where in-sample origin bias is predicted minus obs"
+],
+[
+"SUB",
+"Table S18. ",
+"than the 9,059-record frame of Eq. 2"
+],
+[
+"SUB",
+"Table S24. Monte Carlo parameter distrib",
+"Multiplier and Stage 1 ranges are 2.5th and 97.5th"
+],
+[
+"SUB",
+"Table S28. ",
+"Errors are observed minus projected cohort surviva"
+],
+[
+"SUB",
+"Table S29. ",
+"observed minus projected cohort survival,"
+],
+[
+"SUB",
+"Table S29. ",
+"Change is local minus population"
+],
+[
+"SUB",
+"Figure S1. Diagnostics for the koa heigh",
+"Height residuals carry a population-average bias o"
+],
+[
+"SUB",
+"Figure S7. Even-aged planted koa project",
+"Planted QMD approaches the 69.7 cm planted diamete"
+],
+[
+"SUB",
+"Aboveground biomass for each FIA subplot",
+"and no crown record below 130,"
+],
+[
+"SUB",
+"Table S30 gives the full projection grid",
+"stay well below the rebuilt plot-year SDI maxima o"
+],
+[
+"SUB",
+"This file supports the manuscript named ",
+"Results labeled as from the earlier system come fr"
+],
+[
+"CAPLABEL",
+"Table S11."
+],
+[
+"CAPLABEL",
+"Table S14."
+],
+[
+"CAPLABEL",
+"Table S18."
+],
+[
+"CAPLABEL",
+"Table S19."
+],
+[
+"CAPLABEL",
+"Table S21."
+],
+[
+"CAPLABEL",
+"Table S22."
+],
+[
+"CAPLABEL",
+"Table S26."
+],
+[
+"CAPLABEL",
+"Table S28."
+],
+[
+"CAPLABEL",
+"Table S29."
+],
+[
+"SUB",
+"Selection rule. Before any increment was",
+"and with the smallest largest equivalence region a"
+],
+[
+"SUB",
+"Selection rule. Before any increment was",
+"b6 < 0; height"
+],
+[
+"SUB",
+"Table S27. Trajectory validation errors",
+"Planted rows carry a single value because the fact"
+],
+[
+"S16FLIP",
+"Height",
+"bias, natural (m)",
+"−0.01 (−0.01)"
+],
+[
+"S16FLIP",
+"Height",
+"bias, natural (m)",
+"−0.23 (−0.05)"
+],
+[
+"S16FLIP",
+"Height",
+"bias, planted (m)",
+"−0.19 (−0.18)"
+],
+[
+"S16FLIP",
+"Height",
+"bias, planted (m)",
+"−1.00 (−0.90)"
+],
+[
+"S16FLIP",
+"HCB",
+"bias, natural (m)",
+"+0.01"
+],
+[
+"S16FLIP",
+"HCB",
+"bias, natural (m)",
+"+0.01"
+],
+[
+"S17NOTE"
+],
+[
+"S28FLIP",
+[
+3,
+5,
+7
+]
+],
+[
+"S29FLIP",
+[
+3,
+4,
+5,
+7
+]
+],
+[
+"SUB",
+"The archived survival table (AK_SURV.csv",
+"and 7 of 62 folds fail,"
+],
+[
+"SUB",
+"Reproducibility forensics are a companio",
+"(5 of 62 jackknife folds failed)"
+],
+[
+"SUB",
+"Because the level factor was solved on i",
+" (projected minus observed; Table S28), and on the"
+],
+[
+"SUB",
+"Three properties that a site index shoul",
+"(nlme 3.1.170)"
+],
+[
+"SUB",
+"Table S8 gives fit statistics for the he",
+"so the negative relative-diameter term lowers the "
+],
+[
+"S33",
+9
+],
+[
+"SKIP",
+"run child drawing in: "
+],
+[
+"SKIP",
+"run child drawing in: "
+],
+[
+"SKIP",
+"run child drawing in: "
+],
+[
+"SKIP",
+"run child drawing in: "
+],
+[
+"SKIP",
+"run child drawing in: "
+],
+[
+"SKIP",
+"run child drawing in: "
+],
+[
+"SKIP",
+"run child drawing in: "
+],
+[
+"SKIP",
+"run child drawing in: "
+],
+[
+"SUPFIX",
+38
+]
+]

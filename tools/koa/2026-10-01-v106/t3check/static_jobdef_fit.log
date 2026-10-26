@@ -1,0 +1,14 @@
+n 8914 inst 143 
+Warning message:
+In nlme.formula(form, data = d, fixed = a0 + a1 + b + c + g1 + g2 ~  :
+  maximum number of iterations (maxIter = 200) reached without convergence
+       Value Std.Error
+a0 29.136728  1.455405
+a1  0.978176  0.141588
+b   0.016944  0.000981
+c   0.792827  0.011975
+g1  0.076101  0.006457
+g2 -0.345534  0.016878
+logLik -18713.36 
+r2_cond 0.8622 r2_pa 0.7879 rmse_pa 2.3874 bias_pa 0.3967
+STATIC DONE

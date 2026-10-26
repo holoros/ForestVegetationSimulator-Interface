@@ -1,0 +1,109 @@
+{
+  "source": "frames/final/dHT_NO_v103_model.csv, Origin non-missing; out/v103_constants.json DHT",
+  "n_NO": 4044,
+  "n_calibration": 4033,
+  "n_used": 4033,
+  "n_by_origin": {
+    "natural": 833,
+    "planted": 3200
+  },
+  "coef": {
+    "b0": -2.37493512,
+    "b1": 1.16067151,
+    "b2": -0.15127734,
+    "b3": -0.00015779,
+    "b4": -0.18177112,
+    "b5": 0.21791472,
+    "b6": 0.06391563,
+    "b7": -0.11955342,
+    "b8": 0.09077405,
+    "b9": 0.75748829
+  },
+  "c": {
+    "natural": 0.43616854,
+    "planted": 2.88648457
+  },
+  "CF": 2.41981988,
+  "CAL": [0.18024835, 1.192851],
+  "cap": 2,
+  "solve_c_check_sum_pred_over_sum_obs": {
+    "0": 1,
+    "1": 1
+  },
+  "first_year_t0_ge_cap": {
+    "natural": {
+      "n": 833,
+      "n_at_cap": 0,
+      "share": 0
+    },
+    "planted": {
+      "n": 3200,
+      "n_at_cap": 510,
+      "share": 0.159375
+    }
+  },
+  "period_mean_annual_ge_cap": {
+    "natural": {
+      "n": 833,
+      "n_at_cap": 0,
+      "share": 0
+    },
+    "planted": {
+      "n": 3200,
+      "n_at_cap": 489,
+      "share": 0.1528125
+    }
+  },
+  "any_recursion_step_ge_cap": {
+    "natural": {
+      "n": 833,
+      "n_at_cap": 0,
+      "share": 0
+    },
+    "planted": {
+      "n": 3200,
+      "n_at_cap": 521,
+      "share": 0.1628125
+    }
+  },
+  "recursion_tree_years_ge_cap": {
+    "natural": {
+      "tree_years": 6773,
+      "at_cap": 0,
+      "share": 0
+    },
+    "planted": {
+      "tree_years": 5018,
+      "at_cap": 543,
+      "share": 0.10821044
+    }
+  },
+  "observed_annual_ge_cap": {
+    "natural": {
+      "n": 833,
+      "n_at_cap": 2,
+      "share": 0.00240096
+    },
+    "planted": {
+      "n": 3200,
+      "n_at_cap": 1149,
+      "share": 0.3590625
+    }
+  },
+  "first_year_pred_quantiles": {
+    "natural": {
+      "0%": 0.17036588,
+      "50%": 0.35016445,
+      "90%": 0.50489764,
+      "99%": 0.85991508,
+      "100%": 1.51778416
+    },
+    "planted": {
+      "0%": 0.26149979,
+      "50%": 1.71461323,
+      "90%": 2.06318666,
+      "99%": 2.46986372,
+      "100%": 3.4487006
+    }
+  }
+}
