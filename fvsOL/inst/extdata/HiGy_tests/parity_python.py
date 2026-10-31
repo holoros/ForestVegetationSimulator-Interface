@@ -3,7 +3,8 @@
 """Python side of the HiGy.R 0.4.0 fixture harness (18 cases). Adapted 23 September 2026
 from the 11 September parity harness to add the origin mortality level factor
 exactly as the engine of record applies it (regen_m1.py _gated, lines 42 to 46).
-Run with KOA_ENGINE set to the Python engine of record directory (engine_v102).
+Run with KOA_ENGINE set to the Python engine of record directory (engine_v103,
+which carries the v104 constants; engine_v102 for HiGy.R 0.4.0 and 0.4.1).
 
 Imports the DEPLOYED source unmodified (koa_mortality_garcia.py, koa_equations.py,
 koa_params.py, koa_survival_calibrated_py.py, threestage.py) and reproduces, case by
@@ -93,9 +94,12 @@ for c in CFG["cases"]:
     order = np.argsort(-dbh, kind="stable")              # BAL on descending DBH, as HiGy.R calc_bal()
     bal = np.empty_like(ba_t); bal[order] = np.cumsum(ba_t[order]) - ba_t[order]
     if mode == "tree_eq":
-        # respecified Stage 3 weight of the engine of record, verbatim from
-        # engine_v102 run_candidates.py line 114 (koa_projector.py 346 and 357)
-        w = np.clip(1.0 - np.exp(-np.exp(-2.13468022306448 + -0.818899541466801 * np.log(np.maximum(dbh, 0.1)) + -0.813105157217597 * rht + 0.382953931412773 * np.log(baph + 1.0) + 0.346317281270796 * np.log(np.maximum(bal, 0.0) + 1.0))), 1e-9, 1.0)
+        # respecified Stage 3 weight of the engine of record. CHANGED 31 October 2026
+        # (HiGy.R 0.4.2): read from koa_params.STAGE3_COEF of the engine (v104, the
+        # 4,223-record refit), as koa_projector.py lines 342 and 353 of engine_v103 do,
+        # in place of the engine_v102 vector that was typed here.
+        S3 = P.STAGE3_COEF
+        w = np.clip(1.0 - np.exp(-np.exp(S3["c0"] + S3["c1"] * np.log(np.maximum(dbh, 0.1)) + S3["c2"] * rht + S3["c3"] * np.log(baph + 1.0) + S3["c4"] * np.log(np.maximum(bal, 0.0) + 1.0))), 1e-9, 1.0)
     else:
         w = np.exp(-P.ALLOC_BETA * (dbh / max(qmd0, 0.1) - 1.0))
     wbar = float(np.sum(w * expf) / max(float(expf.sum()), 1e-9))

@@ -1,32 +1,54 @@
 {
   "stage1_beta": {
-    "intercept": -1.67856483466631,
-    "lnSDI": 0.161863756638461,
-    "planted": -0.19099361188623
+    "intercept": -1.66812398756876,
+    "lnSDI": 0.165585943273251,
+    "planted": -0.219166792503203
   },
   "stage1_ci": {
-    "intercept": [-2.68638996806559, 0.335017484734244],
-    "lnSDI": [0.0132735660582791, 0.315156700902509],
-    "planted": [-2.11440369577566, 0.222230240693595]
+    "intercept": [
+      -2.647717000956,
+      0.357498934258193
+    ],
+    "lnSDI": [
+      0.01852902982219,
+      0.317560153083598
+    ],
+    "planted": [
+      -2.16203305353952,
+      0.197628270585292
+    ]
   },
-  "stage1_auc": 0.666830652790918,
-  "stage1_mean_annual_p": 0.313065206550519,
+  "stage1_mean_annual_p": 0.31272560255909,
   "stage2_beta": {
-    "intercept": -2.20466779066605,
-    "lnSDI": -0.0446862780129723,
-    "planted": -0.0178500179158784
+    "intercept": -2.0604019276472,
+    "lnSDI": -0.0687576155905063,
+    "planted": -0.0548475206569836
   },
   "stage2_ci": {
-    "intercept": [-3.29156421973334, -0.819043045104313],
-    "lnSDI": [-0.259071577273745, 0.111039832257421],
-    "planted": [-0.398265380882187, 0.42041794454315]
+    "intercept": [
+      -3.18586165055288,
+      -0.65850117354762
+    ],
+    "lnSDI": [
+      -0.28432850468891,
+      0.0929032909366372
+    ],
+    "planted": [
+      -0.437570318587251,
+      0.386197706606092
+    ]
   },
-  "n_intervals": 290,
+  "n_intervals": 282,
   "n_plots": 54,
-  "n_with_mortality": 118,
-  "stage2_duan": 1.56292895525422,
+  "n_with_mortality": 117,
+  "stage2_duan": 1.5614494162892,
   "stage2_obs_cond_mean_unweighted": 0.184698322686843,
   "stage2_obs_cond_mean_weighted": 0.109611915733706,
-  "obs_uncond_weighted": 0.0556723436147442,
-  "note": "origin recoded (PSP plantations) and PSP thinning-removal intervals excluded, including intervals spanning a removal year, 2026-09-16 (v98)"
+  "obs_uncond_weighted": 0.0564311742034434,
+  "note": "v103 2026-09-30: plot_intervals_origin with sdi repaired from the live all species list, the copied 2015 Keauhou visits merged out, refit2 removal screen added",
+  "KOA_S1_INTERCEPT": -1.66812398756876,
+  "KOA_S1_LNSDI": 0.165585943273251,
+  "KOA_S1_PLANTED": -0.219166792503203,
+  "KOA_S1_PBAR": 0.31272560255909,
+  "stage1_auc": 0.6407148
 }

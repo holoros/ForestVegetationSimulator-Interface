@@ -1,5 +1,57 @@
 # HiGy.R changelog
 
+## 0.4.2 (2026-10-31)
+
+Branch ClaudeDevelopment. Files changed: fvsOL/inst/extdata/HiGy.R, this file, and the HiGy_tests fixtures (parity_python.py, out_stage1/stage1_fit.json, expected_python_stand.csv, expected_python_tree.csv, README.md); new file tools/koa/2026-10-30_v104/NEXT_RELEASE.md. Constants and the BAL weighting only. No equation form changed, and every 0.4.x feature is kept: HiGy_tests, the mort.engine switch ('garcia' / 'cloglog'), alloc.mode ('tree_eq' / 'surv_eq5' / 'rel_size'), and the customRun_fvsRunHi.R hooks.
+
+0.4.1 (25 September 2026, BAL on the percentile rule of record) has no entry in this file; it is described in the comment above calc_bal() in HiGy.R.
+
+### Why
+
+The manuscript of record (v122, supplement s115) and Zenodo record 1.10.0 describe koa engine v104. 0.4.1 still carried the v102 constants. The 0.5.x carrier deposited with the engine already carries v104 constants but diverged from the 0.4.x line, so 0.4.1 was edited in place, constant by constant, rather than replaced.
+
+### Sources
+
+Every new value was read by script from the engine files, not typed: engine_v103 koa_equations.py (HT_P, LineageA.DDBH, LineageA.DHT, HCB_P), koa_params.py (CF_DDBH_MARGINAL, CF_DHT, CAL_DDBH, CAL_DHT, MORT_CAL, GARCIA_BETA_ANCHORED, GARCIA_ALLOM_A, GARCIA_ALLOM_K_HD, STAGE3_COEF, BAL_PERCENTILE_WEIGHTED), out_stage1/stage1_fit.json (Stage 1, read by threestage.py), each cross-checked against out/v104_constants.json, and the 0.5.x HiGy.R for koa_bal_percentile_weighted().
+
+### What changed
+
+| Object | 0.4.1 | 0.4.2 |
+|---|---|---|
+| ht.pred.parm a0, a1, b, c, g1, g2 | 32.198224, 1.208508, 0.016579, 0.804891, 0.062077, -0.373262 | 28.928831, 0.966788, 0.017026, 0.792247, 0.076841, -0.34331 |
+| hcb.pred.parm | 0.1684, 1.0146, -0.376, -0.0078, -0.3734, -0.221 | unchanged (v104 keeps HCB_P) |
+| ddbh.parm b0..b9 (dDBH_L_NO) | -1.1509411, 0.3371168, -0.0143456, -0.0017722, -0.4306515, 1.2809352, -0.0176013, -0.0176238, 0.3045245, 0.4103534 | 0.2879773, 0.3607553, -0.0223731, -0.0014547, -0.3377001, 0.8411799, -0.0167759, -0.0176977, 0.1402549, -0.0158981 |
+| ddbh() cf | 1.36869 | 1.50128 |
+| dht.parm b0..b9 (dHT_L_NO) | -3.6114059, 1.1203441, -0.1154809, -0.0009067, -0.1332027, -0.5250905, 0.0379597, -0.1240880, 0.2232825, 1.0681935 | -2.3749351, 1.1606715, -0.1512773, -0.0001578, -0.1817711, 0.2179147, 0.0639156, -0.1195534, 0.0907741, 0.7574883 |
+| dht() cf | 1.030 | 2.41982 |
+| origin.calib.parm ddbh nat/plt, dht nat/plt | 0.40548, 1.43606, 0.51917, 2.64739 | 0.25558, 0.97085, 0.18025, 1.19285 |
+| KOA_MORT_CAL natural | 2.64629 | 2.51588 |
+| KOA_S1_INTERCEPT, LNSDI, PLANTED, PBAR | -1.67856483466631, 0.161863756638461, -0.19099361188623, 0.313065206550519 | -1.66812398756876, 0.165585943273251, -0.219166792503203, 0.31272560255909 |
+| KOA_GARCIA_BETA_ANCHORED | 0.16019053617304435 | 0.14803309491927027 |
+| KOA_GARCIA_ALLOM_A, K_HD | -0.16863070512157105, 1.1719473700506686 | 0.167997928455782, 1.04106514616602 |
+| KOA_S3_RESPEC b0..b4 | -2.13468022306448, -0.818899541466801, -0.813105157217597, 0.382953931412773, 0.346317281270796 | -2.45353544308563, -1.24379127899638, -0.245835518593837, 0.801873721680337, 0.164263748192269 |
+| BAL percentile | unweighted | expf weighted (KOA_BAL_PERCENTILE_WEIGHTED = TRUE) |
+| VersionTag | HiGyV0.4.1 | HiGyV0.4.2 |
+
+Base rows (no BYI) keep the site coefficients with b8 = 0 (and a1 = 0 for height), as in 0.4.1.
+
+Forms confirmed identical to the engine before copying: height intercept a0 + a1 BYI / 100 with rDBH = DBH / plot DBH max bounded at 1; the planted dDBH argument bounded at 45 cm (DDBH_PLANTED_GUARD_CM) and the planted dHT term at pmin(HT, 20) (DDBH_HT_TRUNCATION_M); annual caps 4 cm and 2 m; H_QMD = exp((ln QMD - a) / k_HD) in both files, so the new allometry is copied without conversion (the intercept changes sign because the refit moved, not because the form differs); Stage 3 terms ln DBH, rHT, ln(BAPH + 1), ln(BAL + 1) in the same order as STAGE3_COEF c1..c4; A1 floors 0.003 and 0.006 unchanged.
+
+BAL: koa_bal_percentile_weighted() is copied verbatim from the 0.5.x carrier. calc_bal() gains weighted = KOA_BAL_PERCENTILE_WEIGHTED; calc_bal(weighted = FALSE) and koa_bal_percentile_fraction() reproduce 0.4.1 exactly, and mode = "cumsum" reproduces pre-0.4.1. koa_stand_bal() gains optional expf and weighted arguments.
+
+### HiGy_tests
+
+The 18 case fixtures were written by the Python engine with the v102 constants, so 0.4.2 fails them on all 18 cases, as it should. They were regenerated, not deleted: parity_python.py now reads the Stage 3 vector from koa_params.STAGE3_COEF instead of the engine_v102 vector typed into it, out_stage1/stage1_fit.json is the engine_v103 copy, and expected_python_*.csv were rewritten by parity_python.py with KOA_ENGINE = engine_v103. 0.4.1 fails the regenerated fixtures on all 18 cases.
+
+### Checked (31 October 2026, firebreather, R 4.5.1, numpy 2.0.2)
+
+- HiGy.R parses.
+- HiGy_tests parity, 0.4.2 against engine_v103: 18 cases, worst relative difference 6.75e-15 (stand) and 6.94e-15 (126 tree rows), PASS at 1e-10.
+- smoke_higyonestand.R: five years, natural 1200 to 971.15 koa trees ha-1, planted 1200 to 1033.523; the OT record keeps expf 40.
+- Increment parity, ddbh() and dht() with cf and cal as applied against LineageA.dDBH and LineageA.dHT on 572 trees (72 factorial plus 500 random; DBH 2 to 80 cm, HT 2 to 30 m, BAL 0 to 30, BAPH 5 to 50, CR 0.3 to 0.9, BYI 100/264/450, planted 0/1): maximum absolute difference 0 for both. dht hits the 2 m cap on 34 trees on both sides. dDBH never reaches 4 cm on that grid, so an 80 tree cap probe (BAL 0, BYI 600 to 1e6) was added: 34 trees capped at 4 cm on both sides, difference 0.
+- BAL parity on 200 random lists (1 to 60 records, 0.5 cm ties, zero, 1e-5 and equal weights): weighted fraction against bal_percentile_fraction_weighted, maximum absolute difference 3.6e-16; calc_bal() against stand_bal(expf), 1.7e-13 m2 ha-1; unweighted path 0.
+- Gated Garcia stand rate (koa_step_deaths) against the Python M1 rate times mort_cal at SDI 75, 377, 1200, natural and planted (QMD 20 to 20.8 cm): maximum absolute difference 9.7e-17.
+
 ## 0.4.0 (2026-09-23)
 
 Branch ClaudeDevelopment. Files changed: fvsOL/inst/extdata/HiGy.R, fvsOL/inst/extdata/customRun_fvsRunHi.R, this file; new folder fvsOL/inst/extdata/HiGy_tests. Mortality only. No growth constant, no growth equation and no growth code path changed from 0.3.1: diff -w of the growth sections is empty, and the 40 case grid of the 0.3.1 commit through calc_ht(), calc_ddbh() and calc_dht() returns zero difference on this file.

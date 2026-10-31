@@ -15,12 +15,23 @@
 library(dplyr) # needed arrange, mutate, left_join, tibble, select, group_by, summarise, ungroup, case_when, all_of
 library(purrr) # needed for pmap_*
 
-VersionTag = "HiGyV0.4.1"   # 0.4.1, 25 September 2026: BAL construction of record (percentile), matching the deployed v102 engine that KOA_S3_RESPEC assumes
+VersionTag = "HiGyV0.4.2"   # 0.4.2, 31 October 2026: koa engine v104 constants (manuscript v122, Zenodo 1.10.0); BAL percentile now expf-weighted as in engine v103/v104
 
 ##############################
 #### major update summary ####
 ####
 
+
+# version 0.4.2
+  # koa engine v104 constants (31 October 2026), synced constant by constant from
+  # engine_v103 koa_params.py / koa_equations.py and v104_constants.json
+  # height (v103 refit), dDBH_L_NO and dHT_L_NO increment vectors, correction
+  # factors 1.50128 / 2.41982, origin calibration, mortality level 2.51588,
+  # Stage 1 (v103 refit), Garcia anchored beta and H_QMD allometry (v103),
+  # Stage 3 ordering weight (4,223-record refit)
+  # BAL percentile is expansion-factor weighted by default (KOA_BAL_PERCENTILE_WEIGHTED)
+  # no change to any equation form; every 0.4.x feature kept
+  # details in CHANGELOG_HiGy.md
 
 # version 0.3.1
   # constants refit on the v102 fitting frames (2026-09-18)
@@ -54,8 +65,8 @@ VersionTag = "HiGyV0.4.1"   # 0.4.1, 25 September 2026: BAL construction of reco
 ##### Total height prediction ####
 ht.pred.parm = dplyr::tribble(
   ~type,   ~species,  ~a0,      ~a1,    ~b,      ~c,     ~g1,      ~g2,
-  'base',  'AK',      32.198224,  0,         0.016579,  0.804891,  0.062077,  -0.373262,
-  'site',  'AK',      32.198224,  1.208508,  0.016579,  0.804891,  0.062077,  -0.373262)
+  'base',  'AK',      28.928831,  0,         0.017026,  0.792247,  0.076841,  -0.34331,
+  'site',  'AK',      28.928831,  0.966788,  0.017026,  0.792247,  0.076841,  -0.34331)   # v103 refit (repaired BAPH), unchanged in v104
 
 
 #' Predict total height 
@@ -218,13 +229,13 @@ calc_ht = function(tree.data, plot.data, byi=stand$byi,
 # Diameter increment parameters
   ddbh.parm = dplyr::tribble(
     ~type,    ~species,  ~b0,        ~b1,         ~b2,         ~b3,         ~b4,        ~b5,         ~b6,        ~b7,        ~b8,        ~b9,
-    'base',    'AK',   -1.1509411,  0.3371168,  -0.0143456,  -0.0017722,  -0.4306515,   1.2809352,  -0.0176013,  -0.0176238,        0,   0.4103534,
-    'site',    'AK',   -1.1509411,  0.3371168,  -0.0143456,  -0.0017722,  -0.4306515,   1.2809352,  -0.0176013,  -0.0176238,  0.3045245,   0.4103534)
+    'base',    'AK',   0.2879773,  0.3607553,  -0.0223731,  -0.0014547,  -0.3377001,   0.8411799,  -0.0167759,  -0.0176977,  0,   -0.0158981,
+    'site',    'AK',   0.2879773,  0.3607553,  -0.0223731,  -0.0014547,  -0.3377001,   0.8411799,  -0.0167759,  -0.0176977,  0.1402549,   -0.0158981)   # dDBH_L_NO, live-list BAL, v104
 
 # Origin calibration multipliers for diameter and height increment
   origin.calib.parm = dplyr::tribble(
     ~species,  ~ddbh.natural,  ~ddbh.planted,  ~dht.natural,  ~dht.planted,
-    'AK',      0.40548,        1.43606,        0.51917,       2.64739)
+    'AK',      0.25558,        0.97085,        0.18025,       1.19285)   # CAL_DDBH, CAL_DHT, v104
 
     
 #' Calculate annual diameter increment 
@@ -241,7 +252,7 @@ calc_ht = function(tree.data, plot.data, byi=stand$byi,
 ddbh = function(dbh, bal, ba, cr, byi, planted, 
                 b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, cal = 1) {
   
-  cf = 1.36869   # Duan (1983) smearing correction factor
+  cf = 1.50128   # marginal correction factor CF_DDBH_MARGINAL of dDBH_L_NO, v104
   
   # diameter increment
   ddbh = exp(b0 + b1*log(dbh+1) + 
@@ -340,8 +351,8 @@ calc_ddbh = function(tree.data, plot.data,
 # Height increment parameters
 dht.parm = dplyr::tribble(
   ~type,   ~species,  ~b0,        ~b1,        ~b2,        ~b3,        ~b4,        ~b5,        ~b6,       ~b7,        ~b8,       ~b9,
-  'base',  'AK',    -3.6114059,  1.1203441,  -0.1154809,  -0.0009067, -0.1332027,  -0.5250905,  0.0379597, -0.1240880,  0,         1.0681935,
-  'site',  'AK',    -3.6114059,  1.1203441,  -0.1154809,  -0.0009067, -0.1332027,  -0.5250905,  0.0379597, -0.1240880,  0.2232825, 1.0681935)
+  'base',  'AK',    -2.3749351,  1.1606715,  -0.1512773,  -0.0001578, -0.1817711,  0.2179147,  0.0639156, -0.1195534,  0,         0.7574883,
+  'site',  'AK',    -2.3749351,  1.1606715,  -0.1512773,  -0.0001578, -0.1817711,  0.2179147,  0.0639156, -0.1195534,  0.0907741,         0.7574883)   # dHT_L_NO, live-list BAL, v103 (unchanged in v104)
 
 
 #' Calculate height increment
@@ -360,7 +371,7 @@ dht = function(dbh, ht, bal, ba, cr, byi, planted,
                b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, cal = 1) {
   
   
-  cf = 1.030   # Duan (1983) smearing correction factor
+  cf = 2.41982   # marginal correction factor CF_DHT of dHT_L_NO, v103 (was 1.030 through v102)
   
   
   dht = exp(b0 + b1 * log(ht+1) + 
@@ -475,24 +486,24 @@ KOA_IRREG_RATE     = 0.14    # irregular events per observed plot interval
 KOA_IRREG_INTERVAL = 2.68    # mean observed interval length (yr) behind that rate
 KOA_ALLOC_B        = 3       # steepness of the as-published size weight
 
-KOA_GARCIA_BETA_ANCHORED = 0.16019053617304435  # m-1, deployed arm of record
-KOA_GARCIA_ALLOM_A       = -0.16863070512157105 # H_QMD allometry intercept
-KOA_GARCIA_ALLOM_K_HD    = 1.1719473700506686   # H_QMD allometry slope
+KOA_GARCIA_BETA_ANCHORED = 0.14803309491927027  # m-1, deployed arm of record, v103 live koa stems
+KOA_GARCIA_ALLOM_A       = 0.167997928455782 # H_QMD allometry intercept, v103 (same form as koa_params: H_QMD = exp((ln QMD - a) / k_HD))
+KOA_GARCIA_ALLOM_K_HD    = 1.04106514616602   # H_QMD allometry slope, v103
 KOA_BASE_NAT             = 0.003    # yr-1, A1 background mortality floor, natural
 KOA_BASE_PLT             = 0.006    # yr-1, A1 background mortality floor, planted
 
-KOA_S1_INTERCEPT = -1.67856483466631  # cloglog intercept
-KOA_S1_LNSDI     =  0.161863756638461   # coefficient on ln(max(SDI, 1))
-KOA_S1_PLANTED   = -0.19099361188623   # planted origin offset
-KOA_S1_PBAR      =  0.313065206550519   # mean fitted ANNUAL occurrence, p_bar
+KOA_S1_INTERCEPT = -1.66812398756876  # cloglog intercept, v103 refit
+KOA_S1_LNSDI     =  0.165585943273251  # coefficient on ln(max(SDI, 1)), v103
+KOA_S1_PLANTED   = -0.219166792503203  # planted origin offset, v103
+KOA_S1_PBAR      =  0.31272560255909  # mean fitted ANNUAL occurrence, p_bar, v103
 KOA_S1_SDI_FLOOR = 1.0                  # ln argument floor, as deployed
 KOA_S1_ETA_CLIP  = c(-30, 5)            # linear-predictor clip, as deployed
 KOA_RATE_CAP     = 0.95                 # cap on the gated stand rate, as deployed
 
-KOA_MORT_CAL     = c(natural = 2.64629, planted = 1.0)
+KOA_MORT_CAL     = c(natural = 2.51588, planted = 1.0)   # v104 natural level, 23 intervals, PSP 122 2019-2023 excluded
 
-KOA_S3_RESPEC = c(b0 = -2.13468022306448, b1 = -0.818899541466801, b2 = -0.813105157217597,
-                  b3 =  0.382953931412773, b4 =  0.346317281270796)
+KOA_S3_RESPEC = c(b0 = -2.45353544308563, b1 = -1.24379127899638, b2 = -0.245835518593837,   # STAGE3_COEF c0..c4, v104:
+                  b3 =  0.801873721680337, b4 =  0.164263748192269)    # ln DBH, rHT, ln(BAPH+1), ln(BAL+1)
 KOA_S3_SURV = c(b0 = 14.132,  b1 =  0.132, b2 = -4.571, b3 =   6.721,
                 b4 = 14.302,  b5 = -2.914, b6 =  2.588, b7 = -20.968)
 KOA_S3_W_FLOOR = 1e-9      # lower clip on the survivor weight, as deployed
@@ -548,8 +559,8 @@ koa_h40 = function(dbh, ht, expf) {
 
 #' Allometric height equivalent of quadratic mean diameter (H_QMD)
 #' @param qmd Numeric: quadratic mean diameter (cm).
-#' @param a Numeric: allometry intercept, -0.16863070512157105 as deployed.
-#' @param k_hd Numeric: allometry slope, 1.1719473700506686 as deployed.
+#' @param a Numeric: allometry intercept, 0.167997928455782 as deployed (v103).
+#' @param k_hd Numeric: allometry slope, 1.04106514616602 as deployed (v103).
 #' @return Numeric: H_QMD (m).
 koa_h_qmd = function(qmd, a = KOA_GARCIA_ALLOM_A, k_hd = KOA_GARCIA_ALLOM_K_HD) {
   q = pmax(as.numeric(qmd), 1e-6)
@@ -616,7 +627,7 @@ koa_mort_cal = function(origin) {
 #' @param H40_1 Numeric: top height (m) FVS-HI projects for the end of the step.
 #' @param origin Character "Planted"/"Natural" or numeric 1/0.
 #' @param alpha,beta Numeric: Garcia parameters of record. alpha is 2.96.
-#'   beta defaults to the anchored H_QMD arm, 0.16019053617304435; pass
+#'   beta defaults to the anchored H_QMD arm, 0.14803309491927027; pass
 #'   beta = KOA_GARCIA_BETA (0.117) for the fitted H40 arm.
 #' @param planted_background Numeric: TODO, annual background mortality for
 #'   planted stands, default NA and OFF. Not fitted.
@@ -963,7 +974,7 @@ koa_mortality_step = function(tree_df, H40_0 = NA, H40_1, origin = "Natural", yi
 #'   factor, default TRUE and the production path. Pass FALSE to recover the
 #'   ungated, uncalibrated stand rate of koa_regular_survival() exactly.
 #' @param mort.cal Numeric or NULL: origin mortality level factor k. NULL, the
-#'   default, takes KOA_MORT_CAL by origin (natural 2.64629, planted 1). Applied
+#'   default, takes KOA_MORT_CAL by origin (natural 2.51588, planted 1). Applied
 #'   after the gate and capped at KOA_RATE_CAP, as in the engine of record; also
 #'   applied when SDI is not finite and the gate passes the rate through.
 #' @return Numeric: total deaths over the step (trees ha-1).
@@ -1575,7 +1586,13 @@ make_fvs_tree=function(tree.data, orgtree.list, num.plots){
 # BAL helpers, ported from the deposit carrier HiGyV0.5.3, 25 September 2026.
 # koa_equations.bal_percentile_fraction and koa_equations.stand_bal of the deployed
 # v102 engine, transcribed exactly.
+# CHANGED 31 October 2026, 0.4.2. Engine v103/v104 ranks the live list by expansion
+# factor (koa_params.BAL_PERCENTILE_WEIGHTED = True, koa_equations
+# .bal_percentile_fraction_weighted). koa_bal_percentile_weighted() below is copied
+# from the 0.5.x carrier (HiGyV0.5.0, engine_v103). KOA_BAL_PERCENTILE_WEIGHTED =
+# FALSE, or calc_bal(weighted = FALSE), gives the unweighted rule of 0.4.1 exactly.
 KOA_BAL_MODE = "percentile"
+KOA_BAL_PERCENTILE_WEIGHTED = TRUE
 
 koa_bal_percentile_fraction = function(dbh) {
   d = as.numeric(dbh)
@@ -1585,7 +1602,53 @@ koa_bal_percentile_fraction = function(dbh) {
   1 - (r - 1) / (n - 1)
 }
 
-koa_stand_bal = function(baph, dbh) {
+#' Expansion-factor-weighted live percentile BAL fraction (v103)
+#'
+#' Mirrors koa_equations.bal_percentile_fraction_weighted of engine_v103 exactly:
+#' the share, by expf, of the OTHER records with DBH >= DBH_i,
+#' (W_ge_i - w_i) / (W - w_i), where W is the total weight and W_ge_i the weight of
+#' every record with DBH >= DBH_i, record i and its ties included. Tied records
+#' therefore count each other as at least as large, the minimum-rank convention of
+#' the rule of record, and equal expf reduces to (r_ge - 1) / (n - 1), identical to
+#' koa_bal_percentile_fraction(). Weights are clipped at 0; n < 2 or W <= 0 gives 0;
+#' the result is clipped to [0, 1] and the denominator floored at 1e-12, as in the
+#' Python source. The cumulative sum is taken in sequential double precision
+#' (Reduce), as numpy's cumsum is, rather than R's long double cumsum().
+#'
+#' Edge case (red team 2, R12): the projectors floor decayed records at
+#' expf = 1e-5 rather than dropping them. When a single live record is left among
+#' such decayed records, its "others" are all decayed, so its fraction is taken over
+#' 1e-5 weights only: [10, 20, 30] cm with expf [50, 1e-5, 1e-5] gives 1, 0, 0, i.e.
+#' the one live tree is scored as fully overtopped. BAL is BA_plot times that
+#' fraction, and the decayed records carry almost no basal area, so the effect is
+#' harmless in practice, but it is a property of the rule and not an error.
+#'
+#' @param dbh Numeric: diameters of the record set (cm)
+#' @param expf Numeric: expansion factors (trees ha-1)
+#' @return Numeric: fraction in [0, 1], same order as dbh
+koa_bal_percentile_weighted = function(dbh, expf) {
+  d = as.numeric(dbh)
+  w = pmax(as.numeric(expf), 0)
+  n = length(d)
+  if (n < 2) return(numeric(n))
+  W = sum(w)
+  if (isTRUE(W <= 0)) return(numeric(n))
+  o  = order(d, method = "radix")                 # stable ascending, as argsort(kind = "mergesort")
+  sd = d[o]; sw = w[o]
+  cw = c(0, Reduce(`+`, sw, accumulate = TRUE))   # sequential double, as np.cumsum
+  first = match(sd, sd)                           # first tied position, as searchsorted(side = "left") + 1
+  ge = W - cw[first]
+  fr = pmin(pmax((ge - sw) / pmax(W - sw, 1e-12), 0), 1)
+  out = numeric(n)
+  out[o] = fr
+  out
+}
+
+# Mirrors koa_equations.stand_bal on the exact path: weighted when expf is given
+# and KOA_BAL_PERCENTILE_WEIGHTED is TRUE, the unweighted rule otherwise.
+koa_stand_bal = function(baph, dbh, expf = NULL, weighted = KOA_BAL_PERCENTILE_WEIGHTED) {
+  if (isTRUE(weighted) && !is.null(expf))
+    return(as.numeric(baph) * koa_bal_percentile_weighted(dbh, expf))
   as.numeric(baph) * koa_bal_percentile_fraction(dbh)
 }
 
@@ -1598,12 +1661,14 @@ koa_stand_bal = function(baph, dbh) {
 # of the weight cancels under renormalization; its SPREAD across the tree list does
 # not, and the spread is what this changes. mode = "cumsum" reproduces every
 # pre-0.4.1 projection exactly.
-calc_bal = function(tree.data, mode = KOA_BAL_MODE) {
+calc_bal = function(tree.data, mode = KOA_BAL_MODE,
+                    weighted = KOA_BAL_PERCENTILE_WEIGHTED) {
 
   mode = match.arg(mode, c("percentile", "cumsum"))
+  use.w = (mode == "percentile") && isTRUE(weighted)
 
   # Check required columns
-  required.cols = c('plot', 'dbh', 'ba')
+  required.cols = c('plot', 'dbh', 'ba', if (use.w) 'expf')
   missing.cols = setdiff(required.cols, names(tree.data))
   if (length(missing.cols) > 0) {
     stop(paste("Missing required columns:", paste(missing.cols, collapse = ", ")))
@@ -1613,7 +1678,9 @@ calc_bal = function(tree.data, mode = KOA_BAL_MODE) {
     dplyr::arrange(plot, desc(dbh)) %>%
     dplyr::group_by(plot)
 
-  tree = if (mode == "percentile") {
+  tree = if (use.w) {
+    tree %>% dplyr::mutate(bal = sum(ba) * koa_bal_percentile_weighted(dbh, expf))
+  } else if (mode == "percentile") {
     tree %>% dplyr::mutate(bal = sum(ba) * koa_bal_percentile_fraction(dbh))
   } else {
     tree %>% dplyr::mutate(bal = cumsum(ba) - ba)
