@@ -1,0 +1,4 @@
+"resp","item","n","c_nat","c_pl","cal_nat","cal_pl","b9","b9_se","aic","aic_ref"
+"dDBH","fixed_source_intercept",4971,NA,NA,NA,NA,-0.138180548279792,0.262704903751683,19199.2807213588,19205.3497352118
+"dHT","fixed_source_intercept",4033,NA,NA,NA,NA,0.69456700566921,0.200558513171484,13873.5044267194,13893.8498787684
+"dDBH","protocol_switch",366,NA,0.0916137282234468,NA,1.38901970972757,NA,NA,NA,NA
