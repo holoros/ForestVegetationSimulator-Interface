@@ -15,7 +15,8 @@ Rscript check_parity.R                               # compares with expected_py
 Needs dplyr, purrr and jsonlite. The check passes when every stand and tree
 quantity agrees with the expected values to a relative tolerance of 1e-10.
 On 23 September 2026 the worst relative difference was 1.7e-14 over 18 cases
-and 126 tree rows.
+and 126 tree rows. Regenerated 31 October 2026 for HiGy.R 0.4.2 against
+engine_v103 with the v104 constants (see CHANGELOG_HiGy.md, 0.4.2).
 
 ## What is compared
 
@@ -31,7 +32,7 @@ three cases that bind the 0.95 cap, a case with no SDI (gate passes the rate
 through) and one ungated case.
 
 The harness can fail. With the 12 September Stage 1 constants it fails on the
-16 gated cases; with the origin level factor set to 1 it fails on the 9 natural
+16 gated cases (and 0.4.1, with the v102 constants, fails the 0.4.2 fixtures); with the origin level factor set to 1 it fails on the 9 natural
 cases the factor reaches; with the Eq. 5 weight in place of the respecified
 weight it fails on the 10 tree weight cases.
 
@@ -43,10 +44,13 @@ weight it fails on the 10 tree weight cases.
 * `expected_python_stand.csv`, `expected_python_tree.csv`: values written by
   `parity_python.py` from the engine of record.
 * `parity_python.py`: Python side. Run with `KOA_ENGINE` pointing at the
-  Python engine of record (engine_v102), which needs koa_params.py,
+  Python engine of record (engine_v103 for 0.4.2, engine_v102 for 0.4.0 and
+  0.4.1), which needs koa_params.py,
   koa_equations.py, koa_mortality_garcia.py and koa_survival_calibrated_py.py
   from the Zenodo deposit (concept DOI 10.5281/zenodo.21081014).
 * `threestage.py`, `out_stage1/stage1_fit.json`: the Python reference for
-  Stage 1 and the gate, byte identical to engine_v102. It imports koa_params
+  Stage 1 and the gate. threestage.py is byte identical to engine_v102 and
+  engine_v103; stage1_fit.json is the engine_v103 copy (v103 Stage 1 refit) from
+  0.4.2 on. It imports koa_params
   from the engine of record and is kept here as the reference the R port was
   written against.
