@@ -1,0 +1,22 @@
+--- run_candidates.py_PREV_20261031	2026-10-30 17:50:06.340100598 -0300
++++ run_candidates.py	2026-10-31 15:01:36.180543933 -0300
+@@ -111,7 +111,7 @@
+         if np.isfinite(h40_now):
+             h40_prev = h40_now
+         if alloc_mode == "tree_eq":
+-            w = np.clip(1.0 - np.exp(-np.exp(-2.13468022306448 + -0.818899541466801 * np.log(np.maximum(dbh, 0.1)) + -0.813105157217597 * rht + 0.382953931412773 * np.log(baph + 1.0) + 0.346317281270796 * np.log(np.maximum(bal, 0.0) + 1.0))), 1e-9, 1.0)   # respecified Stage 3, 2026-09-16
++            w = np.clip(1.0 - np.exp(-np.exp(P.STAGE3_COEF['c0'] + P.STAGE3_COEF['c1'] * np.log(np.maximum(dbh, 0.1)) + P.STAGE3_COEF['c2'] * rht + P.STAGE3_COEF['c3'] * np.log(baph + 1.0) + P.STAGE3_COEF['c4'] * np.log(np.maximum(bal, 0.0) + 1.0))), 1e-9, 1.0)   # respecified Stage 3, 2026-09-16
+         else:
+             w = np.exp(-P.ALLOC_BETA * (dbh / max(qmd, 0.1) - 1.0))
+         wbar = np.sum(w * expf) / max(np.sum(expf), 1e-9)
+--- regen_figS4S5.py_PREV_20261031	2026-10-30 17:50:06.368101071 -0300
++++ regen_figS4S5.py	2026-10-31 15:01:36.180543933 -0300
+@@ -122,7 +122,7 @@
+         if np.isfinite(h40_now):
+             h40_prev = h40_now
+         if alloc_mode == "tree_eq":
+-            w = np.clip(1.0 - np.exp(-np.exp(-2.13468022306448 + -0.818899541466801 * np.log(np.maximum(dbh, 0.1)) + -0.813105157217597 * rht + 0.382953931412773 * np.log(baph + 1.0) + 0.346317281270796 * np.log(np.maximum(bal, 0.0) + 1.0))), 1e-9, 1.0)   # respecified Stage 3 (copied from run_candidates.py), 2026-09-16
++            w = np.clip(1.0 - np.exp(-np.exp(P.STAGE3_COEF['c0'] + P.STAGE3_COEF['c1'] * np.log(np.maximum(dbh, 0.1)) + P.STAGE3_COEF['c2'] * rht + P.STAGE3_COEF['c3'] * np.log(baph + 1.0) + P.STAGE3_COEF['c4'] * np.log(np.maximum(bal, 0.0) + 1.0))), 1e-9, 1.0)   # respecified Stage 3 (copied from run_candidates.py), 2026-09-16
+         else:
+             w = np.exp(-P.ALLOC_BETA * (dbh / max(qmd, 0.1) - 1.0))
+         wbar = np.sum(w * expf) / max(np.sum(expf), 1e-9)
