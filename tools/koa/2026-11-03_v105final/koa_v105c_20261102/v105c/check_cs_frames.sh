@@ -1,0 +1,2 @@
+cd ~/jobs/koa_v105c_20261102; KOA_DDBH_FORM=K3c1 Rscript --vanilla track2/inc/inc_v103.R frames > v105c/logs/frames_cs_check.log 2>&1; echo "frames $?" >> v105c/logs/frames_cs_check.log
+Rscript -e 'for (r in c("dDBH","dHT")) { d <- read.csv(sprintf("frames/final/%s_CS_v103_model.csv", r)); cat(r, "CS rows", nrow(d), "NA TPH", sum(is.na(d$TPH.0)|is.na(d$TPH.1)), "NA QMD", sum(is.na(d$QMD.0)|is.na(d$QMD.1)), "\n") }' >> v105c/logs/frames_cs_check.log 2>&1
