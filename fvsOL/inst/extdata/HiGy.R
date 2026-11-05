@@ -24,6 +24,7 @@ VersionTag = "HiGyV0.4.1"
 
 # version 0.4.1
   # Height, diameter increment, height increment and mortality- parameters updated to the final koa model fit (Forest Ecosystems manuscript)
+  # BAL- optional expansion factor weighted percentile definition used in the model fit (ops$use.bal.percentile, default FALSE)
 
 # version 0.4.0
   # Height- refit parameters and changed relative diameter definition 
@@ -872,6 +873,7 @@ make_tree=function(tree.list, num.plots, calib.spp){
 #' @param rtn.vars Character vector: Variables to return in output (default core variables)
 #' @param use.cap.dbh Logical or character: Apply maximum DBH constraint. Accepts TRUE/FALSE or 'Yes'/'No'/'Y'/'N' (default TRUE).
 #' @param use.cap.ht Logical or character: Apply maximum total tree height constraint. Accepts TRUE/FALSE or 'Yes'/'No'/'Y'/'N' (default TRUE)
+#' @param use.bal.percentile Logical or character: Calculate BAL as plot BA times the expansion factor weighted share of trees with DBH at least as large, as in the model fit. Accepts TRUE/FALSE or 'Yes'/'No'/'Y'/'N' (default FALSE)
 #' @return Dataframe: Run options dataframe
 #'
 make_ops = function(verbose = FALSE,
@@ -879,7 +881,8 @@ make_ops = function(verbose = FALSE,
                                  'cr', 'expf', 'pht',  
                                  'ddbh.mult', 'dht.mult', 'mort.mult', 'max.dbh', 'max.height'),
                     use.cap.dbh = TRUE,
-                    use.cap.ht = TRUE) {
+                    use.cap.ht = TRUE,
+                    use.bal.percentile = FALSE) {
   
   # Convert strings to logical-- in case someone redefines TRUE and FALSE 
   char_to_logical = function(x) {
@@ -899,8 +902,9 @@ make_ops = function(verbose = FALSE,
   ops = data.frame(verbose = char_to_logical(verbose),
                    rtn.vars = I(list(rtn.vars)), # rtn.vars as a list column 
                    use.cap.dbh = char_to_logical(use.cap.dbh),
-                   use.cap.ht = char_to_logical(use.cap.ht)) %>%
-    dplyr::mutate(dplyr::across(c(verbose, use.cap.dbh, use.cap.ht), 
+                   use.cap.ht = char_to_logical(use.cap.ht),
+                   use.bal.percentile = char_to_logical(use.bal.percentile)) %>%
+    dplyr::mutate(dplyr::across(c(verbose, use.cap.dbh, use.cap.ht, use.bal.percentile), 
                                 as.logical))
   
   
@@ -1006,15 +1010,28 @@ make_fvs_tree=function(tree.data, orgtree.list, num.plots){
 #' Calculate basal area in larger trees (BAL) for each tree
 #' 
 #' @param tree.data Dataframe: Tree list
+#' @param use.bal.percentile Logical: Use the expansion factor weighted percentile definition (default FALSE, cumulative BA of larger trees)
 #' @return Dataframe: Tree data with added BAL column
 #'
-calc_bal = function(tree.data) {
+calc_bal = function(tree.data, use.bal.percentile = FALSE) {
   
   # Check required columns
   required.cols = c('plot', 'dbh', 'ba')
   missing.cols = setdiff(required.cols, names(tree.data))
   if (length(missing.cols) > 0) {
     stop(paste("Missing required columns:", paste(missing.cols, collapse = ", ")))
+  }
+  
+  if (isTRUE(use.bal.percentile)) {
+    # plot BA times the weighted share of other trees with DBH at least as large
+    tree=tree.data %>%
+      dplyr::arrange(plot, 
+              desc(dbh)) %>%
+      dplyr::group_by(plot) %>%
+      dplyr::mutate(bal = sum(ba) * bal_percentile(dbh, expf)) %>% 
+      dplyr::ungroup()
+    
+    return(tree)
   }
   
   # Sort by plot and descending DBH; calculate cumulative BA
@@ -1026,6 +1043,31 @@ calc_bal = function(tree.data) {
     dplyr::ungroup()
   
   tree
+}
+
+#' Expansion factor weighted share of other trees with DBH at least as large
+#' 
+#' @param dbh Numeric: Diameter at breast height (cm)
+#' @param expf Numeric: Expansion factor (trees per ha)
+#' @return Numeric: Share between 0 and 1, in the order of dbh
+#'
+bal_percentile = function(dbh, expf) {
+  
+  n = length(dbh)
+  w = pmax(as.numeric(expf), 0)
+  if (n < 2 || sum(w) <= 0) return(numeric(n))
+  
+  w.total = sum(w)
+  dbh.order = order(dbh, method = "radix")
+  dbh.sorted = dbh[dbh.order]
+  w.sorted = w[dbh.order]
+  w.cum = c(0, Reduce(`+`, w.sorted, accumulate = TRUE))
+  w.ge = w.total - w.cum[match(dbh.sorted, dbh.sorted)] # weight of trees with DBH >= DBH, ties included
+  share = pmin(pmax((w.ge - w.sorted) / pmax(w.total - w.sorted, 1e-12), 0), 1)
+  
+  out = numeric(n)
+  out[dbh.order] = share
+  out
 }
 
 
@@ -1153,7 +1195,7 @@ HiGYOneStand = function(tree, stand, ops)
         # basal area (plot level)
     dplyr::mutate(ba = (dbh^2*0.00007854)*expf) %>% 
       # Calculate BAL
-    calc_bal()
+    calc_bal(use.bal.percentile = ops$use.bal.percentile)
 
   
 ##### Plot attributes ####

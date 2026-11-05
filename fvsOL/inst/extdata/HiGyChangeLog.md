@@ -25,6 +25,16 @@ Forest Ecosystems manuscript. No equation form changed.
 The base rows (used when `byi` is missing or 0) keep b8 = 0 and a1 = 0.
 The height to crown base coefficients are unchanged.
 
+#### BAL
+- New run option `use.bal.percentile` in `make_ops()`, default FALSE.
+  When TRUE, `calc_bal()` computes basal area in larger trees (BAL) as
+  plot basal area times the share of the other trees on the plot, weighted
+  by expansion factor, with diameter at least as large as the subject tree
+  (trees of equal diameter count as larger). This is the BAL definition
+  used to fit the 0.4.1 parameters, so it must be TRUE to reproduce the
+  model of record. FALSE keeps the cumulative basal area of larger trees.
+- New function `bal_percentile()` computes that share.
+
 ### Version 0.4.0
 
 #### Height
