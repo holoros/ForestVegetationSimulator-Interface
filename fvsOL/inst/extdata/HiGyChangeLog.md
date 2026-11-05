@@ -35,6 +35,25 @@ The height to crown base coefficients are unchanged.
   model of record. FALSE keeps the cumulative basal area of larger trees.
 - New function `bal_percentile()` computes that share.
 
+#### Bug fixes
+- `calc_hcb()` filtered its parameters on `ht.parm.type`, which is defined
+  only inside `calc_ht()`, so the first height to crown base prediction
+  stopped with an error. It now uses `hcb.parm.type`.
+- `calc_dht()` passed tree basal area to `dht()`. It now passes plot basal
+  area (`ba.plot`), as `calc_ddbh()` does and as the equation was fitted.
+- In `HiGYOneStand()`, BAL recalculated after growth was not assigned
+  back to the tree list, so crown recession used BAL from before growth.
+
+#### Checks (November 5, 2026, R 4.5.1)
+- Height, diameter increment, height increment, and the three mortality
+  stages return the same values as the koa model of record on a grid of
+  5,184 tree conditions, natural and planted (largest difference 0).
+- `calc_bal()` with the option off reproduces 0.4.0 exactly, and with it
+  on reproduces the model of record exactly, on 200 random tree lists.
+- Five annual cycles of a two plot, 24 tree stand finish with no missing
+  values for natural and planted stands, with the option on and off.
+- Not yet run through `customRun_fvsRunHi.R` inside FVS.
+
 ### Version 0.4.0
 
 #### Height

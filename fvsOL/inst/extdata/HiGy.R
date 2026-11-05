@@ -25,6 +25,7 @@ VersionTag = "HiGyV0.4.1"
 # version 0.4.1
   # Height, diameter increment, height increment and mortality- parameters updated to the final koa model fit (Forest Ecosystems manuscript)
   # BAL- optional expansion factor weighted percentile definition used in the model fit (ops$use.bal.percentile, default FALSE)
+  # Bug fixes- calc_hcb() parameter filter used ht.parm.type; calc_dht() used tree BA instead of plot BA; BAL recalculated before crown recession was not kept
 
 # version 0.4.0
   # Height- refit parameters and changed relative diameter definition 
@@ -189,7 +190,7 @@ calc_ht = function(tree.data, plot.data, byi=stand$byi,
                           'site')
     
     hcb.parm = hcb.pred.parm.df %>% 
-      filter(type==ht.parm.type)
+      filter(type==hcb.parm.type)
     
     tree=tree.data %>% 
       dplyr::left_join(plot.data %>% 
@@ -426,7 +427,7 @@ calc_dht = function(tree.data,
                   byi = dplyr::coalesce(byi, 0),
                   planted = dplyr::coalesce(planted, 0),
       # use purrr::reduce() to generate annual height increment
-     dht = dht(dbh, ht, bal, ba, cr, byi,
+     dht = dht(dbh, ht, bal, ba=ba.plot, cr, byi,
                                planted, b0, b1, b2, b3, b4, b5, b6, b7, b8, b9),
       #apply ht increment multiplier
       dht = dht * dht.mult)
@@ -1273,8 +1274,8 @@ HiGYOneStand = function(tree, stand, ops)
 
 #### Crown recession ####
  # calculate t+1 height to crown base  
-  tree %>% 
-    calc_bal()
+  tree = tree %>% 
+    calc_bal(use.bal.percentile = ops$use.bal.percentile)
   
   # Calculate plot summary
   plot.smry = tree %>% 
