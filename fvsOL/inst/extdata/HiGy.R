@@ -1,6 +1,6 @@
 # $Id: HiGy.R 3968 2026-02-10 10:36:05Z benrice $
 ################################################################################
-# v0.4.0
+# v0.4.1
 #
 # Hawaii Variant of the Forest Vegetation Simulator (FVS-HI)
 #
@@ -16,11 +16,14 @@
 library(dplyr) # needed arrange, mutate, left_join, tibble, select, group_by, summarise, ungroup, case_when, all_of
 library(purrr) # needed for pmap_*
 
-VersionTag = "HiGyV0.4.0"
+VersionTag = "HiGyV0.4.1"
 
 ##############################
 #### major update summary ####
 ####
+
+# version 0.4.1
+  # Height, diameter increment, height increment and mortality- parameters updated to the final koa model fit (Forest Ecosystems manuscript)
 
 # version 0.4.0
   # Height- refit parameters and changed relative diameter definition 
@@ -48,8 +51,8 @@ VersionTag = "HiGyV0.4.0"
 ##### Total height prediction ####
 ht.pred.parm = dplyr::tribble(
   ~type, ~species, ~a0,       ~a1,         ~b,       ~c,         ~g1,    ~g2,
-  'base', 'AK',   32.198224,  0,          0.016579,  0.804891, 0.062077, -0.373262,
-  'site', 'AK',   32.198224,  1.208508,   0.016579, 0.804891, 0.062077, -0.373262)
+  'base', 'AK',   28.928831,  0,          0.017026,  0.792247, 0.076841, -0.34331,
+  'site', 'AK',   28.928831,  0.966788,   0.017026, 0.792247, 0.076841, -0.34331)
 
 
 
@@ -213,8 +216,8 @@ calc_ht = function(tree.data, plot.data, byi=stand$byi,
 # Height increment parameters
   ddbh.parm = dplyr::tribble(
     ~type,    ~species,  ~b0,        ~b1,         ~b2,         ~b3,         ~b4,        ~b5,         ~b6,        ~b7,        ~b8,        ~b9,
-    'base',    'AK',   -1.1509411,  0.3371168,  -0.0143456,  -0.0017722,  -0.4306515,   1.2809352,  -0.0176013,  -0.0176238,        0,   0.4103534,
-    'site',    'AK',   -1.1509411,  0.3371168,  -0.0143456,  -0.0017722,  -0.4306515,   1.2809352,  -0.0176013,  -0.0176238,  0.3045245,   0.4103534)
+    'base',    'AK',   0.2879773,  0.3607553,  -0.0223731,  -0.0014547,  -0.3377001,   0.8411799,  -0.0167759,  -0.0176977,        0,   -0.0158981,
+    'site',    'AK',   0.2879773,  0.3607553,  -0.0223731,  -0.0014547,  -0.3377001,   0.8411799,  -0.0167759,  -0.0176977,  0.1402549,   -0.0158981)
 
     
 #' Calculate annual diameter increment 
@@ -230,12 +233,12 @@ calc_ht = function(tree.data, plot.data, byi=stand$byi,
 ddbh = function(dbh, bal, ba, cr, byi, planted,
                 b0, b1, b2, b3, b4, b5, b6, b7, b8, b9) {
 
-  cf = 1.36869   # Duan (1983) smearing correction factor
+  cf = 1.50128   # Duan (1983) smearing correction factor
 
   # origin calibration factor
    origin.calib=ifelse(planted==1,
-                      1.43606, # plantation origin
-                      0.40548) # natural origin
+                      0.97085, # plantation origin
+                      0.25558) # natural origin
 
   # diameter increment
   ddbh = exp(b0 + b1*log(dbh+1) +
@@ -329,8 +332,8 @@ calc_ddbh = function(tree.data, plot.data,
 # Height increment parameters
 dht.parm = dplyr::tribble(
   ~type,   ~species,  ~b0,        ~b1,        ~b2,        ~b3,        ~b4,        ~b5,        ~b6,       ~b7,          ~b8,       ~b9,
-  'base',  'AK',    -3.6114059,  1.1203441,  -0.1154809,  -0.0009067, -0.1332027,  -0.5250905,  0.0379597, -0.1240880,  0,         1.0681935,
-  'site',  'AK',    -3.6114059,  1.1203441,  -0.1154809,  -0.0009067, -0.1332027,  -0.5250905,  0.0379597, -0.1240880,  0.2232825, 1.0681935)
+  'base',  'AK',    -2.3749351,  1.1606715,  -0.1512773,  -0.0001578, -0.1817711,  0.2179147,  0.0639156, -0.1195534,  0,         0.7574883,
+  'site',  'AK',    -2.3749351,  1.1606715,  -0.1512773,  -0.0001578, -0.1817711,  0.2179147,  0.0639156, -0.1195534,  0.0907741, 0.7574883)
 
 
 #' Calculate height increment
@@ -348,12 +351,12 @@ dht = function(dbh, ht, bal, ba, cr, byi, planted,
                b0, b1, b2, b3, b4, b5, b6, b7, b8, b9) {
 
 
-  cf = 1.030   # Duan (1983) smearing correction factor
+  cf = 2.41982   # Duan (1983) smearing correction factor
 
   # origin calibration factor
   origin.calib=ifelse(planted==1,
-                      2.64739, # plantation origin
-                      0.51917) # natural origin
+                      1.19285, # plantation origin
+                      0.18025) # natural origin
 
   dht = exp(b0 + b1 * log(ht+1) +
               b2 * ht +
@@ -456,7 +459,7 @@ calc_dht = function(tree.data,
 # Stage 3 parameters (diameter, relative height, plot BA, BAL)
 mort.s3.parm = dplyr::tribble(
   ~species, ~b0, ~b1, ~b2, ~b3, ~b4,
-  'AK', -2.13468022306448, -0.818899541466801, -0.813105157217597, 0.382953931412773, 0.346317281270796)
+  'AK', -2.45353544308563, -1.24379127899638, -0.245835518593837, 0.801873721680337, 0.164263748192269)
 
 #' Stage 1: annual mortality probability
 #'
@@ -466,9 +469,9 @@ mort.s3.parm = dplyr::tribble(
 #' @return Numeric: Annual mortality occurrence probability (0-1)
 mort_prob = function(sdi, planted) {
  
-  eta = -1.67856483466631 +  
-        0.161863756638461 * log(pmax(as.numeric(sdi), 1)) + 
-        -0.19099361188623 * planted
+  eta = -1.66812398756876 +  
+        0.165585943273251 * log(pmax(as.numeric(sdi), 1)) + 
+        -0.219166792503203 * planted
   
   eta = pmin(pmax(eta, -30), 5)
   
@@ -486,7 +489,7 @@ mort_prob = function(sdi, planted) {
 #' @return Numeric: Stand mortality fraction for the step
 plot_survival = function(tph, h.qmd.t0, h.qmd.t1, planted) {
   alpha = 2.96
-  beta  = 0.16019053617304435                      # H_QMD
+  beta  = 0.14803309491927027                      # H_QMD
   floor.rate = ifelse(planted == 1, 0.006, 0.003)  # A1 background mortality floor
   h1    = pmax(h.qmd.t1, h.qmd.t0)                 # no regular mortality without height growth
   s0    = 100 / sqrt(pmax(tph, 1e-9))
@@ -592,11 +595,11 @@ calc_mortality = function(tree.data, plot.data, mort.parm.df = mort.s3.parm,
 
   tree.data.names = colnames(tree.data)
   planted.stand = dplyr::coalesce(as.numeric(planted), 0)
-  p.bar = 0.313065206550519
+  p.bar = 0.31272560255909
 
   # H_QMD allometric constants (QMD -> allometric height-equivalent)
-  h.qmd.a = -0.16863070512157105
-  h.qmd.k = 1.1719473700506686
+  h.qmd.a = 0.167997928455782
+  h.qmd.k = 1.04106514616602
 
   qmd.t1.plot = tree.data %>%
     dplyr::group_by(plot) %>%
@@ -619,7 +622,7 @@ calc_mortality = function(tree.data, plot.data, mort.parm.df = mort.s3.parm,
                                      planted.stand),
                   mort.cal = ifelse(planted.stand == 1,
                                     1.0,
-                                    2.64629),
+                                    2.51588),
                   mort.plot = pmin(pmax(mort.plot.reg / p.bar * p.gate * mort.cal, 0), 0.95),
                   mort.target = mort.plot * tph.plot) %>%
     dplyr::select(plot, 
