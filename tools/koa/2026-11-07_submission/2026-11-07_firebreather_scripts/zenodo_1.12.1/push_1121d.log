@@ -1,0 +1,9 @@
+OK CITATION.cff df86cebbbe5df48412257fcced715212
+OK DEPOSIT_CHANGELOG.md 052f3dac562a992a252c98ebf19d227a
+OK FILE_MAP_1.12.1.tsv 71b43f8ffaa37bcaf0f5bc029dfdc9ad
+OK README.md e1bf649771b2c46f698e1c4139a178d1
+OK SHA256SUMS 93ed4e842a203a96365bfdaabb470ae0
+OK koa_supplemental.pdf 96d1440059a92488d8479f7c77a28a16
+metadata 200 
+state unsubmitted n_files 98 version 1.12.1 rice ['Midgard Natural Resources LLC, New Hampshire'] supp v118 in desc True False
+{'DEPOSIT_CHANGELOG.md': '052f3dac562a992a252c98ebf19d227a', 'FILE_MAP_1.12.1.tsv': '71b43f8ffaa37bcaf0f5bc029dfdc9ad', 'CITATION.cff': 'df86cebbbe5df48412257fcced715212', 'koa_frames.sqlite': '42531bd2922405afa4aec79ad11cecf3', 'build_sqlite_v2.py': '637e64b7beec323ef18565ff0c525549', 'SHA256SUMS': '93ed4e842a203a96365bfdaabb470ae0', 'README.md': 'e1bf649771b2c46f698e1c4139a178d1', 'koa_supplemental.pdf': '96d1440059a92488d8479f7c77a28a16'}

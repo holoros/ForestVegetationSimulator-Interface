@@ -1,0 +1,37 @@
+token file: /home/aaron/.config/zenodo/token
+1.12.0 state done submitted True version 1.12.0
+newversion 201
+draft 24013562 reserved DOI 10.5281/zenodo.24013562 n_files 96
+DELETE FILE_MAP_1.12.0.tsv 204
+OK CITATION.cff 4a8a0f37027c66ad7d7a8ba1ed4ff6ec 2108
+OK build_sqlite_v2.py 637e64b7beec323ef18565ff0c525549 4919
+OK SHA256SUMS bcf459666db360bab83cbeaefc2ba8ae 8587
+OK FILE_MAP_1.12.1.tsv fa76fc4a5ff9996a0f49474493c4b9d3 14825
+OK README.md e7ccd94a8e44cfb6c5912bc7a9ae7a0c 163816
+OK DEPOSIT_CHANGELOG.md 4e4cdd8a53406e61d797ee8e2357d4b7 340592
+OK koa_frames.sqlite 42531bd2922405afa4aec79ad11cecf3 4591616
+metadata PUT 200
+{
+ "draft": 24013562,
+ "reserved_doi": "10.5281/zenodo.24013562",
+ "uploaded": {
+  "CITATION.cff": "4a8a0f37027c66ad7d7a8ba1ed4ff6ec",
+  "build_sqlite_v2.py": "637e64b7beec323ef18565ff0c525549",
+  "SHA256SUMS": "bcf459666db360bab83cbeaefc2ba8ae",
+  "FILE_MAP_1.12.1.tsv": "fa76fc4a5ff9996a0f49474493c4b9d3",
+  "README.md": "e7ccd94a8e44cfb6c5912bc7a9ae7a0c",
+  "DEPOSIT_CHANGELOG.md": "4e4cdd8a53406e61d797ee8e2357d4b7",
+  "koa_frames.sqlite": "42531bd2922405afa4aec79ad11cecf3"
+ },
+ "failed": [],
+ "deleted": 204,
+ "n_files": 98,
+ "state": "unsubmitted",
+ "submitted": false,
+ "version": "1.12.1",
+ "missing_local": [],
+ "old_map_present": false,
+ "metadata_put": 200,
+ "html": "https://zenodo.org/deposit/24013562"
+}
+DRAFT 24013562 FILLED AS 1.12.1, NOT PUBLISHED
