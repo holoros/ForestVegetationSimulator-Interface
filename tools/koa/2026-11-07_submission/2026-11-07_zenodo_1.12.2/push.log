@@ -1,0 +1,9 @@
+SKIP CITATION.cff
+OK DEPOSIT_CHANGELOG.md 3ea0061ba3aa0011f67721c52be3d4be
+OK FILE_MAP_1.12.2.tsv 4b7c800f5f1564f5d167e88fb08b0d76
+OK README.md 3d1d0b65e3ac895398774949da9f53e2
+OK SHA256SUMS 7bd8071d63cbbdef1c2078274e1e371f
+OK koa_supplemental.pdf 0262e9b58360d31e6cf7dab6777f8a3a
+metadata 200 
+{"state": "unsubmitted", "n_files": 98, "version": "1.12.2", "reserved": "10.5281/zenodo.24039072", "mismatch": [], "old_map": false, "supp": "0262e9b58360d31e6cf7dab6777f8a3a"}
+DRAFT 24039072 FILLED AS 1.12.2, NOT PUBLISHED
