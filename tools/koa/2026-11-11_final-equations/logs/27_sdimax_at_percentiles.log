@@ -1,0 +1,7 @@
+plots with tree records: 310 ; natural 166 ; planted 144 ; BYI range 29 to 543.4 ; median 161.9 ; bootstrap rows 1987 
+natural lo BYI 64.45 SDImax 863 95% interval 708 to 1030 
+natural md BYI 247.67 SDImax 1238 95% interval 1109 to 1369 
+natural hi BYI 386.18 SDImax 1394 95% interval 1216 to 1584 
+planted lo BYI 121.45 SDImax 581 95% interval 500 to 669 
+planted md BYI 156.07 SDImax 621 95% interval 546 to 701 
+planted hi BYI 308.52 SDImax 746 95% interval 661 to 828 
