@@ -1,0 +1,222 @@
+bootstrap rows: 1987 ; S1 residual sd (ln scale): 0.537 ; sigma 1.0594  tau 0.4093  delta 0.4381  phi 0.0288 
+
+(1) benchmark, S1 out of fold (earlier systems: own SDImax 0.177, 3.89, 6.70; 742 0.217, 3.99, 10.76)
+      set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+   <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:    all   182    53    -0.023     0.124     0.54     2.78    0.81    6.76
+   planted     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+     <int> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:       1   155    41    -0.023     0.113     0.44     2.59    1.35    5.79
+2:       0    27    12    -0.022     0.176     1.13     3.71   -2.27   10.78
+                     set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+                  <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1: horizon 10 yr or more    22     7    -0.028     0.122     2.55     3.57    1.69    7.93
+equivalence at each plot's longest horizon (25% region, convention)
+       set      var    bias_rel     slope      b1_lo     b1_hi pass_int pass_slope
+    <char>   <char>       <num>     <num>      <num>     <num>   <lgcl>     <lgcl>
+1:     all survival -0.06674147 0.8702477  0.6723189 1.0125970     TRUE      FALSE
+2:     all      QMD  0.02723609 0.8914191  0.7932027 1.0172668     TRUE       TRUE
+3:     all       BA -0.03874999 0.8185249  0.5729971 1.0946397     TRUE      FALSE
+4: planted survival -0.08176152 0.8085401 -1.2202963 0.9550901     TRUE      FALSE
+5: planted      QMD  0.04916396 0.9481309  0.8512312 1.0890872     TRUE       TRUE
+6: planted       BA  0.06798155 1.1938661  0.9272230 1.4428853     TRUE      FALSE
+7: natural survival  0.04185486 1.0109344  0.7610578 1.5096975    FALSE      FALSE
+8: natural      QMD -0.02307313 0.5210397  0.1446298 1.6716362     TRUE      FALSE
+9: natural       BA -0.23427791 0.2139769 -0.4835106 0.9272993    FALSE      FALSE
+
+(2) 200-year runs, SDImax from S1
+    planted  level   byi sdimax  year    BA   TPH   QMD   SDI    RD    HT
+      <num> <char> <num>  <num> <int> <num> <num> <num> <num> <num> <num>
+ 1:       0     lo    64    863    20  16.7   556  19.5   365  0.42  10.8
+ 2:       0     lo    64    863    40  15.2   306  25.1   301  0.35  12.5
+ 3:       0     lo    64    863    60  14.7   204  30.3   271  0.31  13.7
+ 4:       0     lo    64    863   100  14.1   117  39.2   235  0.27  15.2
+ 5:       0     lo    64    863   150  13.4    73  48.4   205  0.24  16.3
+ 6:       0     lo    64    863   200  12.5    50  56.2   180  0.21  16.9
+ 7:       0     md   248   1238    20  29.2   657  23.8   591  0.48  12.3
+ 8:       0     md   248   1238    40  29.9   350  33.0   533  0.43  14.4
+ 9:       0     md   248   1238    60  29.9   228  40.9   490  0.40  15.5
+10:       0     md   248   1238   100  28.6   126  53.7   420  0.34  16.7
+11:       0     md   248   1238   150  25.8    76  65.9   350  0.28  17.3
+12:       0     md   248   1238   200  22.8    51  75.6   292  0.24  17.6
+13:       0     hi   386   1394    20  35.5   671  25.9   694  0.50  12.9
+14:       0     hi   386   1394    40  36.9   348  36.7   629  0.45  15.0
+15:       0     hi   386   1394    60  36.7   223  45.7   574  0.41  16.1
+16:       0     hi   386   1394   100  34.3   122  59.9   483  0.35  17.0
+17:       0     hi   386   1394   150  30.2    72  73.0   392  0.28  17.5
+18:       0     hi   386   1394   200  25.9    48  83.2   320  0.23  17.7
+19:       1     lo   121    581    20  27.4   403  29.4   510  0.88  15.2
+20:       1     lo   121    581    40  36.5   271  41.4   594  1.02  17.1
+21:       1     lo   121    581    60  39.0   187  51.5   582  1.00  17.9
+22:       1     lo   121    581   100  38.1   105  67.9   510  0.88  18.6
+23:       1     lo   121    581   150  33.7    62  83.0   417  0.72  18.9
+24:       1     lo   121    581   200  28.3    41  93.7   334  0.57  19.1
+25:       1     md   156    621    20  31.5   404  31.5   571  0.92  15.6
+26:       1     md   156    621    40  41.1   267  44.3   651  1.05  17.4
+27:       1     md   156    621    60  43.2   182  54.9   628  1.01  18.1
+28:       1     md   156    621   100  41.4   101  72.2   541  0.87  18.7
+29:       1     md   156    621   150  35.8    59  87.6   433  0.70  19.0
+30:       1     md   156    621   200  29.3    39  98.3   339  0.55  19.1
+31:       1     hi   309    746    20  45.3   400  37.9   762  1.02  16.7
+32:       1     hi   309    746    40  54.8   247  53.1   807  1.08  18.1
+33:       1     hi   309    746    60  55.1   162  65.8   747  1.00  18.6
+34:       1     hi   309    746   100  49.7    87  85.1   608  0.82  19.0
+35:       1     hi   309    746   150  39.8    50 101.0   456  0.61  19.1
+36:       1     hi   309    746   200  30.2    31 111.5   332  0.45  19.2
+    planted  level   byi sdimax  year    BA   TPH   QMD   SDI    RD    HT
+      <num> <char> <num>  <num> <int> <num> <num> <num> <num> <num> <num>
+   planted  level sdi_max rd_max ba_max ba_peak_year late_slope
+     <num> <char>   <num>  <num>  <num>        <int>      <num>
+1:       0     lo     736   0.85   28.8            0      -2.34
+2:       0     md     736   0.59   30.0           50      -2.67
+3:       0     hi     741   0.53   37.0           46      -2.87
+4:       1     lo     595   1.02   39.2           71      -2.93
+5:       1     md     651   1.05   43.2           65      -3.12
+6:       1     hi     816   1.09   55.4           51      -3.86
+first year basal area is out of site order: natural Inf  planted Inf 
+density series, planted, median BYI (BA at 20, 40, 100 yr):
+Warning messages:
+1: In min(year) : no non-missing arguments to min; returning Inf
+2: In min(year) : no non-missing arguments to min; returning Inf
+Key: <n0>
+      n0    20    40   100
+   <num> <num> <num> <num>
+1:   300  24.5  36.1  39.5
+2:   600  32.5  41.7  41.8
+3:  1200  38.6  46.2  48.7
+4:  2400  45.9  59.9  75.7
+   site_to_100 sdi_lim  ba200 no_rise sukachev yield_dens
+        <lgcl>  <lgcl> <lgcl>  <lgcl>   <lgcl>     <lgcl>
+1:        TRUE    TRUE   TRUE    TRUE    FALSE       TRUE
+
+(3) Monte Carlo 90% bands, 500 draws; non-finite values: 82 
+
+SDImax at its S1 prediction (parameter uncertainty only) -- Table 4 values:
+     origin   BYI SDImax  year                  BA BA_median                  QMD              TPH                  HT              VOL                  RD
+     <char> <num>  <num> <int>              <char>     <num>               <char>           <char>              <char>           <char>              <char>
+ 1: natural    64    863    20  16.7 (5.7 to 25.1)      16.4  19.5 (17.3 to 25.4) 556 (128 to 766) 10.8 (10.0 to 12.7)   72 (30 to 123) 0.42 (0.13 to 0.60)
+ 2: natural    64    863    40  15.2 (4.5 to 24.9)      14.6  25.1 (21.0 to 35.8)  306 (66 to 449) 12.5 (11.4 to 14.8)   76 (27 to 141) 0.35 (0.09 to 0.51)
+ 3: natural    64    863   100  14.1 (3.7 to 25.6)      12.7  39.2 (30.8 to 56.8)  117 (19 to 192) 15.2 (13.9 to 17.0)   86 (24 to 171) 0.27 (0.06 to 0.47)
+ 4: natural   248   1238    20 29.2 (20.3 to 40.2)      28.0  23.8 (19.6 to 30.7) 657 (446 to 832) 12.3 (11.0 to 14.2)  144 (93 to 223) 0.48 (0.34 to 0.61)
+ 5: natural   248   1238    40 29.9 (19.0 to 41.2)      28.0  33.0 (25.7 to 44.4) 350 (212 to 473) 14.4 (12.8 to 16.2) 172 (100 to 259) 0.43 (0.28 to 0.56)
+ 6: natural   248   1238   100 28.6 (14.2 to 43.8)      25.5  53.7 (39.4 to 71.1)  126 (58 to 202) 16.7 (15.5 to 17.7)  191 (94 to 295) 0.34 (0.17 to 0.51)
+ 7: natural   386   1394    20 35.5 (25.3 to 46.8)      33.6  25.9 (20.3 to 32.7) 671 (497 to 854) 12.9 (11.3 to 14.5) 184 (116 to 270) 0.50 (0.37 to 0.62)
+ 8: natural   386   1394    40 36.9 (24.7 to 49.3)      34.4  36.7 (27.2 to 47.2) 348 (224 to 482) 15.0 (13.3 to 16.4) 222 (135 to 315) 0.45 (0.31 to 0.57)
+ 9: natural   386   1394   100 34.3 (19.0 to 54.5)      31.0  59.9 (42.8 to 76.0)  122 (58 to 217) 17.0 (15.9 to 18.0) 234 (127 to 378) 0.35 (0.19 to 0.55)
+10: planted   121    581    20 27.4 (14.5 to 40.8)      25.6  29.4 (21.4 to 39.1) 403 (290 to 445) 15.2 (13.1 to 17.0)  166 (77 to 276) 0.88 (0.53 to 1.20)
+11: planted   121    581    40 36.5 (21.0 to 49.4)      34.0  41.4 (30.4 to 56.1) 271 (158 to 340) 17.1 (15.5 to 18.5) 249 (134 to 362) 1.02 (0.65 to 1.29)
+12: planted   121    581   100 38.1 (19.0 to 60.5)      33.9  67.9 (49.2 to 89.7)  105 (45 to 171) 18.6 (17.9 to 19.9) 284 (142 to 453) 0.88 (0.43 to 1.31)
+13: planted   156    621    20 31.5 (16.5 to 47.2)      29.5  31.5 (22.6 to 42.1) 404 (302 to 449) 15.6 (13.4 to 17.5)  197 (91 to 330) 0.92 (0.55 to 1.22)
+14: planted   156    621    40 41.1 (24.8 to 54.0)      37.7  44.3 (32.0 to 60.2) 267 (159 to 345) 17.4 (15.8 to 18.7) 285 (160 to 409) 1.05 (0.69 to 1.31)
+15: planted   156    621   100 41.4 (20.1 to 64.2)      37.0  72.2 (52.1 to 94.2)  101 (44 to 173) 18.7 (18.0 to 20.0) 310 (152 to 481) 0.87 (0.43 to 1.32)
+16: planted   309    746    20 45.3 (25.3 to 62.1)      41.6  37.9 (27.5 to 49.0) 400 (317 to 450) 16.7 (14.8 to 18.2) 303 (153 to 453) 1.02 (0.66 to 1.30)
+17: planted   309    746    40 54.8 (35.4 to 71.3)      50.6  53.1 (38.4 to 71.2) 247 (151 to 344) 18.1 (16.9 to 19.2) 396 (245 to 534) 1.08 (0.80 to 1.35)
+18: planted   309    746   100 49.7 (21.5 to 86.8)      47.5 85.1 (60.2 to 109.9)   87 (39 to 173) 19.0 (18.4 to 20.1) 377 (169 to 658) 0.82 (0.38 to 1.38)
+
+with a plot-level deviation of SDImax about S1 (a new stand):
+     origin   BYI SDImax  year                   BA BA_median                  QMD              TPH                  HT              VOL                  RD
+     <char> <num>  <num> <int>               <char>     <num>               <char>           <char>              <char>           <char>              <char>
+ 1: natural    64    863    20   16.7 (7.4 to 32.4)      17.0  19.5 (17.1 to 25.2) 556 (224 to 994)  10.8 (9.9 to 12.8)   72 (32 to 156) 0.42 (0.20 to 0.71)
+ 2: natural    64    863    40   15.2 (5.6 to 33.8)      15.3  25.1 (20.4 to 35.2) 306 (107 to 611) 12.5 (11.1 to 14.8)   76 (27 to 189) 0.35 (0.16 to 0.63)
+ 3: natural    64    863   100   14.1 (4.3 to 36.1)      13.8  39.2 (29.4 to 56.9)  117 (34 to 267) 15.2 (13.7 to 17.1)   86 (25 to 237) 0.27 (0.10 to 0.52)
+ 4: natural   248   1238    20  29.2 (15.4 to 48.8)      28.3  23.8 (19.2 to 31.0) 657 (396 to 950) 12.3 (10.9 to 14.3)  144 (67 to 268) 0.48 (0.26 to 0.73)
+ 5: natural   248   1238    40  29.9 (13.8 to 51.1)      28.7  33.0 (25.0 to 44.6) 350 (194 to 551) 14.4 (12.7 to 16.2)  172 (73 to 323) 0.43 (0.24 to 0.63)
+ 6: natural   248   1238   100  28.6 (11.2 to 53.1)      26.1  53.7 (39.0 to 71.7)  126 (53 to 238) 16.7 (15.4 to 17.9)  191 (71 to 371) 0.34 (0.15 to 0.57)
+ 7: natural   386   1394    20  35.5 (18.1 to 56.2)      32.8  25.9 (20.3 to 32.7) 671 (403 to 949) 12.9 (11.4 to 14.7)  184 (87 to 318) 0.50 (0.28 to 0.75)
+ 8: natural   386   1394    40  36.9 (16.9 to 59.2)      33.3  36.7 (26.8 to 47.5) 348 (195 to 529) 15.0 (13.3 to 16.6)  222 (93 to 389) 0.45 (0.23 to 0.64)
+ 9: natural   386   1394   100  34.3 (13.7 to 61.1)      30.0  59.9 (42.3 to 75.8)  122 (52 to 217) 17.0 (16.0 to 18.0)  234 (88 to 428) 0.35 (0.16 to 0.56)
+10: planted   121    581    20  27.4 (11.5 to 53.2)      25.2  29.4 (20.2 to 41.8) 403 (269 to 472) 15.2 (12.7 to 17.4)  166 (61 to 365) 0.88 (0.37 to 1.45)
+11: planted   121    581    40  36.5 (15.2 to 63.4)      33.7  41.4 (29.2 to 60.2) 271 (140 to 375) 17.1 (15.1 to 18.7)  249 (97 to 477) 1.02 (0.49 to 1.47)
+12: planted   121    581   100  38.1 (13.1 to 69.3)      34.6  67.9 (48.2 to 95.1)  105 (38 to 194) 18.6 (17.6 to 19.8)  284 (93 to 530) 0.88 (0.32 to 1.48)
+13: planted   156    621    20  31.5 (12.1 to 56.3)      28.3  31.5 (21.3 to 42.3) 404 (278 to 467) 15.6 (13.2 to 17.4)  197 (65 to 387) 0.92 (0.44 to 1.40)
+14: planted   156    621    40  41.1 (16.9 to 68.3)      37.2  44.3 (30.3 to 61.9) 267 (146 to 367) 17.4 (15.5 to 18.8) 285 (106 to 514) 1.05 (0.57 to 1.49)
+15: planted   156    621   100  41.4 (14.9 to 72.9)      36.7 72.2 (51.3 to 100.5)  101 (42 to 190) 18.7 (17.8 to 19.9) 310 (112 to 589) 0.87 (0.36 to 1.45)
+16: planted   309    746    20  45.3 (19.3 to 74.5)      40.4  37.9 (25.5 to 50.9) 400 (286 to 473) 16.7 (14.5 to 18.3) 303 (114 to 533) 1.02 (0.49 to 1.54)
+17: planted   309    746    40  54.8 (26.1 to 91.2)      49.5  53.1 (36.7 to 73.5) 247 (134 to 369) 18.1 (16.6 to 19.4) 396 (178 to 688) 1.08 (0.58 to 1.56)
+18: planted   309    746   100 49.7 (18.2 to 105.7)      43.8 85.1 (58.9 to 114.8)   87 (27 to 218) 19.0 (18.2 to 20.2) 377 (141 to 807) 0.82 (0.25 to 1.47)
+
+(4) coverage of the nominal 90% band at each plot's longest horizon, 300 draws; S1 out of fold in the first variant; binomial sampling of survivors included
+Key: <site_dev, var>
+   site_dev    var     0     1
+     <lgcl> <char> <num> <num>
+1:    FALSE     ba 0.750 0.927
+2:    FALSE    qmd 0.667 0.902
+3:    FALSE   surv 0.583 0.756
+4:     TRUE     ba 0.833 0.951
+5:     TRUE    qmd 0.667 0.927
+6:     TRUE   surv 0.583 0.805
+   site_dev    var plots coverage mean_width
+     <lgcl> <char> <int>    <num>      <num>
+1:    FALSE     ba    53    0.887      19.90
+2:    FALSE    qmd    53    0.849       9.97
+3:    FALSE   surv    53    0.717       0.19
+4:     TRUE     ba    53    0.925      23.51
+5:     TRUE    qmd    53    0.868      10.61
+6:     TRUE   surv    53    0.755       0.21
+    site_dev    var   long plots coverage
+      <lgcl> <char> <lgcl> <int>    <num>
+ 1:    FALSE     ba  FALSE    46    0.891
+ 2:    FALSE     ba   TRUE     7    0.857
+ 3:    FALSE    qmd  FALSE    46    0.848
+ 4:    FALSE    qmd   TRUE     7    0.857
+ 5:    FALSE   surv  FALSE    46    0.674
+ 6:    FALSE   surv   TRUE     7    1.000
+ 7:     TRUE     ba  FALSE    46    0.913
+ 8:     TRUE     ba   TRUE     7    1.000
+ 9:     TRUE    qmd  FALSE    46    0.848
+10:     TRUE    qmd   TRUE     7    1.000
+11:     TRUE   surv  FALSE    46    0.717
+12:     TRUE   surv   TRUE     7    1.000
+
+diameter growth ratio at fixed RD, 90th over 10th percentile of BYI: natural 2.52 ( 1.41 to 3.33 )  planted 1.62 ( 1.2 to 1.87 )
+planted over natural at the same size, competition, RD and BYI: diameter growth 3.69 ( 3.21 to 4.21 ) ; mortality hazard 0.35 ( 0.2 to 0.54 ) ; SDImax 0.57 ( 0.49 to 0.66 )
+
+(5) figures written to ms_rdbyi2: Fig3 (180 x 125 mm), Fig4 (140 x 190 mm), Fig5 (140 x 170 mm), 300 dpi
+
+(6) workbook grid. Starting list: trees 11 , QMD rescaled to 7.24 cm, starting BA-weighted height 7.4 m. SDImax multipliers for the low and high cases (10th and 90th percentile of planted plot residuals about S1): 0.501 1.504 
+anchor height: 19.85 m; SDImax by site class (central): Excellent 825; Good 765; Marginal 689; Low Feasibility 579 
+     sdimax            site   byi stems_ac sdimax_value   BA20   BA40   BA52  BA100  BA200 peakBA peak_age decline_pct stems52 qmd52 reineke rises_to_peak rd_max sdi_max
+     <char>          <char> <num>    <num>        <num>  <num>  <num>  <num>  <num>  <num>  <num>    <num>       <num>   <num> <num>   <num>        <lgcl>  <num>   <num>
+ 1: central       Excellent   450      100       825.00 167.50 234.90 245.26 220.87 129.00 246.18       58       47.60   58.75 27.67   -1.30          TRUE   0.91  747.70
+ 2: central       Excellent   450      200       825.00 225.47 270.50 270.66 232.34 129.16 271.69       46       52.46   71.66 26.32   -1.67          TRUE   1.09  897.00
+ 3: central       Excellent   450      300       825.00 250.64 282.09 280.68 241.92 124.32 282.38       43       55.97   72.11 26.71   -1.83          TRUE   1.18  972.52
+ 4: central       Excellent   450      400       825.00 264.25 291.68 292.22 258.58 122.05 292.64       47       58.29   68.47 27.97   -1.90          TRUE   1.24 1023.37
+ 5: central            Good   340      100       765.36 144.09 209.29 222.01 208.92 131.28 224.95       63       41.64   60.59 25.92   -1.23          TRUE   0.90  690.94
+ 6: central            Good   340      200       765.36 195.84 244.01 247.42 220.38 132.33 247.45       51       46.52   76.07 24.42   -1.60          TRUE   1.08  824.85
+ 7: central            Good   340      300       765.36 219.49 255.64 257.13 229.53 129.42 257.34       49       49.71   77.77 24.62   -1.76          TRUE   1.17  892.46
+ 8: central            Good   340      400       765.36 232.76 264.61 267.51 244.83 129.40 267.53       53       51.63   74.62 25.64   -1.83          TRUE   1.23  938.32
+ 9: central        Marginal   230      100       689.32 115.74 175.82 190.33 189.54 130.36 196.97       72       33.82   62.43 23.64   -1.14          TRUE   0.89  614.79
+10: central        Marginal   230      200       689.32 159.23 208.24 214.99 200.82 132.49 215.73       59       38.58   81.29 22.02   -1.51          TRUE   1.06  729.02
+11: central        Marginal   230      300       689.32 180.29 219.69 224.29 209.26 131.96 224.60       57       41.25   85.03 21.99   -1.68          TRUE   1.14  786.67
+12: central        Marginal   230      400       689.32 192.67 227.93 233.31 222.60 134.61 234.44       62       42.58   82.95 22.71   -1.75          TRUE   1.20  826.18
+13: central Low Feasibility   120      100       579.13  78.69 127.47 142.13 153.91 120.05 154.89       87       22.50   63.76 20.22   -1.03          TRUE   0.86  496.91
+14: central Low Feasibility   120      200       579.13 110.33 154.40 163.93 164.49 123.37 168.51       73       26.78   87.00 18.59   -1.40          TRUE   1.01  582.71
+15: central Low Feasibility   120      300       579.13 126.84 164.86 172.38 171.57 125.55 175.80       72       28.58   94.29 18.31   -1.57          TRUE   1.08  626.44
+16: central Low Feasibility   120      400       579.13 137.15 171.94 179.55 181.73 130.80 184.48       78       29.10   94.69 18.65   -1.65          TRUE   1.13  657.13
+     sdimax            site   byi stems_ac      A     B     C  rmse rmse_pct   e40   e52   A100  B100  C100 rmse_pct100
+     <char>          <char> <num>    <num>  <num> <num> <num> <num>    <num> <num> <num>  <num> <num> <num>       <num>
+ 1: central       Excellent   450      100 241.92 14.58  6.78  7.45     4.11 -1.45  4.30 237.72 14.23  6.45        3.90
+ 2: central       Excellent   450      200 268.06 10.46  5.04  7.04     3.20  3.19  2.67 258.34  9.92  4.52        4.78
+ 3: central       Excellent   450      300 278.52  8.64  4.37  6.93     2.92  3.78  2.17 269.09  8.21  3.93        4.62
+ 4: central       Excellent   450      400 288.44  7.71  4.19  7.54     3.02  3.37  3.79 282.13  7.44  3.88        3.75
+ 5: central            Good   340      100 219.59 15.67  7.30  6.87     4.28 -2.74  3.92 219.37 15.65  7.26        3.39
+ 6: central            Good   340      200 244.05 11.37  5.61  6.67     3.40  1.42  3.54 238.33 10.98  5.22        3.80
+ 7: central            Good   340      300 253.80  9.42  4.95  6.65     3.13  2.36  3.38 248.21  9.10  4.60        3.64
+ 8: central            Good   340      400 262.93  8.41  4.79  7.32     3.26  2.04  4.61 260.14  8.27  4.61        3.09
+ 9: central        Marginal   230      100 189.60 17.14  7.97  5.91     4.42 -3.60  3.09 193.75 17.67  8.43        3.23
+10: central        Marginal   230      200 211.74 12.62  6.40  6.03     3.64 -0.60  3.70 210.47 12.51  6.28        3.03
+11: central        Marginal   230      300 220.58 10.50  5.77  6.10     3.39  0.43  3.87 219.23 10.40  5.66        2.88
+12: central        Marginal   230      400 228.72  9.38  5.65  6.69     3.51  0.22  4.70 229.72  9.45  5.74        2.77
+13: central Low Feasibility   120      100 144.16 19.39  8.98  4.25     4.43 -3.49  1.69 152.83 21.05 10.38        3.52
+14: central Low Feasibility   120      200 162.46 14.59  7.69  4.61     3.82 -2.30  2.72 166.15 15.11  8.22        2.88
+15: central Low Feasibility   120      300 169.94 12.19  7.18  4.76     3.58 -1.63  3.09 173.22 12.59  7.65        2.76
+16: central Low Feasibility   120      400 176.60 10.86  7.14  5.12     3.62 -1.73  3.50 181.54 11.41  7.90        2.98
+Key: <stems_ac>
+   stems_ac first_inversion exc_minus_low_100 low_minus_exc_200
+      <num>           <num>             <num>             <num>
+1:      100             176              67.0              -9.0
+2:      200             168              67.9              -5.8
+3:      300             158              70.3               1.2
+4:      400             152              76.8               8.7
+
+23t done
