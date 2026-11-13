@@ -1,0 +1,99 @@
+fold RNG kind: L'Ecuyer-CMRG 
+(1) S1: (Intercept) 5.6454; lbyi 0.2677; planted -0.5655 ; plots 305 
+residual of ln(plot SDImax) about S1: sd 0.537 ; weighted sd 0.449 ; 10th, 50th, 90th percentile natural: -0.901 -0.222 0.545  planted: -0.692 -0.107 0.408 
+diameter increment frame: rows 5114 ; dropped for a PSP removal year strictly inside the interval: 0 
+common: mortality frame rows 6722 deaths 845 ; refit against the fit of record, largest difference 4.5e-06 
+
+ (A0) benchmark of record: S1 out of fold, E4r and E6r fitted to all plots 
+                     set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+                  <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:                   all   182    53    -0.023     0.124     0.54     2.78    0.81    6.76
+2:               planted   155    41    -0.023     0.113     0.44     2.59    1.35    5.79
+3:               natural    27    12    -0.022     0.176     1.13     3.71   -2.27   10.78
+4: horizon 10 yr or more    22     7    -0.028     0.122     2.55     3.57    1.69    7.93
+       set      var    bias_rel     slope      b1_lo     b1_hi pass_int pass_slope
+    <char>   <char>       <num>     <num>      <num>     <num>   <lgcl>     <lgcl>
+1:     all survival -0.06674147 0.8702477  0.6723189 1.0125970     TRUE      FALSE
+2:     all      QMD  0.02723609 0.8914191  0.7932027 1.0172668     TRUE       TRUE
+3:     all       BA -0.03874999 0.8185249  0.5729971 1.0946397     TRUE      FALSE
+4: planted survival -0.08176152 0.8085401 -1.2202963 0.9550901     TRUE      FALSE
+5: planted      QMD  0.04916396 0.9481309  0.8512312 1.0890872     TRUE       TRUE
+6: planted       BA  0.06798155 1.1938661  0.9272230 1.4428853     TRUE      FALSE
+7: natural survival  0.04185486 1.0109344  0.7610578 1.5096975    FALSE      FALSE
+8: natural      QMD -0.02307313 0.5210397  0.1446298 1.6716362     TRUE      FALSE
+9: natural       BA -0.23427791 0.2139769 -0.4835106 0.9272993    FALSE      FALSE
+
+fold refits: E4r optim codes 0 0 0 0 0 0 0 0 0 0 ; E6r largest gradients 0.0011 0.0019 0.00063 0.0021 0.00013 0.0019 0.00077 0.0021 0.0018 0.0022 
+range across folds: E4r ln(BYI) 0.312 to 0.652 ; E4r planted 1.262 to 1.357 ; E6r ln(RD) 0.406 to 0.835 ; E6r planted -1.162 to -0.889 
+
+ (A1) benchmark with S1, E4r and E6r all refitted without the plot's installation fold 
+                     set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+                  <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:                   all   182    53    -0.022     0.128     0.54     3.08    0.78    7.13
+2:               planted   155    41    -0.022     0.115     0.43     2.89    1.37    5.89
+3:               natural    27    12    -0.028     0.185     1.17     4.01   -2.60   11.99
+4: horizon 10 yr or more    22     7    -0.028     0.134     1.46     4.59    0.59    8.86
+       set      var    bias_rel     slope       b1_lo     b1_hi pass_int pass_slope
+    <char>   <char>       <num>     <num>       <num>     <num>   <lgcl>     <lgcl>
+1:     all survival -0.06745843 0.8669979  0.66716961 1.0148603     TRUE      FALSE
+2:     all      QMD  0.03093363 0.8208399  0.72536599 0.9488555     TRUE      FALSE
+3:     all       BA -0.04283631 0.7506325  0.51631331 1.0305473     TRUE      FALSE
+4: planted survival -0.08062780 0.7777907 -1.31971069 0.9247271     TRUE      FALSE
+5: planted      QMD  0.05743313 0.8590455  0.76384993 1.0126662     TRUE       TRUE
+6: planted       BA  0.08258939 1.1646452  0.89686520 1.4137038     TRUE      FALSE
+7: natural survival  0.02775732 0.9803333  0.72487257 1.4627130    FALSE      FALSE
+8: natural      QMD -0.02986429 0.4381254  0.07660186 1.5040758     TRUE      FALSE
+9: natural       BA -0.27261117 0.1136477 -0.52308677 0.7123916    FALSE      FALSE
+
+(A2) held-out mortality (tree-intervals in the held-out fold, interval probability)
+       set     n deaths expected obs_over_exp   auc
+    <char> <int>  <int>    <num>        <num> <num>
+1:     all  6722    845    832.3         1.02 0.896
+2: planted  4829    141    145.1         0.97 0.726
+3: natural  1893    704    687.3         1.02 0.795
+in sample for comparison: auc 0.902 ; planted 0.735 ; natural 0.815 
+held-out calibration by fifth of predicted probability
+     dec     n deaths expected
+   <int> <int>  <int>    <num>
+1:     1  1345     15      8.5
+2:     2  1344     25     17.9
+3:     3  1344     33     30.9
+4:     4  1349    133    141.8
+5:     5  1340    639    633.3
+
+(C) death rules; S1 and E4r as adopted; E6r refitted under each rule; PSP removal intervals censored in all
+                       rule  rows deaths deaths_planted    gmax (Intercept)      ld   dbh_m I(dbh_m^2)    BAL    lrd    lbyi planted hazard_planted
+                     <char> <int>  <int>          <int>   <num>       <num>   <num>   <num>      <num>  <num>  <num>   <num>   <num>          <num>
+1:        adopted_confirmed  6722    845            141 4.3e-05      0.3404 -0.8697 -0.0237      3e-04 0.0341 0.7449 -0.1165 -1.0498           0.35
+2:        first_dead_record  7178    854            150 1.1e-03      0.2171 -0.7833 -0.0335      3e-04 0.0335 0.7523 -0.1101 -1.0323           0.36
+3: confirmed_no_resurrected  3981    775             88 1.4e-03      0.5279 -1.2552 -0.0025      2e-04 0.0360 0.7792 -0.0210 -0.8358           0.43
+                       rule     set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+                     <char>  <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:        adopted_confirmed     all   182    53    -0.023     0.124     0.54     2.78    0.81    6.76
+2:        adopted_confirmed planted   155    41    -0.023     0.113     0.44     2.59    1.35    5.79
+3:        adopted_confirmed natural    27    12    -0.022     0.176     1.13     3.71   -2.27   10.78
+4:        first_dead_record     all   182    53    -0.022     0.125     0.54     2.78    0.82    6.79
+5:        first_dead_record planted   155    41    -0.022     0.113     0.43     2.59    1.36    5.79
+6:        first_dead_record natural    27    12    -0.021     0.176     1.12     3.71   -2.30   10.86
+7: confirmed_no_resurrected     all   182    53    -0.015     0.125     0.49     2.79    0.89    6.79
+8: confirmed_no_resurrected planted   155    41    -0.015     0.113     0.41     2.58    1.44    5.88
+9: confirmed_no_resurrected natural    27    12    -0.018     0.180     0.96     3.78   -2.29   10.60
+Key: <origin, year>
+    origin  year adopted_confirmed confirmed_no_resurrected first_dead_record
+    <char> <num>             <num>                    <num>             <num>
+1: natural    20              29.2                     29.8              29.3
+2: natural    40              29.9                     30.7              30.3
+3: natural   100              28.6                     28.8              29.7
+4: planted    20              31.5                     30.9              31.5
+5: planted    40              41.1                     39.3              41.4
+6: planted   100              41.4                     37.3              42.4
+Key: <origin, year>
+    origin  year adopted_confirmed confirmed_no_resurrected first_dead_record
+    <char> <num>             <num>                    <num>             <num>
+1: natural    20               657                      668               658
+2: natural    40               350                      359               355
+3: natural   100               126                      128               132
+4: planted    20               404                      390               404
+5: planted    40               267                      248               269
+6: planted   100               101                       88               105
+28a done

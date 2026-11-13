@@ -20,7 +20,7 @@ The correction is a censoring rule. Mortality intervals that end in or span a th
 
 ## Quick start
 
-The example needs only base R and the two files `koa_step_rdbyi.R` and `koa_rdbyi_equations.csv` in the working directory. It was written by reading the function signatures in `koa_step_rdbyi.R`; it was not executed in R when this README was prepared, so run it once before relying on it. The tree list and the BYI are illustrative inputs, not data.
+The example needs only base R and the two files `koa_step_rdbyi.R` and `koa_rdbyi_equations.csv` in the working directory. It was run in R 4.5.1 on November 13, 2026 and returned an SDImax of 621.3 and basal areas of 30.2 and 40.3 m² ha⁻¹ at years 20 and 40. The tree list and the BYI are illustrative inputs, not data.
 
 ```r
 source("koa_step_rdbyi.R")
@@ -159,7 +159,7 @@ The rule for adopting SDImax as a function of BYI was written before the test an
 
 | Criterion | Result | Evidence |
 |:---:|:---:|:---:|
-| BYI coefficient in the direct quantile model excludes zero | Pass | 0.54 (0.30 to 0.83), 300 plot-cluster resamples |
+| BYI coefficient in the direct quantile model excludes zero | Pass | 0.51 (bootstrap median 0.54, 0.30 to 0.83; 300 plot-cluster resamples) |
 | Benchmark basal area RMSE at least 5% below that with 742 | Fail | 6.74 for S1 against 6.60 for 742 with the equations refitted; paired difference +0.14 (−0.08 to +0.29) |
 | Every gate that passes with 742 still passes | Pass | The same five gates pass and the same one (Sukachev) fails |
 
@@ -188,6 +188,21 @@ The Sukachev gate fails because mortality no longer rises with BYI once removals
 
 Four further findings limit how S1 should be read. The second-stage regression behind S1 explains 0.136 of the variance of ln(plot SDImax) held out by installation, against 0.113 for origin alone. The BYI coefficient is 0.268 (SE 0.054) weighted by posterior precision and −0.016 (0.048) unweighted. Planted SDImax is 0.57 of natural (0.49 to 0.66), which the data cannot separate from the youth and wide spacing of the planted plots. Each plot's own SDImax predicts the benchmark better than S1 (basal area RMSE 5.27 m² ha⁻¹), and that value is not available for a new stand.
 
+## Checks added in this version (November 13, 2026)
+
+The system of record is unchanged. Scripts `28_common.R`, `28a_heldout_and_deathrules.R`, `28b_installation_bootstrap.R`, `29_verify_and_thinning.R` and `29b_s1_without_kap.R` add five checks, reported in supplement v125 (Tables S27 to S31).
+
+| Check | Result |
+|:---:|:---:|
+| Benchmark with S1, E4r and E6r all refitted without the plot's installation fold | RMSE 0.128, 3.08 cm, 7.13 m² ha⁻¹ (of record 0.124, 2.78, 6.76); the pooled QMD slope no longer passes |
+| Held-out mortality on tree-intervals | 845 deaths against 832.3 expected; AUC 0.896 (0.902 in sample) |
+| Joint bootstrap of installations (987 of 1,000 kept) | Site growth ratio 2.52 (1.24 to 4.43) natural, 1.62 (1.12 to 2.17) planted; S1 ln(BYI) 0.055 to 0.555 |
+| E6r under three death rules | Planted hazard ratio 0.35, 0.36, 0.43; planted basal area at 100 years 41.4, 42.4, 37.3 m² ha⁻¹ |
+| Benchmark after thinning (27 plots, 112 plot-horizons, 1 to 10 years) | RMSE 0.092, 2.21 cm, 3.96 m² ha⁻¹; basal area overpredicted by 8% |
+| S1 without the 53 Kap plots, whose BYI is one imputed value | s1 0.558 against 0.268; SDImax at the lowest natural BYI level 522 against 863 |
+
+The benchmark of record (6.76 m² ha⁻¹) and the comparison run (6.74) differ in the partition of installations into folds, which depends on the random number generator in force when `make_folds()` is called (L'Ecuyer-CMRG in script 23t, the R default in scripts 22t and 25). The coefficients are the same. Earlier documents attributed the difference to the fitting start.
+
 ## Domain of use and known limits
 
 The system is for stands of koa described by a tree list, a BYI and an origin. The scenario BYI levels, which are the 10th, 50th and 90th percentiles of each origin's plots, are 64, 248 and 386 Mg ha⁻¹ for natural plots and 121, 156 and 309 Mg ha⁻¹ for planted plots. A BYI of 309 Mg ha⁻¹ is the 90th percentile of planted plots, so SDImax for planted stands above it rests on about a tenth of the planted plots.
@@ -204,7 +219,7 @@ The system has no ingrowth, no crown variables and no uneven-aged structure beyo
 
 ## How to reproduce
 
-The runnable part of this folder is the reference file and the coefficient CSV: `koa_step_rdbyi.R` with `koa_rdbyi_equations.csv` reproduces every point projection from a tree list, a BYI and an origin, with base R alone. The scripts document how the coefficients, tests and bands were obtained. They cannot be rerun from this folder or from the Zenodo record, because they read inputs that are not distributed.
+The runnable part of this folder is the reference file and the coefficient CSV: `koa_step_rdbyi.R` with `koa_rdbyi_equations.csv` reproduces every point projection from a tree list, a BYI and an origin, with base R alone. The scripts document how the coefficients, tests and bands were obtained. From this version the Zenodo copy of this folder (not the GitHub copy, which holds code and logs only) also holds the inputs they read (`frames/frames.rds`, `frames/mf_confirmed.rds`, `release/koa_step.R`, `release/koa_final_equations.csv`, the plot SDImax table and the fitted objects of scripts 20 and 22t), so scripts 22t to 29b can be rerun after the working directory at the top of each script is changed; the thinning table is in `data_20260916.zip` of the record.
 
 The scripts run in the order 20, 21, 22t, 23t, 24b, 25 from the job folder `~/jobs/koa_final_eq_20261110`, which each script sets as its working directory. `scripts/utils.R` holds the fold assignment and the bootstrap equivalence test and is sourced by every script except 24b. The logs do not state run times.
 
@@ -229,7 +244,7 @@ The scripts run in the order 20, 21, 22t, 23t, 24b, 25 from the job folder `~/jo
 | `release/koa_step.R`, `release/koa_final_equations.csv` | 20, 21, 22t, 23t, 25 | Reference file and coefficients of the November 10 refit; the scripts take the stand, competition and height functions and the height coefficients from them |
 | `out/rd_final_fits.rds`, `out/E2_height_cr3.rds`, `out/rdbyi_fits.rds` | 20, 21 and 25; 23t; 24b | Fitted objects of earlier scripts of the same job that are not in this folder |
 
-Manuscript v132 lists a plot-level origin and thinning table among the contents of the Zenodo record. Whether that file is the thinning table the scripts read was not determined. True FIA plot coordinates are not distributed, so no step that depends on plot location can be repeated from the deposit; the frames carry each plot's BYI as stored.
+The plot-level origin and thinning table the scripts read (`psp_origin_thinning_2026-09-16_DATA.csv`) is in `data_20260916.zip` of the Zenodo record. True FIA plot coordinates are not distributed, so no step that depends on plot location can be repeated from the deposit; the frames carry each plot's BYI as stored.
 
 Scripts 21, 22t and 23t contain one hard-coded plot identifier, the same in each, which selects the planted starting list used for the workbook grid and for the check of the reference file. It is not reproduced here. The scripts print no plot or installation identifier to the logs.
 
@@ -264,10 +279,10 @@ Weiskittel, A.R., Sprecher, I., Gottesman, A., Rice, B., 2026. Acacia koa indivi
 
 Version 1.13.0 was published on November 11, 2026 with the DOI 10.5281/zenodo.24116922. The concept DOI for all versions is 10.5281/zenodo.21081014, and the version before it is 1.12.2 (https://doi.org/10.5281/zenodo.24039072).
 
-The authors and title are those of the dataset reference in manuscript v132. The superseded 1.13.0 texts file does not list creators: it carries the record's creators unchanged from version 1.12.2, and this version does the same.
+The authors and title are those of the dataset reference in manuscript v133. The superseded 1.13.0 texts file does not list creators: it carries the record's creators unchanged from version 1.12.2, and this version does the same.
 
 ## Licence and contact
 
-Licence: the licence of the Zenodo record, carried unchanged from version 1.12.2. No licence is stated in the earlier README, commit message, pull request body or Zenodo texts for this folder, so none is stated here; confirm it against the record before publishing.
+Licence: Creative Commons Attribution 4.0 International (CC BY 4.0), as stated on the Zenodo record.
 
 Contact: Aaron R. Weiskittel, Center for Research on Sustainable Forests, University of Maine, Orono, ME 04469, USA (aaron.weiskittel@maine.edu), the corresponding author of the manuscript.

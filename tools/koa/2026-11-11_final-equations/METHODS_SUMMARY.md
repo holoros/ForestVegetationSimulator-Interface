@@ -6,7 +6,7 @@ Logs named with a subfolder belong to the November 10 job and are not in this fo
 
 The growth frame holds 310 plots, of which 305 have a plot-level maximum stand density index (SDImax) from an earlier Bayesian job (log 20, line 1). The height-diameter frame is 3,331 trees on 310 plots (`pass2/09_final_pass.log`, line 1). The diameter increment frame is 5,114 remeasurement intervals (log 22t, line 3) on 97 plots in 60 installations (`repair_round/04v2_cv.log`, line 1).
 
-The mortality frame starts from the confirmed-death frame of 7,478 tree-intervals and 1,169 deaths, in which a death on a permanent sample plot (PSP) counts only when a second dead record confirms it. The PSP database records thinned stems as dead, so intervals that end in or span a thinning removal year of a PSP installation are censored. That removes 756 tree-intervals and 324 deaths and leaves 6,722 and 845 (log 22t, line 11). No increment interval has a removal year strictly inside it (log 22t, line 3). Benchmark horizons stop before an installation's first removal year, leaving 53 plots and 182 plot-horizons (log 23t, line 6).
+The mortality frame starts from the confirmed-death frame of 7,478 tree-intervals and 1,169 deaths, in which a death on a permanent sample plot (PSP) counts only when a second dead record confirms it, and the final visit of each plot is censored. The PSP database records thinned stems as dead, so intervals that end in or span a thinning removal year of a PSP installation are censored. That removes 756 tree-intervals and 324 deaths and leaves 6,722 and 845 (log 22t, line 11). No increment interval has a removal year strictly inside it (log 22t, line 3). Benchmark horizons stop before an installation's first removal year, leaving 53 plots and 182 plot-horizons (log 23t, line 6).
 
 ## Estimators
 
@@ -26,11 +26,11 @@ Folds are ten groups of installations, stratified by origin (`utils.R`). Equival
 
 With S1 and E4r both refitted in each fold, annual diameter increment has bias 0.030 and RMSE 1.144 cm yr⁻¹ (log 22t, line 7) and slope 0.905, 0.831 to 0.983 (log 22t, line 10).
 
-In the benchmark each plot is projected from its first visit with S1 out of fold; the other equations are fitted on all plots. RMSE is 0.124 for survival, 2.78 cm for QMD and 6.76 m² ha⁻¹ for basal area (log 23t, line 6). Equivalence results are in log 23t, lines 17 to 25.
+In the benchmark each plot is projected from its first visit with at least five live koa, with S1 out of fold; the other equations are fitted on all plots. RMSE is 0.124 for survival, 2.78 cm for QMD and 6.76 m² ha⁻¹ for basal area (log 23t, line 6). Equivalence results are in log 23t, lines 17 to 25.
 
 Six gates are checked on 200-year runs from two real starting lists at three BYI levels each (script 23t, lines 39 to 49). Five pass and the Sukachev gate fails (log 23t, line 90). Basal area is never out of site order (log 23t, line 76).
 
-The preregistered test of SDImax against BYI is script 20; the direct quantile model gives a BYI coefficient of 0.537, 0.302 to 0.831 (log 20, line 39). Script 25 compares SDImax treatments under the censoring rule: benchmark basal area RMSE is 6.74 m² ha⁻¹ for S1 and 6.60 for one value of 742 (log 25, lines 15 and 17), with a paired difference of 0.141, −0.083 to 0.289 (log 25, line 19). The Sukachev gate fails for every treatment (log 25, lines 33 to 35).
+The preregistered test of SDImax against BYI is script 20; the direct quantile model gives a BYI coefficient of 0.508, with a bootstrap median of 0.537 and interval 0.302 to 0.831 (log 20, lines 29 and 39). Script 25 compares SDImax treatments under the censoring rule: benchmark basal area RMSE is 6.74 m² ha⁻¹ for S1 and 6.60 for one value of 742 (log 25, lines 15 and 17), with a paired difference of 0.141, −0.083 to 0.289 (log 25, line 19). The Sukachev gate fails for every treatment (log 25, lines 33 to 35).
 
 The reference file was checked against a separately coded loop to 2.27 × 10⁻¹³ (script 22t, lines 58 to 62; log 22t, line 44).
 
@@ -41,3 +41,6 @@ Each band is the 5th to 95th percentile of 500 draws (script 23t, lines 14 to 20
 Coverage is checked at each benchmark plot's longest horizon with 300 draws and binomial sampling of survivors (script 23t, lines 57 to 60). The nominal 90% band contains 89% of basal areas (47 of 53 plots), 85% of QMDs (45) and 72% of survival values (38) with SDImax at its out-of-fold prediction, and 92% (49), 87% (46) and 75% (40) when SDImax may deviate (log 23t, lines 150 to 155).
 
 Seeds are 20261115, 20261116, 20261117, 20261118 and 20261119 for scripts 20, 21, 22t, 23t and 25.
+
+
+Checks added on November 13, 2026 (scripts 28a, 28b, 29, 29b; supplement v125, Tables S27 to S31): the benchmark with every equation refitted without the plot's installation fold (RMSE 0.128, 3.08 cm, 7.13 m² ha⁻¹), held-out mortality (845 deaths against 832.3 expected, AUC 0.896), a joint bootstrap of installations (987 of 1,000 kept), E6r under three death rules, the benchmark after thinning, and S1 without the Kap plots. The 6.74 against 6.76 m² ha⁻¹ difference between scripts 25 and 23t is the fold partition (random number generator in force when folds are drawn), not the fitting start.

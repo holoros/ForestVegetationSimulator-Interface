@@ -1,0 +1,28 @@
+fold RNG kind: L'Ecuyer-CMRG 
+(1) S1: (Intercept) 5.6454; lbyi 0.2677; planted -0.5655 ; plots 305 
+residual of ln(plot SDImax) about S1: sd 0.537 ; weighted sd 0.449 ; 10th, 50th, 90th percentile natural: -0.901 -0.222 0.545  planted: -0.692 -0.107 0.408 
+diameter increment frame: rows 5114 ; dropped for a PSP removal year strictly inside the interval: 0 
+common: mortality frame rows 6722 deaths 845 ; refit against the fit of record, largest difference 4.5e-06 
+
+S1 all plots: 5.6454 0.2677 -0.5655  n 305 
+S1 without Kap: 3.9345 0.5575 -0.4651  n 252 ; Kap plots in S1: 53 
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)   3.9345     0.4635  8.4888        0
+lbyi          0.5575     0.0801  6.9597        0
+planted      -0.4651     0.0573 -8.1209        0
+Kap plots: weighted mean ln SDImax 7.16  exp 1286 ; S1 prediction at their BYI 863 ; share of S1 weight held by Kap 0.05 
+natural BYI percentiles without Kap (10, 50, 90): 178.9 306.7 418.1 
+SDImax natural at BYI 64, 248, 386: all plots 863 1238 1394  without Kap 522 1105 1415 ; planted at 121, 156, 309: all 581 621 746  without Kap 466 536 784 
+benchmark with S1 fitted without Kap (S1 in sample, E4r and E6r of record):
+       n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+   <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:   182    53    -0.018     0.126     0.59     2.83    1.03    6.79
+same with S1 of record in sample:
+       n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+   <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:   182    53    -0.023     0.123     0.53     2.79    0.78    6.69
+                             form     n  bias  rmse slope b1_lo b1_hi pass_int pass_slope
+                           <char> <int> <num> <num> <num> <num> <num>   <lgcl>     <lgcl>
+1: Chapman-Richards (BYI, origin)  3331 0.078 2.748 0.967 0.910 1.020     TRUE       TRUE
+2:                        Naslund  3331 0.458 2.918 1.169 1.104 1.229     TRUE       TRUE
+29b done

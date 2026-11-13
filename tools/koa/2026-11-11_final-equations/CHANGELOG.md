@@ -1,5 +1,15 @@
 # Changelog
 
+## Next version (draft of November 13, 2026; not uploaded, not published)
+
+Changes are from version 1.13.0. The equations and coefficients are unchanged.
+
+Added: scripts and logs 26, 26b, 27, 28_common, 28a, 28b, 29 and 29b; `out/check28_benchmark_heldout.csv`, `out/check28_deathrules_scenarios.csv`, `out/check29_benchmark_after_thinning.csv`; the inputs the scripts read (`frames/frames.rds`, `frames/mf_confirmed.rds`, `release/koa_step.R`, `release/koa_final_equations.csv`, the plot SDImax table, `out/sdimax_byi.rds`, `out/rdbyi2_fits.rds`, `out/rdbyi2_boot.rds`, `out/E2_height_cr3.rds`). Replaced: `koa_supplemental.pdf`, now supplement v125 (Tables S27 to S31 and corrections to Table S1, Sections S2.1, S3.1, S3.2, S3.4, S3.5, S5 and S7 and Tables S14, S24 and S26).
+
+Corrected in the documents: the difference between 6.74 and 6.76 m² ha⁻¹ is the fold partition, not the fitting start; the direct quantile model coefficient is 0.51 (bootstrap median 0.54); the thinning table is in `data_20260916.zip`; the licence is CC BY 4.0; the manuscript is v133.
+
+Still to be confirmed with the data provider: that thinned stems are recorded as dead in the permanent sample plot database and that the removal years are complete.
+
 ## 1.13.0 (November 11, 2026)
 
 Status: published November 11, 2026, DOI 10.5281/zenodo.24116922. Changes are from version 1.12.2 (November 7, 2026).

@@ -1,0 +1,85 @@
+fold RNG kind: L'Ecuyer-CMRG 
+(1) S1: (Intercept) 5.6454; lbyi 0.2677; planted -0.5655 ; plots 305 
+residual of ln(plot SDImax) about S1: sd 0.537 ; weighted sd 0.449 ; 10th, 50th, 90th percentile natural: -0.901 -0.222 0.545  planted: -0.692 -0.107 0.408 
+diameter increment frame: rows 5114 ; dropped for a PSP removal year strictly inside the interval: 0 
+common: mortality frame rows 6722 deaths 845 ; refit against the fit of record, largest difference 4.5e-06 
+
+(V1) increment frame by origin and interval length
+   planted intervals plots  inst
+     <int>     <int> <int> <int>
+1:       1      4022    47    33
+2:       0      1092    50    28
+all: plots 97 installations 60 
+   planted    len     n
+     <int> <fctr> <int>
+1:       0 1 to 3    67
+2:       0 4 to 9  1015
+3:       0 over 9    10
+4:       1 1 to 3  3921
+5:       1 4 to 9    69
+6:       1 over 9    32
+planted plots: record length in the increment frame, by source
+      Data plots intervals max_years
+    <char> <int>     <int>     <int>
+1:   DOFAW     1       101        52
+2: KMR PSP    15       268         3
+3:     PSP    31      3653        18
+     yrs     n
+   <int> <int>
+1:    52   101
+2:    18   179
+3:    18   225
+natural intervals with yip 4 to 9: 1015 of 1092 ; planted intervals with yip 1 to 3: 3921 of 4022 
+
+(V2) BYI percentiles (10, 50, 90) by origin
+   planted plots       q10      q50      q90      min      max
+     <int> <int>     <num>    <num>    <num>    <num>    <num>
+1:       1   144 121.44661 156.0707 308.5218 28.98490 453.7643
+2:       0   166  64.45216 247.6681 386.1793 64.45216 543.4048
+type 7 against other quantile types, natural median: 247.7 247.7 247.7 247.7 247.7 
+over increment-frame plots only:
+   planted plots      q10      q50      q90
+     <int> <int>    <num>    <num>    <num>
+1:       1    47 131.3734 234.8015 358.1499
+2:       0    50 223.2582 325.2456 428.2414
+over plots with a plot SDImax:
+   planted plots       q10      q50      q90
+     <int> <int>     <num>    <num>    <num>
+1:       1   143 121.35864 155.6034 309.1066
+2:       0   162  64.45216 237.9459 374.8255
+natural plots by source, with the share at BYI 64 to 65:
+     Data plots  at64 byi_min byi_med
+   <char> <int> <int>   <num>   <num>
+1:  DOFAW     6     0   111.6   317.7
+2:    FIA    69     0   159.7   353.3
+3:    Kap    53    53    64.5    64.5
+4:  Mauka    37     0   122.8   228.4
+5:    PSP     1     0   395.3   395.3
+
+(V3) height: held-out file and tallest trees
+ [1] "form"             "n"                "bias"             "mae"              "rmse"             "clusters"         "bias_rel"         "b0_lo"            "b0_hi"            "slope"            "b1_lo"           
+[12] "b1_hi"            "pass_int"         "pass_slope"       "min_region_int"   "min_region_slope"
+[1] 2
+   planted trees plots tallest
+     <int> <int> <int>   <num>
+1:       1  2198   144 28.4000
+2:       0  1133   166 34.1376
+trees 3331 plots 310 
+
+(D) benchmark started at the first visit at or after the last thinning removal of a thinned installation
+thinned installations with removal years: 30 ; plots with a start visit at or after the last removal: 27 ; with a later visit: 27 
+              set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+           <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1: after thinning   112    27    -0.024     0.092    -0.73     2.21   -1.55    3.96
+   horizon     n plots
+    <fctr> <int> <int>
+1:   (0,2]    34    27
+2:   (2,5]    49    27
+3:  (5,10]    29    17
+start QMD and stems of these plots (median): QMD 20.3  stems per ha 496 ; planted share 0.962963 
+        var    bias_rel    slope     b1_lo    b1_hi pass_int pass_slope
+     <char>       <num>    <num>     <num>    <num>   <lgcl>     <lgcl>
+1: survival -0.01186579 0.627967 0.2907029 1.031228     TRUE      FALSE
+2:      QMD -0.06075666 1.202285 0.9954921 1.383432     TRUE      FALSE
+3:       BA -0.08227285 1.121255 1.0080788 1.220066     TRUE       TRUE
+29 done
