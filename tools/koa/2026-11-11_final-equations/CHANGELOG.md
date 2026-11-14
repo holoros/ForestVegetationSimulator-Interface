@@ -1,8 +1,12 @@
 # Changelog
 
-## Next version (draft of November 13, 2026; not uploaded, not published)
+## 1.14.0 (November 14, 2026)
 
-Changes are from version 1.13.0. The equations and coefficients are unchanged.
+Changes are from version 1.13.1. Height increment (E5) changed from the rule E2(D + dD) - E2(D) to a fitted equation, with the rule kept as the fallback; crown base equation E3c added; stand-level mortality forms compared and not adopted; height to diameter ratio and crown ratio reported for the 200-year runs. E2, S1, E4r and E6r are unchanged, and so are basal area, stems, QMD, SDI, the benchmark and the gates; height and assumed volume changed. New scripts 32 to 41 with logs, the rules note, and outputs without plot identifiers. `koa_step_rdbyi.R` gains `koa_dht()`, `koa_hcb()` and the argument `height`; `koa_rdbyi_equations.csv` gains the rows of E3c and E5.
+
+## 1.13.1 (November 13, 2026)
+
+Status: draft on Zenodo, version DOI 10.5281/zenodo.24203239 reserved. Changes are from version 1.13.0. The equations and coefficients are unchanged. GitHub: pull request 21, commit 6c1aa6e90f78d48a9ad7a15642d5a8a2a0989bae.
 
 Added: scripts and logs 26, 26b, 27, 28_common, 28a, 28b, 29 and 29b; `out/check28_benchmark_heldout.csv`, `out/check28_deathrules_scenarios.csv`, `out/check29_benchmark_after_thinning.csv`; the inputs the scripts read (`frames/frames.rds`, `frames/mf_confirmed.rds`, `release/koa_step.R`, `release/koa_final_equations.csv`, the plot SDImax table, `out/sdimax_byi.rds`, `out/rdbyi2_fits.rds`, `out/rdbyi2_boot.rds`, `out/E2_height_cr3.rds`). Replaced: `koa_supplemental.pdf`, now supplement v125 (Tables S27 to S31 and corrections to Table S1, Sections S2.1, S3.1, S3.2, S3.4, S3.5, S5 and S7 and Tables S14, S24 and S26).
 

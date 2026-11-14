@@ -1,0 +1,30 @@
+bootstrap rows: 1987 ; S1 residual sd (ln scale): 0.537 ; sigma 1.0594  tau 0.4093  delta 0.4381  phi 0.0288 
+height pairs: all 21903 ; kept (annualized change -2 to 4 m) 21434 ; trees 1382 ; plots 97 ; installations 60 
+   planted   ylen pairs trees plots mean_adh  wsum
+     <int> <fctr> <int> <int> <int>    <num> <num>
+1:       0      1    57    52     3    0.416    21
+2:       0    2-3    20     5     1    0.823     8
+3:       0    4-9  1217   561    50    0.259   736
+4:       0     >9   846   199     4    0.365   326
+5:       1      1  3064   784    46    1.184   935
+6:       1    2-3  5097   716    44    1.105  1302
+7:       1    4-9  8313   449    31    0.890  1526
+8:       1     >9  2820   275    25    0.817   484
+plots (clusters): 97 ; pairs: 21434 ; variance power: 0.076 
+      par     est     se      lo      hi
+   <char>   <num>  <num>   <num>   <num>
+1:     a0  2.4163 0.5354  1.3536  3.4791
+2: a_lbyi  0.1590 0.0948 -0.0292  0.3472
+3:     lk -4.0027 0.3028 -4.6038 -3.4016
+4:     lc -0.0845 0.1045 -0.2920  0.1230
+5:      x -0.7746 0.1711 -1.1141 -0.4350
+6:   k_pl  1.3274 0.1166  1.0959  1.5589
+asymptote (m) at BYI 64 : 21.7 15.2 30.9 
+asymptote (m) at BYI 121 : 24 18.1 31.9 
+asymptote (m) at BYI 156 : 25 19.2 32.6 
+asymptote (m) at BYI 248 : 26.9 20.9 34.6 
+asymptote (m) at BYI 309 : 27.9 21.6 36 
+asymptote (m) at BYI 386 : 28.9 22.1 37.7 
+planted rate multiplier exp(k_pl): 3.77 2.99 4.75 
+shape m = exp(lc): 0.919 0.747 1.131 ; rate k natural (per yr): 0.0183 0.01 0.0333 
+done

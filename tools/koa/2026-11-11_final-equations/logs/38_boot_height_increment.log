@@ -1,0 +1,32 @@
+bootstrap rows: 1987 ; S1 residual sd (ln scale): 0.537 ; sigma 1.0594  tau 0.4093  delta 0.4381  phi 0.0288 
+height pairs: all 21903 ; kept (annualized change -2 to 4 m) 21434 ; trees 1382 ; plots 97 ; installations 60 
+   planted   ylen pairs trees plots mean_adh  wsum
+     <int> <fctr> <int> <int> <int>    <num> <num>
+1:       0      1    57    52     3    0.416    21
+2:       0    2-3    20     5     1    0.823     8
+3:       0    4-9  1217   561    50    0.259   736
+4:       0     >9   846   199     4    0.365   326
+5:       1      1  3064   784    46    1.184   935
+6:       1    2-3  5097   716    44    1.105  1302
+7:       1    4-9  8313   449    31    0.890  1526
+8:       1     >9  2820   275    25    0.817   484
+      a0   a_lbyi       lk       lc        x     k_pl 
+ 2.41634  0.15897 -4.00270 -0.08446 -0.77457  1.32738 
+refit from the estimates: max abs change 0.0121 ; seconds 69 
+plots resampled: 97 
+16:19:43 resamples done: 20 
+16:30:06 resamples done: 40 
+16:41:52 resamples done: 60 
+16:51:18 resamples done: 80 
+17:01:24 resamples done: 100 
+17:08:58 resamples done: 120 
+17:18:09 resamples done: 140 
+17:27:21 resamples done: 160 
+17:35:22 resamples done: 180 
+17:43:26 resamples done: 200 
+17:54:28 resamples done: 220 
+18:03:40 resamples done: 240 
+18:15:34 resamples done: 260 
+18:25:00 resamples done: 280 
+18:33:22 resamples done: 300 
+run stopped by hand after 300 resamples (of a planned 500) on November 14, 2026; script 38c summarises the first 300

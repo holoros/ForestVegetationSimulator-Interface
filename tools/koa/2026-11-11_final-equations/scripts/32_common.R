@@ -1,0 +1,24 @@
+# 32_common.R  Shared setup for scripts 33 to 35 (November 14, 2026). Reuses lines 6 to 33 of 23t_rdbyi_items.R verbatim (frames, thinning table,
+# fits and bootstrap of record, S1 out of fold, the 53 benchmark plots), then adds a simulator in which the height step and the mortality step can
+# be swapped, the six scenarios and the six 200-year gates of record. No fitting here. No plot or installation identifier is printed.
+L23 <- readLines("~/jobs/koa_final_eq_20261110/scripts/23t_rdbyi_items.R"); eval(parse(text = L23[6:33]))
+stopifnot(nrow(bench) == 182, uniqueN(bench$pid) == 53, abs(sqrt(mean((bench$o_ba - bench$p_ba)^2)) - 6.763) < 0.01)
+SM <- setNames(s1p(bs, log(P$BYI), P$planted), P$pid)
+ht_rule <- function(H, D, D1, x, lbyi, pl) koa_height(D1, cf) - koa_height(D, cf)                       # E5 of record
+mort_tree <- function(dbh, ex, bal, s, rd, byi, pl, ...) 1 - exp(-exp(as.numeric(cbind(1, log(dbh + 1), dbh, dbh^2, bal, log(max(rd, 0.001)), log(byi), pl) %*% bm)))   # E6r of record
+# deterministic simulator; returns the stand table and, if asked, tree heights at given years
+sim2 <- function(dbh, ht, ex, byi, pl, years, sm, hfun = ht_rule, mfun = mort_tree, keep = NULL) { out <- matrix(NA_real_, years + 1, 8, dimnames = list(NULL, c("BA", "TPH", "QMD", "HT", "VOL", "RD", "SDI", "HMAX"))); TH <- list()
+  for (y in 0:years) { s <- koa_stand(dbh, ht, ex); out[y + 1, ] <- c(s$BA, s$TPH, s$QMD, s$HT, 0.40 * s$BA * s$HT, s$SDI / sm, s$SDI, max(ht)); if (y %in% keep) TH[[as.character(y)]] <- ht; if (y == years) break
+    bal <- koa_bal(dbh, s$ba); rd <- s$SDI / sm; g <- as.numeric(exp(xm(dbh, bal, s$BA, s$SDI, sm, byi, pl) %*% bg)); pm <- mfun(dbh, ex, bal, s, rd, byi, pl, dbh + g)
+    ht <- ht + hfun(ht, dbh, dbh + g, bal / max(s$BA, 1e-6) * rd, log(byi), pl); dbh <- dbh + g; ex <- ex * (1 - pm) }
+  list(out = out, th = TH) }
+# scenarios and gates of record (23t lines 39 to 46)
+vis <- tr[Status == "live" & !is.na(DBH) & DBH > 0, .(n = .N, q = sqrt(sum(DBH^2 * EXPF_c) / sum(EXPF_c))), by = .(pid, Measure, planted)][n >= 10]; byiq <- unique(tr[, .(pid, planted, BYI)])[, .(lo = quantile(BYI, .1), md = quantile(BYI, .5), hi = quantile(BYI, .9)), by = planted]; pick <- vis[, .SD[which.min(abs(q - quantile(q, 0.25)))], by = planted]
+getL <- function(p) { pv <- pick[planted == p]; L <- tr[pid == pv$pid & Measure == pv$Measure & Status == "live" & !is.na(DBH) & DBH > 0]; L[is.na(HT) | HT < 1.37, HT := koa_height(DBH, cf)]; L }
+SC <- CJ(planted = c(0, 1), level = c("lo", "md", "hi"), sorted = FALSE); SC[, byi := mapply(function(p, l) byiq[planted == p][[l]], planted, level)]; SC[, sdimax := s1p(bs, log(byi), planted)]
+runsc <- function(hfun = ht_rule, mfun = mort_tree, years = 200) rbindlist(lapply(seq_len(nrow(SC)), function(i) { L <- getL(SC$planted[i]); cbind(planted = SC$planted[i], level = SC$level[i], byi = SC$byi[i], sdimax = SC$sdimax[i], year = 0:years, as.data.table(sim2(L$DBH, L$HT, L$EXPF_c, SC$byi[i], SC$planted[i], years, SC$sdimax[i], hfun, mfun)$out)) }))
+gates6 <- function(S, mfun = mort_tree) { L1 <- getL(1); bmd <- byiq[planted == 1, md]; DS <- rbindlist(lapply(c(300, 600, 1200, 2400), function(n0) cbind(n0 = n0, year = 0:100, as.data.table(sim2(L1$DBH, L1$HT, L1$EXPF_c * n0 / sum(L1$EXPF_c), bmd, 1, 100, s1p(bs, log(bmd), 1), ht_rule, mfun)$out))))
+  w <- dcast(S, planted + year ~ level, value.var = c("BA", "QMD", "TPH")); LIM <- c(`0` = 1.2 * 1410.063, `1` = 1.2 * 1135.136)
+  data.table(site_to_100 = w[year >= 1 & year <= 100, all(BA_lo <= BA_md + 1e-9 & BA_md <= BA_hi + 1e-9 & QMD_lo <= QMD_md + 1e-9 & QMD_md <= QMD_hi + 1e-9)], sdi_lim = S[, max(SDI) <= LIM[as.character(planted[1])], by = planted][, all(V1)], ba200 = S[year == 200, all(BA <= 89.6)],
+    no_rise = S[, SDI[year == 200] / SDI[year == 150] <= 1.05, by = .(planted, level)][, all(V1)], sukachev = w[year %in% c(40, 100), all(TPH_md <= TPH_lo * 1.02 & TPH_hi <= TPH_md * 1.02)], yield_dens = DS[year %in% c(20, 40, 100), all(diff(BA[order(n0)]) >= -1e-9), by = year][, all(V1)]) }
+benchsys <- function(hfun = ht_rule, mfun = mort_tree) rbindlist(lapply(PI, function(x) { z <- sim2(x$L$DBH, x$L$HT, x$L$EXPF_c, x$byi, x$pl, max(x$obs$h), SMO[[x$p]], hfun, mfun)$out; cbind(pid = x$p, planted = x$pl, x$obs, p_surv = z[x$obs$h + 1, "TPH"] / x$N0, p_qmd = z[x$obs$h + 1, "QMD"], p_ba = z[x$obs$h + 1, "BA"]) }))

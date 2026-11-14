@@ -73,6 +73,8 @@ print(out_local)
 
 ## Equations
 
+Version 1.14.0 changes E5 from the rule described in this section to a fitted equation and adds crown base (E3c); see "Added in version 1.14.0" below. The rule described here is the fallback (`height = "rule"`).
+
 All three annual rates are computed from the start-of-year state and applied together. Diameters are in cm, heights in m, basal areas in m² ha⁻¹ and stem counts in trees ha⁻¹.
 
 S1, maximum stand density index:
@@ -188,7 +190,21 @@ The Sukachev gate fails because mortality no longer rises with BYI once removals
 
 Four further findings limit how S1 should be read. The second-stage regression behind S1 explains 0.136 of the variance of ln(plot SDImax) held out by installation, against 0.113 for origin alone. The BYI coefficient is 0.268 (SE 0.054) weighted by posterior precision and −0.016 (0.048) unweighted. Planted SDImax is 0.57 of natural (0.49 to 0.66), which the data cannot separate from the youth and wide spacing of the planted plots. Each plot's own SDImax predicts the benchmark better than S1 (basal area RMSE 5.27 m² ha⁻¹), and that value is not available for a new stand.
 
-## Checks added in this version (November 13, 2026)
+## Added in version 1.14.0 (November 14, 2026)
+
+Two equations were added and one was replaced, under rules written before fitting (`notes/2026-11-14_koa-height-crown-standmort_PREREG.md`, with addenda in the order they were written).
+
+1. **Height increment (E5) is now a fitted equation.** dHT = m k HT [(A/HT)^(1/m) - 1] exp(h5 x), with A = exp(a0 + a_lbyi ln(BYI)), k = exp(lk + k_pl planted), m = exp(lc), x = (BAL/BA) RD, and a zero increment for a tree taller than A (`koa_dht()`). It was fitted to 21,434 pairs of height measurements (1,382 trees, 97 plots). Held out by installation: bias 0.028 m/yr, RMSE 0.754 m/yr, slope 0.89 (0.77 to 1.03), both equivalence tests passed; the rule of earlier versions, E2(D + dD) - E2(D): bias 0.184, RMSE 0.811, slope 0.57, both failed. It is form B2 of a second round of forms, specified after every first-round form projected planted stands above the height bound of the rule (scripts 33 and 33b). Limits: the gain is in bias and in planted stands (for natural trees the rule has the lower held-out RMSE; with trees weighted equally the RMSE gain is 0.8%); the interval of the site coefficient a_lbyi includes zero; the asymptote is weakly constrained from above (script 38c). The rule remains available as the fallback: `koa_step(..., height = "rule")`.
+2. **Crown base (E3c) is added.** HCB = HT / (1 + exp(b0 + lH ln(HT) + x (BAL/BA) RD)), fitted to 360 FIA trees in natural stands (`koa_hcb()`; script 34). Held-out RMSE 2.26 m; it passes the mean bias test and fails the slope test. Nothing else in the system uses it, and for planted stands it is an extrapolation.
+3. **Stand-level mortality was compared and not adopted.** A stand hazard, an occurrence and magnitude form, the whole-stand model of Garcia (2009), and E6r with relative density held at or below one, all fitted with no set constant (script 35). None was preferred to E6r under the rule (benchmark basal area RMSE 7.67, 9.98, 8.99 and 6.76 against 6.76 m2/ha).
+4. **Two assessment metrics** in the 200-year runs: height to diameter ratio and crown ratio (script 36).
+
+Basal area, stems, QMD, SDI, the benchmark, the coverage of the bands and the six gates do not use height and are unchanged from 1.13.1 (script 39 is script 23t with the E5 height step and reproduces them); only height and assumed volume changed. `scripts/41_release_check.R` projects the six scenarios with `koa_step_rdbyi.R` and matches script 39 (E5) and script 23t (rule). Coefficients of E3c and E5 are in `koa_rdbyi_equations.csv` with plot-cluster bootstrap standard errors and 95% percentile intervals (E5: 300 resamples). New outputs carry no plot identifier: `out/*_b2.csv`, `out/boot_B2_38c_summary.csv`, `out/height_increment_B2_sandwich.csv`, `out/longterm_metrics_36.csv`. Scripts 33 to 38 write `.rds` objects that are not deposited; rerun them in order (32 is sourced) to rebuild them.
+
+## Checks added in version 1.13.1 (November 13, 2026)
+
+
+The scripts and logs of this folder are on GitHub in holoros/ForestVegetationSimulator-Interface, pull request 21 (https://github.com/holoros/ForestVegetationSimulator-Interface/pull/21), commit 6c1aa6e90f78d48a9ad7a15642d5a8a2a0989bae. This folder is deposited as `final_equations_20261113.zip` in version 1.13.1 of the Zenodo record (https://doi.org/10.5281/zenodo.24203239).
 
 The system of record is unchanged. Scripts `28_common.R`, `28a_heldout_and_deathrules.R`, `28b_installation_bootstrap.R`, `29_verify_and_thinning.R` and `29b_s1_without_kap.R` add five checks, reported in supplement v125 (Tables S27 to S31).
 
