@@ -1,0 +1,64 @@
+frame: trees 360 ; plots 69 ; installations 36 ; folds 10 
+ranges: DBH 2.5 122.4 cm; HT 4.3 34.1 m; HCB 0.1 17.1 m; crown ratio 0.1 0.99 mean 0.714 ; x 0 1.18 ; BYI 160 543 
+distinct crown ratio values: 21  ( 0.1 0.15 0.2 0.25 0.3 0.35 0.4 0.45 0.5 0.55 0.6 0.65 ...)
+
+(1) full fits
+C0 RMSE 2.3947     b0 
+0.952 
+C1 RMSE 2.3931       b0      lH 
+ 1.2294 -0.0986 
+C2 RMSE 2.2552       b0      lH      dh 
+ 1.2966  0.0598 -0.2564 
+C3 RMSE 2.142       b0      lH      dh       x 
+ 0.0655  0.3135 -0.1201  1.1753 
+C4 RMSE 2.1068       b0      lH      dh       x      lb 
+-2.9570  0.2656 -0.1449  0.9636  0.5559 
+C5 RMSE 2.1666       b0      lH       x 
+-0.2749  0.3287  1.4394 
+C6 RMSE 2.1608       b0      dh       x 
+ 0.9867 -0.1241  1.0270 
+P7 RMSE 2.0893       b0      s1     lhd      sb     lba   lb100 
+-0.0656  1.1163  0.4485  0.0108 -0.0082  0.5314 
+
+(2) held-out installations, HCB (m)
+     form     n        bias      mae     rmse     bias_rel     slope     b1_lo
+   <char> <int>       <num>    <num>    <num>        <num>     <num>     <num>
+1:     C0   360 -0.27806745 1.997407 2.599317 -0.070871052 0.6751810 0.4233343
+2:     C1   360 -0.30139536 2.075574 2.694305 -0.076816638 0.5677272 0.3171978
+3:     C2   360 -0.33671755 1.953521 2.545051 -0.085819206 0.7082699 0.4847643
+4:     C3   360 -0.08854135 1.701576 2.274247 -0.022566533 0.8913555 0.6794386
+5:     C4   360 -0.01039338 1.660873 2.243577 -0.002648961 0.8759408 0.6592193
+6:     C5   360 -0.08350049 1.688378 2.264253 -0.021281771 0.9188999 0.7001879
+7:     C6   360 -0.05911134 1.720013 2.270859 -0.015065707 0.8259672 0.6440343
+8:     P7   360  0.02938574 1.655670 2.230296  0.007489543 0.8742082 0.6649631
+       b1_hi pass_int pass_slope min_region_int min_region_slope     k
+       <num>   <lgcl>     <lgcl>          <num>            <num> <num>
+1: 0.9890913     TRUE      FALSE     0.24147747        0.5766657     1
+2: 0.8686705    FALSE      FALSE     0.25566133        0.6828022     2
+3: 0.9416903     TRUE      FALSE     0.23885579        0.5152357     3
+4: 1.0799537     TRUE      FALSE     0.11620143        0.3205614     4
+5: 1.0724825     TRUE      FALSE     0.08073837        0.3407807     5
+6: 1.1187944     TRUE      FALSE     0.11662287        0.2998121     3
+7: 0.9925371     TRUE      FALSE     0.12384735        0.3559657     3
+8: 1.0667675     TRUE      FALSE     0.07735259        0.3350369     6
+           r2
+        <num>
+1: 0.10007019
+2: 0.03309557
+3: 0.13725356
+4: 0.31108523
+5: 0.32954104
+6: 0.31712698
+7: 0.31313678
+8: 0.33745526
+rule: fewest terms within 2% of the lowest held-out RMSE -> C5 
+held-out error of the chosen form on the crown ratio scale: RMSE 0.161 
+
+(3) plot-cluster bootstrap of C5 ( 2000 resamples)
+         b0      lH      x
+est -0.2749  0.3287 1.4394
+se   0.7157  0.2517 0.3091
+lo  -1.6611 -0.1781 0.9251
+hi   1.2106  0.8145 2.0681
+residual SD (m): 2.169 ; observed crown ratio 5th, 50th, 95th percentile: 0.4 0.75 0.95 ; height to diameter ratio (m per m) 5th, 50th, 95th: 25 61 107 
+done
