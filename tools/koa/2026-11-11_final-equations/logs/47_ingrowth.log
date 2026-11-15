@@ -1,0 +1,102 @@
+bootstrap rows: 1987 ; S1 residual sd (ln scale): 0.537 ; sigma 1.0594  tau 0.4093  delta 0.4381  phi 0.0288 
+subplots 48 ; installations 25 ; subplot-years 432 ; recruits 10 on 5 subplots; crude rate (trees/ha/yr) 1.377 
+RD at the first visit:    0%   10%   25%   50%   75%   90%  100% 
+0.015 0.031 0.072 0.124 0.246 0.634 1.261 
+all-species basal area missing on 0 subplots
+recruits by RD third:
+          rd_third subplots recruits  rate
+            <fctr>    <int>    <int> <num>
+1: [0.0153,0.0934]       16        5  2.07
+2:   (0.0934,0.17]       16        1  0.41
+3:     (0.17,1.26]       16        4  1.65
+
+(1) full fits
+
+ N1 : deviance 50.24  AIC 64.33  Pearson dispersion 3.06 
+            Estimate Std. Error z value Pr(>|z|)
+(Intercept)   0.3201     0.3162  1.0124   0.3114
+
+ N2 : deviance 50.02  AIC 66.12  Pearson dispersion 3.34 
+            Estimate Std. Error z value Pr(>|z|)
+(Intercept)   0.2013     0.4143  0.4858   0.6271
+rd            0.4679     0.9663  0.4842   0.6283
+
+ N3 : deviance 45.31  AIC 61.41  Pearson dispersion 2.18 
+            Estimate Std. Error z value Pr(>|z|)
+(Intercept)   1.2947     0.4964  2.6080   0.0091
+ba_all       -0.0315     0.0166 -1.9028   0.0571
+Warning messages:
+1: glm.fit: algorithm did not converge 
+2: glm.fit: fitted rates numerically 0 occurred 
+3: glm.fit: fitted rates numerically 0 occurred 
+4: glm.fit: algorithm did not converge 
+5: glm.fit: fitted rates numerically 0 occurred 
+
+(2) installation bootstrap: 2000 resamples; 1927 usable
+N1 rate (trees/ha/yr): 1.377  95%: 0.144 3.562 
+N2 n0: 0.2013  95%: -4.593 1.3413 
+N2 n1 (RD): 0.4679  95%: -0.5343 6.652  share negative: 0.147 
+
+(3) held out by installation (ten folds of record): Poisson deviance, total predicted and observed recruits
+     form subplots deviance predicted observed
+   <char>    <int>    <num>     <num>    <int>
+1:     N1       48   73.345      9.85       10
+2:     N2       48   83.861     11.83       10
+3:     N3       48   75.047      9.61       10
+
+(4) natural scenarios, deterministic, height increment Eq. 6 of record (B2)
+       ingrowth  level  year    BA   TPH   QMD    RD    HT
+         <char> <char> <int> <num> <num> <num> <num> <num>
+ 1: N1 constant     lo    20  16.8   569  19.4  0.43  12.4
+ 2:  N2 density     lo    20  16.9   571  19.4  0.43  12.4
+ 3:        none     lo    20  16.7   556  19.5  0.42  12.4
+ 4: N1 constant     lo    40  15.5   326  24.6  0.36  15.1
+ 5:  N2 density     lo    40  15.5   327  24.5  0.36  15.1
+ 6:        none     lo    40  15.2   306  25.1  0.35  15.2
+ 7: N1 constant     lo   100  14.6   150  35.2  0.29  19.1
+ 8:  N2 density     lo   100  14.6   151  35.1  0.29  19.1
+ 9:        none     lo   100  14.1   117  39.2  0.27  19.4
+10: N1 constant     lo   200  13.4    97  42.0  0.25  20.7
+11:  N2 density     lo   200  13.4    97  42.0  0.25  20.7
+12:        none     lo   200  12.5    50  56.2  0.21  21.4
+13: N1 constant     md    20  29.3   669  23.6  0.48  13.9
+14:  N2 density     md    20  29.4   670  23.6  0.48  13.9
+15:        none     md    20  29.2   657  23.8  0.48  13.9
+16: N1 constant     md    40  30.1   366  32.4  0.44  17.6
+17:  N2 density     md    40  30.2   367  32.3  0.44  17.6
+18:        none     md    40  29.9   350  33.0  0.43  17.7
+19: N1 constant     md   100  28.9   150  49.6  0.35  23.4
+20:  N2 density     md   100  28.9   151  49.4  0.35  23.3
+21:        none     md   100  28.6   126  53.7  0.34  23.6
+22: N1 constant     md   200  23.9    90  58.2  0.27  25.6
+23:  N2 density     md   200  23.9    91  58.0  0.28  25.6
+24:        none     md   200  22.8    51  75.6  0.24  26.4
+25: N1 constant     hi    20  35.6   682  25.8  0.50  14.5
+26:  N2 density     hi    20  35.7   684  25.8  0.50  14.5
+27:        none     hi    20  35.5   671  25.9  0.50  14.5
+28: N1 constant     hi    40  37.1   362  36.1  0.46  18.6
+29:  N2 density     hi    40  37.1   363  36.1  0.46  18.6
+30:        none     hi    40  36.9   348  36.7  0.45  18.6
+31: N1 constant     hi   100  34.6   142  55.6  0.36  25.0
+32:  N2 density     hi   100  34.6   144  55.4  0.36  25.0
+33:        none     hi   100  34.3   122  59.9  0.35  25.2
+34: N1 constant     hi   200  27.3    86  63.5  0.27  27.4
+35:  N2 density     hi   200  27.4    87  63.3  0.27  27.3
+36:        none     hi   200  25.9    48  83.2  0.23  28.2
+       ingrowth  level  year    BA   TPH   QMD    RD    HT
+         <char> <char> <int> <num> <num> <num> <num> <num>
+
+RD range in the natural scenarios with N2: 0.25 0.85 ; in the fitting frame: 0.02 1.26 
+
+(5) six 200-year gates of record: without ingrowth, with N1, with N2
+   ingrowth site_to_100 sdi_lim  ba200 no_rise sukachev yield_dens
+     <char>      <lgcl>  <lgcl> <lgcl>  <lgcl>   <lgcl>     <lgcl>
+1:     none        TRUE    TRUE   TRUE    TRUE    FALSE       TRUE
+2:       N1        TRUE    TRUE   TRUE    TRUE    FALSE       TRUE
+3:       N2        TRUE    TRUE   TRUE    TRUE    FALSE       TRUE
+
+(6) N2: 95% range over 300 bootstrap draws of the ingrowth coefficients (every other equation at its estimates)
+Error in quantile.default(BA, 0.025) : 
+  missing values and NaN's not allowed if 'na.rm' is FALSE
+Calls: print -> [ -> [.data.table -> quantile -> quantile.default
+Execution halted

@@ -1,0 +1,53 @@
+bootstrap rows: 1987 ; S1 residual sd (ln scale): 0.537 ; sigma 1.0594  tau 0.4093  delta 0.4381  phi 0.0288 
+height pairs: all 21903 ; kept (annualized change -2 to 4 m) 21434 ; trees 1382 ; plots 97 ; installations 60 
+   planted   ylen pairs trees plots mean_adh  wsum
+     <int> <fctr> <int> <int> <int>    <num> <num>
+1:       0      1    57    52     3    0.416    21
+2:       0    2-3    20     5     1    0.823     8
+3:       0    4-9  1217   561    50    0.259   736
+4:       0     >9   846   199     4    0.365   326
+5:       1      1  3064   784    46    1.184   935
+6:       1    2-3  5097   716    44    1.105  1302
+7:       1    4-9  8313   449    31    0.890  1526
+8:       1     >9  2820   275    25    0.817   484
+form bootstrapped: B2 
+      a0   a_lbyi       lk       lc        x     k_pl 
+ 2.42848  0.15730 -4.00932 -0.08724 -0.77275  1.32654 
+refit from the estimates: max abs change 0.0103 ; seconds 116 
+plots resampled: 97 
+19:54:14 resamples done: 20 
+20:02:33 resamples done: 40 
+20:11:26 resamples done: 60 
+20:22:41 resamples done: 80 
+20:34:52 resamples done: 100 
+20:44:05 resamples done: 120 
+20:52:14 resamples done: 140 
+20:59:41 resamples done: 160 
+21:06:45 resamples done: 180 
+21:14:33 resamples done: 200 
+21:21:10 resamples done: 220 
+21:28:33 resamples done: 240 
+21:36:33 resamples done: 260 
+21:44:21 resamples done: 280 
+21:51:55 resamples done: 300 
+21:58:47 resamples done: 320 
+22:07:06 resamples done: 340 
+22:15:13 resamples done: 360 
+22:23:09 resamples done: 380 
+22:31:17 resamples done: 400 
+22:38:19 resamples done: 420 
+22:45:39 resamples done: 440 
+22:51:58 resamples done: 460 
+22:58:26 resamples done: 480 
+23:04:53 resamples done: 500 
+
+completed 500 ; converged 500 
+      par     est     se      lo      hi
+   <char>   <num>  <num>   <num>   <num>
+1:     a0  2.4285 1.0556  1.8155  5.2222
+2: a_lbyi  0.1573 0.1592 -0.2601  0.2880
+3:     lk -4.0093 0.5575 -5.5771 -3.5146
+4:     lc -0.0872 0.1207 -0.2933  0.1725
+5:      x -0.7728 0.1769 -1.1660 -0.4778
+6:   k_pl  1.3265 0.2688  1.1257  2.0769
+done

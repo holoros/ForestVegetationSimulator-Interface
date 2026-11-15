@@ -1,0 +1,44 @@
+coefficient rows: 31 (1.14.0: 29 )
+               equation   term   estimate       se      lo95      hi95 n_boot
+                 <char> <char>      <num>    <num>     <num>     <num>  <int>
+ 1:           E2_height      b  0.0415284 0.004414  0.033525  0.049955    500
+ 2:           E2_height      c  1.0536600 0.063820  0.936210  1.180200    500
+ 3: E5_height_increment     a0  2.7690700 0.175000  2.501200  3.146500    500
+ 4: E5_height_increment a_lbyi  0.0625077 0.033850 -0.012762  0.116350    500
+ 5: E5_height_increment     lk -3.5839600 0.252800 -4.269700 -3.310600    500
+ 6: E5_height_increment     lc  0.0776484 0.117800 -0.083310  0.372190    500
+ 7: E5_height_increment      x -0.8099430 0.189800 -1.208900 -0.499400    500
+ 8: E5_height_increment   k_pl  1.3500800 0.229800  1.151400  1.982300    500
+ 9:         IG_ingrowth     t0 -1.2257700 0.767300 -2.855800  0.076833   1723
+10:         IG_ingrowth  t_qmd -0.1306210 0.026720 -0.176750 -0.074833   1723
+11:         IG_ingrowth    mu2  2.0000000 0.578900  1.000000  2.666700   1723
+bootstrap rows: 1987 ; S1 residual sd (ln scale): 0.537 ; sigma 1.0594  tau 0.4093  delta 0.4381  phi 0.0288 
+ingrowth bootstrap rows: 1723 
+J1: 2.76907 0.06251 -3.58396 0.07765 -0.80994 1.35008 -3.18138 0.05227 
+
+(1) benchmark, S1 out of fold (earlier systems: own SDImax 0.177, 3.89, 6.70; 742 0.217, 3.99, 10.76)
+      set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+   <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:    all   182    53    -0.023     0.124     0.54     2.78    0.81    6.76
+   planted     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+     <int> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:       1   155    41    -0.023     0.113     0.44     2.59    1.35    5.79
+2:       0    27    12    -0.022     0.176     1.13     3.71   -2.27   10.78
+                     set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+                  <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1: horizon 10 yr or more    22     7    -0.028     0.122     2.55     3.57    1.69    7.93
+equivalence at each plot's longest horizon (25% region, convention)
+       set      var    bias_rel     slope      b1_lo     b1_hi pass_int pass_slope
+    <char>   <char>       <num>     <num>      <num>     <num>   <lgcl>     <lgcl>
+1:     all survival -0.06674147 0.8702477  0.6723189 1.0125970     TRUE      FALSE
+2:     all      QMD  0.02723609 0.8914191  0.7932027 1.0172668     TRUE       TRUE
+3:     all       BA -0.03874999 0.8185249  0.5729971 1.0946397     TRUE      FALSE
+4: planted survival -0.08176152 0.8085401 -1.2202963 0.9550901     TRUE      FALSE
+5: planted      QMD  0.04916396 0.9481309  0.8512312 1.0890872     TRUE       TRUE
+6: planted       BA  0.06798155 1.1938661  0.9272230 1.4428853     TRUE      FALSE
+7: natural survival  0.04185486 1.0109344  0.7610578 1.5096975    FALSE      FALSE
+8: natural      QMD -0.02307313 0.5210397  0.1446298 1.6716362     TRUE      FALSE
+9: natural       BA -0.23427791 0.2139769 -0.4835106 0.9272993    FALSE      FALSE
+largest relative difference: E5 with ingrowth against script 51 (6 scenarios x 4 variables x 3 years) 5.34e-15 ; rule against script 53 (6 scenarios x 2 variables x 4 years) 4.97e-15 
+asymptote (m) at BYI 156 and 248: 21.86 22.5 ; height at DBH 12.7 cm, BYI 248: 9.63 ; ingrowth at QMD 15, 25, 40, 60: 4.111 1.268 0.187 0.014 
+PASS

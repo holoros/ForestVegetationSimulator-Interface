@@ -68,3 +68,97 @@ These forms were written after seeing that result, which makes them post hoc. Th
 - L4: L2 with the same origin by height term.
 
 R0 and L2 are rerun beside them for reference. If a second-round form passes, it is adopted under the same rule and reported as selected in a second round.
+
+## 7. Third round of height increment forms: BYI interactions within an asymptotic form (written November 14, 2026, before script 42 ran)
+
+Why. The plot-cluster bootstrap of B2 (300 resamples, script 38c), read before this section was written, showed that its asymptote is weakly constrained from above (26.9 m at the median BYI of natural stands, 95% interval 22.9 to 57.6 m) and that the interval of the site coefficient on the asymptote includes zero (-0.293 to 0.297). Version 1.14.0 of the deposit and manuscript v135 report B2 with that weakness stated. Aaron's instruction: the relationship with BYI is complex, so test potential interactions, and an asymptotic form is key. These forms are therefore post hoc with respect to rounds 1 and 2 and to the B2 bootstrap; the rule and its thresholds are unchanged.
+
+Forms, all the bounded differential Chapman-Richards form m k HT [(A/HT)^(1/m) - 1] exp(c x) with x = (BAL/BA) RD, and ln(BYI) centred at 5 where it enters the rate or an interaction:
+
+- B2 (reference, round 2): A = exp(a0 + a1 ln BYI), k = exp(k0 + k1 planted).
+- B4: B2 with BYI also on the rate, k = exp(k0 + k1 planted + k2 ln BYI).
+- B5: B2 with a site slope of the asymptote that differs by origin, A = exp(a0 + a1 ln BYI + a2 planted ln BYI).
+- B6: B2 with BYI by competition, exp((c0 + c1 ln BYI) x).
+- B7: one asymptote for all sites, A = exp(a0), and BYI on the rate, k = exp(k0 + k1 planted + k2 ln BYI). Six coefficients, as B2.
+- B8: B7 with a rate response to BYI that differs by origin, k = exp(k0 + k1 planted + k2 ln BYI + k3 planted ln BYI).
+
+No asymptote is fixed by hand. R0 (the rule) is rerun for reference.
+
+Tests and rule. As sections 1 and 6: installations held out in the ten folds of record, the benchmark tree heights, the 200-year scenarios, and conditions (a) to (d) against R0. Among the forms that pass, B2 included, the choice is the one with the fewest coefficients within 2% of the lowest held-out RMSE; with equal coefficients, the lower RMSE. B2 therefore stays unless a round-3 form passes and is chosen over it by that rule.
+
+Identifiability. The chosen form is bootstrapped with 500 plot-cluster resamples (script 43, the full three-pass estimator). The 95% interval of its asymptote at the median BYI of each origin is reported. It is not a pass or fail condition, because no threshold was set before the B2 bootstrap was read, but it is reported beside the same interval for B2, and if a round-3 form is chosen its interval is the reason given in the text only if it is narrower.
+
+If a round-3 form is chosen, height and assumed volume are rebuilt (as script 39), and a new manuscript, supplement, workbook and deposit version follow; basal area, stems, QMD, SDI, the benchmark and the gates cannot change.
+
+## 8. Fourth round of height increment forms: BYI kept, asymptote informed by the static height data (written November 15, 2026, before script 44 ran)
+
+Why. Round 3 (script 42) left B2 in place: B4 and B6 had lower held-out RMSE and failed condition (c), B7 and B8 (one asymptote, BYI on the rate) failed condition (d), and B5 passed with one more coefficient and no gain. The 500-resample bootstrap of B2 (script 43) gave an asymptote of 27.0 m at the median BYI of natural stands with a 95% interval of 22.3 to 54.4 m, and a site coefficient whose interval includes zero (positive in 71% of resamples). Aaron's instruction on November 15: including BYI is logical, so explore alternatives. He chose three of four offered: anchor the asymptote, penalize the asymptote, and fit jointly with the height curve. This is a fourth look at the same held-out installations, so these forms are post hoc with respect to rounds 1 to 3; the rule and thresholds of section 1 are unchanged and the supplement states the order.
+
+What was seen before writing this section: the round 3 log and bootstrap table; the coefficients of the height curve of record (E2: asymptote 1.37 + 19.73 m, b 0.0498, c 1.150); and counts only of trees in the height frame above two diameter thresholds (261 trees on 162 plots at or above the diameter at which E2 reaches 80% of its asymptote, 34.8 cm; 149 trees on 114 plots at 90%). No relation of height to BYI among large trees was looked at.
+
+Forms. All use the increment form of B2, m k HT [(A/HT)^(1/m) - 1] exp(c x), with k = exp(k0 + k1 planted), and all keep BYI on the asymptote.
+
+- B2 (reference) and R0 (the rule), rerun.
+- A1, anchored asymptote, upper envelope. Stage 1: for each tree of the height frame (3,331 trees) with DBH of at least 34.8 cm, the asymptote implied by its height under the shape of E2 is A_i = 1.37 + (HT - 1.37) / (1 - exp(-b DBH))^c with b and c of record; ln(A_i) is regressed on ln(BYI) by quantile regression at tau = 0.95. Stage 2: A = exp(q0 + q1 ln BYI) is fixed and k0, k1, m and c are fitted to the increment pairs exactly as B2. Counted as six coefficients.
+- A2, anchored asymptote, central. As A1 with tau = 0.50.
+- J1, joint fit. The height curve HT = 1.37 + (A - 1.37)(1 - exp(-b DBH))^c and the increment equation share A = exp(a0 + a1 ln BYI). The objective is the weighted increment sum of squares divided by its mean square (per consecutive-interval weight, at the start of each pass) plus the height-curve sum of squares divided by the mean square of E2 of record on the same rows; three passes of the variance power as B2. Six increment coefficients plus b and c of the curve. Whether the J1 curve would replace Eq. 3 is not decided here; the tests below use E2 of record wherever a missing height is filled, so only the increment equation differs between forms. The held-out RMSE of the J1 curve is reported beside a three-parameter curve refitted on the same rows.
+- P1, bounded B2. The B2 estimator with a penalty that holds A at every BYI of the fitting frame at or below 1.2 times the tallest measured tree (40.9 m, the bound of condition (c)). If the bound is not active at the estimates, P1 equals B2 and differs only in its bootstrap. P1 is a sensitivity analysis and is not eligible for selection, because the upper limit of its interval is set by the bound.
+
+Held-out discipline. For each of the ten folds of record, the stage 1 regression (A1, A2) and the height-curve part (J1) use only trees of installations that are not in the test fold of the increment pairs.
+
+Tests and rule. Conditions (a) to (d) of section 1 against R0, as in every round. Because the purpose of this round is identifiability and all eligible forms have six increment coefficients, the choice among the forms that pass (B2 included) and lie within 2% of the lowest held-out RMSE among them is the one with the narrowest 95% plot-cluster bootstrap interval of the asymptote at the median BYI of natural stands, measured as upper limit over lower limit (script 45, 500 resamples; for A1, A2 and J1 the plots of the height frame and of the increment frame are resampled together and stage 1 is repeated in every resample; B2 uses script 43). B2 therefore stays unless an eligible round-4 form passes, is within 2% of the lowest RMSE, and has a narrower interval.
+
+Reported whichever form is chosen: the stage 1 slopes q1 with intervals and whether each interval excludes zero; the asymptotes of A1 and A2 at the median BYI of each origin, whose difference is a structural uncertainty that neither interval contains; the P1 interval; the J1 curve against E2.
+
+If a round-4 form is chosen, height and assumed volume are rebuilt (as script 39) and a new manuscript, supplement, workbook and deposit version follow; basal area, stems, QMD, SDI, the benchmark for those variables and the gates cannot change.
+
+## 9. Addendum to round 4: maximum times modifier (written November 15, 2026, after the full-frame fits of script 44 were read and before any held-out, benchmark, scenario or bootstrap result of round 4 was read)
+
+Why. Aaron's suggestion on November 15, while script 44 was running: a maximum times modifier approach, with the maximum set by height and BYI. B2 is already a potential times a modifier, since its competition term multiplies a bounded function of height, BYI and origin, but its potential is fitted as a mean with the modifier, by least squares. The forms here differ in one respect: the potential is estimated first as an upper envelope of height increment given height and BYI alone, and the modifier is then fitted with the potential held fixed.
+
+What was seen before writing: the full-frame estimates of B2, A1, A2, P1 and J1 (stage 1 slopes 0.067 and -0.025; asymptotes 20.9 to 30.3 m at the median BYI of natural stands). Nothing held out.
+
+Forms.
+
+- M1. Stage 1, maximum: ΔHTmax = m k HT [(A/HT)^(1/m) - 1], A = exp(a0 + a1 ln BYI), with one k and one m for all trees, fitted to all height pairs by quantile regression at tau = 0.95 (check loss on the annualized difference between observed and projected height at the end of each pair, pairs weighted by 2 over the height visits of the tree; Nelder-Mead from the B2 estimates with the planted rate, restarted once). Stage 2, modifier: ΔHT = ΔHTmax exp(g0 + g1 x + g2 planted), x = (BAL/BA) RD, fitted by the weighted least squares of B2 (three passes of the variance power) with stage 1 fixed. Seven coefficients. The modifier is not forced below one; its largest value in the fitting frame is reported.
+- M2. As M1 with tau = 0.90.
+
+Tests and rule. Folds, benchmark, scenarios and conditions (a) to (d) as section 8, with both stages refitted in every training fold. M1 and M2 join the candidates of section 8. Among passing forms within 2% of the lowest held-out RMSE, the form with the fewest coefficients is chosen (section 1), and among those with equally few, the narrowest asymptote interval (section 8). A seven-coefficient M form is therefore chosen only if no passing six-coefficient form is within 2% of it. An M form that passes is bootstrapped with 500 plot-cluster resamples, both stages repeated in each (script 46).
+
+## 10. Ingrowth for the natural (uneven-aged) scenarios (written November 15, 2026, before script 47 ran)
+
+Why. Aaron, November 15: be conservative on long-term projections, and include ingrowth for the uneven-aged scenarios. Offered four ways for ingrowth to enter, he chose a density-dependent rate.
+
+What was seen before writing: counts only. The frames hold 10 koa recruits past 12.7 cm on 5 of the 48 remeasured US Forest Service FIA subplots of natural stands (one nine-year interval each, 432 subplot-years, each tree standing for 59.5 trees ha^-1, about 1.4 trees ha^-1 yr^-1), and 15 recruits on 7 planted plots. FIA recruits below 12.7 cm (microplot size) were excluded when the frames were built. No relation of ingrowth to density, site or any other variable was looked at. Some of the 10 are large for a nine-year interval (up to 24.6 cm), so trees missed at the first visit cannot be ruled out; the count is used as recorded and this is stated.
+
+Frame. The 48 remeasured FIA subplots of natural stands. Response: the number of koa first recorded alive at the second visit with DBH of at least 12.7 cm. Exposure: interval length times subplot area (1/59.5 ha). Relative density at the first visit is koa SDI over the SDImax of record for the subplot (S1).
+
+Forms, Poisson with a log link and the exposure as offset: N1, a constant rate; N2, rate = exp(n0 + n1 RD). Reported only, not eligible: N3, rate = exp(n0 + n1 basal area of all species).
+
+Tests and rule. Installations (FIA plots) held out in the ten folds of record; score, the held-out Poisson deviance. Intervals from 2,000 resamples of installations. N2 enters the natural scenarios only if all three hold: (a) its held-out deviance is below that of N1; (b) n1 is negative and the upper limit of its 95% interval is below zero; (c) with ingrowth in the three natural scenarios (trees entering at 12.7 cm with the height of Eq. 3, each year, at the rate for the relative density of that year) the six 200-year gates of record still pass. If N2 fails, nothing is adopted: the constant rate and its interval are reported and the choice between a constant-rate scenario assumption and the present limitation statement goes back to Aaron.
+
+Reported either way: the three natural scenarios at 20, 40, 100 and 200 years without ingrowth, with N1 and with N2 (basal area, stems, QMD, RD, height under Eq. 6 of record), and the 95% range of each over 300 bootstrap draws of the ingrowth coefficients with every other equation at its estimates. The benchmark of Table 3 follows the trees of the first visit and cannot change. Planted scenarios stay without ingrowth.
+
+## 11. Ingrowth with relative density, basal area and BYI (written November 15, 2026, before script 48 ran)
+
+Why. After the result of section 10 (N2 failed; Aaron chose the constant rate N1 for the natural scenarios), Aaron suggested using RD with basal area and BYI. These forms are post hoc with respect to script 47, whose log was read first: RD slope positive (0.468), an all-species basal area slope of -0.0315 (z -1.90), recruits by RD third 5, 1 and 4, held-out deviance N1 73.3, N2 83.9, N3 75.0. The frame is unchanged (48 subplots, 10 recruits on 5), so a three-covariate form has about three recruits per coefficient and is expected to be unstable; that is the reason for the held-out test.
+
+Two stages, at Aaron's instruction given while this section was being written and before anything was run. Stage 1, occurrence: whether a subplot gained at least one koa recruit past 12.7 cm over its interval, a binomial model with a complementary log-log link and the log of interval length as offset, so the linear predictor is an annual hazard. Stage 2, amount: the number of recruits on a subplot that gained any, a zero-truncated Poisson with one mean (five subplots carry all ten recruits, so stage 2 takes no covariate). Expected ingrowth per hectare and year is the stage 1 probability over a nine-year interval times the stage 2 mean, divided by nine years and the subplot area.
+
+Stage 1 forms; basal area is koa basal area at the first visit, which the system projects: T1, constant; T2, RD; T3, BA; T4, RD, BA and ln BYI (Aaron's suggestion); T5, RD and ln BYI; T6, BA and ln BYI; T7, RD and BA; T8, ln BYI. Reported only: T4 with all-species basal area, which the system does not project. The single-stage constant rate N1 is rerun as the reference.
+
+Rule. Among T2 to T8, the form with the lowest held-out stage 1 deviance (installations held out, ten folds of record, both stages refitted in each training fold) replaces the constant rate only if all hold: (a) its held-out stage 1 deviance is below that of T1 and the held-out Poisson deviance of its expected counts is below that of N1; (b) the ratio of its expected rate at the 90th to the 10th percentile of each density term (RD, BA) in the frame, with the other terms at their medians, is below one with the upper limit of its 95% installation-bootstrap interval below one, so that ingrowth falls with density; (c) every fold fit and at least 90% of 2,000 bootstrap fits are clean (converged, finite coefficients, no fitted probability of zero or one); (d) the 200-year gates are unchanged from the run without ingrowth and the rate stays between zero and the largest subplot rate observed in every year of the three natural scenarios. Otherwise the constant rate stays, as Aaron decided, and the two-stage forms are reported in the supplement as tested. If only T1 is supported, the two-stage constant and N1 give the same expected rate by construction and N1 is kept.
+
+## 12. Exploratory screen of other ingrowth covariates and interactions (written November 15, 2026, before script 49 ran)
+
+Why. Aaron asked whether interactions or other covariates such as SDI or QMD help. Read before writing: the fits and held-out scores of script 48 (T5, RD with ln BYI, was the only form below the constants held out, with a positive RD coefficient). With five subplots carrying any recruit, the frame supports about one stage 1 coefficient, so a screen of many forms will pick some by chance. This screen is therefore exploratory: it is reported in full, nothing in it is adopted by rule, and any use of a screened form is Aaron's decision and is stated as post hoc.
+
+Stage 1 forms (cloglog, interval offset; stage 2 one mean), koa quantities at the first visit: single terms RD, SDI, BA, QMD, ln(stems + 1), all-species BA, BA of other species, koa share of BA, ln BYI; each density term with ln BYI; interactions RD by ln BYI, SDI by ln BYI, QMD by ln BYI, SDI by QMD; RD, QMD and ln BYI together. Reported for each: coefficients with z, AIC, held-out stage 1 deviance and held-out count deviance in the ten folds of record, and the number of clean fold fits.
+
+## 13. Two-stage ingrowth with QMD in the natural scenarios (written November 15, 2026, before script 50 ran)
+
+Decision. After the screen of section 12 (QMD alone: coefficient -0.131, z -2.43; held-out stage 1 deviance 25.3 against 37.2 for the constant; count deviance 39.6 against 73.3; ten clean folds), Aaron chose the QMD form for the natural scenarios, to be run through the bootstrap and the 200-year checks first. The form was selected from a screen of 22 on five subplots with any recruit, so it is post hoc and is stated as such wherever it is used. He was told that the starting list of the natural scenarios already carries stems below 12.7 cm (1,091 of 2,108 stems ha^-1), so a rate that is high at low QMD adds stems alongside those the list is already growing, and he chose the form without a delayed start.
+
+Form. Stage 1: probability that a subplot gains any koa recruit past 12.7 cm in nine years = 1 - exp(-9 exp(t0 + t1 QMD)), QMD of koa in cm. Stage 2: two recruits per subplot that gains any (zero-truncated Poisson mean, one value). Expected ingrowth (trees ha^-1 yr^-1) = probability times stage 2 mean times 59.5 / 9, entering at 12.7 cm with the height of Eq. 3, natural scenarios only.
+
+Checks before it goes into any table: (i) 2,000 installation resamples of both stages, with the share of clean fits, intervals of t0, t1 and of the rate at QMD 15, 25, 40 and 60 cm; (ii) the six gates against the run without ingrowth; (iii) the rate in every scenario year against the largest subplot rate observed, and scenario QMD against the QMD range of the frame; (iv) the three natural scenarios at 20, 40, 100 and 200 years without ingrowth, with the constant rate, and with the QMD form, and the 95% range over 300 bootstrap draws. If fewer than 90% of bootstrap fits are clean, a gate that passes without ingrowth fails with it, or the rate leaves the observed range, the result goes back to Aaron before anything is built.
