@@ -1,0 +1,27 @@
+bootstrap rows: 1987 ; S1 residual sd (ln scale): 0.537 ; sigma 1.0594  tau 0.4093  delta 0.4381  phi 0.0288 
+B2: 2.41634 0.15897 -4.0027 -0.08446 -0.77457 1.32738 
+
+(1) benchmark, S1 out of fold (earlier systems: own SDImax 0.177, 3.89, 6.70; 742 0.217, 3.99, 10.76)
+      set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+   <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:    all   182    53    -0.023     0.124     0.54     2.78    0.81    6.76
+   planted     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+     <int> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:       1   155    41    -0.023     0.113     0.44     2.59    1.35    5.79
+2:       0    27    12    -0.022     0.176     1.13     3.71   -2.27   10.78
+                     set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+                  <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1: horizon 10 yr or more    22     7    -0.028     0.122     2.55     3.57    1.69    7.93
+equivalence at each plot's longest horizon (25% region, convention)
+       set      var    bias_rel     slope      b1_lo     b1_hi pass_int pass_slope
+    <char>   <char>       <num>     <num>      <num>     <num>   <lgcl>     <lgcl>
+1:     all survival -0.06674147 0.8702477  0.6723189 1.0125970     TRUE      FALSE
+2:     all      QMD  0.02723609 0.8914191  0.7932027 1.0172668     TRUE       TRUE
+3:     all       BA -0.03874999 0.8185249  0.5729971 1.0946397     TRUE      FALSE
+4: planted survival -0.08176152 0.8085401 -1.2202963 0.9550901     TRUE      FALSE
+5: planted      QMD  0.04916396 0.9481309  0.8512312 1.0890872     TRUE       TRUE
+6: planted       BA  0.06798155 1.1938661  0.9272230 1.4428853     TRUE      FALSE
+7: natural survival  0.04185486 1.0109344  0.7610578 1.5096975    FALSE      FALSE
+8: natural      QMD -0.02307313 0.5210397  0.1446298 1.6716362     TRUE      FALSE
+9: natural       BA -0.23427791 0.2139769 -0.4835106 0.9272993    FALSE      FALSE
+Figs. 4 and 5 written to ms_v136

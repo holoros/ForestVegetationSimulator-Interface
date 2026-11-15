@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.14.1 (November 15, 2026)
+
+Changes are from version 1.14.0. The height curve (E2) and the height increment equation (E5) are now fitted jointly and share one asymptote that depends on BYI (form J1 of a fourth round of height increment forms); E2 loses its own asymptote coefficient and takes BYI as an argument, and the fallback rule uses the joint curve. A two-stage ingrowth rate with koa QMD is added for natural stands as a scenario assumption. S1, E3c, E4r and E6r are unchanged. Planted scenarios are unchanged in basal area, stems, QMD, SDI and RD, and so are the benchmark and the gates; height and assumed volume changed, and the natural scenarios changed through ingrowth. New scripts 42 to 56 with logs, the rules note with sections 7 to 13, and outputs without plot identifiers. `koa_step_rdbyi.R`: `koa_height(dbh, byi, cf)`, `koa_asymptote()`, `koa_ingrowth()`, and `koa_project(..., ingrowth = FALSE)`.
+
 ## 1.14.0 (November 14, 2026)
 
 Changes are from version 1.13.1. Height increment (E5) changed from the rule E2(D + dD) - E2(D) to a fitted equation, with the rule kept as the fallback; crown base equation E3c added; stand-level mortality forms compared and not adopted; height to diameter ratio and crown ratio reported for the 200-year runs. E2, S1, E4r and E6r are unchanged, and so are basal area, stems, QMD, SDI, the benchmark and the gates; height and assumed volume changed. New scripts 32 to 41 with logs, the rules note, and outputs without plot identifiers. `koa_step_rdbyi.R` gains `koa_dht()`, `koa_hcb()` and the argument `height`; `koa_rdbyi_equations.csv` gains the rows of E3c and E5.

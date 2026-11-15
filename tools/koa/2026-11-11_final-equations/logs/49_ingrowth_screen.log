@@ -1,0 +1,40 @@
+bootstrap rows: 1987 ; S1 residual sd (ln scale): 0.537 ; sigma 1.0594  tau 0.4093  delta 0.4381  phi 0.0288 
+subplots 48 ; installations 25 ; subplot-years 432 ; recruits 10 on 5 subplots; crude rate (trees/ha/yr) 1.377 
+subplots with no live koa at the first visit: 0 
+medians: SDI 166  QMD 35.4  stems 59  other-species BA 15.2  koa share 0.36 
+subplots with any recruit against the rest, means:
+   any_recruit    rd    sdi    ba   qmd     tph ba_all ba_oth share    BYI
+         <int> <num>  <num> <num> <num>   <num>  <num>  <num> <num>  <num>
+1:           0  0.21 291.58 16.75 40.85  332.91  42.95  26.20  0.45 340.73
+2:           1  0.42 553.77 24.66 15.78 1140.03  29.19   4.53  0.71 281.55
+
+screen, ordered by held-out stage 1 deviance (constant: 37.22 ; count deviance of the constant: 73.35 )
+           form   AIC stage1_dev count_dev predicted folds_clean  clean                                                                   coef
+         <char> <num>      <num>     <num>     <num>       <int> <lgcl>                                                                 <char>
+ 1:   ltph_lbyi 19.68      18.48     25.25       6.8           2  FALSE                               ltph 1.84 (z 1.98); lbyi -9.07 (z -1.80)
+ 2:         qmd 25.20      25.34     39.59       9.2          10   TRUE                                                   qmd -0.131 (z -2.43)
+ 3:    qmd_lbyi 26.51      33.15     51.49       7.5          10   TRUE                             qmd -0.122 (z -2.22); lbyi -1.58 (z -0.79)
+ 4:  qmd_x_lbyi 28.42      34.08     49.10       7.6          10   TRUE    qmd -0.51 (z -0.43); lbyi -2.81 (z -0.64); qmd:lbyi 0.0687 (z 0.33)
+ 5:     rd_lbyi 28.21      35.03     70.37       7.6          10   TRUE                                 rd 4.66 (z 2.39); lbyi -7.53 (z -2.40)
+ 6:    sdi_lbyi 28.31      37.21     72.78       8.8           9   TRUE                              sdi 0.0034 (z 2.46); lbyi -8.01 (z -2.52)
+ 7:       const 34.08      37.22     73.35       9.9          10   TRUE                                                                       
+ 8:      ba_all 34.99      39.32     74.42       9.4          10   TRUE                                               ba_all -0.0185 (z -0.95)
+ 9:  sdi_x_lbyi 30.18      40.08     87.46      10.6           9   TRUE sdi 0.0141 (z 0.45); lbyi -7.11 (z -1.67); sdi:lbyi -0.00181 (z -0.34)
+10:          ba 35.41      40.18     84.77       9.3          10   TRUE                                                     ba 0.0167 (z 0.88)
+11:   rd_x_lbyi 30.18      40.80     88.65      10.8           8   TRUE          rd 11 (z 0.27); lbyi -7.09 (z -1.65); rd:lbyi -1.09 (z -0.16)
+12:     ba_lbyi 30.39      43.89     82.48       7.1          10   TRUE                               ba 0.0633 (z 2.12); lbyi -7.18 (z -2.41)
+13:        lbyi 32.84      48.39     89.49       8.6          10   TRUE                                                   lbyi -3.66 (z -1.67)
+14:         sdi 34.67      48.43     89.05      15.2          10   TRUE                                                  sdi 0.000998 (z 1.29)
+15:          rd 34.36      50.96     88.66      15.3          10   TRUE                                                       rd 1.56 (z 1.42)
+16:        ltph 27.30     104.31     62.02      13.5          10   TRUE                                                    ltph 0.774 (z 2.75)
+17:       share 33.45     144.64    518.10       9.7           9   TRUE                                                    share 2.18 (z 1.55)
+18:  share_lbyi 31.31     151.63    522.37       7.4           9   TRUE                              share 2.63 (z 1.74); lbyi -4.13 (z -1.91)
+19:      ba_oth 30.05     152.44    596.82       9.6           9   TRUE                                               ba_oth -0.0984 (z -1.60)
+20: ba_oth_lbyi 29.82     157.16    598.00       7.5           9   TRUE                          ba_oth -0.105 (z -1.48); lbyi -2.78 (z -1.41)
+21: rd_qmd_lbyi 25.76     161.16     56.48      13.6           9   TRUE           rd 3.01 (z 1.53); qmd -0.101 (z -1.79); lbyi -5.43 (z -1.65)
+22:   sdi_x_qmd 27.14     178.26     55.93      17.2          10   TRUE  sdi -0.0027 (z -1.39); qmd -0.19 (z -2.34); sdi:qmd 0.000188 (z 1.69)
+           form   AIC stage1_dev count_dev predicted folds_clean  clean                                                                   coef
+         <char> <num>      <num>     <num>     <num>       <int> <lgcl>                                                                 <char>
+
+forms below the constant on both held-out scores with every fold clean: qmd qmd_lbyi qmd_x_lbyi rd_lbyi 
+done
