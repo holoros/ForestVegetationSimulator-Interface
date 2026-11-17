@@ -1,4 +1,6 @@
-# Methods summary: koa (*Acacia koa* A. Gray) relative-density system, November 11, 2026
+# Methods summary: koa (*Acacia koa* A. Gray) relative-density system, historical version 1.13.0 (November 11, 2026)
+
+This file records the November 11 methods. It is retained for provenance and is **not** the current methods summary. Version 1.14.1 jointly fits the height curve and height increment equation, adds optional natural-stand ingrowth, and changes related evaluation and scenario results. For the current system, use the [README](README.md#changed-in-version-1141-november-15-2026), `CHANGELOG.md`, scripts 42–56, the preregistration note in `notes/`, manuscript v136, and supplement v128. Do not cite the E2, E5, ingrowth, or long-term height statements below as current.
 
 Logs named with a subfolder belong to the November 10 job and are not in this folder.
 

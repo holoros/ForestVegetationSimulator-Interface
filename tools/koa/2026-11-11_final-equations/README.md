@@ -1,16 +1,17 @@
-# Koa (*Acacia koa* A. Gray) annual individual-tree growth and mortality system, relative density with SDImax from site and origin (November 11, 2026)
+# Koa (*Acacia koa* A. Gray) annual individual-tree growth and mortality system (version 1.14.1, November 15, 2026)
 
-## What this is
+## Current release and scope
 
-This folder holds an annual individual-tree growth and mortality system for *Acacia koa* A. Gray in Hawaii: one equation for the maximum stand density index (SDImax) of a stand from its Biomass Yield Index (BYI) and origin, a height-diameter equation, a diameter increment equation, a height increment rule and a mortality equation. `koa_step_rdbyi.R` is a standalone reference implementation in base R that reads its coefficients from `koa_rdbyi_equations.csv` and projects a tree list one year at a time. The folder also holds the scripts that document the analysis, their console logs, scenario bands, coverage table, yield workbook grid and draft figures from which every reported number was read.
+The current system of record is version **1.14.1**, published as [10.5281/zenodo.24259455](https://doi.org/10.5281/zenodo.24259455). The corresponding source and analysis scripts are in this folder on the `ClaudeDevelopment` branch. Manuscript v136 and supplement v128 are the matching November 15 drafts; journal submission and coauthor approval must be checked separately.
 
-## Status and what it supersedes
+`koa_step_rdbyi.R` is the base-R reference implementation. It reads `koa_rdbyi_equations.csv` and projects a koa tree list in annual steps. Maximum stand density index depends on Biomass Yield Index (BYI) and origin. Height and height increment share a fitted asymptote; diameter growth and mortality depend on tree and stand conditions. Crown base is an output only. Natural-stand ingrowth is an optional scenario assumption, estimated from ten recruits on five subplots, and is not validated for planted stands. There is no fitted volume or carbon equation. Competition uses live koa only. See the version 1.14.1 section below for the evidence, limitations, and changes from earlier releases.
 
-This is the folder `tools/koa/2026-11-11_final-equations` of `holoros/ForestVegetationSimulator-Interface` (branch `koa/20261111-final-equations`, pull request into `ClaudeDevelopment`) and the addition to Zenodo version 1.13.0, both released on November 11, 2026 (see How to cite). The manuscript that describes this system was in coauthor review at release. The supplement PDF that goes into version 1.13.0 is supplement v124, which describes this system.
+The November 11 version 1.13.0 model and its historical equations are retained below as provenance. The quick start and function signatures immediately below describe **1.14.1**.
 
-It supersedes four earlier things. The first is the v105final engine deposited in Zenodo versions 1.12.0 to 1.12.2 (`engine_v105final.zip`), which an audit on November 10, 2026 found to differ from its documentation (see `CHANGELOG.md`). The second is the first refit of November 10, 2026 (`koa_step.R`, `koa_final_equations.csv`, folder `tools/koa/2026-11-10_final-equations`, and the Zenodo 1.13.0 draft texts written for it), whose long-run projections had no upper bound. The third is the relative-density release of November 10, 2026 with a single SDImax (`koa_step_rd.R`, `koa_rd_equations.csv`). The fourth is the first build of this same system on the morning of November 11, 2026, whose mortality equation and benchmark counted thinning removals as deaths (see The thinning correction below). None of the second, third or fourth was published, and none should be.
+## Current domain of use
 
-The system applies the fitted equations as estimated. There is no multiplier, cap, floor, frontier, crown model, ingrowth or volume equation. Competition is from live koa only.
+Use the fitted E5 height increment by default. The `height = "rule"` option is a fallback and failed the held-out equivalence tests reported for version 1.14.1. Natural-stand ingrowth is an exploratory scenario assumption. The model is not validated for mixed stands, site-by-site screening from mapped BYI, or yield and carbon estimates. Natural stands failed most benchmark tests. Only five benchmark plots extend beyond ten years, so 40- and 100-year projections are extrapolations. The 90% basal-area bands covered 47 of 53 benchmark plots overall, 38 of 41 planted plots and 9 of 12 natural plots; coverage was scored with equations fitted to the benchmark plots. The Sukachev stand-behavior relation remains a failed gate. These limits should accompany any use of the projected curves.
+
 
 ## The thinning correction
 
@@ -20,7 +21,7 @@ The correction is a censoring rule. Mortality intervals that end in or span a th
 
 ## Quick start
 
-The example needs only base R and the two files `koa_step_rdbyi.R` and `koa_rdbyi_equations.csv` in the working directory. It was run in R 4.5.1 on November 13, 2026 and returned an SDImax of 621.3 and basal areas of 30.2 and 40.3 m² ha⁻¹ at years 20 and 40. The tree list and the BYI are illustrative inputs, not data.
+The example needs only base R and the two files `koa_step_rdbyi.R` and `koa_rdbyi_equations.csv` in the working directory. It was rerun in R on November 17, 2026 and returned an SDImax of 621.274 and basal areas of 30.198 and 40.322 m² ha⁻¹ at years 20 and 40. These are illustrative projections, not independent validation. The tree list and the BYI are illustrative inputs, not data.
 
 ```r
 source("koa_step_rdbyi.R")
@@ -29,9 +30,9 @@ cf <- koa_read_coef("koa_rdbyi_equations.csv")
 # A small planted tree list: eight records, each standing for 50 trees per hectare
 dbh     <- c(6.2, 7.5, 8.1, 9.4, 10.3, 11.8, 12.6, 14.0)   # diameter at breast height, cm
 expf    <- rep(50, length(dbh))                             # trees per hectare represented by each record
-ht      <- koa_height(dbh, cf)                              # total height, m (E2; use measured heights where available)
 byi     <- 156                                              # Biomass Yield Index, Mg per hectare
 planted <- 1                                                # 1 planted, 0 natural
+ht      <- koa_height(dbh, byi, cf)                          # total height, m (E2; use measured heights where available)
 
 sdimax <- koa_sdimax(byi, planted, cf)                      # S1
 print(sdimax)
@@ -47,7 +48,7 @@ out_local <- koa_project(dbh, ht, expf, byi, planted, 40, cf, sdimax = 700)
 print(out_local)
 ```
 
-`koa_project()` returns a data frame with one row per year from 0 to `years` and the columns `year`, `BA`, `TPH`, `QMD`, `SDI`, `RD` and `HT`. `koa_step()` takes the same arguments without `years` and returns the tree list one year later as a list with `dbh`, `ht` and `expf`. The function signatures, in the order of their arguments, are `koa_read_coef(path)`, `koa_sdimax(byi, planted, cf)`, `koa_height(dbh, cf)`, `koa_stand(dbh, ht, expf)`, `koa_bal(dbh, ba)`, `koa_step(dbh, ht, expf, byi, planted, cf, sdimax)` and `koa_project(dbh, ht, expf, byi, planted, years, cf, sdimax)`; `sdimax` defaults to `koa_sdimax(byi, planted, cf)`.
+`koa_project()` returns a data frame with one row per year from 0 to `years` and the columns `year`, `BA`, `TPH`, `QMD`, `SDI`, `RD` and `HT`. `koa_step()` takes the same arguments without `years` and returns the tree list one year later as a list with `dbh`, `ht` and `expf`. The main signatures are `koa_read_coef(path)`, `koa_sdimax(byi, planted, cf)`, `koa_height(dbh, byi, cf)`, `koa_step(dbh, ht, expf, byi, planted, cf, sdimax, height)` and `koa_project(dbh, ht, expf, byi, planted, years, cf, sdimax, height, ingrowth)`. `sdimax` defaults to `koa_sdimax(byi, planted, cf)`, `height` defaults to the fitted E5 equation, and `ingrowth` defaults to `FALSE`. Use `ingrowth = TRUE` only as an exploratory natural-stand scenario. The height fallback is `height = "rule"`.
 
 ## Inputs, outputs and units
 
@@ -56,7 +57,7 @@ print(out_local)
 | Name | Role | Level | Unit | Meaning |
 |:---:|:---:|:---:|:---:|:---:|
 | `dbh` | Input | Tree | cm | Diameter at breast height (1.37 m) of each live koa record |
-| `ht` | Input | Tree | m | Total height; the function does not fill missing heights, so fill them with `koa_height(dbh, cf)` first |
+| `ht` | Input | Tree | m | Total height; the function does not fill missing heights, so fill them with `koa_height(dbh, byi, cf)` first |
 | `expf` | Input | Tree | trees ha⁻¹ | Trees per hectare represented by each record |
 | `byi` | Input | Stand | Mg ha⁻¹ | Biomass Yield Index of the site |
 | `planted` | Input | Stand | none | 1 for a planted stand, 0 for a natural stand |
@@ -231,7 +232,10 @@ The system of record is unchanged. Scripts `28_common.R`, `28a_heldout_and_death
 
 The benchmark of record (6.76 m² ha⁻¹) and the comparison run (6.74) differ in the partition of installations into folds, which depends on the random number generator in force when `make_folds()` is called (L'Ecuyer-CMRG in script 23t, the R default in scripts 22t and 25). The coefficients are the same. Earlier documents attributed the difference to the fitting start.
 
-## Domain of use and known limits
+## Domain of use and known limits (historical version 1.13.0)
+
+The numerical summaries in this section describe the November 11 release. Use the version 1.14.1 section below and the current manuscript and supplement for the latest height and ingrowth results.
+
 
 The system is for stands of koa described by a tree list, a BYI and an origin. The scenario BYI levels, which are the 10th, 50th and 90th percentiles of each origin's plots, are 64, 248 and 386 Mg ha⁻¹ for natural plots and 121, 156 and 309 Mg ha⁻¹ for planted plots. A BYI of 309 Mg ha⁻¹ is the 90th percentile of planted plots, so SDImax for planted stands above it rests on about a tenth of the planted plots.
 
@@ -243,7 +247,7 @@ Natural stands are indicative only, because the 12 natural benchmark plots fail 
 
 The two parameters that make SDImax vary are the least secure in the system. A user with a local density record should supply `sdimax` directly.
 
-The system has no ingrowth, no crown variables and no uneven-aged structure beyond what the tree list carries. Height comes from diameter only. Thinning is not modeled: the mortality equation describes death without removals. Volume is not modeled: where volume appears in the outputs it is 0.40 × basal area × basal-area-weighted height, a stated assumption for which no source is cited. Carbon is not computed.
+Version 1.13.0 had no ingrowth, no crown variables and no uneven-aged structure beyond what the tree list carried. Height comes from diameter only. Thinning is not modeled: the mortality equation describes death without removals. Volume is not modeled: where volume appears in the outputs it is 0.40 × basal area × basal-area-weighted height, a stated assumption for which no source is cited. Carbon is not computed.
 
 ## How to reproduce
 
