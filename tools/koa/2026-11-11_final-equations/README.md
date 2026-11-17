@@ -30,9 +30,9 @@ cf <- koa_read_coef("koa_rdbyi_equations.csv")
 # A small planted tree list: eight records, each standing for 50 trees per hectare
 dbh     <- c(6.2, 7.5, 8.1, 9.4, 10.3, 11.8, 12.6, 14.0)   # diameter at breast height, cm
 expf    <- rep(50, length(dbh))                             # trees per hectare represented by each record
-ht      <- koa_height(dbh, byi, cf)                              # total height, m (E2; use measured heights where available)
 byi     <- 156                                              # Biomass Yield Index, Mg per hectare
 planted <- 1                                                # 1 planted, 0 natural
+ht      <- koa_height(dbh, byi, cf)                          # total height, m (E2; use measured heights where available)
 
 sdimax <- koa_sdimax(byi, planted, cf)                      # S1
 print(sdimax)
