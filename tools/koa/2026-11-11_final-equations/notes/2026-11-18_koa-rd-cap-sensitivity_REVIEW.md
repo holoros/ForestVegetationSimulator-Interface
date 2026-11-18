@@ -1,6 +1,6 @@
 # Koa: relative density held at or below 1.0, sensitivity run (November 18, 2026)
 
-**Status: sensitivity only. Nothing is deployed, and manuscript v137, supplement v129, the workbook, and Zenodo 1.14.1 are unchanged by it.**
+**Status: sensitivity only, not deployed. On Aaron's decision of November 18, 2026 it is reported in the supplement (one paragraph at the end of Section S6 and Table S39 of supplement v129) with one sentence in Results 3.5 of manuscript v137. The system, Table 4, Fig. 5, and the workbook are unchanged.**
 
 ## Bottom line
 
@@ -40,4 +40,4 @@ The gates differ in one place. The published system passes site order, the densi
 
 Three things bear on whether to adopt the cap. First, the data cannot tell the two systems apart, since only one benchmark plot reaches the cap inside its record. Second, the cap removes the upper tail that makes planted RD exceed 1.0 in Table 4 and Fig. S2, and it is conservative for long projections (lower basal area, narrower upper band). Third, it is a set rule with no size preference in who dies, it costs a gate, and it would change Table 4, Fig. 5, the supplement scenario tables, the workbook, and the deposit.
 
-A middle route that needs no rerun is already supported by the text. The Discussion says the fitted maximum is a scaling quantity more than a self-thinning frontier, and the reference code accepts a local SDI_max, so the manuscript can stay as published and cite this run as a supplement sensitivity in a revision if a referee asks.
+Aaron chose the middle route on November 18: the published system stays, and this run is reported as a supplement sensitivity. The Discussion already says the fitted maximum is a scaling quantity more than a self-thinning frontier, and the reference code accepts a local SDI_max.
