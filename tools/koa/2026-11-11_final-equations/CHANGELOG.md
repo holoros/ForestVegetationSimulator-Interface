@@ -1,5 +1,9 @@
 # Changelog
 
+## Presentation pass (November 18, 2026; version 1.14.1 unchanged)
+
+No equation, coefficient, table value or scenario changed, and no new deposit version was made. Figures 3 to 5 and S4 were redrawn from the saved fits and scenarios (scripts 57a, 57b, 57c and mk57.py): relative density axes stop at 1.0, axis titles and panel tags no longer overlap, and Fig. 5 marks the end of the benchmark record with a dashed line in place of shading. Manuscript v137 and supplement v129 carry these figures, and their tables may break across pages. Script 58 is a sensitivity run that holds relative density at or below 1.0 by a set rule; it is not deployed (planted basal area at 40 years 2 to 8% lower, benchmark unchanged, yield-density gate fails; see notes/2026-11-18_koa-rd-cap-sensitivity_REVIEW.md).
+
 ## 1.14.1 (November 15, 2026)
 
 Changes are from version 1.14.0. The height curve (E2) and the height increment equation (E5) are now fitted jointly and share one asymptote that depends on BYI (form J1 of a fourth round of height increment forms); E2 loses its own asymptote coefficient and takes BYI as an argument, and the fallback rule uses the joint curve. A two-stage ingrowth rate with koa QMD is added for natural stands as a scenario assumption. S1, E3c, E4r and E6r are unchanged. Planted scenarios are unchanged in basal area, stems, QMD, SDI and RD, and so are the benchmark and the gates; height and assumed volume changed, and the natural scenarios changed through ingrowth. New scripts 42 to 56 with logs, the rules note with sections 7 to 13, and outputs without plot identifiers. `koa_step_rdbyi.R`: `koa_height(dbh, byi, cf)`, `koa_asymptote()`, `koa_ingrowth()`, and `koa_project(..., ingrowth = FALSE)`.

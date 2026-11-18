@@ -1,0 +1,210 @@
+bootstrap rows: 1987 ; S1 residual sd (ln scale): 0.537 ; sigma 1.0594  tau 0.4093  delta 0.4381  phi 0.0288 
+ingrowth bootstrap rows: 1723 
+J1: 2.76907 0.06251 -3.58396 0.07765 -0.80994 1.35008 -3.18138 0.05227 
+
+(1) benchmark, S1 out of fold (earlier systems: own SDImax 0.177, 3.89, 6.70; 742 0.217, 3.99, 10.76)
+      set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+   <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:    all   182    53    -0.023     0.124     0.54     2.78    0.81    6.76
+   planted     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+     <int> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:       1   155    41    -0.023     0.113     0.44     2.59    1.35    5.79
+2:       0    27    12    -0.022     0.176     1.13     3.71   -2.27   10.78
+                     set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+                  <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1: horizon 10 yr or more    22     7    -0.028     0.122     2.55     3.57    1.69    7.93
+equivalence at each plot's longest horizon (25% region, convention)
+       set      var    bias_rel     slope      b1_lo     b1_hi pass_int pass_slope
+    <char>   <char>       <num>     <num>      <num>     <num>   <lgcl>     <lgcl>
+1:     all survival -0.06674147 0.8702477  0.6723189 1.0125970     TRUE      FALSE
+2:     all      QMD  0.02723609 0.8914191  0.7932027 1.0172668     TRUE       TRUE
+3:     all       BA -0.03874999 0.8185249  0.5729971 1.0946397     TRUE      FALSE
+4: planted survival -0.08176152 0.8085401 -1.2202963 0.9550901     TRUE      FALSE
+5: planted      QMD  0.04916396 0.9481309  0.8512312 1.0890872     TRUE       TRUE
+6: planted       BA  0.06798155 1.1938661  0.9272230 1.4428853     TRUE      FALSE
+7: natural survival  0.04185486 1.0109344  0.7610578 1.5096975    FALSE      FALSE
+8: natural      QMD -0.02307313 0.5210397  0.1446298 1.6716362     TRUE      FALSE
+9: natural       BA -0.23427791 0.2139769 -0.4835106 0.9272993    FALSE      FALSE
+simc(cap = FALSE) reproduces simx
+
+(a) scenarios at 20, 40 and 100 years: point (90% band, 500 paired draws)
+Key: <planted>
+    planted  level  year    var            published            RD_capped
+      <num> <fctr> <int> <char>               <char>               <char>
+ 1:       0     lo    20     BA   17.1 (7.5 to 24.2)   17.1 (7.5 to 24.2)
+ 2:       0     lo    20    QMD  19.3 (16.9 to 24.9)  19.3 (16.9 to 24.9)
+ 3:       0     lo    20     RD  0.44 (0.17 to 0.59)  0.44 (0.17 to 0.59)
+ 4:       0     lo    20    TPH     586 (169 to 809)     586 (169 to 809)
+ 5:       0     lo    40     BA   15.6 (6.1 to 23.9)   15.6 (6.1 to 23.9)
+ 6:       0     lo    40    QMD  24.3 (19.7 to 34.2)  24.3 (19.7 to 34.2)
+ 7:       0     lo    40     RD  0.36 (0.13 to 0.51)  0.36 (0.13 to 0.51)
+ 8:       0     lo    40    TPH      336 (85 to 507)      336 (85 to 507)
+ 9:       0     lo   100     BA   14.4 (4.7 to 24.4)   14.4 (4.7 to 24.4)
+10:       0     lo   100    QMD  37.3 (24.9 to 54.3)  37.3 (24.9 to 54.3)
+11:       0     lo   100     RD  0.28 (0.08 to 0.43)  0.28 (0.08 to 0.43)
+12:       0     lo   100    TPH      132 (41 to 236)      132 (41 to 236)
+13:       0     md    20     BA  29.5 (20.7 to 41.9)  29.5 (20.7 to 41.9)
+14:       0     md    20    QMD  23.5 (19.3 to 30.4)  23.5 (19.3 to 30.4)
+15:       0     md    20     RD  0.48 (0.35 to 0.63)  0.48 (0.35 to 0.63)
+16:       0     md    20    TPH     678 (478 to 878)     678 (478 to 878)
+17:       0     md    40     BA  30.1 (19.2 to 43.6)  30.1 (19.2 to 43.6)
+18:       0     md    40    QMD  32.5 (24.6 to 44.0)  32.5 (24.6 to 44.0)
+19:       0     md    40     RD  0.44 (0.29 to 0.59)  0.44 (0.29 to 0.59)
+20:       0     md    40    TPH     362 (226 to 505)     362 (226 to 505)
+21:       0     md   100     BA  28.6 (14.5 to 45.8)  28.6 (14.5 to 45.8)
+22:       0     md   100    QMD  53.3 (38.7 to 70.9)  53.3 (38.7 to 70.9)
+23:       0     md   100     RD  0.34 (0.18 to 0.53)  0.34 (0.18 to 0.53)
+24:       0     md   100    TPH      129 (63 to 211)      129 (63 to 211)
+25:       0     hi    20     BA  35.7 (24.6 to 46.1)  35.7 (24.6 to 46.1)
+26:       0     hi    20    QMD  25.7 (20.2 to 32.0)  25.7 (20.2 to 32.0)
+27:       0     hi    20     RD  0.50 (0.37 to 0.63)  0.50 (0.37 to 0.63)
+28:       0     hi    20    TPH     688 (492 to 895)     688 (492 to 895)
+29:       0     hi    40     BA  37.0 (24.3 to 48.8)  37.0 (24.3 to 48.8)
+30:       0     hi    40    QMD  36.4 (26.3 to 47.1)  36.4 (26.3 to 47.1)
+31:       0     hi    40     RD  0.45 (0.31 to 0.58)  0.45 (0.31 to 0.58)
+32:       0     hi    40    TPH     355 (230 to 513)     355 (230 to 513)
+33:       0     hi   100     BA  34.3 (18.4 to 50.5)  34.3 (18.4 to 50.5)
+34:       0     hi   100    QMD  59.6 (41.2 to 75.2)  59.6 (41.2 to 75.2)
+35:       0     hi   100     RD  0.35 (0.19 to 0.52)  0.35 (0.19 to 0.52)
+36:       0     hi   100    TPH      123 (60 to 229)      123 (60 to 229)
+37:       1     lo    20     BA  27.4 (14.2 to 41.3)  27.4 (14.2 to 36.1)
+38:       1     lo    20    QMD  29.4 (20.9 to 40.0)  29.4 (20.9 to 40.5)
+39:       1     lo    20     RD  0.88 (0.49 to 1.24)  0.88 (0.49 to 1.00)
+40:       1     lo    20    TPH     403 (292 to 447)     403 (251 to 443)
+41:       1     lo    40     BA  36.5 (20.8 to 51.6)  35.7 (20.8 to 41.3)
+42:       1     lo    40    QMD  41.4 (29.5 to 57.6)  41.4 (29.5 to 57.1)
+43:       1     lo    40     RD  1.02 (0.62 to 1.30)  1.00 (0.62 to 1.00)
+44:       1     lo    40    TPH     271 (152 to 345)     265 (139 to 339)
+45:       1     lo   100     BA  38.1 (18.2 to 61.5)  37.8 (18.6 to 46.8)
+46:       1     lo   100    QMD  67.9 (48.3 to 91.0)  67.7 (48.3 to 86.8)
+47:       1     lo   100     RD  0.88 (0.42 to 1.34)  0.87 (0.43 to 1.00)
+48:       1     lo   100    TPH      105 (43 to 179)      105 (43 to 165)
+49:       1     md    20     BA  31.5 (18.0 to 45.2)  31.5 (18.0 to 38.6)
+50:       1     md    20    QMD  31.5 (23.3 to 41.0)  31.5 (23.3 to 41.1)
+51:       1     md    20     RD  0.92 (0.59 to 1.22)  0.92 (0.59 to 1.00)
+52:       1     md    20    TPH     404 (320 to 446)     404 (278 to 444)
+53:       1     md    40     BA  41.1 (25.3 to 54.3)  39.2 (25.3 to 43.6)
+54:       1     md    40    QMD  44.3 (32.9 to 58.7)  44.3 (32.9 to 58.4)
+55:       1     md    40     RD  1.05 (0.69 to 1.32)  1.00 (0.69 to 1.00)
+56:       1     md    40    TPH     267 (170 to 341)     255 (154 to 332)
+57:       1     md   100     BA  41.4 (18.7 to 63.2)  40.8 (18.7 to 49.6)
+58:       1     md   100    QMD  72.2 (52.1 to 95.0)  71.8 (52.1 to 90.6)
+59:       1     md   100     RD  0.87 (0.41 to 1.31)  0.86 (0.40 to 1.00)
+60:       1     md   100    TPH      101 (41 to 174)      101 (41 to 159)
+61:       1     hi    20     BA  45.3 (26.3 to 62.1)  44.3 (26.3 to 50.5)
+62:       1     hi    20    QMD  37.9 (28.0 to 48.7)  37.9 (28.0 to 49.3)
+63:       1     hi    20     RD  1.02 (0.68 to 1.29)  1.00 (0.68 to 1.00)
+64:       1     hi    20    TPH     400 (308 to 451)     392 (253 to 450)
+65:       1     hi    40     BA  54.8 (36.2 to 70.6)  50.5 (36.2 to 56.1)
+66:       1     hi    40    QMD  53.1 (39.0 to 70.3)  53.0 (39.0 to 68.3)
+67:       1     hi    40     RD  1.08 (0.80 to 1.30)  1.00 (0.80 to 1.00)
+68:       1     hi    40    TPH     247 (151 to 337)     229 (137 to 327)
+69:       1     hi   100     BA  49.7 (22.8 to 81.8)  48.7 (22.8 to 62.9)
+70:       1     hi   100    QMD 85.1 (61.5 to 110.1) 83.9 (61.6 to 106.4)
+71:       1     hi   100     RD  0.82 (0.38 to 1.34)  0.80 (0.38 to 1.00)
+72:       1     hi   100    TPH       87 (37 to 172)       88 (39 to 152)
+    planted  level  year    var            published            RD_capped
+      <num> <fctr> <int> <char>               <char>               <char>
+
+percent change of the point value under the cap
+Key: <planted, level, year>
+    planted  level  year    BA   QMD   TPH
+      <num> <char> <int> <num> <num> <num>
+ 1:       0     hi    20   0.0   0.0   0.0
+ 2:       0     hi    40   0.0   0.0   0.0
+ 3:       0     hi   100   0.0   0.0   0.0
+ 4:       0     lo    20   0.0   0.0   0.0
+ 5:       0     lo    40   0.0   0.0   0.0
+ 6:       0     lo   100   0.0   0.0   0.0
+ 7:       0     md    20   0.0   0.0   0.0
+ 8:       0     md    40   0.0   0.0   0.0
+ 9:       0     md   100   0.0   0.0   0.0
+10:       1     hi    20  -2.2   0.0  -2.2
+11:       1     hi    40  -7.7  -0.2  -7.4
+12:       1     hi   100  -1.9  -1.4   1.0
+13:       1     lo    20   0.0   0.0   0.0
+14:       1     lo    40  -2.2   0.0  -2.2
+15:       1     lo   100  -0.8  -0.2  -0.3
+16:       1     md    20   0.0   0.0   0.0
+17:       1     md    40  -4.5   0.0  -4.6
+18:       1     md   100  -1.4  -0.5  -0.3
+
+when the cap binds (point run, 100 years) and the mean share of draws in which it binds in a year
+   planted  level years_binding_point first_year last_year stems_removed_point mean_share_draws_binding
+     <num> <char>               <int>      <int>     <int>               <num>                    <num>
+1:       0     lo                   0         NA        NA                 0.0                    0.006
+2:       0     md                   0         NA        NA                 0.0                    0.000
+3:       0     hi                   0         NA        NA                 0.0                    0.000
+4:       1     lo                  15         33        47                 9.1                    0.128
+5:       1     md                  21         27        47                20.5                    0.142
+6:       1     hi                  24         19        42                49.5                    0.177
+largest RD: published 1.094  capped 1 ; largest 95th percentile: published 1.347  capped 1.012 
+
+(b) benchmark, published
+      set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+   <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:    all   182    53    -0.023     0.124     0.54     2.78    0.81    6.76
+   planted     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+     <int> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:       1   155    41    -0.023     0.113     0.44     2.59    1.35    5.79
+2:       0    27    12    -0.022     0.176     1.13     3.71   -2.27   10.78
+benchmark, RD capped
+      set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+   <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:    all   182    53    -0.023     0.125     0.54     2.78    0.82     6.8
+   planted     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+     <int> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:       1   155    41    -0.023     0.113     0.44     2.59    1.36    5.84
+2:       0    27    12    -0.022     0.176     1.13     3.71   -2.27   10.78
+benchmark plots on which the cap binds in any year: 1 of 53 
+equivalence at each plot's longest horizon, RD capped
+       set      var    bias_rel     slope      b1_lo     b1_hi pass_int pass_slope
+    <char>   <char>       <num>     <num>      <num>     <num>   <lgcl>     <lgcl>
+1:     all survival -0.06584218 0.8695454  0.6717800 1.0117195     TRUE      FALSE
+2:     all      QMD  0.02723609 0.8914191  0.7932027 1.0172668     TRUE       TRUE
+3:     all       BA -0.03706636 0.8148540  0.5703868 1.0903250     TRUE      FALSE
+4: planted survival -0.08073784 0.7973334 -1.1193251 0.9490603     TRUE      FALSE
+5: planted      QMD  0.04916396 0.9481309  0.8512312 1.0890872     TRUE       TRUE
+6: planted       BA  0.07058422 1.1940397  0.9272230 1.4532232     TRUE      FALSE
+7: natural survival  0.04185486 1.0109344  0.7610578 1.5096975    FALSE      FALSE
+8: natural      QMD -0.02307313 0.5210397  0.1446298 1.6716362     TRUE      FALSE
+9: natural       BA -0.23427791 0.2139769 -0.4835106 0.9272993    FALSE      FALSE
+
+(c) gates, published
+   site_to_100 sdi_lim  ba200 no_rise sukachev yield_dens
+        <lgcl>  <lgcl> <lgcl>  <lgcl>   <lgcl>     <lgcl>
+1:        TRUE    TRUE   TRUE    TRUE    FALSE       TRUE
+gates, RD capped
+   site_to_100 sdi_lim  ba200 no_rise sukachev yield_dens
+        <lgcl>  <lgcl> <lgcl>  <lgcl>   <lgcl>     <lgcl>
+1:        TRUE    TRUE   TRUE    TRUE    FALSE      FALSE
+    planted  level  year    BA   TPH   QMD    RD
+      <num> <char> <int> <num> <num> <num> <num>
+ 1:       0     lo    20  17.1   586  19.3  0.44
+ 2:       0     lo    40  15.6   336  24.3  0.36
+ 3:       0     lo   100  14.4   132  37.3  0.28
+ 4:       0     lo   200  12.6    55  54.2  0.21
+ 5:       0     md    20  29.5   678  23.5  0.48
+ 6:       0     md    40  30.1   362  32.5  0.44
+ 7:       0     md   100  28.6   129  53.3  0.34
+ 8:       0     md   200  22.8    51  75.3  0.24
+ 9:       0     hi    20  35.7   688  25.7  0.50
+10:       0     hi    40  37.0   355  36.4  0.45
+11:       0     hi   100  34.3   123  59.6  0.35
+12:       0     hi   200  25.9    48  83.1  0.23
+13:       1     lo    20  27.4   403  29.4  0.88
+14:       1     lo    40  35.7   265  41.4  1.00
+15:       1     lo   100  37.8   105  67.7  0.87
+16:       1     lo   200  28.3    41  93.5  0.57
+17:       1     md    20  31.5   404  31.5  0.92
+18:       1     md    40  39.2   255  44.3  1.00
+19:       1     md   100  40.8   101  71.8  0.86
+20:       1     md   200  29.3    39  97.8  0.55
+21:       1     hi    20  44.3   392  37.9  1.00
+22:       1     hi    40  50.5   229  53.0  1.00
+23:       1     hi   100  48.7    88  83.9  0.80
+24:       1     hi   200  30.4    32 110.3  0.45
+    planted  level  year    BA   TPH   QMD    RD
+      <num> <char> <int> <num> <num> <num> <num>
+
+58 done
