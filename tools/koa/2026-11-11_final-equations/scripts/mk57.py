@@ -1,0 +1,21 @@
+# mk57.py  Writes 57a_fig3_figS4_v137.R from script 54 with the presentation changes of November 18, 2026. Every replacement must match exactly once.
+s = open('scripts/54_fig3_figS4_v136.R', encoding='utf8').read()
+def rep(a, b, n=1):
+    global s
+    assert s.count(a) == n, (a[:60], s.count(a)); s = s.replace(a, b)
+rep('# 54_fig3_figS4_v136.R', '# 57a_fig3_figS4_v137.R  Script 54 with presentation changes only (Aaron, November 18, 2026): every relative density axis stops at 1.0, the crown records with a competition index above 1 are counted and not drawn, long axis titles break onto two lines so panel tags clear them, the BYI axis of panel (a) is labelled every 200 Mg per ha so its labels do not touch, and relative density axes share one set of breaks. No fitting, no change to any curve inside the range drawn.\n# 54_fig3_figS4_v136.R')
+rep('dir.create("~/jobs/koa_final_eq_20261110/ms_v136"', 'dir.create("~/jobs/koa_final_eq_20261110/ms_v137"')
+rep('dir.create("ms_v136", showWarnings = FALSE)', 'dir.create("ms_v137", showWarnings = FALSE)')
+rep('"ms_v136/', '"ms_v137/', 3)
+rep('yi <- "Diameter increment (cm yr⁻¹)"; ym <- "Annual mortality probability"', 'yi <- "Diameter increment\\n(cm yr⁻¹)"; ym <- "Annual mortality\\nprobability"; rdx <- scale_x_continuous(breaks = seq(0, 1, 0.25), labels = c("0", "0.25", "0.5", "0.75", "1"))')
+rep('"Maximum SDI (trees ha⁻¹)"', '"Maximum SDI\\n(trees ha⁻¹)"')
+rep('x = seq(0, 1.1, length.out = 60)', 'x = seq(0, 1, length.out = 60)')
+rep('pC <- ggplot(cg, aes(x, y)) + geom_point(data = cd, aes(x, cr)', 'cat("crown records with a competition index above 1, not drawn:", cd[x > 1, .N], "of", nrow(cd), "; largest", round(max(cd$x), 3), "\\n")\npC <- ggplot(cg, aes(x, y)) + geom_point(data = cd[x <= 1], aes(x, cr)')
+rep('annotate("text", x = 1.08, y = c(0.30, 0.20), label = names(CC), colour = CC, hjust = 1, size = 2.5) + coord_cartesian(ylim = c(0, 1))', 'annotate("text", x = 0.98, y = c(0.22, 0.10), label = names(CC), colour = CC, hjust = 1, size = 3.2, fontface = "bold") + coord_cartesian(xlim = c(0, 1), ylim = c(0, 1)) + rdx')
+rep('"(BAL / BA) × relative density", yi)\n', '"(BAL / BA) × relative density", yi) + coord_cartesian(xlim = c(0, 1)) + rdx\n')
+rep('labs(x = "Height at start (m)", y = "Height increment (m yr⁻¹)")', 'labs(x = "Height at start (m)", y = "Height increment\\n(m yr⁻¹)")')
+rep('pM <- lp(mk("rd", seq(0.05, 1.2, length.out = 80), g6, K[, kM], bm), "Relative density", ym)', 'pM <- lp(mk("rd", seq(0.05, 1, length.out = 80), g6, K[, kM], bm), "Relative density", ym) + coord_cartesian(xlim = c(0, 1)) + rdx')
+rep('y = "RMSE of height increment (m yr⁻¹)"', 'y = "RMSE of height increment\\n(m yr⁻¹)"')
+rep('plot.margin = margin(9, 6, 3, 3))', 'plot.margin = margin(9, 14, 3, 3))')
+rep('show.legend = FALSE) + coord_cartesian(ylim = c(0, 2500))', 'show.legend = FALSE) + coord_cartesian(ylim = c(0, 2500)) + scale_x_continuous(breaks = seq(100, 500, 200))')
+open('scripts/57a_fig3_figS4_v137.R', 'w', encoding='utf8').write(s)

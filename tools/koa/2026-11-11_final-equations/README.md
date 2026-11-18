@@ -2,7 +2,7 @@
 
 ## Current release and scope
 
-The current system of record is version **1.14.1**, published as [10.5281/zenodo.24259455](https://doi.org/10.5281/zenodo.24259455). The corresponding source and analysis scripts are in this folder on the `ClaudeDevelopment` branch. Manuscript v136 and supplement v128 are the matching November 15 drafts; journal submission and coauthor approval must be checked separately.
+The current system of record is version **1.14.1**, published as [10.5281/zenodo.24259455](https://doi.org/10.5281/zenodo.24259455). The corresponding source and analysis scripts are in this folder on the `ClaudeDevelopment` branch. Manuscript v137 and supplement v129 (November 18, 2026) are the matching drafts and differ from v136 and v128 in presentation only (see "Presentation pass of November 18, 2026" below); journal submission and coauthor approval must be checked separately.
 
 `koa_step_rdbyi.R` is the base-R reference implementation. It reads `koa_rdbyi_equations.csv` and projects a koa tree list in annual steps. Maximum stand density index depends on Biomass Yield Index (BYI) and origin. Height and height increment share a fitted asymptote; diameter growth and mortality depend on tree and stand conditions. Crown base is an output only. Natural-stand ingrowth is an optional scenario assumption, estimated from ten recruits on five subplots, and is not validated for planted stands. There is no fitted volume or carbon equation. Competition uses live koa only. See the version 1.14.1 section below for the evidence, limitations, and changes from earlier releases.
 
@@ -200,6 +200,12 @@ Two changes to the system of record, each under a rule written before it was fit
 
 Planted scenarios are unchanged from 1.14.0 in basal area, stems, QMD, SDI and RD (script 51 is script 39 with the three changes and reproduces them to the last digit), and so are the benchmark, the coverage of the bands and the six gates; height and assumed volume changed in every scenario, and the natural scenarios also changed through ingrowth. `scripts/56_release_1141.R` writes `koa_rdbyi_equations.csv` from the fitted objects and checks `koa_step_rdbyi.R` against script 51 (E5 with ingrowth) and script 53 (the rule) to 1e-14. The coefficient file drops the row E2 a0 (the asymptote is E5 a0 and a_lbyi) and adds three rows for ingrowth. New outputs carry no plot identifier: `out/*_j1.csv`, `out/longterm_metrics_53.csv`, `out/boot_round3_43_table.csv`, `out/boot_round4_45_tables.csv`, `out/boot_round4_45_choice.csv`.
 
+## Presentation pass of November 18, 2026 (no change to version 1.14.1)
+
+No equation, coefficient, table value or scenario changed. Figures 3 to 5 and S4 of the manuscript were redrawn from the same saved fits and scenarios by `scripts/57a_fig3_figS4_v137.R` and `scripts/57b_fig4_fig5_v137.R` (`scripts/mk57.py` writes 57a from script 54 by exact one-time replacements, and `scripts/57c_tiff600.R` reruns both at 600 dpi). Every relative density axis now stops at 1.0, long axis titles break onto two lines so panel tags clear them, the two crown records with a competition index above 1 (largest 1.176) are counted in the log and not drawn, and Fig. 5 marks the end of the benchmark record with a dashed vertical line and dashed projections in place of a shaded region. `Fig3_equations.png`, `Fig4_benchmark.png` and `Fig5_projections.png` in this folder are the November 18 drawings.
+
+A sensitivity run, `scripts/58_rd_cap_sensitivity.R`, holds stand relative density at or below 1.0 by a set rule and compares it with the published system on the six scenarios (500 paired draws), the benchmark and the six gates. It is **not deployed**. Natural scenarios are identical; planted basal area at 40 years is 2 to 8% lower; the benchmark is unchanged (basal area RMSE 6.80 against 6.76 m² ha⁻¹; the rule binds on 1 of 53 plots); and the yield-density gate fails under the rule, so four of six gates pass where the published system passes five. The record is `notes/2026-11-18_koa-rd-cap-sensitivity_REVIEW.md`, with `logs/58_rd_cap_sensitivity.log` and `out/rd_cap_table_58.csv`.
+
 ## Added in version 1.14.0 (November 14, 2026)
 
 The scripts and logs added in this version are on GitHub in holoros/ForestVegetationSimulator-Interface (https://github.com/holoros/ForestVegetationSimulator-Interface/pull/22), commit d53c03f9e60dd7d82b665e4d2f077c1ee6afa9f9. This folder is deposited as `final_equations_20261114.zip` in version 1.14.0 of the Zenodo record (https://doi.org/10.5281/zenodo.24231258).
@@ -301,9 +307,9 @@ Scripts 21, 22t and 23t contain one hard-coded plot identifier, the same in each
 | `workbook/workbook_logistic_rdbyi.csv` | Logistic curves fitted to the workbook basal area trajectories |
 | `workbook/workbook_diag_rdbyi.csv` | Diagnostics of each workbook trajectory |
 | `workbook/workbook_crossover_rdbyi.csv` | Age at which basal area stops being ordered by site class |
-| `Fig3_equations.png` | Draft figure, 300 dpi: the fitted equations with bootstrap bands |
-| `Fig4_benchmark.png` | Draft figure, 300 dpi: observed against projected at each plot's longest horizon |
-| `Fig5_projections.png` | Draft figure, 300 dpi: scenario projections to 100 years, years past the benchmark record shaded (script 26) |
+| `Fig3_equations.png` | Manuscript v137 figure, 300 dpi: the fitted equations with bootstrap bands (script 57a) |
+| `Fig4_benchmark.png` | Manuscript v137 figure, 300 dpi: observed against projected at each plot's longest horizon (script 57b) |
+| `Fig5_projections.png` | Manuscript v137 figure, 300 dpi: scenario projections to 100 years, dashed past the end of the benchmark record (script 57b) |
 
 ## How to cite
 
