@@ -24,7 +24,8 @@ Equations and parameters from the koa model of record, version 1.14.1
 - Height: asymptote `exp(a0 + a1 ln(BYI))`, shared with height increment.
   The base (no BYI) model is removed; `make_stand()` stops if BYI is
   missing or zero.
-- Height to crown base: `ht / (1 + exp(b0 + b1 ln(ht) + b2 bal/ba rd))`.
+- Height to crown base: `min(exp(b0 + b1 ln(ht)), 0.98 ht)`, fitted directly
+  as a height (koa 1.14.2); competition terms fitted with the wrong sign.
 - Diameter increment: refit; crown ratio, Duan factor, origin
   calibration factors and the 0-4 cm cap removed.
 - Height increment: asymptote form; Duan factor, origin calibration

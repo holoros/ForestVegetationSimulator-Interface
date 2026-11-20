@@ -26,7 +26,7 @@ VersionTag = "HiGyV0.5.0"
   # Equations and parameters from the koa model of record (Zenodo 1.14.1)
   # Maximum SDI predicted from BYI and origin; relative density competition
   # Height- asymptote from BYI shared with height increment 
-  # Height to crown base- relative density competition 
+  # Height to crown base- fitted as a height from total height (koa 1.14.2)
   # Diameter increment- refit parameters and modified calculation 
   # Height increment- asymptote form 
   # Mortality- tree-level annual mortality replaces the three-stage plot model
@@ -135,25 +135,20 @@ calc_ht = function(tree.data, plot.data, byi=stand$byi,
   
 # Height to crown base species parameters
   hcb.pred.parm = dplyr::tribble(
-    ~species,  ~b0,     ~b1,     ~b2,
-    'AK',     -0.2749,  0.3287,  1.4394)
+    ~species,  ~b0,               ~b1,
+    'AK',     -1.49852188060747,  1.07812413578363)
 
 
 #' Predict height to crown base
 #' 
 #' @param ht Numeric: Total tree height (m)
-#' @param bal Numeric: Plot basal area larger trees (m^2 per ha)
-#' @param ba Numeric: Plot basal area (m^2 per ha)
-#' @param rd Numeric: Plot relative density
-#' @param b0-b2 Numeric: Species parameters
+#' @param b0-b1 Numeric: Species parameters
 #' @return Numeric: Predicted height to crown base (m)
 #'
-  pred_hcb = function(ht, bal, ba, rd, 
-                      b0, b1, b2) {
+  pred_hcb = function(ht, b0, b1) {
     
-    hcb = ht / (1 + exp(b0 +
-                          b1 * log(ht) +
-                          b2 * bal / pmax(ba, 1e-6) * rd))
+    hcb = pmin(exp(b0 + b1 * log(ht)), 
+               0.98 * ht)
     
     hcb
   }
@@ -162,7 +157,7 @@ calc_ht = function(tree.data, plot.data, byi=stand$byi,
 #' Wrapper to calculate height to crown base for tree list
 #' 
 #' @param tree.data Dataframe: Tree list
-#' @param plot.data Dataframe: Plot summary data
+#' @param plot.data Dataframe: Plot summary data (not used, kept for the existing calls)
 #' @param hcb.spp.parms Dataframe: Species parameters (default hcb.pred.spp)
 #' @return Dataframe: Tree data with hcb column added
 #'
@@ -174,16 +169,11 @@ calc_ht = function(tree.data, plot.data, byi=stand$byi,
     hcb.parm = hcb.pred.parm.df
     
     tree=tree.data %>% 
-      dplyr::left_join(plot.data %>% 
-                         dplyr::select(plot, ba.plot, rd), 
-                       by = 'plot') %>%
        # Match parameter estimates on species, Koa is currently the default
       dplyr::mutate(idx = match(sp, hcb.parm$species, nomatch = match('AK', hcb.parm$species)),
                     b0 = hcb.parm$b0[idx],
                     b1 = hcb.parm$b1[idx],
-                    b2 = hcb.parm$b2[idx],
-                    phcb = pred_hcb(ht, bal, ba=ba.plot, rd,
-                                    b0, b1, b2)) %>%
+                    phcb = pred_hcb(ht, b0, b1)) %>%
       dplyr::select(dplyr::all_of(tree.data.names), phcb)
     
     tree
