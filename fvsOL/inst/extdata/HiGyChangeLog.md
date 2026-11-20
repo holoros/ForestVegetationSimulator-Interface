@@ -13,6 +13,24 @@
 - `make_fvs_tree()`: diameter growth returned to FVS inside bark (bark
   ratio 0.9); FVS adds `DG/BRATIO` to DBH.
 
+#### Growth equations
+Equations and parameters from the koa model of record, version 1.14.1
+(https://doi.org/10.5281/zenodo.24259455).
+- Maximum SDI (25.4 cm index diameter) predicted from BYI and origin
+  (`sdimax.parm`, `pred_sdimax()`); `calc_plot_summary()` adds `sdimax`
+  and relative density `rd`. SDI now uses the 25.4 cm index diameter.
+- Competition in crown base, diameter increment and height increment is
+  `bal / ba * rd`.
+- Height: asymptote `exp(a0 + a1 ln(BYI))`, shared with height increment.
+  The base (no BYI) model is removed; `make_stand()` stops if BYI is
+  missing or zero.
+- Height to crown base: `ht / (1 + exp(b0 + b1 ln(ht) + b2 bal/ba rd))`.
+- Diameter increment: refit; crown ratio, Duan factor, origin
+  calibration factors and the 0-4 cm cap removed.
+- Height increment: asymptote form; Duan factor, origin calibration
+  factors and the 0-2 m cap removed. Zero for trees above the asymptote.
+- BAL: trees with equal DBH share the same BAL.
+
 ### Version 0.4.0
 
 #### Height
