@@ -1,5 +1,5 @@
 ################################################################################
-# v5.1.2 
+# v5.1.0 
 #
 # Adirondack Variant of the Forest Vegetation Simulator (FVS-ADK)                                                                                            #
 # Developed by Aaron Weiskittel, University of Maine, School of Forest Resources
@@ -9,7 +9,7 @@
 #
 ################################################################################
 
-AdirondackGYVersionTag = "AdirondackV5.1.2"
+AdirondackGYVersionTag = "AdirondackV5.1.0"
 
 ### required packages
 library(dplyr) # needed for arrange, mutate, left_join, group_by, summarise, across, ungroup
@@ -19,12 +19,6 @@ library(purrr) # needed for map
 ##############################
 #### major update summary ####
 ####
-
-# 5.1.2
-  # Ingrowth.FUN() warns when ClimateSI exceeds 30 m; predicted ingrowth rate grows exponentially above about 40 m in stress tests
-  # Checked against Weiskittel and Kuehne (2016) and the 2019 correction; no coefficient changed
-  # Possible swap of the sqrt(BA) and BAL survival coefficients for balsam fir and the spruce group; not changed, needs checking against Table 8
-  # Ingrowth.FUN() NLME coefficients are not in the 2016 paper and have not been traced to a published source
 
 # 5.1.0
   # Removed dependencies: nlme, plyr
@@ -598,8 +592,6 @@ Ingrowth.FUN=function(PARMS,CutPoint,BA,TPH,QMD,PHW,MinDBH,ClimateSI,cyclen=1)
       IPH = IPH*cyclen
     }
     IPH = ifelse(PI>=CutPoint,IPH,0)
-    if (any(ClimateSI > 30, na.rm=TRUE)) # outside the range of the stress tests
-      warning(sprintf("Ingrowth.FUN: ClimateSI of %.1f m exceeds 30 m; ingrowth may be overpredicted", max(ClimateSI, na.rm=TRUE)))
     return(list(IPH=IPH))
 }
      
