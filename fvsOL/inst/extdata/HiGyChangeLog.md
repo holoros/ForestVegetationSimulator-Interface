@@ -12,6 +12,9 @@
   crown ratio was higher).
 - `make_fvs_tree()`: diameter growth returned to FVS inside bark (bark
   ratio 0.9); FVS adds `DG/BRATIO` to DBH.
+- `make_stand()` accepts a missing BYI, which the Event Monitor has not
+  computed at the imputation stop point; `Hi.GY()` stops if BYI is missing
+  or zero, and `calc_ht()` stops only if a height must be imputed.
 
 #### Growth equations
 Equations and parameters from the koa model of record, version 1.14.1
@@ -22,8 +25,7 @@ Equations and parameters from the koa model of record, version 1.14.1
 - Competition in crown base, diameter increment and height increment is
   `bal / ba * rd`.
 - Height: asymptote `exp(a0 + a1 ln(BYI))`, shared with height increment.
-  The base (no BYI) model is removed; `make_stand()` stops if BYI is
-  missing or zero.
+  The base (no BYI) model is removed.
 - Height to crown base: `min(exp(b0 + b1 ln(ht)), 0.98 ht)`, fitted directly
   as a height (koa 1.14.2); competition terms fitted with the wrong sign.
 - Diameter increment: refit; crown ratio, Duan factor, origin

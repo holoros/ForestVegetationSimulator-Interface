@@ -113,6 +113,11 @@ calc_ht = function(tree.data, plot.data, byi=stand$byi,
   
   tree.data.names= colnames(tree.data)   
   
+  # BYI is required to impute height, there is no base model
+  if (dplyr::coalesce(as.numeric(byi), 0) <= 0 && any(tree.data$phtrow %in% TRUE)) {
+    stop('BYI missing or zero: HiGy requires the Biomass Yield Index to impute height')
+  }
+  
   ht.parm = ht.pred.parm.df
     
   tree = tree.data %>%
@@ -701,11 +706,7 @@ make_ops = function(verbose = FALSE,
                        byi = 0, 
                        planted = 0){
     
-    # BYI is required, there is no base model
-    if (dplyr::coalesce(as.numeric(byi), 0) <= 0) {
-      stop('BYI missing or zero: HiGy requires the Biomass Yield Index')
-    }
-    
+    # BYI is NA at the imputation stop point, before the Event Monitor computes it
     stand=data.frame(stand.id = stand.id,
                      elev = elev,
                      byi = pmin(as.numeric(byi), 600), # BYI capped at 600 
@@ -905,6 +906,11 @@ calc_topht = function(tree.data, topht.tph = 100) {
 
 ### Call growth and yield model for each stand
 Hi.GY = function(tree, stand, ops = NULL) {
+  
+  # BYI is required, there is no base model
+  if (any(dplyr::coalesce(as.numeric(stand$byi), 0) <= 0)) {
+    stop('BYI missing or zero: HiGy requires the Biomass Yield Index')
+  }
   
   ans = tree %>%
     dplyr::filter(!is.na(stand.id)) %>%
