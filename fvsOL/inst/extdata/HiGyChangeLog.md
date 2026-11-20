@@ -1,5 +1,18 @@
 # HiGy.R changelog 
 
+### Version 0.5.0
+
+#### Fixes
+- `Hi.GY()` called `AcadianGYOneStand()`; now calls `HiGYOneStand()`.
+- Crown recession: the t+1 BAL was computed but not assigned, basal area
+  was not updated, and the crown ratio used the start-of-year `hcb`
+  instead of the predicted `phcb`.
+- Crown recession: `(pcr-cr)/cr<-0.01` parsed as an assignment, and the
+  1% limits were reversed (crown ratio fell 1% a year when the predicted
+  crown ratio was higher).
+- `make_fvs_tree()`: diameter growth returned to FVS inside bark (bark
+  ratio 0.9); FVS adds `DG/BRATIO` to DBH.
+
 ### Version 0.4.0
 
 #### Height

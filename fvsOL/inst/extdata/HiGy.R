@@ -974,7 +974,7 @@ make_fvs_tree=function(tree.data, orgtree.list, num.plots){
                   expf.fvs=expf) %>% 
     dplyr::inner_join(tree.list, # inner join excludes records not handled by model
                       by='tree') %>% 
-    dplyr::mutate(dg=(dbh-dbh.fvs)*cm.to.in, # diameter growth to inches
+    dplyr::mutate(dg=(dbh-dbh.fvs)*cm.to.in*0.9, # diameter growth to inches inside bark (FVS-HI bark ratio 0.9)
                   htg=(ht-ht.fvs)*m.to.ft,  # height growth to feet
                   # set the crown ratio sign to negative so that FVS doesn't change them. 
                   cratio = round(cr*-100, 1), # 
@@ -1114,7 +1114,7 @@ Hi.GY = function(tree, stand, ops = NULL) {
     purrr::imap_dfr(function(tree.subset, stand.id.subset) {
       stand.subset = subset(stand, stand.id == stand.id.subset)
       
-      AcadianGYOneStand(tree.subset, 
+      HiGYOneStand(tree.subset, 
                         stand = stand.subset, 
                         ops = ops)
     })
@@ -1228,7 +1228,8 @@ HiGYOneStand = function(tree, stand, ops)
 
 #### Crown recession ####
  # calculate t+1 height to crown base  
-  tree %>% 
+  tree = tree %>% 
+    dplyr::mutate(ba = (dbh^2*0.00007854)*expf) %>% 
     calc_bal()
   
   # Calculate plot summary
@@ -1238,9 +1239,9 @@ HiGYOneStand = function(tree, stand, ops)
   # crown ratio change limited to 1% annually   
   tree=tree %>% 
     calc_hcb(plot.data = plot.smry) %>% 
-    dplyr::mutate(pcr= 1-(hcb/ht), 
-                  cr= dplyr::case_when((pcr-cr)/cr>0.01 ~cr*0.99,
-                                       (pcr-cr)/cr<-0.01 ~cr*1.01,
+    dplyr::mutate(pcr= 1-(phcb/ht), 
+                  cr= dplyr::case_when((pcr-cr)/cr>0.01 ~cr*1.01,
+                                       (pcr-cr)/cr< -0.01 ~cr*0.99,
                                        TRUE ~pcr))
   
 #### Output ####      
