@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.14.2 (November 20, 2026)
+
+Changes are from version 1.14.1. Crown base E3c, HCB = HT / (1 + exp(b0 + lH ln HT + x (BAL/BA) RD)), fitted a longer crown with more competition. Two sets of alternatives were tested on the same 360 US Forest Service FIA koa trees (Cardinal jobs 16999243 and 17000073): 17 crown ratio forms (script 59) and 15 forms fitted directly to crown base as a height (script 60), with koa-only and all-species basal area, BAL, relative BAL, relative height, DBH/HT, BYI, rainfall and elevation. Every competition and density term fitted the unexpected way, and with the expected sign it sat at zero. E3d replaces E3c: HCB = min(exp(b0 + lH ln HT), 0.98 HT), b0 = -1.4985 (95% interval -2.900 to -0.306) and lH = 1.0781 (0.648 to 1.551), plot-cluster bootstrap with 2,000 resamples. Held-out RMSE is 2.77 m against 2.26 m for E3c; the change is post hoc and disclosed. Nothing else in the system uses crown base, so basal area, stems, QMD, SDI, RD, height, the benchmark and the gates are unchanged. The fitting frame (rebuilt from HI_TREE.csv; md5 093c759addd9e713ee42b98fd6524266) carries plot identifiers and is not deposited.
+
 ## Presentation pass (November 18, 2026; version 1.14.1 unchanged)
 
 No equation, coefficient, table value or scenario changed, and no new deposit version was made. Figures 3 to 5 and S4 were redrawn from the saved fits and scenarios (scripts 57a, 57b, 57c and mk57.py): relative density axes stop at 1.0, axis titles and panel tags no longer overlap, and Fig. 5 marks the end of the benchmark record with a dashed line in place of shading. Manuscript v137 and supplement v129 carry these figures, and their tables may break across pages. Script 58 is a sensitivity run that holds relative density at or below 1.0 by a set rule; it is not deployed (planted basal area at 40 years 2 to 8% lower, benchmark unchanged, yield-density gate fails; see notes/2026-11-18_koa-rd-cap-sensitivity_REVIEW.md).
