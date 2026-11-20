@@ -31,6 +31,12 @@ Equations and parameters from the koa model of record, version 1.14.1
   factors and the 0-2 m cap removed. Zero for trees above the asymptote.
 - BAL: trees with equal DBH share the same BAL.
 
+#### Mortality
+- The three-stage plot model (Stage 1 probability, Garcia self-thinning,
+  Stage 3 allocation and 95% cap, origin factor 2.65) is replaced by one
+  tree-level annual equation: complementary log-log of ln(DBH + 1), DBH,
+  DBH^2, BAL, ln(RD), ln(BYI) and origin (`mort.parm`, `pred_mort()`).
+
 ### Version 0.4.0
 
 #### Height

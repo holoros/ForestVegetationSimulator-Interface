@@ -30,7 +30,6 @@ VersionTag = "HiGyV0.5.0"
   # Diameter increment- refit parameters and modified calculation 
   # Height increment- asymptote form 
   # Mortality- tree-level annual mortality replaces the three-stage plot model
-  # Ingrowth- optional for natural stands (ops$use.ingrowth)
 
 # version 0.4.0 (2026-10-14)
   # Height- refit parameters and changed relative diameter definition 
@@ -385,215 +384,70 @@ calc_dht = function(tree.data,
 
 #### Mortality ####
 
-# Three-stage koa mortality: 
-  # Stage 1 plot mortality probability (mort_prob),
-  # Stage 2 whole-stand self-thinning (plot_survival, Garcia 2009 form),
-  # Stage 3 per-tree allocation (tree_mort_allocate) renormalized to the
-      # stand rate under a per-tree cap (tree_mort).
+# Tree-level annual mortality parameters
+mort.parm = dplyr::tribble(
+  ~species, ~b0,               ~b1,                ~b2,                  ~b3,                  ~b4,                ~b5,               ~b6,                ~b7,
+  'AK',     0.340426001075269, -0.869658145840034, -0.0236697637666886,  0.000275459669220663, 0.0340721198355973, 0.744946139770556, -0.116539979564868, -1.04977227058111)
 
-
-# Stage 3 parameters (diameter, relative height, plot BA, BAL)
-mort.s3.parm = dplyr::tribble(
-  ~species, ~b0, ~b1, ~b2, ~b3, ~b4,
-  'AK', -2.13468022306448, -0.818899541466801, -0.813105157217597, 0.382953931412773, 0.346317281270796)
-
-#' Stage 1: annual mortality probability
-#'
-#' @param sdi Numeric: Stand density index
-#' @param planted Boolean: Origin indicator (1 = planted, 0 = natural)
-#' @param parm.df Dataframe: Species parameter table (default mort.s1.parm)
-#' @return Numeric: Annual mortality occurrence probability (0-1)
-mort_prob = function(sdi, planted) {
- 
-  eta = -1.67856483466631 +  
-        0.161863756638461 * log(pmax(as.numeric(sdi), 1)) + 
-        -0.19099361188623 * planted
-  
-  eta = pmin(pmax(eta, -30), 5)
-  
-  mort.prob=1 - exp(-exp(eta))
-  
-  mort.prob
-}
-
-#' Stage 2: Plot self-thinning mortality fraction Garcia (2009) 
-#'
-#' @param tph Numeric: Live trees per hectare at the start of the step
-#' @param h.qmd.t0 Numeric: Allometric height-equivalent of QMD at the start of the step (m)
-#' @param h.qmd.t1 Numeric: Allometric height-equivalent of QMD projected to the end of the step (m)
-#' @param planted Boolean: Origin indicator (1 = planted, 0 = natural)
-#' @return Numeric: Stand mortality fraction for the step
-plot_survival = function(tph, h.qmd.t0, h.qmd.t1, planted) {
-  alpha = 2.96
-  beta  = 0.16019053617304435                      # H_QMD
-  floor.rate = ifelse(planted == 1, 0.006, 0.003)  # A1 background mortality floor
-  h1    = pmax(h.qmd.t1, h.qmd.t0)                 # no regular mortality without height growth
-  s0    = 100 / sqrt(pmax(tph, 1e-9))
-  inner = s0^alpha - (beta * h.qmd.t0)^alpha + (beta * h1)^alpha
-  s1    = pmax(inner, 1e-9)^(1 / alpha)
-  n1    = pmin(10000 / s1^2, tph)
-  m.step = ifelse(h1 > h.qmd.t0, (tph - n1) / pmax(tph, 1e-9), 0)
-  
-  surv=pmax(m.step, floor.rate)
-  
-  surv
-}
-
-#' Stage 3: per-tree mortality weighting by size and competition, scaled to the plot rate
+#' Calculate annual probability of mortality
 #'
 #' @param dbh Numeric: Diameter at breast height (cm)
-#' @param expf Numeric: Expansion factor (trees per hectare)
-#' @param tph Numeric: Plot trees per hectare
-#' @param mort.plot Numeric: Target stand mortality fraction for the step
-#' @param rht Numeric: Relative height (ht / plot max height)
-#' @param ba Numeric: Plot basal area (m^2 per ha)
-#' @param bal Numeric: Plot basal area in larger trees (m^2 per ha)
-#' @param b0-b4 Numeric: Species parameters
-#' @return Numeric: Raw (uncapped) per-tree mortality shares
-tree_mort_allocate = function(dbh, expf, tph, mort.plot, rht, ba, bal,
-                              b0, b1, b2, b3, b4) {
-  n = length(dbh)
-  if (n == 0L) {
-    mort.share = rep(0, n)
-    return(mort.share)}
+#' @param bal Numeric: Plot basal area larger trees (m^2 per ha)
+#' @param rd Numeric: Plot relative density
+#' @param byi Numeric: Biomass Yield Index (Mg per ha)
+#' @param planted Boolean: Origin indicator (1 = planted, 0 = natural)
+#' @param b0-b7 Numeric: Species parameters
+#' @return Numeric: Annual probability of mortality (0-1)
+pred_mort = function(dbh, bal, rd, byi, planted,
+                     b0, b1, b2, b3, b4, b5, b6, b7) {
 
   eta = b0 +
-    b1 * log(pmax(dbh, 0.1)) +
-    b2 * rht +
-    b3 * log(ba + 1) +
-    b4 * log(pmax(bal, 0) + 1)
+    b1 * log(dbh + 1) +
+    b2 * dbh +
+    b3 * dbh^2 +
+    b4 * bal +
+    b5 * log(pmax(rd, 0.001)) +
+    b6 * log(byi) +
+    b7 * planted
 
-  mort.weight = pmin(pmax(1 - exp(-exp(eta)), 1e-9), 1)
+  mort.prob = 1 - exp(-exp(eta))
 
-  mort.weight.mean = sum(mort.weight * expf) / tph
-
-  mort.share = mort.plot * mort.weight / max(mort.weight.mean, 1e-9)
-
-  mort.share
-}
-
-#' Cap per-tree mortality fractions at 95% and rescale to hit the target stand rate exactly
-#'
-#' Raw per-tree shares are capped at 95%, (sort by raw share descending, capped shares' weighted mean equals mort.target)
-#'
-#' @param m.tree Numeric: Raw (uncapped) per-tree mortality shares
-#' @param expf Numeric: Expansion factor (trees per hectare)
-#' @param mort.target Numeric: Target stand deaths per hectare for the step
-#' @param cap Numeric: Per-tree mortality fraction cap (default 0.95)
-#' @return Numeric: Capped, rescaled per-tree mortality fractions
-tree_mort = function(m.tree, expf, mort.target, cap = 0.95) {
-  n = length(m.tree)
-  mort.max = cap * sum(expf)
-
-  if (mort.target >= mort.max) {
-    mort.tree = rep(cap, n)
-    return(mort.tree)
-  }
-  if (mort.target <= 0 || max(m.tree) <= cap) {
-    mort.tree = pmin(pmax(m.tree, 0), cap)
-    return(mort.tree)
-  }
-
-  share.order  = order(-m.tree)
-  share.sorted = m.tree[share.order]
-  expf.sorted  = expf[share.order]
-  mort.sorted  = share.sorted * expf.sorted
-
-  # expf.cum[k+1]: total expf of the k largest-share trees (k = 0..n)
-  expf.cum = c(0, cumsum(expf.sorted))
-  # mort.cum.tail[k+1]: total would-be deaths of the (n-k) smallest-share trees (k = 0..n)
-  mort.cum.tail = c(rev(cumsum(rev(mort.sorted))), 0)
-
-  scale.candidate = (mort.target - cap * expf.cum) / mort.cum.tail
-  share.capped.min = c(Inf, share.sorted)   # smallest "capped" tree's raw share, per candidate k
-  share.uncapped.max = c(share.sorted, 0)     # largest "uncapped" tree's raw share, per candidate k
-
-  regime.valid = is.finite(scale.candidate) &
-    mort.cum.tail > 0 &
-    scale.candidate * share.capped.min >= cap & scale.candidate * share.uncapped.max <= cap
-
-  scale = scale.candidate[which(regime.valid)[1]]
-
-  mort.tree = pmin(pmax(scale * m.tree, 0), cap)
-
-  mort.tree
+  mort.prob
 }
 
 #' Calculate mortality and modifiers for tree list
 #'
 #' @param tree.data Dataframe: Tree list
 #' @param plot.data Dataframe: Plot summary data
-#' @param mort.parm.df Dataframe: Species parameter table for Stage 3 (default mort.s3.parm)
+#' @param mort.parm.df Dataframe: Species parameter table (default mort.parm)
+#' @param byi Numeric: Biomass Yield Index (Mg per ha)
 #' @param planted Boolean: Origin indicator (1 = planted, 0 = natural)
 #' @return Dataframe: Tree data with mortality calculations
-calc_mortality = function(tree.data, plot.data, mort.parm.df = mort.s3.parm, 
+calc_mortality = function(tree.data, plot.data, mort.parm.df = mort.parm, 
+                          byi = stand$byi,
                           planted = stand$planted) {
 
   tree.data.names = colnames(tree.data)
-  planted.stand = dplyr::coalesce(as.numeric(planted), 0)
-  p.bar = 0.313065206550519
-
-  # H_QMD allometric constants (QMD -> allometric height-equivalent)
-  h.qmd.a = -0.16863070512157105
-  h.qmd.k = 1.1719473700506686
-
-  qmd.t1.plot = tree.data %>%
-    dplyr::group_by(plot) %>%
-    dplyr::summarise(qmd.t1.sq = sum(expf * (dbh + dplyr::coalesce(ddbh, 0))^2), 
-                     .groups = 'drop')
-
-  plot.mort = plot.data %>%
-    dplyr::select(plot, tph.plot, qmd, sdi) %>%
-    dplyr::left_join(qmd.t1.plot, by = 'plot') %>%
-    dplyr::mutate(qmd.t1 = sqrt(qmd.t1.sq / pmax(tph.plot, 1e-12)),
-                  # allometric height-equivalent of QMD, current and projected
-                  h.qmd.t0 = exp((log(pmax(qmd, 1e-6)) - h.qmd.a) / h.qmd.k),
-                  h.qmd.t1 = exp((log(pmax(qmd.t1, 1e-6)) - h.qmd.a) / h.qmd.k),
-                  # Stage 2 self-thinning rate, Stage 1 gate, origin-level factor, 95% cap
-                  mort.plot.reg = plot_survival(tph.plot,
-                                              h.qmd.t0,
-                                              h.qmd.t1,
-                                              planted.stand),
-                  p.gate = mort_prob(sdi,
-                                     planted.stand),
-                  mort.cal = ifelse(planted.stand == 1,
-                                    1.0,
-                                    2.64629),
-                  mort.plot = pmin(pmax(mort.plot.reg / p.bar * p.gate * mort.cal, 0), 0.95),
-                  mort.target = mort.plot * tph.plot) %>%
-    dplyr::select(plot, 
-                  tph.plot, 
-                  mort.plot, 
-                  mort.target)
 
   tree = tree.data %>%
     dplyr::left_join(plot.data %>% 
                        dplyr::select(plot, 
-                                     ba.plot, 
-                                     max.plot.ht), 
+                                     rd), 
                      by = 'plot') %>%
-    dplyr::left_join(plot.mort, 
-                     by = 'plot') %>%
-    dplyr::mutate(rht = ht / pmax(max.plot.ht, 0.1),
-                  # Match parameter estimates on species, Koa is currently the default
-                  idx = match(sp, mort.parm.df$species, nomatch = match('AK', mort.parm.df$species)),
+    # Match parameter estimates on species, Koa is currently the default
+    dplyr::mutate(idx = match(sp, mort.parm.df$species, nomatch = match('AK', mort.parm.df$species)),
                   b0 = mort.parm.df$b0[idx],
                   b1 = mort.parm.df$b1[idx],
                   b2 = mort.parm.df$b2[idx],
                   b3 = mort.parm.df$b3[idx],
-                  b4 = mort.parm.df$b4[idx]) %>%
-    dplyr::group_by(plot) %>%
-    dplyr::mutate(mort.share = tree_mort_allocate(dbh, expf, 
-                                                  dplyr::first(tph.plot), 
-                                                  dplyr::first(mort.plot),
-                                                  rht, ba.plot, bal, 
-                                                  b0, b1, b2, b3, b4),
-                  mort.frac = tree_mort(mort.share, 
-                                        expf, 
-                                        dplyr::first(mort.target)),
-                  dexpf = expf * mort.frac,
-                  dexpf = dexpf * mort.mult) %>%
-    dplyr::ungroup()
+                  b4 = mort.parm.df$b4[idx],
+                  b5 = mort.parm.df$b5[idx],
+                  b6 = mort.parm.df$b6[idx],
+                  b7 = mort.parm.df$b7[idx],
+                  planted = dplyr::coalesce(planted, 0),
+                  dexpf = expf * pred_mort(dbh, bal, rd, byi, planted,
+                                           b0, b1, b2, b3, b4, b5, b6, b7),
+                  dexpf = dexpf * mort.mult)
 
   tree = tree %>%
     dplyr::select(dplyr::all_of(tree.data.names), dexpf)
