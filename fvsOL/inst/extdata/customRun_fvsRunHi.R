@@ -135,12 +135,14 @@ fvsRunHi <- function(runOps=NULL, logfile="FvsHi.log", autoload.model=TRUE)
     calc_ht(plot.data = plot.smry) %>% 
     # use predicted height if missing height 
     dplyr::mutate(ht= dplyr::case_when(phtrow==TRUE & model.ex==FALSE ~pht,
-                           TRUE ~ ht)*3.28084) %>% 
+                           TRUE ~ ht)) %>% 
     #predicted height to crown base (returns phcb)
     calc_hcb(plot.data = plot.smry) %>% 
     #use predicted height to crown base if cr is missing 
     dplyr::mutate(cratio = dplyr::case_when(phcbrow==TRUE & model.ex==FALSE & mgmtcd!=9 ~round((1-(phcb/ht))*100, 1), 
-                                        TRUE ~cr)) %>% 
+                                        TRUE ~cr*100),
+                  # height to feet after crown base is predicted in meters
+                  ht = ht*3.28084) %>% 
     dplyr::arrange(tree) %>% 
     dplyr::select(ht, 
                   cratio)
