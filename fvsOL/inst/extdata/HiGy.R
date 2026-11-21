@@ -26,7 +26,8 @@ VersionTag = "HiGyV0.5.0"
   # Equations and parameters from the koa model of record (Zenodo 1.14.1)
   # Maximum SDI predicted from BYI and origin; relative density competition
   # Height- asymptote from BYI shared with height increment 
-  # Height to crown base- fitted as a height from total height (koa 1.14.2)
+  # Height to crown base- logistic in slenderness and koa competition, refit to crown base HT x (1 - CR) from the
+      # FIA crown ratio (koa 1.14.3, E3e, 2026-11-21); the 1.14.2 fit had used crown length HT x CR
   # Diameter increment- refit parameters and modified calculation 
   # Height increment- asymptote form 
   # Mortality- tree-level annual mortality replaces the three-stage plot model
@@ -140,20 +141,22 @@ calc_ht = function(tree.data, plot.data, byi=stand$byi,
   
 # Height to crown base species parameters
   hcb.pred.parm = dplyr::tribble(
-    ~species,  ~b0,               ~b1,
-    'AK',     -1.49852188060747,  1.07812413578363)
+    ~species,  ~b0,                 ~b1,                 ~b2,                  ~b3,
+    'AK',     -0.82892102575579,  -0.44435342092672,  -0.0396716421642529,  -0.0993967760664791)
 
 
 #' Predict height to crown base
 #' 
 #' @param ht Numeric: Total tree height (m)
-#' @param b0-b1 Numeric: Species parameters
-#' @return Numeric: Predicted height to crown base (m)
+#' @param dbh Numeric: Diameter at breast height (cm)
+#' @param bal Numeric: Basal area of larger koa (m^2 per ha)
+#' @param ba Numeric: Plot koa basal area (m^2 per ha)
+#' @param b0-b3 Numeric: Species parameters
+#' @return Numeric: Predicted height to crown base (m); crown ratio is 1 - hcb/ht
 #'
-  pred_hcb = function(ht, b0, b1) {
+  pred_hcb = function(ht, dbh, bal, ba, b0, b1, b2, b3) {
     
-    hcb = pmin(exp(b0 + b1 * log(ht)), 
-               0.98 * ht)
+    hcb = ht / (1 + exp(b0 + b1 * log(pmax(ht, 0.5) / pmax(dbh, 0.1)) + b2 * sqrt(bal * ba + 1) + b3 * log(ba + 1)))
     
     hcb
   }
@@ -162,7 +165,7 @@ calc_ht = function(tree.data, plot.data, byi=stand$byi,
 #' Wrapper to calculate height to crown base for tree list
 #' 
 #' @param tree.data Dataframe: Tree list
-#' @param plot.data Dataframe: Plot summary data (not used, kept for the existing calls)
+#' @param plot.data Dataframe: Plot summary data (supplies ba.plot; tree.data must carry bal)
 #' @param hcb.spp.parms Dataframe: Species parameters (default hcb.pred.spp)
 #' @return Dataframe: Tree data with hcb column added
 #'
@@ -174,11 +177,14 @@ calc_ht = function(tree.data, plot.data, byi=stand$byi,
     hcb.parm = hcb.pred.parm.df
     
     tree=tree.data %>% 
+      dplyr::left_join(plot.data %>% dplyr::select(plot, ba.plot), by = 'plot') %>%
        # Match parameter estimates on species, Koa is currently the default
       dplyr::mutate(idx = match(sp, hcb.parm$species, nomatch = match('AK', hcb.parm$species)),
                     b0 = hcb.parm$b0[idx],
                     b1 = hcb.parm$b1[idx],
-                    phcb = pred_hcb(ht, b0, b1)) %>%
+                    b2 = hcb.parm$b2[idx],
+                    b3 = hcb.parm$b3[idx],
+                    phcb = pred_hcb(ht, dbh, bal, ba.plot, b0, b1, b2, b3)) %>%
       dplyr::select(dplyr::all_of(tree.data.names), phcb)
     
     tree
