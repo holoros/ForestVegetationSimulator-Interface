@@ -1,0 +1,5 @@
+# 73_tiff600_v141.R  Upload copies of Figs. 3 to 5 of manuscript v141 at 600 dpi (TIFF, LZW): scripts 64b (Fig. 3) and 57b (Figs. 4 and 5) unchanged except for the output folder, resolution and device.
+setwd("~/jobs/koa_1150_20261121"); dir.create("ms_v141/dpi600", recursive = TRUE, showWarnings = FALSE)
+L <- readLines("scripts/64b_fig3_figS4_v140.R"); L <- gsub("ms_v140/(Fig[0-9S]+_[a-z_]+)\\.png", "ms_v141/dpi600/\\1.tiff", L); L <- gsub("dpi = 300, type = \"cairo\"", "dpi = 600, device = \"tiff\", compression = \"lzw\"", L, fixed = TRUE); L <- gsub("fwrite(hs, \"ms_v140/", "fwrite(hs, \"ms_v141/dpi600/", L, fixed = TRUE); eval(parse(text = L))
+L <- readLines("scripts/57b_fig4_fig5_v137.R"); L <- gsub("ms_v137/(Fig[0-9S]+_[a-z_]+)\\.png", "ms_v141/dpi600/\\1.tiff", L); L <- gsub("dpi = 300, type = \"cairo\"", "dpi = 600, device = \"tiff\", compression = \"lzw\"", L, fixed = TRUE); L <- gsub("dpi = 300", "dpi = 600, device = \"tiff\", compression = \"lzw\"", L, fixed = TRUE); eval(parse(text = L))
+cat("600 dpi figures written\n")
