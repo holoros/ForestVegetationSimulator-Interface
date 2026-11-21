@@ -1,5 +1,21 @@
 # HiGy.R changelog 
 
+### Version 0.5.1
+
+#### Growth equations
+- Parameters from the koa model of record, version 1.15.0 (November 21, 2026).
+  BYI for the 53 Kapapala plots is predicted from their own climate and soils
+  (statewide forest model) in place of one fill value. Maximum SDI, height,
+  height increment, diameter increment and mortality were refit with forms
+  unchanged; crown base (E3e) and ingrowth are unchanged.
+
+#### customRun_fvsRunHi.R
+- The Event Monitor has not computed BYI at stop point 1, so a stand with a
+  tree lacking a measured height halted with "BYI missing or zero".
+  `read_stand_site()` now reads BYI and STDORGCD from `FVS_StandInit` in the
+  input database when the Event Monitor value is missing.
+
+
 ### Version 0.5.0
 
 #### Fixes
