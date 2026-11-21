@@ -2,7 +2,7 @@
 # the first round (script 33, log 33_height_increment_round1.log) was read: post hoc, same frame, same tests, same rule. R0 and L2 are rerun for reference.
 # Forms: R0 (E5 rule), L2 (first round), L3 and L4 (origin by height term), B2 and B3 (one asymptote for both origins, origin on the rate).
 # No plot or installation identifier is printed.
-suppressMessages(library(data.table)); source("~/jobs/koa_final_eq_20261110/scripts/32_common.R"); NC <- as.integer(Sys.getenv("KOA_CORES", "6")); NB <- as.integer(Sys.getenv("KOA_NBOOT", "2000"))
+suppressMessages(library(data.table)); source("~/jobs/koa_1150_20261121/scripts/32_common.R"); NC <- as.integer(Sys.getenv("KOA_CORES", "6")); NB <- as.integer(Sys.getenv("KOA_NBOOT", "2000"))
 A <- tr[Status == "live" & !is.na(DBH) & DBH > 0 & !is.na(BAL) & !is.na(BA_koa) & !is.na(SDI_koa)][order(uid, Measure)]; A <- A[!duplicated(A[, .(uid, Measure)])]
 HV <- A[!is.na(HT) & HT >= 1.37]; nv <- HV[, .N, by = uid]; HV <- HV[uid %in% nv[N >= 2, uid]]
 prs <- HV[, { k <- t(combn(.N, 2)); .(m0 = Measure[k[, 1]], m1 = Measure[k[, 2]], H0 = HT[k[, 1]], H1 = HT[k[, 2]], nvis = .N) }, by = .(uid, pid, Data, Install, planted, BYI)]

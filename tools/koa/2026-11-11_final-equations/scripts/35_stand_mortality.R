@@ -6,7 +6,7 @@
 #   S4m  whole-stand model of Garcia (2009), S^a - (b QMD)^a = constant with S = 100 / sqrt(N); a common, b by origin, all fitted; same allocation
 #   S3m  E6r with relative density held at or below 1 by a stand step (excess removed in proportion to the E6r hazard); no constant of its own
 # Tests: installations held out (plot-interval survival, tree-level log score); 53-plot benchmark; six 200-year gates. No identifier is printed.
-suppressMessages(library(data.table)); source("~/jobs/koa_final_eq_20261110/scripts/32_common.R"); NC <- as.integer(Sys.getenv("KOA_CORES", "6"))
+suppressMessages(library(data.table)); source("~/jobs/koa_1150_20261121/scripts/32_common.R"); NC <- as.integer(Sys.getenv("KOA_CORES", "6"))
 mf <- as.data.table(readRDS("frames/mf_confirmed.rds")); mf <- flagrem(mf, FALSE); mf <- mf[rem__ == FALSE]; mf[, `:=`(sm = SM[pid], lbyi = log(BYI))]; stopifnot(nrow(mf) == 6722, sum(mf$died) == 845, !anyNA(mf$sm))
 mf[, piv := paste(pid, Measure, e_Measure)]; mf[, `:=`(q0 = sqrt(mean(dbh_m^2)), nex = sum(EXPF_c)), by = piv]; cat("plot-interval stand values rebuilt from the tree rows where the stand table had none: tree-intervals with QMD missing", mf[, sum(is.na(QMD_koa))], "; with SDI of zero", mf[, sum(SDI_koa <= 0)], "\n")
 mf[, `:=`(qx = pmax(ifelse(is.na(QMD_koa) | QMD_koa <= 0, q0, QMD_koa), 0.1), tx = ifelse(!is.na(TPH_koa) & TPH_koa > 0, TPH_koa, nex))]; mf[, sx := ifelse(!is.na(SDI_koa) & SDI_koa > 0, SDI_koa, tx * (qx / 25.4)^1.605)]; mf[, q1 := pmax(ifelse(is.na(e_QMD_koa) | e_QMD_koa <= 0, qx, e_QMD_koa), 0.1)]; stopifnot(all(mf$tx > 0), !anyNA(mf$sx))   # 267 tree-intervals start below breast height (DBH 0) on young PSP plots; QMD is floored at 0.1 cm and relative density at 0.001 there, as in E6r

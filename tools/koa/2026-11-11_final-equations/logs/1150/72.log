@@ -1,0 +1,53 @@
+bootstrap rows: 1984 ; S1 residual sd (ln scale): 0.512 ; sigma 1.0478  tau 0.3749  delta 0.4298  phi 0.0288 
+ingrowth bootstrap rows: 1723 
+J1: 2.59719 0.08559 -3.44519 0.15806 -0.87172 1.3422 -3.08707 0.07579 
+workbook starting visit: PSP|206|6 2015 trees 37 
+
+(6) workbook grid. Starting list: trees 37 , QMD rescaled to 7.24 cm, starting BA-weighted height 7.07 m. SDImax multipliers for the low and high cases (10th and 90th percentile of planted plot residuals about S1): 0.55 1.738 
+anchor height: 21.82 m; SDImax by site class (central): Excellent 959; Good 824; Marginal 667; Low Feasibility 469 
+     sdimax            site   byi stems_ac sdimax_value   BA20   BA40   BA52  BA100  BA200 peakBA peak_age decline_pct stems52 qmd52 reineke rises_to_peak rd_max sdi_max
+     <char>          <char> <num>    <num>        <num>  <num>  <num>  <num>  <num>  <num>  <num>    <num>       <num>   <num> <num>   <num>        <lgcl>  <num>   <num>
+ 1: central       Excellent   450      100       959.00 159.50 229.48 241.09 219.42 134.24 242.47       59       44.64   60.80 26.96   -1.25          TRUE   0.77  740.57
+ 2: central       Excellent   450      200       959.00 222.19 268.20 267.38 229.08 139.26 268.98       44       48.23   77.32 25.18   -1.62          TRUE   0.94  900.21
+ 3: central       Excellent   450      300       959.00 249.69 276.75 272.23 231.28 140.15 276.81       39       49.37   82.28 24.63   -1.79          TRUE   1.02  980.73
+ 4: central       Excellent   450      400       959.00 262.71 279.39 273.83 232.62 140.20 279.98       36       49.93   83.96 24.45   -1.88          TRUE   1.08 1033.28
+ 5: central            Good   340      100       824.11 140.22 204.71 217.42 205.56 134.25 220.46       64       39.10   61.94 25.37   -1.20          TRUE   0.83  682.19
+ 6: central            Good   340      200       824.11 193.75 239.69 241.85 214.65 139.24 242.07       49       42.48   80.81 23.43   -1.57          TRUE   1.00  820.91
+ 7: central            Good   340      300       824.11 217.66 247.85 246.46 216.57 140.08 248.09       43       43.53   87.10 22.78   -1.74          TRUE   1.08  890.20
+ 8: central            Good   340      400       824.11 229.41 250.42 247.93 217.71 140.08 250.42       40       44.06   89.45 22.54   -1.83          TRUE   1.13  935.30
+ 9: central        Marginal   230      100       667.10 116.41 172.53 185.49 183.62 130.29 190.95       70       31.77   62.93 23.25   -1.14          TRUE   0.90  602.67
+10: central        Marginal   230      200       667.10 158.76 201.64 206.43 191.42 134.73 206.61       55       34.79   84.57 21.15   -1.51          TRUE   1.07  714.87
+11: central        Marginal   230      300       667.10 177.92 208.85 210.50 192.88 135.38 210.57       50       35.71   92.72 20.40   -1.68          TRUE   1.15  770.24
+12: central        Marginal   230      400       667.10 187.71 211.23 211.77 193.75 135.28 212.05       47       36.20   96.12 20.10   -1.78          TRUE   1.21  806.30
+13: central Low Feasibility   120      100       469.24  84.15 126.41 137.78 144.57 114.91 146.08       82       21.34   63.16 20.00   -1.08          TRUE   1.02  478.31
+14: central Low Feasibility   120      200       469.24 112.07 146.12 152.29 149.72 117.65 154.31       67       23.75   87.68 17.85   -1.44          TRUE   1.18  553.94
+15: central Low Feasibility   120      300       469.24 124.75 151.34 155.24 150.47 117.80 156.02       62       24.50   98.30 17.02   -1.61          TRUE   1.26  591.05
+16: central Low Feasibility   120      400       469.24 131.54 153.24 156.23 151.03 117.55 156.73       61       25.00  103.34 16.65   -1.71          TRUE   1.31  615.63
+     sdimax            site   byi stems_ac      A     B     C  rmse rmse_pct   e40   e52   A100  B100  C100 rmse_pct100
+     <char>          <char> <num>    <num>  <num> <num> <num> <num>    <num> <num> <num>  <num> <num> <num>       <num>
+ 1: central       Excellent   450      100 238.28 15.28  7.02  7.16     4.07 -1.95  4.08 234.74 14.97  6.73        3.72
+ 2: central       Excellent   450      200 265.53 10.71  5.04  6.55     3.02  3.47  1.93 254.97 10.13  4.49        4.93
+ 3: central       Excellent   450      300 272.53  8.55  4.13  6.14     2.64  4.35 -0.29 260.49  8.02  3.62        5.41
+ 4: central       Excellent   450      400 275.27  7.26  3.63  5.93     2.45  4.15 -1.44 262.99  6.81  3.17        5.53
+ 5: central            Good   340      100 215.23 15.80  7.37  6.65     4.25 -2.74  3.77 215.22 15.80  7.35        3.32
+ 6: central            Good   340      200 239.03 11.20  5.48  6.24     3.23  1.90  2.96 232.59 10.76  5.05        3.91
+ 7: central            Good   340      300 244.91  8.97  4.58  5.74     2.77  3.22  1.58 237.08  8.55  4.14        4.20
+ 8: central            Good   340      400 247.10  7.63  4.08  5.42     2.52  3.41  0.83 239.05  7.25  3.67        4.24
+ 9: central        Marginal   230      100 184.23 16.39  7.80  5.83     4.41 -3.20  3.16 187.76 16.84  8.21        3.22
+10: central        Marginal   230      200 203.33 11.76  6.06  5.69     3.52  0.22  3.36 201.22 11.57  5.86        3.06
+11: central        Marginal   230      300 207.79  9.45  5.20  5.30     3.05  1.65  2.77 204.40  9.21  4.92        3.08
+12: central        Marginal   230      400 209.36  8.04  4.72  5.02     2.79  2.10  2.42 205.74  7.81  4.44        3.03
+13: central Low Feasibility   120      100 137.71 17.01  8.38  4.37     4.50 -2.97  2.16 144.04 18.19  9.49        3.50
+14: central Low Feasibility   120      200 149.97 12.35  6.92  4.43     3.78 -1.14  2.80 151.96 12.61  7.22        2.82
+15: central Low Feasibility   120      300 152.63  9.93  6.19  4.22     3.37 -0.12  2.78 153.51 10.03  6.32        2.55
+16: central Low Feasibility   120      400 153.58  8.39  5.80  4.05     3.12  0.32  2.74 154.21  8.45  5.89        2.40
+Key: <stems_ac>
+   stems_ac first_inversion exc_minus_low_100 low_minus_exc_200
+      <num>           <num>             <num>             <num>
+1:      100             200              74.8             -19.3
+2:      200              NA              79.4             -21.6
+3:      300              NA              80.8             -22.3
+4:      400              NA              81.6             -22.6
+
+51 done
+exit=0
