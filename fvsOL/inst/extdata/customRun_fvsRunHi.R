@@ -1,6 +1,21 @@
 
 unlink("FvsHi.log")
 
+# read BYI and STDORGCD for a stand from FVS_StandInit in the input database
+read_stand_site = function(stand.id, site, dsn = "FVS_Data.db"){
+  if (!file.exists(dsn)) return(site)
+  con = DBI::dbConnect(RSQLite::SQLite(), dsn)
+  on.exit(DBI::dbDisconnect(con))
+  flds = toupper(DBI::dbListFields(con, "FVS_StandInit"))
+  for (v in c("BYI", "STDORGCD")) {
+    if (!v %in% flds) next
+    r = DBI::dbGetQuery(con, paste0("SELECT ", v, " FROM FVS_StandInit WHERE Stand_ID = ?"),
+                        params = list(stand.id))
+    if (nrow(r) == 1 && !is.na(r[[1]])) site[[tolower(v)]] = as.numeric(r[[1]])
+  }
+  site
+}
+
 # Note: The form of the function call is very carefully coded. Make sure
 # "runOps" exists if you want them to be used.
 fvsRunHi <- function(runOps=NULL, logfile="FvsHi.log", autoload.model=TRUE)
@@ -85,6 +100,10 @@ fvsRunHi <- function(runOps=NULL, logfile="FvsHi.log", autoload.model=TRUE)
   
   # fetch stand attributes from the Event Monitor
   site = fvsGetEventMonitorVariables(c('byi', 'stdorgcd'))
+  # the Event Monitor has not computed BYI at stop point 1; read it from FVS_StandInit
+  # so height imputation works for trees without a measured height
+  if (is.na(site[['byi']]) || site[['byi']] <= 0)
+    site = read_stand_site(std.id[['standid']], site)
   
   # Fetch FVS dimensions
   room=fvsGetDims()
