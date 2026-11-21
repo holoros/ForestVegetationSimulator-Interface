@@ -1,0 +1,50 @@
+stored HCB equals HT x CR (crown length) for all 360 records; corrected crown ratio 5th, 25th, 50th, 75th, 95th percentile: 0.05 0.15 0.25 0.35 0.603 
+Spearman correlation of crown ratio with koa BAL -0.429 and with all-species BAL -0.426 
+
+        form     k                    terms                                         coefs                                    free_coefs  rmse      bias  slope     r2 cr_rmse at_bound
+      <char> <int>                   <char>                                        <char>                                        <char> <num>     <num>  <num>  <num>   <num>   <lgcl>
+ 1:  M5k_BYI     5    lsl+sbalba_k+lba_k+lb        2.0520 -0.4844 -0.0346 -0.0446 -0.5200        2.0519 -0.4844 -0.0346 -0.0446 -0.5199 2.181 -0.209997 1.0357 0.7460  0.1580    FALSE
+ 2:      M5k     4       lsl+sbalba_k+lba_k               -0.8289 -0.4444 -0.0397 -0.0994               -0.8289 -0.4444 -0.0397 -0.0994 2.202 -0.009104 1.0672 0.7411  0.1585    FALSE
+ 3: H25k_BYI     6 sH+lsl+sbalba_k+lba_k+lb 2.3717 -1.1043 -0.4442 -0.0475 0.0000 -0.4968 2.4167 -1.1593 -0.4295 -0.0505 0.0179 -0.5027 2.205 -0.052527 0.9930 0.7405  0.1583     TRUE
+ 4:      L13     3                lsl+bal_k                       -0.9798 -0.3735 -0.0609                       -0.9798 -0.3735 -0.0609 2.229  0.057570 1.0999 0.7346  0.1617    FALSE
+ 5:      L14     4             lH+lsl+bal_k               -0.0549 -0.3174 -0.3703 -0.0700               -0.0548 -0.3174 -0.3702 -0.0700 2.230  0.113820 0.9989 0.7344  0.1599    FALSE
+ 6:     H25k     5    sH+lsl+sbalba_k+lba_k       -0.3389 -1.2345 -0.3869 -0.0565 -0.0307       -0.3388 -1.2347 -0.3869 -0.0565 -0.0306 2.234  0.061680 1.0019 0.7335  0.1588    FALSE
+ 7:       L8     3                 lH+bal_k                        0.2782 -0.3270 -0.0948                        0.2782 -0.3270 -0.0948 2.250  0.137602 1.0027 0.7296  0.1599    FALSE
+ 8:   L8_lba     4           lH+bal_k+lba_k                 0.2782 -0.3270 -0.0948 0.0000                 0.2893 -0.3564 -0.1018 0.0463 2.258  0.141169 1.0029 0.7278  0.1601     TRUE
+ 9:    L8_rd     4            lH+bal_k+rd_k                0.2765 -0.3253 -0.0939 -0.0467                0.2764 -0.3253 -0.0939 -0.0465 2.258  0.145088 1.0026 0.7277  0.1601    FALSE
+10:   L8_BYI     4              lH+bal_k+lb                2.3630 -0.2942 -0.0870 -0.3766                2.3652 -0.2940 -0.0870 -0.3770 2.259  0.173259 1.0061 0.7275  0.1609    FALSE
+11:       L9     5        lH+dh+bal_k+lba_k        -0.1028 -0.2810 0.1342 -0.0687 -0.0509        -0.1030 -0.2810 0.1342 -0.0687 -0.0509 2.270  0.150756 0.9988 0.7249  0.1613    FALSE
+12:   E3d_D0     2                       lH                                -0.2637 0.9777                                -0.2637 0.9777 2.689  0.310003 0.9762 0.6139  0.1962    FALSE
+13:       L0     2                       lH                                -1.2297 0.0986                                -1.2297 0.0986 2.694  0.301394 0.9789 0.6124  0.1970    FALSE
+
+rule among sign-consistent forms on the folds of record: fewest terms within 2% of the lowest held-out RMSE -> M5k 
+
+plot-cluster bootstrap (2,000 resamples) of M5k 
+              b0     lsl sbalba_k   lba_k
+est      -0.8289 -0.4444  -0.0397 -0.0994
+se        0.1871  0.1616   0.0223  0.1077
+lo       -1.1629 -0.7602  -0.0816 -0.3643
+hi       -0.4270 -0.1342   0.0000  0.0000
+at_bound  0.0000  0.0040   0.0905  0.2275
+
+held-out equivalence tests on the folds of record (plots resampled 2,000 times)
+                          model     n    bias  rmse    r2 cr_rmse slope sl_lo sl_hi      rb   rb_lo  rb_hi bias_test slope_test
+                         <char> <int>   <num> <num> <num>   <num> <num> <num> <num>   <num>   <num>  <num>    <char>     <char>
+1:                          M5k   360 -0.0091  2.20 0.741   0.158 1.067 0.968  1.16 -0.0009 -0.0402 0.0295      Pass       Pass
+2: E3d form, corrected response   360  0.3100  2.69 0.614   0.196 0.976 0.838  1.10  0.0306 -0.0611 0.0852      Pass       Pass
+
+mixed-effects check, random intercept by installation and plot (report only)
+       Value Std.Error  DF  t-value   p-value
+b0 -1.114551   0.19308 288 -5.77250 2.018e-08
+b1  0.009838   0.16191 288  0.06076 9.516e-01
+b2 -0.064036   0.01411 288 -4.53858 8.328e-06
+b3  0.382581   0.11482 288  3.33200 9.748e-04
+
+koa_rdbyi_equations.csv: E3d rows replaced by E3e
+         equation     term  estimate se_model se_plot_bootstrap      lo95     hi95 n_boot
+           <char>   <char>     <num>    <num>             <num>     <num>    <num>  <num>
+1: E3e_crown_base       b0 -0.828921       NA          0.187133 -1.162873 -0.42696   2000
+2: E3e_crown_base      lsl -0.444353       NA          0.161604 -0.760172 -0.13425   2000
+3: E3e_crown_base sbalba_k -0.039672       NA          0.022333 -0.081553  0.00000   2000
+4: E3e_crown_base    lba_k -0.099397       NA          0.107744 -0.364334  0.00000   2000
+done
