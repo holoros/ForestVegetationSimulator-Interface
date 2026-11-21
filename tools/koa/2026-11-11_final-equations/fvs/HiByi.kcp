@@ -1,0 +1,17 @@
+* Queries BYI and STDORGCD from FVS_StandInit and assigns them to Event Monitor variables
+* Returns null if a field is not present
+Database
+DSNIn
+FVS_Data.db
+SQLIN
+SELECT CASE WHEN (SELECT name FROM pragma_table_info('FVS_StandInit') WHERE name = 'BYI') IS NULL THEN NULL
+            ELSE (SELECT BYI FROM FVS_StandInit WHERE Stand_ID = '%StandID%') END BYI,
+       CASE WHEN (SELECT name FROM pragma_table_info('FVS_StandInit') WHERE name = 'STDORGCD') IS NULL THEN NULL
+            ELSE (SELECT STDORGCD FROM FVS_StandInit WHERE Stand_ID = '%StandID%') END STDORG
+EndSQL
+END
+COMPUTE            0
+BYI = BYI
+STDORGCD = STDORG
+END
+* End HiByi.kcp

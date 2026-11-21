@@ -1,0 +1,83 @@
+bootstrap rows: 1984 ; S1 residual sd (ln scale): 0.512 ; sigma 1.0478  tau 0.3749  delta 0.4298  phi 0.0288 
+ingrowth bootstrap rows: 1723 
+J1: 2.59719 0.08559 -3.44519 0.15806 -0.87172 1.3422 -3.08707 0.07579 
+
+(1) benchmark, S1 out of fold (earlier systems: own SDImax 0.177, 3.89, 6.70; 742 0.217, 3.99, 10.76)
+      set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+   <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:    all   182    53    -0.022     0.126     0.54     2.65    0.87    6.76
+   planted     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+     <int> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:       1   155    41    -0.021     0.115     0.47     2.47    1.46    5.81
+2:       0    27    12    -0.023     0.177     0.97     3.50   -2.55   10.71
+                     set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+                  <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1: horizon 10 yr or more    22     7    -0.016     0.135     2.56      3.3    2.08    8.14
+equivalence at each plot's longest horizon (25% region, convention)
+       set      var    bias_rel     slope      b1_lo     b1_hi pass_int pass_slope
+    <char>   <char>       <num>     <num>      <num>     <num>   <lgcl>     <lgcl>
+1:     all survival -0.06589690 0.8648186  0.6702889 1.0065624     TRUE      FALSE
+2:     all      QMD  0.02354604 0.9169300  0.8163203 1.0487618     TRUE       TRUE
+3:     all       BA -0.03883287 0.8266218  0.5798226 1.1049059     TRUE      FALSE
+4: planted survival -0.08076130 0.7772669 -1.2143843 0.9071953     TRUE      FALSE
+5: planted      QMD  0.04479386 0.9854319  0.8846700 1.1331788     TRUE       TRUE
+6: planted       BA  0.06871025 1.2112407  0.9448783 1.4544677     TRUE      FALSE
+7: natural survival  0.04157404 1.0061530  0.7550360 1.5089508    FALSE      FALSE
+8: natural      QMD -0.02520295 0.5585621  0.1749683 1.8571318     TRUE      FALSE
+9: natural       BA -0.23584756 0.2021867 -0.4949808 0.9627985    FALSE      FALSE
+starting lists: natural trees 85 stems 2108 ; planted trees 37 stems 1834 QMD 7.75 
+     origin  level   byi  year    HT    BA   TPH   QMD   VOL
+     <fctr> <fctr> <num> <int> <num> <num> <num> <num> <num>
+ 1: Natural    5th   155    20  13.4  24.3   644  21.9   130
+ 2: Natural    5th   155    40  16.4  24.1   349  29.7   158
+ 3: Natural    5th   155   100  19.8  23.0   126  48.3   183
+ 4: Natural    5th   155   200  20.6  19.1    51  69.2   158
+ 5: Natural   10th   206    20  13.6  27.3   662  22.9   149
+ 6: Natural   10th   206    40  16.8  27.6   355  31.4   185
+ 7: Natural   10th   206   100  20.3  26.2   127  51.4   213
+ 8: Natural   10th   206   200  21.1  21.3    51  72.9   180
+ 9: Natural   50th   356    20  14.1  34.3   691  25.1   194
+10: Natural   50th   356    40  17.6  35.4   361  35.3   248
+11: Natural   50th   356   100  21.3  32.9   126  57.6   281
+12: Natural   50th   356   200  22.1  25.2    50  80.2   224
+13: Natural   90th   407    20  14.3  36.2   695  25.8   207
+14: Natural   90th   407    40  17.8  37.5   361  36.4   266
+15: Natural   90th   407   100  21.6  34.6   126  59.2   299
+16: Natural   90th   407   200  22.4  26.1    49  82.0   234
+17: Natural   95th   428    20  14.3  37.0   697  26.0   212
+18: Natural   95th   428    40  17.8  38.3   361  36.8   273
+19: Natural   95th   428   100  21.7  35.3   126  59.8   306
+20: Natural   95th   428   200  22.5  26.5    49  82.8   238
+21: Planted    5th   101    20  17.2  29.9   768  22.2   205
+22: Planted    5th   101    40  19.3  32.9   361  34.1   254
+23: Planted    5th   101   100  19.9  33.0   108  62.3   263
+24: Planted    5th   101   200  19.9  25.3    42  87.7   202
+25: Planted   10th   121    20  17.5  33.1   765  23.5   232
+26: Planted   10th   121    40  19.7  36.2   355  36.0   285
+27: Planted   10th   121   100  20.2  35.7   107  65.1   289
+28: Planted   10th   121   200  20.2  26.7    41  90.8   216
+29: Planted   50th   156    20  17.9  37.9   755  25.3   272
+30: Planted   50th   156    40  20.1  41.0   345  38.9   330
+31: Planted   50th   156   100  20.7  39.5   105  69.1   327
+32: Planted   50th   156   200  20.7  28.5    40  95.2   236
+33: Planted   90th   309    20  19.2  53.5   698  31.2   410
+34: Planted   90th   309    40  21.4  55.9   306  48.3   479
+35: Planted   90th   309   100  21.9  49.6    94  81.8   435
+36: Planted   90th   309   200  21.9  31.5    34 109.1   276
+37: Planted   95th   357    20  19.4  57.3   680  32.8   446
+38: Planted   95th   357    40  21.7  59.3   295  50.6   515
+39: Planted   95th   357   100  22.2  51.5    91  84.7   458
+40: Planted   95th   357   200  22.2  31.7    32 112.2   282
+     origin  level   byi  year    HT    BA   TPH   QMD   VOL
+     <fctr> <fctr> <num> <int> <num> <num> <num> <num> <num>
+Key: <origin, year>
+    origin  year   300   500   600  1000  1200  2000  2400  4000
+    <fctr> <int> <num> <num> <num> <num> <num> <num> <num> <num>
+1: Natural    20    NA  26.4    NA  25.5    NA  25.1    NA  25.9
+2: Natural    40    NA  36.3    NA  35.3    NA  35.3    NA  36.1
+3: Natural   100    NA  57.7    NA  57.3    NA  57.5    NA  58.4
+4: Planted    20  35.5    NA  30.8    NA  26.8    NA  24.6    NA
+5: Planted    40  47.3    NA  42.2    NA  39.3    NA  39.3    NA
+6: Planted   100  69.8    NA  66.8    NA  66.8    NA  72.2    NA
+70 done
+exit=0

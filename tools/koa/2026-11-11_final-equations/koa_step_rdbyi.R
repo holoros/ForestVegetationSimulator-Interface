@@ -4,7 +4,8 @@
 # for natural stands. Version 1.14.2 (November 20, 2026) replaces crown base E3c with E3d, fitted directly as a height with
 # height alone. Version 1.14.3 (November 21, 2026) replaces E3d with E3e, fitted to crown base HT x (1 - CR) from the FIA live crown ratio
 # (the earlier crown record held HT x CR, the crown length): HCB = HT / (1 + exp(b0 + lsl ln(HT/DBH) + sbalba_k sqrt(BAL BA + 1) + lba_k ln(BA + 1))),
-# with koa-only BAL and BA. Reads its coefficients from koa_rdbyi_equations.csv.
+# with koa-only BAL and BA. Version 1.15.0 (November 21, 2026) refits S1, E4r, E6r, E2, E5 and ingrowth with BYI predicted for the 53 Kapapala plots
+# (statewide C2 forest from their own climate and soils) in place of one fill value; forms unchanged. Reads its coefficients from koa_rdbyi_equations.csv.
 # Nothing is hard-coded except unit constants (breast height 1.37 m, 0.00007854 for basal area in m2 from cm, Reineke exponent 1.605,
 # reference diameter 25.4 cm, and for ingrowth the entry diameter 12.7 cm, the nine-year interval and the 59.5 trees per ha that one tree stands
 # for on the subplots the rate was fitted to) and three numerical guards (relative density below 0.001, basal area below 1e-6 and height below

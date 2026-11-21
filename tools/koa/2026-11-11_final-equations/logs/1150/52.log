@@ -1,0 +1,91 @@
+bootstrap rows: 1984 ; S1 residual sd (ln scale): 0.512 ; sigma 1.0478  tau 0.3749  delta 0.4298  phi 0.0288 
+benchmark basal area RMSE (1.14.x was 6.763): 6.762 
+height pairs: all 21903 ; kept (annualized change -2 to 4 m) 21434 ; trees 1382 ; plots 97 ; installations 60 
+   planted   ylen pairs trees plots mean_adh  wsum
+     <int> <fctr> <int> <int> <int>    <num> <num>
+1:       0      1    57    52     3    0.416    21
+2:       0    2-3    20     5     1    0.823     8
+3:       0    4-9  1217   561    50    0.259   736
+4:       0     >9   846   199     4    0.365   326
+5:       1      1  3064   784    46    1.184   935
+6:       1    2-3  5097   716    44    1.105  1302
+7:       1    4-9  8313   449    31    0.890  1526
+8:       1     >9  2820   275    25    0.817   484
+
+J1 estimates: 2.59719 0.08559 -3.44519 0.15806 -0.87172 1.3422 -3.08707 0.07579 ; curve b 0.04564  c 1.0787 
+joint curve on the full height frame: n 3331  plots 310  RMSE 2.605  bias 0.008 ; E2 of record RMSE 2.63 
+
+(a) height curve held out by installation, ten folds of the height frame; fold convergence: 0 0 0 0 0 0 0 0 0 0 
+                                       curve     n       bias      mae     rmse    bias_rel     slope     b1_lo    b1_hi pass_int pass_slope min_region_int min_region_slope
+                                      <char> <int>      <num>    <num>    <num>       <num>     <num>     <num>    <num>   <lgcl>     <lgcl>          <num>            <num>
+1:          joint (J1), BYI on the asymptote  3331 0.02294060 1.827905 2.653026 0.002538179 0.9629881 0.9114157 1.013911     TRUE       TRUE     0.02413522       0.08858431
+2: three-parameter, refitted (Eq. 3 of v135)  3331 0.06506638 1.817912 2.678309 0.007199033 0.9737375 0.9226771 1.024519     TRUE       TRUE     0.02825590       0.07732293
+Warning messages:
+1: In `[.data.table`(equiv_boot(obs, pJ, pid, nboot = 2000), , ..cols) :
+  Both 'cols' and '..cols' exist in calling scope. Please remove the '..cols' variable in calling scope for clarity.
+2: In `[.data.table`(equiv_boot(obs, pE, pid, nboot = 2000), , ..cols) :
+  Both 'cols' and '..cols' exist in calling scope. Please remove the '..cols' variable in calling scope for clarity.
+by origin:
+   planted     n plots bias_J rmse_J bias_E rmse_E
+     <int> <int> <int>  <num>  <num>  <num>  <num>
+1:       0  1133   166  0.056  3.292  0.339  3.332
+2:       1  2198   144  0.006  2.254 -0.076  2.269
+asymptote at natural median BYI across the ten fold fits: 21.92 23.43 
+
+(b) annual height increment held out by installation (m/yr): J1 and the fallback rule with the joint curve
+                form     n       bias       mae      rmse   bias_rel     slope     b1_lo     b1_hi pass_int pass_slope min_region_int min_region_slope
+              <char> <int>      <num>     <num>     <num>      <num>     <num>     <num>     <num>   <lgcl>     <lgcl>          <num>            <num>
+1:                J1 21434 0.04116131 0.5228866 0.7481157 0.04495753 0.8501322 0.7329690 0.9886099     TRUE      FALSE       0.115422        0.2670310
+2: rule, joint curve 21434 0.19223215 0.5487806 0.8131677 0.20996131 0.5686670 0.5059034 0.6309921    FALSE      FALSE       0.263668        0.4940966
+Warning messages:
+1: In `[.data.table`(equiv_boot(obs, pJ, pid, nboot = 2000), , ..cols) :
+  Both 'cols' and '..cols' exist in calling scope. Please remove the '..cols' variable in calling scope for clarity.
+2: In `[.data.table`(equiv_boot(obs, pR, pid, nboot = 2000), , ..cols) :
+  Both 'cols' and '..cols' exist in calling scope. Please remove the '..cols' variable in calling scope for clarity.
+by origin:
+   planted pairs bias_J rmse_J bias_R rmse_R
+     <int> <int>  <num>  <num>  <num>  <num>
+1:       0  2140  0.057  0.336  0.047  0.280
+2:       1 19294  0.039  0.781  0.208  0.852
+by origin and interval length:
+   planted   ylen pairs bias_J rmse_J bias_R rmse_R
+     <int> <fctr> <int>  <num>  <num>  <num>  <num>
+1:       0      1    57  0.218  0.619  0.198  0.652
+2:       0    2-3    20  0.462  0.836 -0.165  0.495
+3:       0    4-9  1217 -0.003  0.350  0.001  0.286
+4:       0     >9   846  0.123  0.258  0.108  0.215
+5:       1      1  3064  0.065  1.265  0.231  1.423
+6:       1    2-3  5097  0.041  0.940  0.196  0.948
+7:       1    4-9  8313  0.024  0.504  0.209  0.588
+8:       1     >9  2820  0.055  0.290  0.204  0.348
+each tree weighted as its consecutive intervals: J1 RMSE 0.7926  bias 0.0198 ; rule RMSE 0.8204  bias 0.1655 
+underprediction of the rule as a share of mean observed increment: 21 %
+
+(c) benchmark: tree height at each plot's longest horizon (trees with measured height at both ends)
+         form trees plots  bias  rmse
+       <char> <int> <int> <num> <num>
+1:         J1   358    37  0.67 4.288
+2: rule_joint   358    37  1.04 4.433
+3:  rule_v135   358    37  0.95 4.387
+         form planted trees  bias  rmse
+       <char>   <int> <int> <num> <num>
+1:         J1       1   195  0.15  3.05
+2:         J1       0   163  1.29  5.41
+3: rule_joint       1   195  0.76  3.37
+4: rule_joint       0   163  1.38  5.44
+5:  rule_v135       1   195  0.60  3.26
+6:  rule_v135       0   163  1.38  5.44
+
+(d) J1, 500 plot-cluster resamples of both frames; converged 500 
+                 est     se    2.5%   97.5%
+b             0.0456 0.0049  0.0364  0.0553
+c             1.0787 0.0726  0.9487  1.2258
+m_shape       1.1712 0.1957  0.9648  1.6278
+exp_k_pl      3.8274 1.5860  3.1620  7.1211
+A_nat        22.1996 0.5779 21.1492 23.3954
+A_pl         20.6861 0.7720 19.4092 22.4742
+A_byi_lo_nat 21.1794 0.6528 20.0875 22.5324
+A_byi_hi_nat 22.4528 0.6070 21.3657 23.7919
+share of resamples with a positive BYI coefficient: 0.976 ; BYI range of the height frame: 29 543.4 ; of the increment frame: 29 543.4 
+asymptote of the joint curve over the BYI range of the height frame (m): 17.9 23 ; tallest measured tree by origin: natural 34.1  planted 28.4 
+done

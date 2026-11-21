@@ -1,8 +1,8 @@
 # 32_common.R  Shared setup for scripts 33 to 35 (November 14, 2026). Reuses lines 6 to 33 of 23t_rdbyi_items.R verbatim (frames, thinning table,
 # fits and bootstrap of record, S1 out of fold, the 53 benchmark plots), then adds a simulator in which the height step and the mortality step can
 # be swapped, the six scenarios and the six 200-year gates of record. No fitting here. No plot or installation identifier is printed.
-L23 <- readLines("~/jobs/koa_final_eq_20261110/scripts/23t_rdbyi_items.R"); eval(parse(text = L23[6:33]))
-stopifnot(nrow(bench) == 182, uniqueN(bench$pid) == 53, abs(sqrt(mean((bench$o_ba - bench$p_ba)^2)) - 6.763) < 0.01)
+L23 <- readLines("~/jobs/koa_1150_20261121/scripts/23t_rdbyi_items.R"); eval(parse(text = L23[6:33]))
+stopifnot(nrow(bench) == 182, uniqueN(bench$pid) == 53); cat("benchmark basal area RMSE (1.14.x was 6.763):", round(sqrt(mean((bench$o_ba - bench$p_ba)^2)), 3), "\n")
 SM <- setNames(s1p(bs, log(P$BYI), P$planted), P$pid)
 ht_rule <- function(H, D, D1, x, lbyi, pl) koa_height(D1, cf) - koa_height(D, cf)                       # E5 of record
 mort_tree <- function(dbh, ex, bal, s, rd, byi, pl, ...) 1 - exp(-exp(as.numeric(cbind(1, log(dbh + 1), dbh, dbh^2, bal, log(max(rd, 0.001)), log(byi), pl) %*% bm)))   # E6r of record
@@ -13,7 +13,7 @@ sim2 <- function(dbh, ht, ex, byi, pl, years, sm, hfun = ht_rule, mfun = mort_tr
     ht <- ht + hfun(ht, dbh, dbh + g, bal / max(s$BA, 1e-6) * rd, log(byi), pl); dbh <- dbh + g; ex <- ex * (1 - pm) }
   list(out = out, th = TH) }
 # scenarios and gates of record (23t lines 39 to 46)
-vis <- tr[Status == "live" & !is.na(DBH) & DBH > 0, .(n = .N, q = sqrt(sum(DBH^2 * EXPF_c) / sum(EXPF_c))), by = .(pid, Measure, planted)][n >= 10]; byiq <- unique(tr[, .(pid, planted, BYI)])[, .(lo = quantile(BYI, .1), md = quantile(BYI, .5), hi = quantile(BYI, .9)), by = planted]; pick <- vis[, .SD[which.min(abs(q - quantile(q, 0.25)))], by = planted]
+vis <- tr[Status == "live" & !is.na(DBH) & DBH > 0, .(n = .N, q = sqrt(sum(DBH^2 * EXPF_c) / sum(EXPF_c))), by = .(pid, Measure, planted)][n >= 10]; byiq <- unique(tr[, .(pid, planted, BYI)])[, .(lo = quantile(BYI, .1), md = quantile(BYI, .5), hi = quantile(BYI, .9)), by = planted]; pick <- rbind(vis[planted == 0][which.min(abs(q - quantile(q, 0.25)))], { vp <- tr[Status == "live" & !is.na(DBH) & DBH > 0 & planted == 1, .(n = .N, N = sum(EXPF_c), q = sqrt(sum(DBH^2 * EXPF_c) / sum(EXPF_c))), by = .(pid, Measure, planted)][n >= 30]; vp[, dd := abs((log(q) - median(log(q))) / sd(log(q))) + abs((log(N) - median(log(N))) / sd(log(N)))]; vp[which.min(dd), .(pid, Measure, planted, n, q)] })  # 1.15.0 Bakuzis follow-up: planted scenario list = visit with 30+ trees closest to the median QMD and stems of such visits
 getL <- function(p) { pv <- pick[planted == p]; L <- tr[pid == pv$pid & Measure == pv$Measure & Status == "live" & !is.na(DBH) & DBH > 0]; L[is.na(HT) | HT < 1.37, HT := koa_height(DBH, cf)]; L }
 SC <- CJ(planted = c(0, 1), level = c("lo", "md", "hi"), sorted = FALSE); SC[, byi := mapply(function(p, l) byiq[planted == p][[l]], planted, level)]; SC[, sdimax := s1p(bs, log(byi), planted)]
 runsc <- function(hfun = ht_rule, mfun = mort_tree, years = 200) rbindlist(lapply(seq_len(nrow(SC)), function(i) { L <- getL(SC$planted[i]); cbind(planted = SC$planted[i], level = SC$level[i], byi = SC$byi[i], sdimax = SC$sdimax[i], year = 0:years, as.data.table(sim2(L$DBH, L$HT, L$EXPF_c, SC$byi[i], SC$planted[i], years, SC$sdimax[i], hfun, mfun)$out)) }))

@@ -1,0 +1,183 @@
+bootstrap rows: 1984 ; S1 residual sd (ln scale): 0.512 ; sigma 1.0478  tau 0.3749  delta 0.4298  phi 0.0288 
+benchmark basal area RMSE (1.14.x was 6.763): 6.762 
+height pairs: all 21903 ; kept (annualized change -2 to 4 m) 21434 ; trees 1382 ; plots 97 ; installations 60 
+   planted   ylen pairs trees plots mean_adh  wsum
+     <int> <fctr> <int> <int> <int>    <num> <num>
+1:       0      1    57    52     3    0.416    21
+2:       0    2-3    20     5     1    0.823     8
+3:       0    4-9  1217   561    50    0.259   736
+4:       0     >9   846   199     4    0.365   326
+5:       1      1  3064   784    46    1.184   935
+6:       1    2-3  5097   716    44    1.105  1302
+7:       1    4-9  8313   449    31    0.890  1526
+8:       1     >9  2820   275    25    0.817   484
+
+stage 1 frame: trees with DBH >= 34.8 cm: 261 on 162 plots; median BYI natural 356.1 planted 156.1 
+
+(1) full-frame fits
+
+ R0  convergence 0  delta NA  mean observed - predicted (m/yr) 0.1844 
+
+ B2  convergence 0  delta 0.075  mean observed - predicted (m/yr) 0.0198 
+      a0   a_lbyi       lk       lc        x     k_pl 
+ 2.73679  0.10743 -4.02166 -0.10028 -0.84592  1.29838 
+  asymptote (m) at median BYI: natural 29.02  planted 26.56 
+
+ A1  convergence 0  delta 0.089  mean observed - predicted (m/yr) 0.0178 
+      lk       lc        x     k_pl 
+-4.12283 -0.12599 -0.82852  1.29674 
+  stage 1: q0 2.6289  q1 (ln BYI) 0.1348 
+  asymptote (m) at median BYI: natural 30.59  planted 27.37 
+
+ A2  convergence 0  delta 0.079  mean observed - predicted (m/yr) 0.0358 
+      lk       lc        x     k_pl 
+-3.36448  0.24476 -0.82929  1.36326 
+  stage 1: q0 2.0214  q1 (ln BYI) 0.1806 
+  asymptote (m) at median BYI: natural 21.81  planted 18.79 
+
+ P1  convergence 0  delta 0.075  mean observed - predicted (m/yr) 0.0198 
+      a0   a_lbyi       lk       lc        x     k_pl 
+ 2.73679  0.10743 -4.02166 -0.10028 -0.84592  1.29838 
+  asymptote (m) at median BYI: natural 29.02  planted 26.56 
+
+ J1  convergence 0  delta 0.039  mean observed - predicted (m/yr) 0.0352 
+      a0   a_lbyi       lk       lc        x     k_pl     ln_b     ln_c 
+ 2.59719  0.08559 -3.44519  0.15806 -0.87172  1.34220 -3.08707  0.07579 
+  asymptote (m) at median BYI: natural 22.2  planted 20.69 
+
+P1 bound active at the estimates: FALSE ; max abs difference P1 - B2: 0 
+J1 height curve: b 0.04564  c 1.0787 ; full-frame RMSE (m) 2.605  against E2 of record 2.63 
+
+(2) held-out installations, annual height increment (m/yr), observed diameter and competition paths
+fold convergence codes:
+     form  conv     N
+   <char> <num> <int>
+1:     R0     0    10
+2:     B2     0    10
+3:     A1     0    10
+4:     A2     0    10
+5:     P1     0    10
+6:     J1     0    10
+     form     n       bias       mae      rmse   bias_rel     slope     b1_lo     b1_hi pass_int pass_slope min_region_int min_region_slope     k
+   <char> <int>      <num>     <num>     <num>      <num>     <num>     <num>     <num>   <lgcl>     <lgcl>          <num>            <num> <num>
+1:     R0 21434 0.18440320 0.5459720 0.8108889 0.20141031 0.5677979 0.5055332 0.6294080    FALSE      FALSE     0.25414071        0.4944668     0
+2:     B2 21434 0.02958255 0.5241641 0.7513507 0.03231088 0.8959589 0.7756325 1.0336844     TRUE       TRUE     0.09907483        0.2243675     6
+3:     A1 21434 0.02469564 0.5197103 0.7457232 0.02697327 0.9224422 0.8036442 1.0660302     TRUE       TRUE     0.09316433        0.1963558     6
+4:     A2 21434 0.03981706 0.5284046 0.7552230 0.04348930 0.8075109 0.6910029 0.9571548     TRUE      FALSE     0.11884204        0.3089971     6
+5:     P1 21434 0.02960146 0.5236996 0.7506523 0.03233154 0.8976396 0.7770870 1.0359532     TRUE       TRUE     0.09926809        0.2229130     6
+6:     J1 21434 0.04116131 0.5228866 0.7481157 0.04495753 0.8501322 0.7329690 0.9886099     TRUE      FALSE     0.11542195        0.2670310     6
+
+held-out bias and RMSE by origin and interval length:
+Key: <planted, ylen, n>
+   planted   ylen     n bias_A1 bias_A2 bias_B2 bias_J1 bias_P1 bias_R0 rmse_A1 rmse_A2 rmse_B2 rmse_J1 rmse_P1 rmse_R0
+     <int> <fctr> <int>   <num>   <num>   <num>   <num>   <num>   <num>   <num>   <num>   <num>   <num>   <num>   <num>
+1:       0      1    57   0.191   0.227   0.183   0.218   0.182   0.200   0.604   0.623   0.598   0.619   0.598   0.650
+2:       0    2-3    20   0.454   0.449   0.458   0.462   0.458  -0.140   0.837   0.830   0.838   0.836   0.838   0.485
+3:       0    4-9  1217  -0.007   0.001  -0.009  -0.003  -0.009  -0.007   0.348   0.352   0.347   0.350   0.347   0.288
+4:       0     >9   846   0.120   0.134   0.116   0.123   0.116   0.097   0.255   0.261   0.254   0.258   0.254   0.212
+5:       1      1  3064   0.057   0.071   0.069   0.065   0.067   0.212   1.269   1.273   1.277   1.265   1.276   1.420
+6:       1    2-3  5097   0.044   0.036   0.051   0.041   0.050   0.182   0.936   0.952   0.942   0.940   0.941   0.942
+7:       1    4-9  8313   0.001   0.015   0.006   0.024   0.007   0.207   0.495   0.509   0.498   0.504   0.498   0.588
+8:       1     >9  2820   0.003   0.069   0.002   0.055   0.004   0.203   0.296   0.290   0.314   0.290   0.311   0.348
+
+held-out, each tree weighted as its consecutive intervals: RMSE
+     form  wrmse  wbias
+   <char>  <num>  <num>
+1:     R0 0.8156 0.1510
+2:     B2 0.8043 0.0179
+3:     A1 0.7942 0.0134
+4:     A2 0.8006 0.0274
+5:     P1 0.8030 0.0174
+6:     J1 0.7926 0.0198
+
+asymptote (m) at the median BYI across the ten fold fits: range
+     form A_nat_min A_nat_max A_pl_min A_pl_max
+   <char>     <num>     <num>    <num>    <num>
+1:     B2      27.2      36.6     25.3     38.1
+2:     A1      28.4      30.7     27.0     30.0
+3:     A2      21.5      21.9     17.1     18.8
+4:     P1      27.2      37.0     25.3     34.1
+5:     J1      21.9      22.6     20.3     21.4
+
+J1 height curve held out (trees of the test installations), against a three-parameter curve refitted on the same training rows:
+   trees plots rmse_J1 bias_J1 rmse_E2 bias_E2
+   <int> <int>   <num>   <num>   <num>   <num>
+1:  1841   108   2.871   0.316    2.86   0.459
+
+(3a) benchmark: tree height at each plot's longest horizon, trees with measured height at both ends (whole system, S1 out of fold)
+     form trees plots  bias  rmse
+   <char> <int> <int> <num> <num>
+1:     R0   358    37  0.95 4.387
+2:     B2   358    37  0.61 4.306
+3:     A1   358    37  0.65 4.308
+4:     A2   358    37  0.84 4.321
+5:     P1   358    37  0.61 4.306
+6:     J1   358    37  0.67 4.288
+Key: <planted, n>
+   planted     n bias_A1 bias_A2 bias_B2 bias_J1 bias_P1 bias_R0 rmse_A1 rmse_A2 rmse_B2 rmse_J1 rmse_P1 rmse_R0
+     <int> <int>   <num>   <num>   <num>   <num>   <num>   <num>   <num>   <num>   <num>   <num>   <num>   <num>
+1:       0   163    1.00    1.31    1.03    1.29    1.03    1.38    5.36    5.42    5.37    5.41    5.37    5.44
+2:       1   195    0.35    0.45    0.25    0.15    0.25    0.60    3.17    3.12    3.16    3.05    3.16    3.26
+
+(3b) basal-area-weighted height (m) of the six scenarios
+      form planted  level    20    40   100   200
+    <char>   <num> <char> <num> <num> <num> <num>
+ 1:     A1       0     lo  13.7  17.5  23.9  27.4
+ 2:     A1       0     md  14.4  18.7  25.7  29.5
+ 3:     A1       0     hi  14.6  19.0  26.2  30.0
+ 4:     A1       1     lo  19.2  23.5  26.2  26.5
+ 5:     A1       1     md  19.9  24.3  27.1  27.4
+ 6:     A1       1     hi  21.7  26.7  29.8  30.0
+ 7:     A2       0     lo  13.4  16.2  19.2  19.7
+ 8:     A2       0     md  14.3  17.7  21.2  21.8
+ 9:     A2       0     hi  14.5  18.1  21.7  22.3
+10:     A2       1     lo  16.5  17.7  18.0  18.0
+11:     A2       1     md  17.3  18.5  18.8  18.8
+12:     A2       1     hi  19.5  21.0  21.3  21.3
+13:     B2       0     lo  13.8  17.6  23.6  26.6
+14:     B2       0     md  14.4  18.5  25.1  28.3
+15:     B2       0     hi  14.5  18.8  25.5  28.7
+16:     B2       1     lo  19.4  23.4  25.7  25.8
+17:     B2       1     md  19.9  24.0  26.4  26.6
+18:     B2       1     hi  21.4  26.0  28.4  28.6
+19:     J1       0     lo  13.7  16.8  20.3  21.1
+20:     J1       0     md  14.2  17.6  21.3  22.2
+21:     J1       0     hi  14.3  17.8  21.6  22.4
+22:     J1       1     lo  18.2  19.8  20.2  20.2
+23:     J1       1     md  18.6  20.3  20.7  20.7
+24:     J1       1     hi  19.7  21.5  21.9  21.9
+25:     P1       0     lo  13.8  17.6  23.6  26.6
+26:     P1       0     md  14.4  18.5  25.1  28.3
+27:     P1       0     hi  14.5  18.8  25.5  28.7
+28:     P1       1     lo  19.4  23.4  25.7  25.8
+29:     P1       1     md  19.9  24.0  26.4  26.6
+30:     P1       1     hi  21.4  26.0  28.4  28.6
+31:     R0       0     lo  12.1  14.2  16.6  17.5
+32:     R0       0     md  12.8  14.9  17.0  17.7
+33:     R0       0     hi  12.9  15.0  17.0  17.7
+34:     R0       1     lo  15.3  17.1  18.6  19.0
+35:     R0       1     md  15.7  17.4  18.7  19.1
+36:     R0       1     hi  16.7  18.1  19.0  19.2
+      form planted  level    20    40   100   200
+    <char>   <num> <char> <num> <num> <num> <num>
+     form bound200 site100 max_tree_200
+   <char>   <lgcl>  <lgcl>        <num>
+1:     R0     TRUE    TRUE         21.7
+2:     B2     TRUE    TRUE         28.9
+3:     A1     TRUE    TRUE         30.4
+4:     A2     TRUE    TRUE         22.3
+5:     P1     TRUE    TRUE         28.9
+6:     J1     TRUE    TRUE         22.4
+
+(4) conditions of the PREREG note: (a) held-out RMSE at least 5% below R0; (b) intercept passes and slope region smaller than R0; (c) 200-year bound and site order at 100 years; (d) benchmark RMSE not above R0
+Key: <form>
+     form     k   rmse ratio min_region_slope bench_rmse      a      b      c      d   pass eligible
+   <char> <num>  <num> <num>            <num>      <num> <lgcl> <lgcl> <lgcl> <lgcl> <lgcl>   <lgcl>
+1:     A1     6 0.7457 0.920            0.196      4.308   TRUE   TRUE   TRUE   TRUE   TRUE     TRUE
+2:     A2     6 0.7552 0.931            0.309      4.321   TRUE   TRUE   TRUE   TRUE   TRUE     TRUE
+3:     B2     6 0.7514 0.927            0.224      4.306   TRUE   TRUE   TRUE   TRUE   TRUE     TRUE
+4:     J1     6 0.7481 0.923            0.267      4.288   TRUE   TRUE   TRUE   TRUE   TRUE     TRUE
+5:     P1     6 0.7507 0.926            0.223      4.306   TRUE   TRUE   TRUE   TRUE   TRUE    FALSE
+6:     R0     0 0.8109 1.000            0.494      4.387  FALSE  FALSE   TRUE   TRUE  FALSE    FALSE
+eligible forms within 2% of the lowest held-out RMSE among them (the choice among these is by the asymptote interval, script 45): A1 A2 B2 J1 
+done

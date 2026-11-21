@@ -1,0 +1,93 @@
+bootstrap rows: 1984 ; S1 residual sd (ln scale): 0.512 ; sigma 1.0478  tau 0.3749  delta 0.4298  phi 0.0288 
+benchmark basal area RMSE (1.14.x was 6.763): 6.762 
+height pairs: all 21903 ; kept (annualized change -2 to 4 m) 21434 ; trees 1382 ; plots 97 ; installations 60 
+   planted   ylen pairs trees plots mean_adh  wsum
+     <int> <fctr> <int> <int> <int>    <num> <num>
+1:       0      1    57    52     3    0.416    21
+2:       0    2-3    20     5     1    0.823     8
+3:       0    4-9  1217   561    50    0.259   736
+4:       0     >9   846   199     4    0.365   326
+5:       1      1  3064   784    46    1.184   935
+6:       1    2-3  5097   716    44    1.105  1302
+7:       1    4-9  8313   449    31    0.890  1526
+8:       1     >9  2820   275    25    0.817   484
+forms bootstrapped: A1 A2 J1 P1 ; resamples 500 ; cores 48 
+plots resampled (both frames): 310 ; increment frame only: 97 
+
+ A1 
+10:36:38 resamples done: 240 
+10:37:34 resamples done: 480 
+10:37:47 resamples done: 500 
+completed 500 ; converged 500 
+     form    par     est     se      lo      hi share_pos
+   <char> <char>   <num>  <num>   <num>   <num>     <num>
+1:     A1     lk -4.1228 1.8932 -4.8547 -3.8302     0.000
+2:     A1     lc -0.1260 0.0678 -0.2307  0.0348     0.054
+3:     A1      x -0.8285 0.2797 -1.6115 -0.5284     0.000
+4:     A1   k_pl  1.2967 1.8979  1.0829  2.0302     1.000
+5:     A1     q0  2.6289 0.9708  1.3731  4.7264     0.998
+6:     A1     q1  0.1348 0.1672 -0.2349  0.3474     0.622
+7:     A1  A_nat 30.5945 1.5432 27.3416 32.6871     1.000
+8:     A1   A_pl 27.3749 3.9821 22.8084 35.4784     1.000
+
+ A2 
+10:38:42 resamples done: 240 
+10:39:35 resamples done: 480 
+10:39:46 resamples done: 500 
+completed 500 ; converged 500 
+     form    par     est     se      lo      hi share_pos
+   <char> <char>   <num>  <num>   <num>   <num>     <num>
+1:     A2     lk -3.3645 0.2526 -4.0527 -3.0750      0.00
+2:     A2     lc  0.2448 0.1849  0.0363  0.7182      0.99
+3:     A2      x -0.8293 0.2009 -1.2364 -0.4868      0.00
+4:     A2   k_pl  1.3633 0.2277  1.1882  2.0041      1.00
+5:     A2     q0  2.0214 0.4501  1.1284  2.6035      1.00
+6:     A2     q1  0.1806 0.0768  0.0770  0.3345      1.00
+7:     A2  A_nat 21.8103 0.5194 20.6504 22.6562      1.00
+8:     A2   A_pl 18.7914 1.2053 16.4649 20.6039      1.00
+
+ J1 
+10:42:34 resamples done: 240 
+10:45:22 resamples done: 480 
+10:46:01 resamples done: 500 
+completed 500 ; converged 500 
+      form    par     est     se      lo      hi share_pos
+    <char> <char>   <num>  <num>   <num>   <num>     <num>
+ 1:     J1     a0  2.5972 0.2096  2.2445  3.0804     1.000
+ 2:     J1 a_lbyi  0.0856 0.0359  0.0017  0.1475     0.976
+ 3:     J1     lk -3.4452 0.2631 -4.1597 -3.1794     0.000
+ 4:     J1     lc  0.1581 0.1400 -0.0359  0.4872     0.946
+ 5:     J1      x -0.8717 0.1962 -1.2504 -0.5351     0.000
+ 6:     J1   k_pl  1.3422 0.2268  1.1512  1.9631     1.000
+ 7:     J1   ln_b -3.0871 0.1084 -3.3145 -2.8949     0.000
+ 8:     J1   ln_c  0.0758 0.0674 -0.0527  0.2036     0.862
+ 9:     J1  A_nat 22.1996 0.5779 21.1492 23.3954     1.000
+10:     J1   A_pl 20.6861 0.7720 19.4092 22.4742     1.000
+
+ P1 
+10:50:03 resamples done: 240 
+10:52:58 resamples done: 480 
+10:53:41 resamples done: 500 
+completed 500 ; converged 500 
+     form    par     est     se      lo      hi share_pos
+   <char> <char>   <num>  <num>   <num>   <num>     <num>
+1:     P1     a0  2.7368 0.7732  2.0312  4.4253     1.000
+2:     P1 a_lbyi  0.1074 0.1348 -0.2124  0.2418     0.694
+3:     P1     lk -4.0217 0.3742 -4.9591 -3.5322     0.000
+4:     P1     lc -0.1003 0.1006 -0.2422  0.1349     0.178
+5:     P1      x -0.8459 0.1860 -1.2321 -0.5207     0.000
+6:     P1   k_pl  1.2984 0.2787  1.0833  2.0267     1.000
+7:     P1  A_nat 29.0190 3.9038 22.9372 38.2314     1.000
+8:     P1   A_pl 26.5578 4.3512 21.7244 36.9634     1.000
+
+asymptote at the median BYI of natural stands, 95% interval and upper over lower:
+     form    lo    hi ratio candidate
+   <char> <num> <num> <num>    <lgcl>
+1:     B2 23.30 51.86 2.225      TRUE
+2:     A1 27.34 32.69 1.196      TRUE
+3:     A2 20.65 22.66 1.097      TRUE
+4:     J1 21.15 23.40 1.106      TRUE
+5:     P1 22.94 38.23 1.667     FALSE
+adopted: A2 
+done
+exit=0

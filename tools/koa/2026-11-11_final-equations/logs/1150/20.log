@@ -1,0 +1,379 @@
+plots: 310  matched to a brms SDImax: 305  planted 143  natural 162 
+BYI quantiles (0, 10, 50, 90, 100%) natural: 112 205 353 403 543  planted: 29 121 156 309 454 
+plot SDImax quantiles (10, 50, 90%) natural: 511 887 1811  planted: 317 550 972 
+plots with one visit in the brms frame: 195 of 305 
+
+(d) correlation of ln(plot SDImax) with ln(the plot's largest observed koa SDI): all 0.311 ; one visit 0.56 ; more than one visit 0.119 
+sd of ln(plot SDImax): 0.553 ; correlation of ln(SDImax) with ln(BYI): all 0.466  natural 0.527  planted 0.049 
+
+(a) model 2, second stage on ln(plot brms SDImax), weighted; coefficient (SE) [in-sample R2]
+  byi           (Intercept) 2.658 (0.445); lbyi 0.745 (0.078)  [0.231]
+  byi_origin    (Intercept) 4.023 (0.427); lbyi 0.541 (0.074); planted -0.461 (0.052)  [0.387]
+  origin        (Intercept) 7.150 (0.036); planted -0.583 (0.054)  [0.278]
+  byi_x_origin  (Intercept) 1.415 (0.702); lbyi 0.992 (0.121); planted 3.466 (0.857); lbyi:planted -0.688 (0.150)  [0.428]
+Warning message:
+In `[.data.table`(P, , `:=`(o2_mean, { :
+  A shallow copy of this data.table was taken so that := can add or remove 1 columns by reference. At an earlier point, this data.table was copied by R (or was created manually using structure() or similar). Avoid names<- and attr<- which in R currently (and oddly) may copy the whole data.table. Use set* syntax instead to avoid copying: ?set, ?setnames and ?setattr. It's also not unusual for data.table-agnostic packages to produce tables affected by this issue. If this message doesn't help, please report your use case to the data.table issue tracker so the root cause can be fixed or this message improved.
+held out by installation: R2 of ln(SDImax) against the fold-training mean, RMSE (ln scale), slope of observed on predicted
+          model    R2  rmse slope R2_nat R2_plt
+         <char> <num> <num> <num>  <num>  <num>
+1:          byi 0.307 0.520  0.71  0.214  0.375
+2:   byi_origin 0.232 0.548  0.59 -0.123  0.488
+3:       origin 0.113 0.589  0.73 -0.388  0.474
+4: byi_x_origin 0.252 0.541  0.66 -0.070  0.483
+ln(BYI) coefficient (byi_origin) with each installation left out: min 0.45  max 0.668  ( 142 installations )
+stress, ln(BYI) coefficient (SE) in byi_origin: unweighted 0.413 (0.077) ; without FIA 0.367 (0.061) ; more than one visit 0.692 (0.124), n 110 ; natural only 0.992 (0.134) ; planted only 0.303 (0.076) 
+
+(a) model 1, direct lqmm on 969 rows of 275 plots
+  none        (Intercept) 10.5871; lqmd -1.203  | population SDImax at median BYI of each origin (natural, planted): 809, 809 
+  byi         (Intercept) 4.5356; lqmd -1.4656; lbyi 1.2452  | population SDImax at median BYI of each origin (natural, planted): 1213, 437 
+  byi_origin  (Intercept) 5.5507; lqmd -1.4831; lbyi 1.0822; planted -0.2323  | population SDImax at median BYI of each origin (natural, planted): 1215, 397 
+  origin      (Intercept) 11.2376; lqmd -1.3674; planted -0.7018  | population SDImax at median BYI of each origin (natural, planted): 911, 452 
+held-out mean check loss at tau 0.95 (random effect zero), lower is better:
+        model   loss folds
+       <char>  <num> <int>
+1:       none 0.1940    10
+2:        byi 0.1386    10
+3: byi_origin 0.1257    10
+4:     origin 0.1540    10
+byi_origin, plot-cluster bootstrap, 300 of 300 resamples: ln(BYI) coefficient 2.5, 50, 97.5%: 0.65 1.093 1.797 ; planted: -0.59 -0.226 0.226 ; share with positive ln(BYI): 1 
+stress, tau 0.99: (Intercept) 5.6118; lqmd -1.2969; lbyi 0.9628; planted -0.1384 
+stress, origin 0 alone: (Intercept) 4.2333; lqmd -1.9634; lbyi 1.5445 
+stress, origin 1 alone: (Intercept) 6.3385; lqmd -0.5233; lbyi 0.5038 
+
+out-of-fold SDImax of the benchmark plots, by candidate (10, 50, 90%):
+  own                  311 638 1033  missing: 0 
+  pop742               742 742 742  missing: 0 
+  s2_origin_oof        698 718 1277  missing: 0 
+  s2_byi_oof           520 636 1146  missing: 0 
+  s2_byi_origin_oof    480 567 1244  missing: 0 
+  s2_byi_x_origin_oof  576 657 1225  missing: 0 
+  s1_byi_origin_oof    353 464 1165  missing: 0 
+
+(b) benchmark with the current E4r and E6r (fitted with each plot's own SDImax)
+                SDImax     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse ba_slope ba_lo ba_hi ba_pass_int ba_pass_slope
+                <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>    <num> <num> <num>      <lgcl>        <lgcl>
+1:                 own   290    55    -0.019     0.177     0.60     3.89    0.11    6.70     0.87  0.67  1.02        TRUE         FALSE
+2:              pop742   290    55    -0.051     0.217     0.25     3.99   -0.88   10.76     0.69  0.48  0.92       FALSE         FALSE
+3:       s2_origin_oof   290    55    -0.055     0.221     0.29     3.93   -1.45   11.42     0.58  0.41  0.77       FALSE         FALSE
+4:          s2_byi_oof   290    55    -0.078     0.232    -0.25     3.92   -3.62   11.47     0.57  0.42  0.73       FALSE         FALSE
+5:   s2_byi_origin_oof   290    55    -0.054     0.222     0.21     3.90   -1.58   11.11     0.58  0.41  0.77       FALSE         FALSE
+6: s2_byi_x_origin_oof   290    55    -0.053     0.220     0.27     3.91   -1.46   11.29     0.54  0.37  0.75       FALSE         FALSE
+7:   s1_byi_origin_oof   290    55    -0.055     0.231    -0.12     4.17   -2.21   10.50     0.59  0.42  0.76       FALSE         FALSE
+by origin:
+                 SDImax planted     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+                 <char>   <int> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+ 1:                 own       0    31    13    -0.068     0.234     2.10     4.61   -1.33    9.42
+ 2:              pop742       0    31    13    -0.085     0.290     1.94     4.39   -0.14   10.17
+ 3:       s2_origin_oof       0    31    13    -0.186     0.323     1.47     3.72   -9.70   14.75
+ 4:          s2_byi_oof       0    31    13    -0.127     0.298     1.87     4.10   -5.46   12.91
+ 5:   s2_byi_origin_oof       0    31    13    -0.173     0.313     1.62     3.82   -9.32   15.15
+ 6: s2_byi_x_origin_oof       0    31    13    -0.165     0.315     1.69     3.89   -9.35   16.24
+ 7:   s1_byi_origin_oof       0    31    13    -0.117     0.300     1.92     4.18   -5.64   13.70
+ 8:                 own       1   259    42    -0.013     0.169     0.42     3.80    0.28    6.29
+ 9:              pop742       1   259    42    -0.047     0.207     0.05     3.93   -0.96   10.82
+10:       s2_origin_oof       1   259    42    -0.040     0.206     0.15     3.96   -0.46   10.96
+11:          s2_byi_oof       1   259    42    -0.072     0.223    -0.50     3.90   -3.40   11.28
+12:   s2_byi_origin_oof       1   259    42    -0.039     0.209     0.04     3.91   -0.65   10.52
+13: s2_byi_x_origin_oof       1   259    42    -0.040     0.205     0.10     3.91   -0.51   10.54
+14:   s1_byi_origin_oof       1   259    42    -0.047     0.221    -0.36     4.17   -1.80   10.05
+horizons of 10 years or more:
+                SDImax     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+                <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:                 own    76    22    -0.019     0.133     1.17     3.83    0.70    7.23
+2:              pop742    76    22    -0.039     0.181     1.04     4.23    0.82   13.94
+3:       s2_origin_oof    76    22    -0.048     0.199     0.99     4.15   -0.76   15.15
+4:          s2_byi_oof    76    22    -0.062     0.209     0.18     4.10   -3.72   13.39
+5:   s2_byi_origin_oof    76    22    -0.027     0.201     0.91     4.06   -0.04   13.79
+6: s2_byi_x_origin_oof    76    22    -0.028     0.182     1.07     4.09    0.22   13.79
+7:   s1_byi_origin_oof    76    22    -0.019     0.208    -0.01     5.15   -0.57   11.19
+
+(b) E4r and E6r refitted with each candidate's SDImax (full-data SDImax model for fitting)
+  pop742            E4r: b0 -3.9329 ls 0.2672 s -0.0319 xrd -2.0508 lbyi 0.6773 pl 0.9797 
+                     E6r: -2.5807 0.3023 -0.1646 0.0011 0.013 0.9756 0.1612 0.7786  converged TRUE  AIC 4597.3 (own SDImax: 4462.0)
+  s2_origin         E4r: b0 -4.192 ls 0.2568 s -0.0287 xrd -2.1198 lbyi 0.6661 pl 1.3117 
+                     E6r: -2.0319 0.2993 -0.1646 0.0011 0.0127 0.9836 0.1605 0.2095  converged TRUE  AIC 4595.3 (own SDImax: 4462.0)
+  s2_byi_origin     E4r: b0 -2.157 ls 0.2584 s -0.0295 xrd -2.1326 lbyi 0.3147 pl 1.2504 
+                     E6r: -5.1104 0.2989 -0.1647 0.0011 0.0126 0.9864 0.6936 0.3293  converged TRUE  AIC 4594.8 (own SDImax: 4462.0)
+  s2_byi_x_origin   E4r: b0 -2.9328 ls 0.2511 s -0.0285 xrd -2.1359 lbyi 0.4525 pl 1.2572 
+                     E6r: -4.6507 0.3015 -0.1665 0.0012 0.014 0.9843 0.609 0.3461  converged TRUE  AIC 4589.6 (own SDImax: 4462.0)
+benchmark with the refitted equations and out-of-fold SDImax (the SDImax model is out of fold; the growth and mortality refits use all plots)
+            SDImax     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse ba_slope ba_lo ba_hi ba_pass_int ba_pass_slope
+            <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>    <num> <num> <num>      <lgcl>        <lgcl>
+1:          pop742   290    55    -0.030     0.214     0.71     4.01    0.25   10.54     0.68  0.49  0.91       FALSE         FALSE
+2:       s2_origin   290    55    -0.029     0.215     0.71     4.10    0.29   10.72     0.66  0.47  0.89       FALSE         FALSE
+3:   s2_byi_origin   290    55    -0.030     0.217     0.73     4.02    0.36   10.75     0.66  0.46  0.89       FALSE         FALSE
+4: s2_byi_x_origin   290    55    -0.029     0.215     0.74     4.04    0.34   10.90     0.62  0.42  0.85       FALSE         FALSE
+by origin:
+            SDImax planted     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+            <char>   <int> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:          pop742       0    31    13    -0.103     0.286     1.95     4.23   -2.45   10.80
+2:       s2_origin       0    31    13    -0.113     0.288     2.42     4.74   -2.45   11.30
+3:   s2_byi_origin       0    31    13    -0.119     0.291     2.27     4.56   -3.02   11.53
+4: s2_byi_x_origin       0    31    13    -0.111     0.293     2.33     4.70   -3.18   12.57
+5:          pop742       1   259    42    -0.021     0.203     0.56     3.99    0.58   10.51
+6:       s2_origin       1   259    42    -0.019     0.204     0.50     4.02    0.62   10.65
+7:   s2_byi_origin       1   259    42    -0.019     0.206     0.55     3.95    0.76   10.66
+8: s2_byi_x_origin       1   259    42    -0.019     0.204     0.55     3.96    0.76   10.69
+
+(c) 200-year runs. SDImax predicted for the scenario BYI values:
+
+==  742, current equations  ==
+    planted  level   byi sdimax  year    BA   TPH   QMD   SDI    RD
+      <num> <char> <num>  <num> <int> <num> <num> <num> <num> <num>
+ 1:       0     lo   206    742    20  28.5   722  22.4   590  0.80
+ 2:       0     lo   206    742    40  31.9   454  29.9   590  0.80
+ 3:       0     lo   206    742   100  39.0   248  44.7   615  0.83
+ 4:       0     lo   206    742   200  42.8   159  58.5   608  0.82
+ 5:       0     md   356    742    20  29.1   601  24.8   580  0.78
+ 6:       0     md   356    742    40  33.4   376  33.6   589  0.79
+ 7:       0     md   356    742   100  40.5   209  49.7   613  0.83
+ 8:       0     md   356    742   200  42.0   131  64.0   576  0.78
+ 9:       0     hi   407    742    20  29.4   575  25.5   578  0.78
+10:       0     hi   407    742    40  33.8   359  34.6   590  0.79
+11:       0     hi   407    742   100  40.8   200  50.9   612  0.82
+12:       0     hi   407    742   200  41.6   124  65.3   565  0.76
+13:       1     lo   121    742    20  31.0   380  32.3   558  0.75
+14:       1     lo   121    742    40  42.9   294  43.1   686  0.93
+15:       1     lo   121    742   100  52.3   181  60.6   732  0.99
+16:       1     lo   121    742   200  43.3   102  73.6   562  0.76
+17:       1     md   156    742    20  33.1   365  34.0   582  0.78
+18:       1     md   156    742    40  44.5   278  45.2   700  0.94
+19:       1     md   156    742   100  52.1   167  63.0   717  0.97
+20:       1     md   156    742   200  40.2    89  75.9   515  0.69
+21:       1     hi   309    742    20  38.4   323  38.9   641  0.86
+22:       1     hi   309    742    40  48.4   235  51.2   724  0.98
+23:       1     hi   309    742   100  48.4   128  69.3   642  0.87
+24:       1     hi   309    742   200  32.2    58  83.9   396  0.53
+    planted  level   byi sdimax  year    BA   TPH   QMD   SDI    RD
+      <num> <char> <num>  <num> <int> <num> <num> <num> <num> <num>
+   planted  level ba_max ba_peak rd_max
+     <num> <char>  <num>   <int>  <num>
+1:       0     lo   42.8     200   0.99
+2:       0     md   42.4     165   0.99
+3:       0     hi   42.3     155   0.99
+4:       1     lo   52.4     104   1.00
+5:       1     md   52.2      92   1.00
+6:       1     hi   51.7      67   0.99
+                      set   site sdi_lim  ba200 no_rise sukachev yield_dens ba_out_nat ba_out_plt
+                   <char> <lgcl>  <lgcl> <lgcl>  <lgcl>   <lgcl>     <lgcl>      <int>      <int>
+1: 742, current equations  FALSE    TRUE   TRUE    TRUE     TRUE       TRUE          1         75
+
+==  742, refitted with 742  ==
+    planted  level   byi sdimax  year    BA   TPH   QMD   SDI    RD
+      <num> <char> <num>  <num> <int> <num> <num> <num> <num> <num>
+ 1:       0     lo   206    742    20  29.8   750  22.5   617  0.83
+ 2:       0     lo   206    742    40  33.8   465  30.4   621  0.84
+ 3:       0     lo   206    742   100  42.7   247  46.9   662  0.89
+ 4:       0     lo   206    742   200  48.9   156  63.1   673  0.91
+ 5:       0     md   356    742    20  34.7   688  25.3   685  0.92
+ 6:       0     md   356    742    40  40.5   422  34.9   704  0.95
+ 7:       0     md   356    742   100  50.7   226  53.5   746  1.00
+ 8:       0     md   356    742   200  54.2   139  70.5   715  0.96
+ 9:       0     hi   407    742    20  36.1   673  26.1   704  0.95
+10:       0     hi   407    742    40  42.3   412  36.1   726  0.98
+11:       0     hi   407    742   100  52.6   221  55.1   765  1.03
+12:       0     hi   407    742   200  55.0   134  72.2   719  0.97
+13:       1     lo   121    742    20  23.3   324  30.2   428  0.58
+14:       1     lo   121    742    40  34.9   244  42.7   561  0.76
+15:       1     lo   121    742   100  48.0   151  63.7   659  0.89
+16:       1     lo   121    742   200  44.2    85  81.5   551  0.74
+17:       1     md   156    742    20  27.0   320  32.8   481  0.65
+18:       1     md   156    742    40  39.3   240  45.7   616  0.83
+19:       1     md   156    742   100  51.4   144  67.3   690  0.93
+20:       1     md   156    742   200  42.3    76  84.4   520  0.70
+21:       1     hi   309    742    20  38.9   308  40.1   641  0.86
+22:       1     hi   309    742    40  52.2   225  54.3   762  1.03
+23:       1     hi   309    742   100  56.3   122  76.6   719  0.97
+24:       1     hi   309    742   200  35.7    52  93.3   421  0.57
+    planted  level   byi sdimax  year    BA   TPH   QMD   SDI    RD
+      <num> <char> <num>  <num> <int> <num> <num> <num> <num> <num>
+   planted  level ba_max ba_peak rd_max
+     <num> <char>  <num>   <int>  <num>
+1:       0     lo   48.9     200   0.99
+2:       0     md   54.4     179   1.01
+3:       0     hi   55.7     166   1.03
+4:       1     lo   49.2     129   0.89
+5:       1     md   51.7     112   0.93
+6:       1     hi   58.5      76   1.06
+                      set   site sdi_lim  ba200 no_rise sukachev yield_dens ba_out_nat ba_out_plt
+                   <char> <lgcl>  <lgcl> <lgcl>  <lgcl>   <lgcl>     <lgcl>      <int>      <int>
+1: 742, refitted with 742   TRUE    TRUE   TRUE    TRUE     TRUE       TRUE         NA        123
+
+==  origin mean, refitted  ==
+    planted  level   byi sdimax  year    BA   TPH   QMD   SDI    RD
+      <num> <char> <num>  <num> <int> <num> <num> <num> <num> <num>
+ 1:       0     lo   206   1275    20  30.7   776  22.4   636  0.50
+ 2:       0     lo   206   1275    40  35.7   498  30.2   659  0.52
+ 3:       0     lo   206   1275   100  47.7   277  46.8   740  0.58
+ 4:       0     lo   206   1275   200  56.6   176  64.0   775  0.61
+ 5:       0     md   356   1275    20  36.6   723  25.4   722  0.57
+ 6:       0     md   356   1275    40  44.4   463  34.9   772  0.61
+ 7:       0     md   356   1275   100  58.8   257  54.0   861  0.68
+ 8:       0     md   356   1275   200  64.4   156  72.5   840  0.66
+ 9:       0     hi   407   1275    20  38.3   710  26.2   746  0.59
+10:       0     hi   407   1275    40  46.7   454  36.2   802  0.63
+11:       0     hi   407   1275   100  61.5   252  55.8   890  0.70
+12:       0     hi   407   1275   200  65.7   150  74.6   847  0.66
+13:       1     lo   121    712    20  23.8   322  30.7   435  0.61
+14:       1     lo   121    712    40  35.8   240  43.6   570  0.80
+15:       1     lo   121    712   100  49.2   145  65.9   667  0.94
+16:       1     lo   121    712   200  41.1    76  83.0   509  0.71
+17:       1     md   156    712    20  27.5   317  33.2   487  0.68
+18:       1     md   156    712    40  40.2   235  46.7   624  0.88
+19:       1     md   156    712   100  52.2   137  69.5   692  0.97
+20:       1     md   156    712   200  38.3    67  85.3   468  0.66
+21:       1     hi   309    712    20  39.3   303  40.6   645  0.91
+22:       1     hi   309    712    40  52.9   218  55.6   766  1.08
+23:       1     hi   309    712   100  53.6   112  77.9   679  0.95
+24:       1     hi   309    712   200  33.2    45  96.4   387  0.54
+    planted  level   byi sdimax  year    BA   TPH   QMD   SDI    RD
+      <num> <char> <num>  <num> <int> <num> <num> <num> <num> <num>
+   planted  level ba_max ba_peak rd_max
+     <num> <char>  <num>   <int>  <num>
+1:       0     lo   56.6     200   0.61
+2:       0     md   64.6     184   0.68
+3:       0     hi   66.3     171   0.70
+4:       1     lo   49.9     119   0.94
+5:       1     md   52.2     103   0.98
+6:       1     hi   58.6      69   1.11
+                     set   site sdi_lim  ba200 no_rise sukachev yield_dens ba_out_nat ba_out_plt
+                  <char> <lgcl>  <lgcl> <lgcl>  <lgcl>   <lgcl>     <lgcl>      <int>      <int>
+1: origin mean, refitted   TRUE    TRUE   TRUE    TRUE     TRUE       TRUE         NA        105
+
+==  f(BYI, origin), current equations  ==
+    planted  level   byi sdimax  year    BA   TPH   QMD   SDI    RD
+      <num> <char> <num>  <num> <int> <num> <num> <num> <num> <num>
+ 1:       0     lo   206    995    20  35.6   874  22.8   734  0.74
+ 2:       0     lo   206    995    40  41.1   567  30.4   755  0.76
+ 3:       0     lo   206    995   100  50.8   315  45.3   798  0.80
+ 4:       0     lo   206    995   200  55.7   202  59.2   786  0.79
+ 5:       0     md   356   1340    20  46.7   894  25.8   916  0.68
+ 6:       0     md   356   1340    40  55.8   590  34.7   973  0.73
+ 7:       0     md   356   1340   100  68.4   334  51.1  1024  0.76
+ 8:       0     md   356   1340   200  70.4   207  65.9   953  0.71
+ 9:       0     hi   407   1439    20  50.0   899  26.6   968  0.67
+10:       0     hi   407   1439    40  60.1   595  35.8  1035  0.72
+11:       0     hi   407   1439   100  73.2   338  52.6  1084  0.75
+12:       0     hi   407   1439   200  73.8   206  67.5   989  0.69
+13:       1     lo   121    472    20  22.3   305  30.5   409  0.87
+14:       1     lo   121    472    40  29.4   214  41.8   476  1.01
+15:       1     lo   121    472   100  35.0   123  60.2   491  1.04
+16:       1     lo   121    472   200  27.4    67  72.1   357  0.76
+17:       1     md   156    541    20  26.1   311  32.7   467  0.86
+18:       1     md   156    541    40  34.1   222  44.2   541  1.00
+19:       1     md   156    541   100  39.2   128  62.5   542  1.00
+20:       1     md   156    541   200  29.2    67  74.4   377  0.70
+21:       1     hi   309    782    20  40.0   332  39.2   665  0.85
+22:       1     hi   309    782    40  50.6   244  51.4   756  0.97
+23:       1     hi   309    782   100  50.7   134  69.5   673  0.86
+24:       1     hi   309    782   200  33.6    61  84.1   414  0.53
+    planted  level   byi sdimax  year    BA   TPH   QMD   SDI    RD
+      <num> <char> <num>  <num> <int> <num> <num> <num> <num> <num>
+   planted  level ba_max ba_peak rd_max
+     <num> <char>  <num>   <int>  <num>
+1:       0     lo   55.7     200   0.81
+2:       0     md   71.3     160   0.76
+3:       0     hi   75.5     149   0.75
+4:       1     lo   35.0      98   1.06
+5:       1     md   39.4      89   1.04
+6:       1     hi   54.1      67   0.98
+                                 set   site sdi_lim  ba200 no_rise sukachev yield_dens ba_out_nat ba_out_plt
+                              <char> <lgcl>  <lgcl> <lgcl>  <lgcl>   <lgcl>     <lgcl>      <int>      <int>
+1: f(BYI, origin), current equations   TRUE    TRUE   TRUE    TRUE    FALSE       TRUE         NA         NA
+
+==  f(BYI, origin), refitted  ==
+    planted  level   byi sdimax  year    BA   TPH   QMD   SDI    RD
+      <num> <char> <num>  <num> <int> <num> <num> <num> <num> <num>
+ 1:       0     lo   206    995    20  30.7   764  22.6   634  0.64
+ 2:       0     lo   206    995    40  35.5   483  30.6   650  0.65
+ 3:       0     lo   206    995   100  46.3   263  47.3   715  0.72
+ 4:       0     lo   206    995   200  53.9   166  64.2   737  0.74
+ 5:       0     md   356   1340    20  36.2   727  25.2   717  0.54
+ 6:       0     md   356   1340    40  43.8   467  34.6   766  0.57
+ 7:       0     md   356   1340   100  58.1   261  53.2   856  0.64
+ 8:       0     md   356   1340   200  64.1   160  71.5   840  0.63
+ 9:       0     hi   407   1439    20  37.8   719  25.9   740  0.51
+10:       0     hi   407   1439    40  46.2   464  35.6   798  0.55
+11:       0     hi   407   1439   100  61.1   260  54.7   891  0.62
+12:       0     hi   407   1439   200  66.2   157  73.3   860  0.60
+13:       1     lo   121    472    20  24.8   309  32.0   447  0.95
+14:       1     lo   121    472    40  34.4   218  44.8   543  1.15
+15:       1     lo   121    472   100  43.4   122  67.4   583  1.23
+16:       1     lo   121    472   200  30.1    61  79.1   379  0.80
+17:       1     md   156    541    20  28.1   308  34.1   494  0.91
+18:       1     md   156    541    40  38.9   220  47.4   600  1.11
+19:       1     md   156    541   100  47.3   123  70.0   625  1.16
+20:       1     md   156    541   200  32.4    60  82.7   401  0.74
+21:       1     hi   309    782    20  39.3   307  40.3   646  0.83
+22:       1     hi   309    782    40  53.4   224  55.1   776  0.99
+23:       1     hi   309    782   100  56.5   119  77.9   716  0.92
+24:       1     hi   309    782   200  34.9    48  95.9   407  0.52
+    planted  level   byi sdimax  year    BA   TPH   QMD   SDI    RD
+      <num> <char> <num>  <num> <int> <num> <num> <num> <num> <num>
+   planted  level ba_max ba_peak rd_max
+     <num> <char>  <num>   <int>  <num>
+1:       0     lo   53.9     200   0.74
+2:       0     md   64.1     190   0.65
+3:       0     hi   66.6     179   0.63
+4:       1     lo   43.4     100   1.25
+5:       1     md   47.4      92   1.19
+6:       1     hi   60.0      73   1.03
+                        set   site sdi_lim  ba200 no_rise sukachev yield_dens ba_out_nat ba_out_plt
+                     <char> <lgcl>  <lgcl> <lgcl>  <lgcl>   <lgcl>     <lgcl>      <int>      <int>
+1: f(BYI, origin), refitted   TRUE    TRUE   TRUE    TRUE     TRUE       TRUE         NA         NA
+
+==  f(BYI x origin), refitted  ==
+    planted  level   byi sdimax  year    BA   TPH   QMD   SDI    RD
+      <num> <char> <num>  <num> <int> <num> <num> <num> <num> <num>
+ 1:       0     lo   206    810    20  25.8   665  22.2   536  0.66
+ 2:       0     lo   206    810    40  29.1   411  30.0   537  0.66
+ 3:       0     lo   206    810   100  37.7   221  46.6   586  0.72
+ 4:       0     lo   206    810   200  44.2   139  63.5   607  0.75
+ 5:       0     md   356   1397    20  38.4   751  25.5   757  0.54
+ 6:       0     md   356   1397    40  46.9   484  35.1   814  0.58
+ 7:       0     md   356   1397   100  62.2   268  54.3   909  0.65
+ 8:       0     md   356   1397   200  67.5   161  73.1   877  0.63
+ 9:       0     hi   407   1593    20  42.5   773  26.4   825  0.52
+10:       0     hi   407   1593    40  52.6   502  36.5   900  0.56
+11:       0     hi   407   1593   100  69.6   279  56.4  1003  0.63
+12:       0     hi   407   1593   200  73.4   163  75.7   941  0.59
+13:       1     lo   121    565    20  25.5   328  31.4   462  0.82
+14:       1     lo   121    565    40  36.7   240  44.2   582  1.03
+15:       1     lo   121    565   100  47.8   138  66.5   645  1.14
+16:       1     lo   121    565   200  35.0    70  79.9   439  0.78
+17:       1     md   156    610    20  28.6   321  33.7   505  0.83
+18:       1     md   156    610    40  40.6   233  47.1   628  1.03
+19:       1     md   156    610   100  50.4   131  69.9   667  1.09
+20:       1     md   156    610   200  34.8    63  83.6   429  0.70
+21:       1     hi   309    750    20  39.0   301  40.6   639  0.85
+22:       1     hi   309    750    40  52.6   216  55.7   762  1.02
+23:       1     hi   309    750   100  52.9   109  78.5   669  0.89
+24:       1     hi   309    750   200  31.2    42  97.4   362  0.48
+    planted  level   byi sdimax  year    BA   TPH   QMD   SDI    RD
+      <num> <char> <num>  <num> <int> <num> <num> <num> <num> <num>
+   planted  level ba_max ba_peak rd_max
+     <num> <char>  <num>   <int>  <num>
+1:       0     lo   44.2     200   0.91
+2:       0     md   67.8     179   0.66
+3:       0     hi   74.4     166   0.63
+4:       1     lo   47.9     105   1.15
+5:       1     md   50.5      94   1.12
+6:       1     hi   58.2      69   1.04
+                         set   site sdi_lim  ba200 no_rise sukachev yield_dens ba_out_nat ba_out_plt
+                      <char> <lgcl>  <lgcl> <lgcl>  <lgcl>   <lgcl>     <lgcl>      <int>      <int>
+1: f(BYI x origin), refitted   TRUE    TRUE   TRUE    TRUE    FALSE       TRUE         NA        110
+
+gates, all sets
+                                 set   site sdi_lim  ba200 no_rise sukachev yield_dens ba_out_nat ba_out_plt
+                              <char> <lgcl>  <lgcl> <lgcl>  <lgcl>   <lgcl>     <lgcl>      <int>      <int>
+1:            742, current equations  FALSE    TRUE   TRUE    TRUE     TRUE       TRUE          1         75
+2:            742, refitted with 742   TRUE    TRUE   TRUE    TRUE     TRUE       TRUE         NA        123
+3:             origin mean, refitted   TRUE    TRUE   TRUE    TRUE     TRUE       TRUE         NA        105
+4: f(BYI, origin), current equations   TRUE    TRUE   TRUE    TRUE    FALSE       TRUE         NA         NA
+5:          f(BYI, origin), refitted   TRUE    TRUE   TRUE    TRUE     TRUE       TRUE         NA         NA
+6:         f(BYI x origin), refitted   TRUE    TRUE   TRUE    TRUE    FALSE       TRUE         NA        110
+
+SDImax at the workbook site classes (planted), f(BYI, origin): 120: 469; 230: 667; 340: 824; 450: 959  f(BYI x origin): 563; 686; 773; 841 
+
+20 done

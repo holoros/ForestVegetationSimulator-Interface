@@ -1,0 +1,299 @@
+=== traj_natural_d1.csv
+================================================================
+BAKUZIS ASSESSMENT:traj_natural_d1.csv
+================================================================
+
+[1/3 Monotonicity] HT increasing, TPH decreasing with age:
+  natural site 1: HT_up=TRUE TPH_down=TRUE
+  natural site 2: HT_up=TRUE TPH_down=TRUE
+  natural site 3: HT_up=TRUE TPH_down=TRUE
+  natural site 4: HT_up=TRUE TPH_down=TRUE
+  natural site 5: HT_up=TRUE TPH_down=TRUE
+
+[1/7 Site ordering] HT and VOL ordered by site at each age:
+  natural: HT inversions=0/201  VOL inversions=0/201
+
+[4 Reineke] log(TPH)~log(QMD) self-thinning slope (target ~ -1.605).
+  Median age step 1 yr; self-thinning screen QMD advance > 0.1 cm yr-1, i.e. > 0.1 cm per step.
+  natural site 1: slope=-1.63 on 201 of 201 points OK
+  natural site 2: slope=-1.60 on 201 of 201 points OK
+  natural site 3: slope=-1.58 on 201 of 201 points OK
+  natural site 4: slope=-1.58 on 201 of 201 points OK
+  natural site 5: slope=-1.58 on 201 of 201 points OK
+
+[8 Eichhorn] volume-height site independence (CV of VOL across sites at matched HT):
+  natural: mean CV=12.7% OK (site-independent)
+
+================================================================
+FLAGS: 0   [Reineke: 5 trajectories evaluated, 0 not evaluated, 0 flagged; age step 1 yr]
+  none - projection passes all tested relations (falsification failed; not a confirmation of accuracy)
+================================================================
+Interpret with references/bakuzis-method.md: map each flag to the responsible submodel and a refinement.
+=== traj_natural_d2.csv
+================================================================
+BAKUZIS ASSESSMENT:traj_natural_d2.csv
+================================================================
+
+[1/3 Monotonicity] HT increasing, TPH decreasing with age:
+  natural site 1: HT_up=TRUE TPH_down=TRUE
+  natural site 2: HT_up=TRUE TPH_down=TRUE
+  natural site 3: HT_up=TRUE TPH_down=TRUE
+  natural site 4: HT_up=TRUE TPH_down=TRUE
+  natural site 5: HT_up=TRUE TPH_down=TRUE
+
+[1/7 Site ordering] HT and VOL ordered by site at each age:
+  natural: HT inversions=0/201  VOL inversions=0/201
+
+[4 Reineke] log(TPH)~log(QMD) self-thinning slope (target ~ -1.605).
+  Median age step 1 yr; self-thinning screen QMD advance > 0.1 cm yr-1, i.e. > 0.1 cm per step.
+  natural site 1: slope=-1.93 on 201 of 201 points OK
+  natural site 2: slope=-1.91 on 201 of 201 points OK
+  natural site 3: slope=-1.90 on 201 of 201 points OK
+  natural site 4: slope=-1.90 on 201 of 201 points OK
+  natural site 5: slope=-1.90 on 201 of 201 points OK
+
+[8 Eichhorn] volume-height site independence (CV of VOL across sites at matched HT):
+  natural: mean CV=14.8% OK (site-independent)
+
+================================================================
+FLAGS: 0   [Reineke: 5 trajectories evaluated, 0 not evaluated, 0 flagged; age step 1 yr]
+  none - projection passes all tested relations (falsification failed; not a confirmation of accuracy)
+================================================================
+Interpret with references/bakuzis-method.md: map each flag to the responsible submodel and a refinement.
+=== traj_natural_d3.csv
+================================================================
+BAKUZIS ASSESSMENT:traj_natural_d3.csv
+================================================================
+
+[1/3 Monotonicity] HT increasing, TPH decreasing with age:
+  natural site 1: HT_up=TRUE TPH_down=TRUE
+  natural site 2: HT_up=TRUE TPH_down=TRUE
+  natural site 3: HT_up=TRUE TPH_down=TRUE
+  natural site 4: HT_up=TRUE TPH_down=TRUE
+  natural site 5: HT_up=TRUE TPH_down=TRUE
+
+[1/7 Site ordering] HT and VOL ordered by site at each age:
+  natural: HT inversions=0/201  VOL inversions=0/201
+
+[4 Reineke] log(TPH)~log(QMD) self-thinning slope (target ~ -1.605).
+  Median age step 1 yr; self-thinning screen QMD advance > 0.1 cm yr-1, i.e. > 0.1 cm per step.
+  natural site 1: slope=-2.16 on 201 of 201 points OK
+  natural site 2: slope=-2.14 on 201 of 201 points OK
+  natural site 3: slope=-2.12 on 201 of 201 points OK
+  natural site 4: slope=-2.12 on 201 of 201 points OK
+  natural site 5: slope=-2.12 on 201 of 201 points OK
+
+[8 Eichhorn] volume-height site independence (CV of VOL across sites at matched HT):
+  natural: mean CV=15.8% FLAG (site-dependent V-H)
+
+================================================================
+FLAGS: 1   [Reineke: 5 trajectories evaluated, 0 not evaluated, 0 flagged; age step 1 yr]
+  - Eichhorn: V-H site-dependent CV 16% (natural)
+================================================================
+Interpret with references/bakuzis-method.md: map each flag to the responsible submodel and a refinement.
+=== traj_natural_d4.csv
+================================================================
+BAKUZIS ASSESSMENT:traj_natural_d4.csv
+================================================================
+
+[1/3 Monotonicity] HT increasing, TPH decreasing with age:
+  natural site 1: HT_up=TRUE TPH_down=TRUE
+  natural site 2: HT_up=TRUE TPH_down=TRUE
+  natural site 3: HT_up=TRUE TPH_down=TRUE
+  natural site 4: HT_up=TRUE TPH_down=TRUE
+  natural site 5: HT_up=TRUE TPH_down=TRUE
+
+[1/7 Site ordering] HT and VOL ordered by site at each age:
+  natural: HT inversions=0/201  VOL inversions=0/201
+
+[4 Reineke] log(TPH)~log(QMD) self-thinning slope (target ~ -1.605).
+  Median age step 1 yr; self-thinning screen QMD advance > 0.1 cm yr-1, i.e. > 0.1 cm per step.
+  natural site 1: slope=-2.32 on 201 of 201 points FLAG
+  natural site 2: slope=-2.29 on 201 of 201 points FLAG
+  natural site 3: slope=-2.27 on 201 of 201 points FLAG
+  natural site 4: slope=-2.27 on 201 of 201 points FLAG
+  natural site 5: slope=-2.27 on 201 of 201 points FLAG
+
+[8 Eichhorn] volume-height site independence (CV of VOL across sites at matched HT):
+  natural: mean CV=15.9% FLAG (site-dependent V-H)
+
+================================================================
+FLAGS: 6   [Reineke: 5 trajectories evaluated, 0 not evaluated, 5 flagged; age step 1 yr]
+  - Reineke slope -2.32 off (natural site 1)
+  - Reineke slope -2.29 off (natural site 2)
+  - Reineke slope -2.27 off (natural site 3)
+  - Reineke slope -2.27 off (natural site 4)
+  - Reineke slope -2.27 off (natural site 5)
+  - Eichhorn: V-H site-dependent CV 16% (natural)
+================================================================
+Interpret with references/bakuzis-method.md: map each flag to the responsible submodel and a refinement.
+=== traj_planted_d1.csv
+================================================================
+BAKUZIS ASSESSMENT:traj_planted_d1.csv
+================================================================
+
+[1/3 Monotonicity] HT increasing, TPH decreasing with age:
+  planted site 1: HT_up=TRUE TPH_down=TRUE
+  planted site 2: HT_up=TRUE TPH_down=TRUE
+  planted site 3: HT_up=TRUE TPH_down=TRUE
+  planted site 4: HT_up=TRUE TPH_down=TRUE
+  planted site 5: HT_up=TRUE TPH_down=TRUE
+
+[1/7 Site ordering] HT and VOL ordered by site at each age:
+  planted: HT inversions=0/201  VOL inversions=0/201
+
+[4 Reineke] log(TPH)~log(QMD) self-thinning slope (target ~ -1.605).
+  Median age step 1 yr; self-thinning screen QMD advance > 0.1 cm yr-1, i.e. > 0.1 cm per step.
+  planted site 1: slope=-1.20 on 201 of 201 points OK
+  planted site 2: slope=-1.21 on 201 of 201 points OK
+  planted site 3: slope=-1.23 on 201 of 201 points OK
+  planted site 4: slope=-1.32 on 201 of 201 points OK
+  planted site 5: slope=-1.35 on 201 of 201 points OK
+
+[8 Eichhorn] volume-height site independence (CV of VOL across sites at matched HT):
+  planted: mean CV=12.0% OK (site-independent)
+
+================================================================
+FLAGS: 0   [Reineke: 5 trajectories evaluated, 0 not evaluated, 0 flagged; age step 1 yr]
+  none - projection passes all tested relations (falsification failed; not a confirmation of accuracy)
+================================================================
+Interpret with references/bakuzis-method.md: map each flag to the responsible submodel and a refinement.
+=== traj_planted_d2.csv
+================================================================
+BAKUZIS ASSESSMENT:traj_planted_d2.csv
+================================================================
+
+[1/3 Monotonicity] HT increasing, TPH decreasing with age:
+  planted site 1: HT_up=TRUE TPH_down=TRUE
+  planted site 2: HT_up=TRUE TPH_down=TRUE
+  planted site 3: HT_up=TRUE TPH_down=TRUE
+  planted site 4: HT_up=TRUE TPH_down=TRUE
+  planted site 5: HT_up=TRUE TPH_down=TRUE
+
+[1/7 Site ordering] HT and VOL ordered by site at each age:
+  planted: HT inversions=0/201  VOL inversions=0/201
+
+[4 Reineke] log(TPH)~log(QMD) self-thinning slope (target ~ -1.605).
+  Median age step 1 yr; self-thinning screen QMD advance > 0.1 cm yr-1, i.e. > 0.1 cm per step.
+  planted site 1: slope=-1.55 on 201 of 201 points OK
+  planted site 2: slope=-1.56 on 201 of 201 points OK
+  planted site 3: slope=-1.58 on 201 of 201 points OK
+  planted site 4: slope=-1.66 on 201 of 201 points OK
+  planted site 5: slope=-1.69 on 201 of 201 points OK
+
+[8 Eichhorn] volume-height site independence (CV of VOL across sites at matched HT):
+  planted: mean CV=15.8% FLAG (site-dependent V-H)
+
+================================================================
+FLAGS: 1   [Reineke: 5 trajectories evaluated, 0 not evaluated, 0 flagged; age step 1 yr]
+  - Eichhorn: V-H site-dependent CV 16% (planted)
+================================================================
+Interpret with references/bakuzis-method.md: map each flag to the responsible submodel and a refinement.
+=== traj_planted_d3.csv
+================================================================
+BAKUZIS ASSESSMENT:traj_planted_d3.csv
+================================================================
+
+[1/3 Monotonicity] HT increasing, TPH decreasing with age:
+  planted site 1: HT_up=TRUE TPH_down=TRUE
+  planted site 2: HT_up=TRUE TPH_down=TRUE
+  planted site 3: HT_up=TRUE TPH_down=TRUE
+  planted site 4: HT_up=TRUE TPH_down=TRUE
+  planted site 5: HT_up=TRUE TPH_down=TRUE
+
+[1/7 Site ordering] HT and VOL ordered by site at each age:
+  planted: HT inversions=0/201  VOL inversions=0/201
+
+[4 Reineke] log(TPH)~log(QMD) self-thinning slope (target ~ -1.605).
+  Median age step 1 yr; self-thinning screen QMD advance > 0.1 cm yr-1, i.e. > 0.1 cm per step.
+  planted site 1: slope=-1.78 on 201 of 201 points OK
+  planted site 2: slope=-1.79 on 201 of 201 points OK
+  planted site 3: slope=-1.81 on 201 of 201 points OK
+  planted site 4: slope=-1.89 on 201 of 201 points OK
+  planted site 5: slope=-1.92 on 201 of 201 points OK
+
+[8 Eichhorn] volume-height site independence (CV of VOL across sites at matched HT):
+  planted: mean CV=18.8% FLAG (site-dependent V-H)
+
+================================================================
+FLAGS: 1   [Reineke: 5 trajectories evaluated, 0 not evaluated, 0 flagged; age step 1 yr]
+  - Eichhorn: V-H site-dependent CV 19% (planted)
+================================================================
+Interpret with references/bakuzis-method.md: map each flag to the responsible submodel and a refinement.
+=== traj_planted_d4.csv
+================================================================
+BAKUZIS ASSESSMENT:traj_planted_d4.csv
+================================================================
+
+[1/3 Monotonicity] HT increasing, TPH decreasing with age:
+  planted site 1: HT_up=TRUE TPH_down=TRUE
+  planted site 2: HT_up=TRUE TPH_down=TRUE
+  planted site 3: HT_up=TRUE TPH_down=TRUE
+  planted site 4: HT_up=TRUE TPH_down=TRUE
+  planted site 5: HT_up=TRUE TPH_down=TRUE
+
+[1/7 Site ordering] HT and VOL ordered by site at each age:
+  planted: HT inversions=0/201  VOL inversions=0/201
+
+[4 Reineke] log(TPH)~log(QMD) self-thinning slope (target ~ -1.605).
+  Median age step 1 yr; self-thinning screen QMD advance > 0.1 cm yr-1, i.e. > 0.1 cm per step.
+  planted site 1: slope=-1.91 on 201 of 201 points OK
+  planted site 2: slope=-1.92 on 201 of 201 points OK
+  planted site 3: slope=-1.94 on 201 of 201 points OK
+  planted site 4: slope=-2.02 on 201 of 201 points OK
+  planted site 5: slope=-2.04 on 201 of 201 points OK
+
+[8 Eichhorn] volume-height site independence (CV of VOL across sites at matched HT):
+  planted: mean CV=20.2% FLAG (site-dependent V-H)
+
+================================================================
+FLAGS: 1   [Reineke: 5 trajectories evaluated, 0 not evaluated, 0 flagged; age step 1 yr]
+  - Eichhorn: V-H site-dependent CV 20% (planted)
+================================================================
+Interpret with references/bakuzis-method.md: map each flag to the responsible submodel and a refinement.
+=== traj_ref_density.csv
+================================================================
+BAKUZIS ASSESSMENT:traj_ref_density.csv
+================================================================
+
+[1/3 Monotonicity] HT increasing, TPH decreasing with age:
+  natural site 1: HT_up=TRUE TPH_down=TRUE
+  natural site 2: HT_up=TRUE TPH_down=TRUE
+  natural site 3: HT_up=TRUE TPH_down=TRUE
+  natural site 4: HT_up=TRUE TPH_down=TRUE
+  natural site 5: HT_up=TRUE TPH_down=TRUE
+  planted site 1: HT_up=TRUE TPH_down=TRUE
+  planted site 2: HT_up=TRUE TPH_down=TRUE
+  planted site 3: HT_up=TRUE TPH_down=TRUE
+  planted site 4: HT_up=TRUE TPH_down=TRUE
+  planted site 5: HT_up=TRUE TPH_down=TRUE
+
+[1/7 Site ordering] HT and VOL ordered by site at each age:
+  natural: HT inversions=0/201  VOL inversions=0/201
+  planted: HT inversions=0/201  VOL inversions=0/201
+
+[4 Reineke] log(TPH)~log(QMD) self-thinning slope (target ~ -1.605).
+  Median age step 1 yr; self-thinning screen QMD advance > 0.1 cm yr-1, i.e. > 0.1 cm per step.
+  natural site 1: slope=-1.93 on 201 of 201 points OK
+  natural site 2: slope=-1.91 on 201 of 201 points OK
+  natural site 3: slope=-1.90 on 201 of 201 points OK
+  natural site 4: slope=-1.90 on 201 of 201 points OK
+  natural site 5: slope=-1.90 on 201 of 201 points OK
+  planted site 1: slope=-1.55 on 201 of 201 points OK
+  planted site 2: slope=-1.56 on 201 of 201 points OK
+  planted site 3: slope=-1.58 on 201 of 201 points OK
+  planted site 4: slope=-1.66 on 201 of 201 points OK
+  planted site 5: slope=-1.69 on 201 of 201 points OK
+
+[8 Eichhorn] volume-height site independence (CV of VOL across sites at matched HT):
+  natural: mean CV=14.8% OK (site-independent)
+  planted: mean CV=15.8% FLAG (site-dependent V-H)
+
+================================================================
+FLAGS: 1   [Reineke: 10 trajectories evaluated, 0 not evaluated, 0 flagged; age step 1 yr]
+  - Eichhorn: V-H site-dependent CV 16% (planted)
+================================================================
+Interpret with references/bakuzis-method.md: map each flag to the responsible submodel and a refinement.
+null device 
+          1 
+wrote matrix_ref_density.png 

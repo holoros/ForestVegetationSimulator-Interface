@@ -1,0 +1,45 @@
+(1) S1: (Intercept) 4.0231; lbyi 0.5408; planted -0.461 ; plots 305 
+residual of ln(plot SDImax) about S1: sd 0.512 ; weighted sd 0.43 ; 10th, 50th, 90th percentile natural: -0.818 -0.428 0.384  planted: -0.598 0.02 0.553 
+diameter increment frame: rows 5114 ; dropped for a PSP removal year strictly inside the interval: 0 
+E4r, convergence 0  delta 0.4298 ; largest change from the script 20 refit 3.62e-05 
+      b0       ls        s      xrd     lbyi       pl 
+-2.15705  0.25843 -0.02951 -2.13258  0.31472  1.25044 
+held-out installations (S1 and E4r both refitted in each fold; start-of-interval competition): annual diameter increment bias 0.028  RMSE 1.133  (plot SDImax 1.132; 742 1.146)
+   slope b1_lo b1_hi pass_int pass_slope
+   <num> <num> <num>   <lgcl>     <lgcl>
+1: 0.941 0.865 1.019     TRUE       TRUE
+mortality frame: rows 7478 deaths 1169 ; censored as PSP removal intervals: rows 756 deaths 324 ; kept: rows 6722 deaths 845 
+E6r by direct likelihood: largest difference from the glm refit of script 20 4.24 ; largest gradient 7.74e-05 ; AIC 3102.3 
+(Intercept)          ld       dbh_m  I(dbh_m^2)         BAL         lrd        lbyi     planted 
+   -0.86915    -0.86937    -0.02373     0.00028     0.03404     0.74602     0.08729    -0.97202 
+diameter of minimum mortality (cm): 66.4 
+
+(2) interval components: sigma 1.0478  tau 0.3749  delta 0.4298  phi 0.0288 
+
+(3) joint plot-cluster bootstrap, 2000 resamples
+resamples: errors 0 ; E4r optim code not 0: 0 ; E6r gradient above 0.01: 16 ; kept 1984 
+                  equation        term    estimate se_plot_bootstrap       lo95       hi95 n_boot
+                    <char>      <char>       <num>             <num>      <num>      <num>  <num>
+ 1:              S1_sdimax (Intercept)  4.02310000        0.74210000  2.2607000  5.1092000   1984
+ 2:              S1_sdimax        lbyi  0.54079000        0.12928000  0.3478900  0.8453000   1984
+ 3:              S1_sdimax     planted -0.46102000        0.07748300 -0.6030400 -0.3078700   1984
+ 4: E4r_diameter_increment          b0 -2.15710000        0.74338000 -3.4847000 -0.5888200   1984
+ 5: E4r_diameter_increment          ls  0.25843000        0.09793100  0.0836350  0.4691000   1984
+ 6: E4r_diameter_increment           s -0.02951400        0.00766110 -0.0458880 -0.0158070   1984
+ 7: E4r_diameter_increment         xrd -2.13260000        0.21428000 -2.6002000 -1.7639000   1984
+ 8: E4r_diameter_increment        lbyi  0.31472000        0.12424000  0.0522340  0.5292400   1984
+ 9: E4r_diameter_increment          pl  1.25040000        0.06962700  1.1114000  1.3855000   1984
+10:          E6r_mortality (Intercept) -0.86915000        2.37020000 -3.5161000  6.2249000   1984
+11:          E6r_mortality          ld -0.86937000        0.28555000 -1.4800000 -0.3613800   1984
+12:          E6r_mortality       dbh_m -0.02373400        0.03827500 -0.0849850  0.0664590   1984
+13:          E6r_mortality      dbh_m2  0.00027596        0.00063312 -0.0016325  0.0010675   1984
+14:          E6r_mortality         BAL  0.03404400        0.01002800  0.0175150  0.0564430   1984
+15:          E6r_mortality         lrd  0.74602000        0.20082000  0.3547500  1.1247000   1984
+16:          E6r_mortality        lbyi  0.08729100        0.40312000 -1.1131000  0.5519900   1984
+17:          E6r_mortality     planted -0.97202000        0.24356000 -1.5149000 -0.5485100   1984
+share of kept resamples with: positive ln(BYI) in S1 1 ; positive DBH-squared in E6r 0.7767 ; positive ln(RD) in E6r 1 ; negative competition term in E4r 1 
+SDImax from S1 with 95% bootstrap interval: natural at BYI 64, 248, 386: 530 (321 to 722); 1102 (972 to 1224); 1400 (1242 to 1573) 
+  planted at BYI 120, 156, 230, 309, 340, 450: 469 (363 to 557); 541 (448 to 620); 667 (590 to 738); 783 (695 to 879); 824 (725 to 940); 959 (816 to 1167) 
+
+(4) reference file against an independent loop from the fitted objects, six cases, year 200, largest absolute difference: 4.97e-13 
+22t done
