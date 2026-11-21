@@ -10,9 +10,9 @@ S1 without Kap: 3.9345 0.5575 -0.4651  n 252 ; Kap plots in S1: 53
 (Intercept)   3.9345     0.4635  8.4888        0
 lbyi          0.5575     0.0801  6.9597        0
 planted      -0.4651     0.0573 -8.1209        0
-Kap plots: weighted mean ln SDImax 7.16  exp 1286 ; S1 prediction at their BYI 532 ; share of S1 weight held by Kap 0.05 
+Kap plots: weighted mean ln SDImax 7.16  exp 1286 ; S1 prediction at their BYI (weighted geometric mean) 1387 ; share of S1 weight held by Kap 0.05 
 natural BYI percentiles without Kap (10, 50, 90): 178.9 306.7 418.1 
-SDImax natural at BYI 64, 248, 386: all plots 532 1101 1400  without Kap 522 1105 1415 ; planted at 121, 156, 309: all 472 541 782  without Kap 466 536 784 
+SDImax natural at BYI 205.5 356.1 406.6 : all plots 995 1340 1439  without Kap 996 1353 1456 ; planted at 121, 156, 309: all 472 541 782  without Kap 466 536 784 
 benchmark with S1 fitted without Kap (S1 in sample, E4r and E6r of record):
        n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
    <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>

@@ -1,7 +1,7 @@
 # 46_height_increment_maxmod.R  Maximum times modifier forms M1 and M2 (section 9 of 2026-11-14_koa-height-crown-standmort_PREREG.md), suggested by Aaron on
 # November 15, 2026: the maximum height increment is set by height and BYI (upper-quantile fit of a bounded form), then a modifier of competition and origin is
 # fitted with the maximum fixed. Same frame, folds, tests and conditions as script 44, whose definitions and test code are reused. No plot or installation identifier is printed.
-L <- readLines("~/jobs/koa_final_eq_20261110/scripts/42_height_increment_round3.R"); k <- grep("^fith <- ", L); eval(parse(text = L[5:(k + 3)]))
+L <- readLines("~/jobs/koa_1150_20261121/scripts/42_height_increment_round3.R"); k <- grep("^fith <- ", L); eval(parse(text = L[5:(k + 3)]))
 # ---- definitions start ----
 suppressMessages(library(quantreg)); NC <- as.integer(Sys.getenv("KOA_CORES", "4"))
 hd <- copy(f$hd); hd[, `:=`(pid = as.character(pid), lbyi = log(BYI), inst = paste(Data, Install))]

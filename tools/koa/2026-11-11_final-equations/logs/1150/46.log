@@ -1,0 +1,124 @@
+bootstrap rows: 1984 ; S1 residual sd (ln scale): 0.512 ; sigma 1.0478  tau 0.3749  delta 0.4298  phi 0.0288 
+benchmark basal area RMSE (1.14.x was 6.763): 6.762 
+height pairs: all 21903 ; kept (annualized change -2 to 4 m) 21434 ; trees 1382 ; plots 97 ; installations 60 
+   planted   ylen pairs trees plots mean_adh  wsum
+     <int> <fctr> <int> <int> <int>    <num> <num>
+1:       0      1    57    52     3    0.416    21
+2:       0    2-3    20     5     1    0.823     8
+3:       0    4-9  1217   561    50    0.259   736
+4:       0     >9   846   199     4    0.365   326
+5:       1      1  3064   784    46    1.184   935
+6:       1    2-3  5097   716    44    1.105  1302
+7:       1    4-9  8313   449    31    0.890  1526
+8:       1     >9  2820   275    25    0.817   484
+
+stage 1 frame: trees with DBH >= 34.8 cm: 261 on 162 plots; median BYI natural 356.1 planted 156.1 
+
+(1) full-frame fits
+
+ R0  convergence 0  delta NA  mean observed - predicted (m/yr) 0.1844 
+
+ M1  convergence 0  delta 0.035  mean observed - predicted (m/yr) 0.0458 
+      g0      g_x     g_pl 
+-1.86953 -1.23045  1.27327 
+  stage 1 (maximum): a0 4.08  a_lbyi -0.138  lk -1.852  lc 0.0686  convergence 0 
+  modifier in the fitting frame: median 0.307  95th percentile 0.551  max 0.551 
+  asymptote (m) at median BYI: natural 26.29  planted 29.46 
+
+ M2  convergence 0  delta 0.022  mean observed - predicted (m/yr) 0.0555 
+      g0      g_x     g_pl 
+-1.71345 -1.16476  1.26205 
+  stage 1 (maximum): a0 4.101  a_lbyi -0.146  lk -2.0962  lc -0.0698  convergence 0 
+  modifier in the fitting frame: median 0.366  95th percentile 0.637  max 0.637 
+  asymptote (m) at median BYI: natural 25.61  planted 28.89 
+
+(2) held-out installations, annual height increment (m/yr), observed diameter and competition paths
+fold convergence codes:
+     form  conv     N
+   <char> <num> <int>
+1:     R0     0    10
+2:     M1     0    10
+3:     M2     0    10
+     form     n       bias       mae      rmse   bias_rel     slope     b1_lo    b1_hi pass_int pass_slope min_region_int min_region_slope     k
+   <char> <int>      <num>     <num>     <num>      <num>     <num>     <num>    <num>   <lgcl>     <lgcl>          <num>            <num> <num>
+1:     R0 21434 0.18440320 0.5459720 0.8108889 0.20141031 0.5677979 0.5055332 0.629408    FALSE      FALSE      0.2541407        0.4944668     0
+2:     M1 21434 0.05400928 0.5249651 0.7488629 0.05899044 0.8923386 0.7753881 1.024079     TRUE       TRUE      0.1249448        0.2246119     7
+3:     M2 21434 0.06404017 0.5265162 0.7499921 0.06994646 0.8532689 0.7482354 0.971101     TRUE      FALSE      0.1384883        0.2517646     7
+
+held-out bias and RMSE by origin and interval length:
+Key: <planted, ylen, n>
+   planted   ylen     n bias_M1 bias_M2 bias_R0 rmse_M1 rmse_M2 rmse_R0
+     <int> <fctr> <int>   <num>   <num>   <num>   <num>   <num>   <num>
+1:       0      1    57   0.170   0.175   0.200   0.603   0.604   0.650
+2:       0    2-3    20   0.462   0.479  -0.140   0.841   0.846   0.485
+3:       0    4-9  1217  -0.015  -0.015  -0.007   0.349   0.352   0.288
+4:       0     >9   846   0.094   0.097   0.097   0.258   0.262   0.212
+5:       1      1  3064   0.085   0.070   0.212   1.258   1.264   1.420
+6:       1    2-3  5097   0.073   0.076   0.182   0.933   0.930   0.942
+7:       1    4-9  8313   0.044   0.066   0.207   0.511   0.511   0.588
+8:       1     >9  2820   0.030   0.051   0.203   0.338   0.345   0.348
+
+held-out, each tree weighted as its consecutive intervals: RMSE
+     form  wrmse  wbias
+   <char>  <num>  <num>
+1:     R0 0.8156 0.1510
+2:     M1 0.7913 0.0245
+3:     M2 0.7945 0.0237
+
+asymptote (m) at the median BYI across the ten fold fits: range
+     form A_nat_min A_nat_max A_pl_min A_pl_max
+   <char>     <num>     <num>    <num>    <num>
+1:     M1      25.3      27.6     27.5     30.2
+2:     M2      24.8      28.1     27.3     29.8
+
+(3a) benchmark: tree height at each plot's longest horizon, trees with measured height at both ends (whole system, S1 out of fold)
+     form trees plots  bias  rmse
+   <char> <int> <int> <num> <num>
+1:     R0   358    37  0.95 4.387
+2:     M1   358    37  0.15 4.571
+3:     M2   358    37  0.21 4.610
+Key: <planted, n>
+   planted     n bias_M1 bias_M2 bias_R0 rmse_M1 rmse_M2 rmse_R0
+     <int> <int>   <num>   <num>   <num>   <num>   <num>   <num>
+1:       0   163    1.01    1.16    1.38    5.43    5.49    5.44
+2:       1   195   -0.56   -0.59    0.60    3.70    3.72    3.26
+
+(3b) basal-area-weighted height (m) of the six scenarios
+      form planted  level    20    40   100   200
+    <char>   <num> <char> <num> <num> <num> <num>
+ 1:     M1       0     lo  14.6  19.0  25.5  28.0
+ 2:     M1       0     md  14.2  18.2  23.9  26.0
+ 3:     M1       0     hi  14.1  18.0  23.5  25.5
+ 4:     M1       1     lo  21.8  27.2  30.2  30.5
+ 5:     M1       1     md  21.3  26.4  29.2  29.5
+ 6:     M1       1     hi  20.0  24.5  26.7  26.8
+ 7:     M2       0     lo  14.4  18.6  24.7  27.3
+ 8:     M2       0     md  13.9  17.7  23.1  25.2
+ 9:     M2       0     hi  13.8  17.4  22.7  24.8
+10:     M2       1     lo  21.4  26.6  29.7  30.0
+11:     M2       1     md  20.8  25.8  28.6  28.9
+12:     M2       1     hi  19.4  23.7  26.0  26.2
+13:     R0       0     lo  12.1  14.2  16.6  17.5
+14:     R0       0     md  12.8  14.9  17.0  17.7
+15:     R0       0     hi  12.9  15.0  17.0  17.7
+16:     R0       1     lo  13.6  15.6  17.0  17.6
+17:     R0       1     md  14.0  15.9  17.2  17.8
+18:     R0       1     hi  15.2  16.9  17.6  18.0
+     form bound200 site100 max_tree_200
+   <char>   <lgcl>  <lgcl>        <num>
+1:     R0     TRUE    TRUE         21.7
+2:     M1     TRUE   FALSE         30.5
+3:     M2     TRUE   FALSE         30.0
+
+(4) conditions of the PREREG note: (a) held-out RMSE at least 5% below R0; (b) intercept passes and slope region smaller than R0; (c) 200-year bound and site order at 100 years; (d) benchmark RMSE not above R0
+Key: <form>
+     form     k   rmse ratio min_region_slope bench_rmse      a      b      c      d   pass eligible
+   <char> <num>  <num> <num>            <num>      <num> <lgcl> <lgcl> <lgcl> <lgcl> <lgcl>   <lgcl>
+1:     M1     7 0.7489 0.924            0.225      4.571   TRUE   TRUE  FALSE  FALSE  FALSE    FALSE
+2:     M2     7 0.7500 0.925            0.252      4.610   TRUE   TRUE  FALSE  FALSE  FALSE    FALSE
+3:     R0     0 0.8109 1.000            0.494      4.387  FALSE  FALSE   TRUE   TRUE  FALSE    FALSE
+eligible forms within 2% of the lowest held-out RMSE among them (the choice among these is by the asymptote interval, script 45): none 
+done
+
+(5) forms bootstrapped: none 
+all done
