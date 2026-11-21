@@ -16,11 +16,16 @@
 library(dplyr) # needed arrange, mutate, left_join, tibble, select, group_by, summarise, ungroup, case_when, all_of
 library(purrr) # needed for pmap_*
 
-VersionTag = "HiGyV0.5.0"
+VersionTag = "HiGyV0.5.1"
 
 ##############################
 #### major update summary ####
 ####
+
+# version 0.5.1 (2026-11-21)
+  # Parameters from koa 1.15.0: BYI for the 53 Kapapala plots predicted from their own climate and soils
+      # (statewide C2 forest) in place of one fill value; maximum SDI, height, height increment, diameter
+      # increment and mortality refit; forms unchanged; crown base E3e unchanged
 
 # version 0.5.0 (2026-11-20)
   # Equations and parameters from the koa model of record (Zenodo 1.14.1)
@@ -58,7 +63,7 @@ VersionTag = "HiGyV0.5.0"
 ##### Maximum stand density index ####
 sdimax.parm = dplyr::tribble(
   ~species, ~s0,              ~s1,               ~s2,
-  'AK',     5.64535004933422, 0.267708773204307, -0.565468519531123)
+  'AK',     4.02311684343911, 0.540786129297645, -0.461020607006201)
 
 
 #' Predict maximum stand density index (25.4 cm index diameter)
@@ -79,7 +84,7 @@ pred_sdimax = function(byi, planted, s0, s1, s2){
 ##### Total height prediction ####
 ht.pred.parm = dplyr::tribble(
   ~species, ~a0,              ~a1,                ~b,                 ~c,
-  'AK',     2.76907028735262, 0.0625077438977538, 0.0415284019555746, 1.05365705524209)
+  'AK',     2.59718941580734, 0.0855931337328115, 0.0456353560752757, 1.07873368968509)
 
 
 
@@ -196,7 +201,7 @@ calc_ht = function(tree.data, plot.data, byi=stand$byi,
 # Diameter increment parameters
   ddbh.parm = dplyr::tribble(
     ~species,  ~b0,               ~b1,               ~b2,                 ~b3,               ~b4,              ~b5,
-    'AK',     -3.34389382394364,  0.258944012422482, -0.0287540660054976, -2.19339616993293,  0.51703684690369, 1.30520211265738)
+    'AK',     -2.15705453202631,  0.258426746078322, -0.02951432645263, -2.13257774595936,  0.314719798734838, 1.25044184539371)
 
     
 #' Calculate annual diameter increment 
@@ -287,7 +292,7 @@ calc_ddbh = function(tree.data, plot.data,
 # Height increment parameters (asymptote from ht.pred.parm)
 dht.parm = dplyr::tribble(
   ~species,  ~b0,               ~b1,                ~b2,                ~b3,
-  'AK',     -3.58396035295639,  0.0776483889881895, -0.809943486352306, 1.35008130619277)
+  'AK',     -3.44518986248682,  0.158055660317076, -0.871721446243248, 1.34219791766898)
 
 
 #' Calculate height increment
@@ -388,7 +393,7 @@ calc_dht = function(tree.data,
 # Tree-level annual mortality parameters
 mort.parm = dplyr::tribble(
   ~species, ~b0,               ~b1,                ~b2,                  ~b3,                  ~b4,                ~b5,               ~b6,                ~b7,
-  'AK',     0.340426001075269, -0.869658145840034, -0.0236697637666886,  0.000275459669220663, 0.0340721198355973, 0.744946139770556, -0.116539979564868, -1.04977227058111)
+  'AK',     -0.86915173517028, -0.869369714688724, -0.0237335273122361,  0.000275963072240534, 0.0340435368873164, 0.746021632423819, 0.0872907341873311, -0.972018583044408)
 
 #' Calculate annual probability of mortality
 #'
