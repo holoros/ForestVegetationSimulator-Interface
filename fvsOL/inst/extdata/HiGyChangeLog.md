@@ -26,8 +26,13 @@ Equations and parameters from the koa model of record, version 1.14.1
   `bal / ba * rd`.
 - Height: asymptote `exp(a0 + a1 ln(BYI))`, shared with height increment.
   The base (no BYI) model is removed.
-- Height to crown base: `min(exp(b0 + b1 ln(ht)), 0.98 ht)`, fitted directly
-  as a height (koa 1.14.2); competition terms fitted with the wrong sign.
+- Height to crown base: `ht / (1 + exp(b0 + b1 ln(ht/dbh) + b2 sqrt(bal ba + 1) + b3 ln(ba + 1)))`
+  with koa-only `bal` and `ba` (koa 1.14.3, E3e, https://doi.org/10.5281/zenodo.24418330). The crown record
+  behind 1.14.2 held crown length (ht x cr) rather than crown base, which is why its competition terms took
+  the wrong sign; E3e is fitted to ht x (1 - cr). `calc_hcb()` joins `ba.plot` from the plot summary.
+  Checked 2026-11-21: `pred_hcb()` matches koa_step_rdbyi.R 1.14.3 exactly, and customRun_fvsRunHi.R runs the
+  nine Hawaii test stands for 50 years (single and triple keys) with diameter and stems matching the reference
+  in eight stands; PSP_202_2 differs through the 14 trees below breast height under the `ht < 1.3716` rule.
 - Diameter increment: refit; crown ratio, Duan factor, origin
   calibration factors and the 0-4 cm cap removed.
 - Height increment: asymptote form; Duan factor, origin calibration
