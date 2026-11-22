@@ -1,27 +1,30 @@
-# Koa (*Acacia koa* A. Gray) annual individual-tree growth and mortality system (version 1.14.1, November 15, 2026)
+# Koa (*Acacia koa* A. Gray) annual individual-tree growth and mortality system, version 1.15.1 (November 22, 2026)
 
-## Current release and scope
+## Status
 
-The current system of record is version **1.15.1** (November 22, 2026): BYI recomputed with out-of-bag predictions at the FIA plots that trained the BYI forests and with 474 duplicate rows of the Eq. 1 frame removed, and every BYI-dependent equation refit with forms unchanged (see CHANGELOG.md). Its Zenodo version is drafted (version DOI 10.5281/zenodo.24432587, reserved, not yet published). Version 1.15.0 is published as [10.5281/zenodo.24425094](https://doi.org/10.5281/zenodo.24425094). The 1.15.1 logs are in `logs/142`, its new outputs in `out/v142`, `out/bakuzis_142` and `out/figs_v142`.
+Version 1.15.1 is the system of record. It is published on Zenodo as [10.5281/zenodo.24432587](https://doi.org/10.5281/zenodo.24432587), and the concept DOI for all versions is [10.5281/zenodo.21081014](https://doi.org/10.5281/zenodo.21081014). It is carried in FVS-HI by `fvsOL/inst/extdata/HiGy.R` version 0.5.2, whose parameters match `koa_rdbyi_equations.csv` to full precision for every equation except the optional ingrowth scenario, which HiGy.R does not implement, and in manuscript v142 and supplement v134.
 
-`koa_step_rdbyi.R` is the base-R reference implementation. It reads `koa_rdbyi_equations.csv` and projects a koa tree list in annual steps. Maximum stand density index depends on Biomass Yield Index (BYI) and origin. Height and height increment share a fitted asymptote; diameter growth and mortality depend on tree and stand conditions. Crown base is an output only. Natural-stand ingrowth is an optional scenario assumption, estimated from ten recruits on five subplots, and is not validated for planted stands. There is no fitted volume or carbon equation. Competition uses live koa only. See the version 1.14.1 section below for the evidence, limitations, and changes from earlier releases.
+Two files are the model: `koa_rdbyi_equations.csv`, which holds every coefficient with its plot-cluster bootstrap interval, and `koa_step_rdbyi.R`, a base-R reference implementation that reads the CSV and projects a koa tree list in annual steps. Nothing in the code is hard-coded except unit constants and three numerical guards.
 
-The November 11 version 1.13.0 model and its historical equations are retained below as provenance. The quick start and function signatures immediately below describe **1.14.1**.
+This README describes 1.15.1 only. `CHANGELOG.md` lists every version from 1.12.2 with its reasons, and `HISTORY.md` keeps the full README as it stood at 1.15.1 before this rewrite, including the 1.13.0 to 1.14.1 sections, the 1.13.0 domain of use and the preregistered SDImax criteria. `METHODS_SUMMARY.md` describes 1.13.0 and is retained for provenance.
 
-## Current domain of use
+What changed in 1.15.1: the Biomass Yield Index (BYI) was recomputed with out-of-bag predictions at the 36 US Forest Service FIA plots (69 growth subplots) that had trained the BYI forests, 474 duplicate rows were removed from the frame of the BYI biomass equation, and every BYI-dependent equation was refit with its form unchanged. Natural-stand BYI levels (10th, 50th and 90th percentiles of plots) are now 170, 317 and 400 Mg ha⁻¹ and planted levels 116, 159 and 308 Mg ha⁻¹. BYI stays on the scale of the biomass frame, which omits the fourfold FIA subplot expansion, so values are about one quarter of a per-hectare asymptote.
 
-Use the fitted E5 height increment by default. The `height = "rule"` option is a fallback and failed the held-out equivalence tests reported for version 1.14.1. Natural-stand ingrowth is an exploratory scenario assumption. The model is not validated for mixed stands, site-by-site screening from mapped BYI, or yield and carbon estimates. Natural stands failed most benchmark tests. Only five benchmark plots extend beyond ten years, so 40- and 100-year projections are extrapolations. The 90% basal-area bands covered 47 of 53 benchmark plots overall, 38 of 41 planted plots and 9 of 12 natural plots; coverage was scored with equations fitted to the benchmark plots. The Sukachev stand-behavior relation remains a failed gate. These limits should accompany any use of the projected curves.
+## Domain of use
 
+The system projects pure koa stands described by a live tree list, a BYI and an origin (planted or natural). Read every projection with these limits.
 
-## The thinning correction
+Planted stands are the supported case. On the 41 planted benchmark plots the projected QMD passes both equivalence tests, and survival and basal area pass the intercept test and fail the slope test. Natural stands are indicative only: on the 12 natural plots basal area and survival fail both tests, and held out by installation the 90% bands covered 8 of 12 natural plots for basal area and QMD and 4 of 12 for survival.
 
-Twenty-seven of the 32 installations of the plantation permanent sample plot (PSP) network were thinned, and the PSP database records each thinned stem as dead. Earlier versions of this work censored the intervals that end in or span a removal year, using a table of removal years by installation. The frames built on November 10, 2026 did not apply that table, so every fit and benchmark from November 10 and the morning of November 11 counted thinning removals as deaths. In the mortality frame 756 of 7,478 tree-intervals and 324 of 1,169 deaths fall in removal intervals. On planted PSP plots the annual death rate is 27% in removal intervals and 2.1% in the others, and 307 of 417 planted PSP deaths are in removal intervals.
+The record is short. Seven plots have a benchmark horizon of 10 years or more, the longest planted record is 52 years and the longest natural record is 33 years. Projections to 40, 100 or 200 years rest on the form of the equations and on SDImax, and the bands widen accordingly.
 
-The correction is a censoring rule. Mortality intervals that end in or span a thinning removal year of a PSP installation are censored, which leaves 6,722 tree-intervals and 845 deaths, and benchmark horizons of a thinned installation stop before its first removal year. No diameter increment interval has a removal year strictly inside it, so S1, E2 and E4r are unchanged; E6r, the benchmark, the gates, the projections, the bands and the coverage all changed. Whether thinned stems are coded dead in the PSP database is still to be confirmed with the data provider.
+Maximum SDI varies weakly with site. The BYI coefficient of S1 is 0.217 with a 95% interval of −0.015 to 0.447, a single SDImax of 742 gives the same benchmark error within its interval, and planted SDImax is 0.56 of natural, which the data cannot separate from the youth and wide spacing of the planted plots. A user with a local density record should supply `sdimax` directly.
+
+Not modeled: thinning (the mortality equation describes death without removals), mixed stands, volume and carbon. Where volume appears in outputs it is 0.40 × basal area × basal-area-weighted height, a stated assumption. Crown base is an output only. Ingrowth is an optional scenario assumption for natural stands, fitted to 10 recruits on 5 of 48 subplots, and is not meant for planted stands. The model is not validated for site-by-site screening from mapped BYI.
 
 ## Quick start
 
-The example needs only base R and the two files `koa_step_rdbyi.R` and `koa_rdbyi_equations.csv` in the working directory. It was rerun in R 4.5.2 on November 22, 2026 with the 1.15.1 files and returned an SDImax of 637.921 and basal areas of 30.904 and 41.409 m² ha⁻¹ at years 20 and 40. These are illustrative projections, not independent validation. The tree list and the BYI are illustrative inputs, not data.
+The example needs only base R and the two files `koa_step_rdbyi.R` and `koa_rdbyi_equations.csv` in the working directory. Rerun in R 4.5.2 with the 1.15.1 files, it returns an SDImax of 637.921 and basal areas of 30.904 and 41.409 m² ha⁻¹ at years 20 and 40. These are illustrative projections from illustrative inputs, not data and not validation.
 
 ```r
 source("koa_step_rdbyi.R")
@@ -48,22 +51,32 @@ out_local <- koa_project(dbh, ht, expf, byi, planted, 40, cf, sdimax = 700)
 print(out_local)
 ```
 
-`koa_project()` returns a data frame with one row per year from 0 to `years` and the columns `year`, `BA`, `TPH`, `QMD`, `SDI`, `RD` and `HT`. `koa_step()` takes the same arguments without `years` and returns the tree list one year later as a list with `dbh`, `ht` and `expf`. The main signatures are `koa_read_coef(path)`, `koa_sdimax(byi, planted, cf)`, `koa_height(dbh, byi, cf)`, `koa_step(dbh, ht, expf, byi, planted, cf, sdimax, height)` and `koa_project(dbh, ht, expf, byi, planted, years, cf, sdimax, height, ingrowth)`. `sdimax` defaults to `koa_sdimax(byi, planted, cf)`, `height` defaults to the fitted E5 equation, and `ingrowth` defaults to `FALSE`. Use `ingrowth = TRUE` only as an exploratory natural-stand scenario. The height fallback is `height = "rule"`.
+`koa_project()` returns a data frame with one row per year from 0 to `years` and the columns `year`, `BA`, `TPH`, `QMD`, `SDI`, `RD` and `HT`. `koa_step()` takes the same arguments without `years` and returns the tree list one year later as a list with `dbh`, `ht`, `expf`, `hcb` (crown base of the start-of-year trees) and `qmd`. The functions are `koa_read_coef(path)`, `koa_sdimax(byi, planted, cf)`, `koa_asymptote(byi, cf)`, `koa_height(dbh, byi, cf)`, `koa_dht(ht, x, byi, planted, cf)`, `koa_hcb(dbh, ht, bal, ba, cf)`, `koa_ingrowth(qmd, cf)`, `koa_step(dbh, ht, expf, byi, planted, cf, sdimax, height)` and `koa_project(dbh, ht, expf, byi, planted, years, cf, sdimax, height, ingrowth)`. `sdimax` defaults to S1, `height` defaults to the fitted E5 (`height = "rule"` is the fallback, which failed the held-out equivalence tests), and `ingrowth` defaults to `FALSE`.
+
+## Running koa in FVS-HI
+
+`fvsOL/inst/extdata/HiGy.R` (version tag `HiGyV0.5.2`) carries S1, E2, E3e, E4r, E5 and E6r with the parameters of `koa_rdbyi_equations.csv`; it has no ingrowth; its changelog is `fvsOL/inst/extdata/HiGyChangeLog.md`. `customRun_fvsRunHi.R` in the same folder runs it.
+
+Every stand needs two extra columns in `FVS_StandInit`: `BYI` (Mg ha⁻¹, on the scale above) and `STDORGCD` (1 planted, 0 natural). `fvs/HiByi.kcp` queries both into Event Monitor variables. Its keywords must sit inside each stand of the keyfile, which is how FVS-Online inserts an attached kcp. An `AddFile` record that points to the kcp does not load it, and the stands then run without growth. When the Event Monitor has not yet computed BYI at stop point 1, `customRun_fvsRunHi.R` reads BYI and STDORGCD from `FVS_StandInit` directly.
+
+`fvs/build_fvs_db_142.R` builds the 1.15.1 input database (one stand per plot measurement, live koa with DBH above zero, imperial units, no coordinates). Under HiGy 0.5.2, eight of the nine Hawaii test stands match `koa_step_rdbyi.R` to 2.6 × 10⁻⁵ m² ha⁻¹ in basal area, and all 310 first-measurement stands run 50 years. The ninth stand, PSP_202_2, differs through its 14 trees below breast height under the `ht < 1.3716` rule of HiGy.R; the gap is the same as under 1.15.0 and is not yet resolved.
 
 ## Inputs, outputs and units
 
-**Table 1.** Arguments of `koa_step()` and `koa_project()` and columns of the data frame returned by `koa_project()`. Tree-level arguments are vectors of equal length with one element per tree record. Stand-level arguments are single values. Units are those of the comment block at the top of `koa_step_rdbyi.R`.
+**Table 1.** Arguments of `koa_step()` and `koa_project()` and columns of the data frame returned by `koa_project()`. Tree-level arguments are vectors of equal length with one element per tree record; stand-level arguments are single values.
 
 | Name | Role | Level | Unit | Meaning |
 |:---:|:---:|:---:|:---:|:---:|
 | `dbh` | Input | Tree | cm | Diameter at breast height (1.37 m) of each live koa record |
-| `ht` | Input | Tree | m | Total height; the function does not fill missing heights, so fill them with `koa_height(dbh, byi, cf)` first |
+| `ht` | Input | Tree | m | Total height; missing heights are not filled, so fill them with `koa_height(dbh, byi, cf)` first |
 | `expf` | Input | Tree | trees ha⁻¹ | Trees per hectare represented by each record |
 | `byi` | Input | Stand | Mg ha⁻¹ | Biomass Yield Index of the site |
 | `planted` | Input | Stand | none | 1 for a planted stand, 0 for a natural stand |
 | `years` | Input | Stand | yr | Number of annual steps (`koa_project()` only) |
 | `cf` | Input | None | none | Coefficient list returned by `koa_read_coef()` |
 | `sdimax` | Input, optional | Stand | trees ha⁻¹ at 25.4 cm | Maximum stand density index; default is S1 |
+| `height` | Input, optional | None | none | `"E5"` (default) or `"rule"` |
+| `ingrowth` | Input, optional | None | none | `FALSE` (default) or `TRUE` for the natural-stand scenario (`koa_project()` only) |
 | `year` | Output | Stand | yr | Years from the starting list |
 | `BA` | Output | Stand | m² ha⁻¹ | Basal area of live koa |
 | `TPH` | Output | Stand | trees ha⁻¹ | Live koa stems |
@@ -74,40 +87,53 @@ print(out_local)
 
 ## Equations
 
-Version 1.14.0 changes E5 from the rule described in this section to a fitted equation and adds crown base (E3c); see "Added in version 1.14.0" below. Version 1.14.1 fits E2 and E5 jointly with one asymptote and adds ingrowth for natural stands; see "Changed in version 1.14.1" below. The rule described here is the fallback (`height = "rule"`).
-
-All three annual rates are computed from the start-of-year state and applied together. Diameters are in cm, heights in m, basal areas in m² ha⁻¹ and stem counts in trees ha⁻¹.
+All annual rates are computed from the start-of-year state and applied together. Competition is from live koa only. Diameters are in cm, heights in m, basal areas in m² ha⁻¹ and stem counts in trees ha⁻¹. Symbols are defined in Table 2 and coefficients are in Table 3.
 
 S1, maximum stand density index:
 
 *SDI*max = exp(*s*₀ + *s*₁ ln(*BYI*) + *s*₂ *planted*)
 
-E2, total height:
+Shared height asymptote of E2 and E5:
 
-*HT* = 1.37 + *a*₀ (1 − exp(−*b* *DBH*))^*c*
+*A* = exp(*a*₀ + *a*₁ ln(*BYI*))
+
+E2, total height (fitted jointly with E5, form J1):
+
+*HT* = 1.37 + (*A* − 1.37) (1 − exp(−*b* *DBH*))^*c*
+
+E3e, height to crown base (output only; crown ratio is 1 − *HCB* / *HT*):
+
+*HCB* = *HT* / (1 + exp(*d*₀ + *d*₁ ln(*HT* / *DBH*) + *d*₂ √(*BAL* *BA* + 1) + *d*₃ ln(*BA* + 1)))
 
 E4r, annual diameter increment (cm yr⁻¹):
 
-Δ*DBH* = exp(*b*₀ + *b*₁ ln(*DBH* + 1) + *b*₂ *DBH* + *b*₃ (*BAL* / *BA*) *RD* + *b*₄ ln(*BYI*) + *b*₅ *planted*)
+Δ*DBH* = exp(*b*₀ + *b*₁ ln(*DBH* + 1) + *b*₂ *DBH* + *b*₃ *x* + *b*₄ ln(*BYI*) + *b*₅ *planted*), with *x* = (*BAL* / *BA*) *RD*
 
-E5, annual height increment (m yr⁻¹):
+E5, annual height increment (m yr⁻¹), zero for a tree taller than *A*:
 
-Δ*HT* = E2(*DBH* + Δ*DBH*) − E2(*DBH*)
+Δ*HT* = *m* *k* *HT* [(*A* / *HT*)^(1/*m*) − 1] exp(*h*₅ *x*), with *k* = exp(*k*₀ + *k*₁ *planted*) and *m* = exp(ln *m*)
 
 E6r, annual probability of death:
 
 *P* = 1 − exp(−exp(*c*₀ + *c*₁ ln(*DBH* + 1) + *c*₂ *DBH* + *c*₃ *DBH*² + *c*₄ *BAL* + *c*₅ ln(*RD*) + *c*₆ ln(*BYI*) + *c*₇ *planted*))
 
+IG, natural-stand ingrowth (optional scenario, trees ha⁻¹ yr⁻¹ passing 12.7 cm, entering at 12.7 cm with the height of E2):
+
+*I* = [1 − exp(−9 exp(*t*₀ + *t*₁ *QMD*))] *μ* × 59.5 / 9
+
 Stand quantities:
 
 *BA* = Σ 0.00007854 *DBH*² *expf*; *N* = Σ *expf*; *QMD* = √(*BA* / (0.00007854 *N*)); *SDI* = *N* (*QMD* / 25.4)^1.605; *RD* = *SDI* / *SDI*max
 
-**Table 2.** Symbols used in the equations. Every quantity is computed from live koa only. The two numerical guards are the only values in the code other than unit constants.
+Fallback height (`height = "rule"`): Δ*HT* = E2(*DBH* + Δ*DBH*) − E2(*DBH*).
+
+**Table 2.** Symbols. Every quantity is computed from live koa only.
 
 | Symbol | Unit | Definition |
 |:---:|:---:|:---:|
 | *DBH* | cm | Diameter at breast height (1.37 m) |
-| *HT* | m | Total height |
+| *HT* | m | Total height; held at 0.5 m or above where it enters a logarithm or ratio |
+| *HCB* | m | Height to crown base |
 | *expf* | trees ha⁻¹ | Trees per hectare represented by a record |
 | *BYI* | Mg ha⁻¹ | Biomass Yield Index of the site |
 | *planted* | none | 1 for planted stands, 0 for natural stands |
@@ -118,209 +144,136 @@ Stand quantities:
 | *SDI* | trees ha⁻¹ at 25.4 cm | Stand density index with exponent 1.605 and reference diameter 25.4 cm |
 | *SDI*max | trees ha⁻¹ at 25.4 cm | Maximum stand density index, from S1 or supplied by the user |
 | *RD* | none | Relative density; held at 0.001 or above inside the logarithm of E6r |
-| Δ*DBH* | cm yr⁻¹ | Annual diameter increment |
-| Δ*HT* | m yr⁻¹ | Annual height increment |
+| *A* | m | Height asymptote shared by E2 and E5 |
+| *x* | none | Competition index (*BAL* / *BA*) *RD* |
 | *P* | yr⁻¹ | Annual probability of death; each record's *expf* is multiplied by 1 − *P* |
-| *s*, *a*, *b*, *c* with subscripts | none | Coefficients in Table 3 |
+| *I* | trees ha⁻¹ yr⁻¹ | Ingrowth past 12.7 cm |
 
 ## Coefficients
 
-**Table 3.** Estimates, plot-cluster bootstrap standard errors and 95% percentile intervals, generated by code from `koa_rdbyi_equations.csv` and rounded to four significant figures; the CSV holds full precision. For S1, E4r and E6r each resample refits S1 and then both equations with that resample's SDImax, so the intervals are joint. The last column is the number of resamples behind each interval, as recorded in the CSV. In the mortality equation the intervals for the intercept, *DBH*, *DBH*² and ln(*BYI*) include zero.
+**Table 3.** Estimates, plot-cluster bootstrap standard errors and 95% percentile intervals, generated by code from `koa_rdbyi_equations.csv` and rounded to four significant figures; the CSV holds full precision. S1, E4r and E6r share one joint bootstrap (1,986 of 2,000 resamples kept). E2 and E5 share a bootstrap of 500 resamples in which the plots of the height and increment frames are resampled together. The E3e competition terms are constrained to be zero or negative, so their upper bounds sit at zero. The CSV column `se_model` is empty for every row.
 
 | Equation | Symbol | Term | Name in CSV | Estimate | SE | 95% interval | Resamples |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| S1 | *s*₀ | Intercept | `(Intercept)` | 5.645 | 0.3723 | 4.919 to 6.349 | 1,987 |
-| S1 | *s*₁ | ln(*BYI*) | `lbyi` | 0.2677 | 0.06912 | 0.1354 to 0.3990 | 1,987 |
-| S1 | *s*₂ | *planted* | `planted` | −0.5655 | 0.07552 | −0.7164 to −0.4185 | 1,987 |
-| E2 | *a*₀ | Asymptote above breast height (m) | `a0` | 19.73 | 0.4833 | 18.82 to 20.71 | 2,000 |
-| E2 | *b* | Rate (cm⁻¹) | `b` | 0.04983 | 0.004897 | 0.04046 to 0.05936 | 2,000 |
-| E2 | *c* | Shape | `c` | 1.150 | 0.07759 | 1.004 to 1.309 | 2,000 |
-| E4r | *b*₀ | Intercept | `b0` | −3.344 | 0.7678 | −4.315 to −1.472 | 1,987 |
-| E4r | *b*₁ | ln(*DBH* + 1) | `ls` | 0.2589 | 0.09673 | 0.08792 to 0.4753 | 1,987 |
-| E4r | *b*₂ | *DBH* | `s` | −0.02875 | 0.007535 | −0.04493 to −0.01538 | 1,987 |
-| E4r | *b*₃ | (*BAL* / *BA*) × *RD* | `xrd` | −2.193 | 0.2257 | −2.649 to −1.772 | 1,987 |
-| E4r | *b*₄ | ln(*BYI*) | `lbyi` | 0.5170 | 0.1312 | 0.1935 to 0.6715 | 1,987 |
-| E4r | *b*₅ | *planted* | `pl` | 1.305 | 0.06916 | 1.167 to 1.438 | 1,987 |
-| E6r | *c*₀ | Intercept | `(Intercept)` | 0.3404 | 2.426 | −2.181 to 7.490 | 1,987 |
-| E6r | *c*₁ | ln(*DBH* + 1) | `ld` | −0.8697 | 0.2854 | −1.480 to −0.3618 | 1,987 |
-| E6r | *c*₂ | *DBH* | `dbh_m` | −0.02367 | 0.03829 | −0.08526 to 0.06678 | 1,987 |
-| E6r | *c*₃ | *DBH*² | `dbh_m2` | 0.0002755 | 0.0006334 | −0.001637 to 0.001066 | 1,987 |
-| E6r | *c*₄ | *BAL* | `BAL` | 0.03407 | 0.01004 | 0.01756 to 0.05647 | 1,987 |
-| E6r | *c*₅ | ln(*RD*) | `lrd` | 0.7449 | 0.2011 | 0.3541 to 1.124 | 1,987 |
-| E6r | *c*₆ | ln(*BYI*) | `lbyi` | −0.1165 | 0.4026 | −1.345 to 0.3153 | 1,987 |
-| E6r | *c*₇ | *planted* | `planted` | −1.050 | 0.2520 | −1.605 to −0.6101 | 1,987 |
+| S1 | *s*₀ | Intercept | `(Intercept)` | 5.937 | 0.672 | 4.569 to 7.295 | 1,986 |
+| S1 | *s*₁ | ln(*BYI*) | `lbyi` | 0.2167 | 0.1147 | −0.01514 to 0.4469 | 1,986 |
+| S1 | *s*₂ | *planted* | `planted` | −0.5728 | 0.08302 | −0.7379 to −0.4089 | 1,986 |
+| E2 | *b* | Rate (cm⁻¹) | `b` | 0.04641 | 0.004985 | 0.03686 to 0.05586 | 500 |
+| E2 | *c* | Shape | `c` | 1.083 | 0.07432 | 0.9445 to 1.234 | 500 |
+| E2, E5 | *a*₀ | Asymptote intercept, ln(m) | `a0` | 2.451 | 0.2021 | 2.15 to 2.952 | 500 |
+| E2, E5 | *a*₁ | ln(*BYI*) on the asymptote | `a_lbyi` | 0.1109 | 0.03488 | 0.02382 to 0.1629 | 500 |
+| E5 | *k*₀ | ln(rate), natural | `lk` | −3.48 | 0.2664 | −4.188 to −3.2 | 500 |
+| E5 | ln *m* | ln(shape) | `lc` | 0.1533 | 0.1403 | −0.0451 to 0.4922 | 500 |
+| E5 | *h*₅ | (*BAL* / *BA*) *RD* | `x` | −0.8013 | 0.1835 | −1.183 to −0.4827 | 500 |
+| E5 | *k*₁ | *planted* on ln(rate) | `k_pl` | 1.369 | 0.2331 | 1.172 to 1.995 | 500 |
+| E3e | *d*₀ | Intercept | `b0` | −0.8289 | 0.1871 | −1.163 to −0.427 | 2,000 |
+| E3e | *d*₁ | ln(*HT* / *DBH*) | `lsl` | −0.4444 | 0.1616 | −0.7602 to −0.1342 | 2,000 |
+| E3e | *d*₂ | √(*BAL* *BA* + 1) | `sbalba_k` | −0.03967 | 0.02233 | −0.08155 to 0 | 2,000 |
+| E3e | *d*₃ | ln(*BA* + 1) | `lba_k` | −0.0994 | 0.1077 | −0.3643 to 0 | 2,000 |
+| E4r | *b*₀ | Intercept | `b0` | −3.336 | 0.6977 | −4.216 to −1.532 | 1,986 |
+| E4r | *b*₁ | ln(*DBH* + 1) | `ls` | 0.2569 | 0.09964 | 0.08213 to 0.4782 | 1,986 |
+| E4r | *b*₂ | *DBH* | `s` | −0.02841 | 0.007746 | −0.04532 to −0.01424 | 1,986 |
+| E4r | *b*₃ | (*BAL* / *BA*) *RD* | `xrd` | −2.19 | 0.2241 | −2.653 to −1.774 | 1,986 |
+| E4r | *b*₄ | ln(*BYI*) | `lbyi` | 0.516 | 0.118 | 0.2043 to 0.6601 | 1,986 |
+| E4r | *b*₅ | *planted* | `pl` | 1.313 | 0.07037 | 1.178 to 1.446 | 1,986 |
+| E6r | *c*₀ | Intercept | `(Intercept)` | 0.3154 | 2.069 | −3.787 to 4.545 | 1,986 |
+| E6r | *c*₁ | ln(*DBH* + 1) | `ld` | −0.8533 | 0.2835 | −1.446 to −0.3468 | 1,986 |
+| E6r | *c*₂ | *DBH* | `dbh_m` | −0.02488 | 0.03817 | −0.08981 to 0.05594 | 1,986 |
+| E6r | *c*₃ | *DBH*² | `dbh_m2` | 0.0002761 | 0.000652 | −0.00138 to 0.001134 | 1,986 |
+| E6r | *c*₄ | *BAL* | `BAL` | 0.03407 | 0.009957 | 0.01787 to 0.056 | 1,986 |
+| E6r | *c*₅ | ln(*RD*) | `lrd` | 0.7394 | 0.2018 | 0.3542 to 1.131 | 1,986 |
+| E6r | *c*₆ | ln(*BYI*) | `lbyi` | −0.117 | 0.3371 | −0.8122 to 0.5877 | 1,986 |
+| E6r | *c*₇ | *planted* | `planted` | −1.048 | 0.2582 | −1.571 to −0.5441 | 1,986 |
+| IG | *t*₀ | Intercept, occurrence | `t0` | −1.226 | 0.7673 | −2.856 to 0.07683 | 1,723 |
+| IG | *t*₁ | *QMD* on occurrence | `t_qmd` | −0.1306 | 0.02672 | −0.1767 to −0.07483 | 1,723 |
+| IG | *μ* | Mean recruits per subplot with any | `mu2` | 2 | 0.5789 | 1 to 2.667 | 1,723 |
 
-The interval components used only for Monte Carlo bands are a tree-year standard deviation sigma of 1.059 that scales with increment to the power delta of 0.438, a plot multiplier on increment with standard deviation tau of 0.409, and a plot multiplier on the mortality hazard with variance phi of 0.029. Point projections use none of them.
+The Monte Carlo bands also use four interval components that point projections never use: a tree-year standard deviation sigma of 1.057 that scales with increment to the power delta of 0.44, a plot multiplier on diameter increment with standard deviation tau of 0.404, and a plot multiplier on the mortality hazard with variance phi of 0.0295 (`logs/142/51.log`).
 
-## What was tested and what failed
+## Evaluation of version 1.15.1
 
-Every number in this section is from the results note `2026-11-11_koa-final-system_REVIEW.md`, which was read from logs 22t, 23t, 24b and 25, except the account of the test of SDImax against BYI in logs 20 and 21, which is from `2026-11-11_koa-sdimax-byi_REVIEW.md` and still stands. Both notes are in `notes/` of this folder.
+The benchmark is 53 remeasured plots (41 planted, 12 natural) and 182 plot-horizons, each projected from its first visit with horizons stopped before any thinning. S1 is out of fold in the benchmark of record; E4r and E6r are fitted on all plots. Equivalence tests regress observed on predicted at each plot's longest horizon with a plot-cluster bootstrap and a 25% region set by convention. Every number in Table 4 is read from the log named in its row.
 
-The rule for adopting SDImax as a function of BYI was written before the test and had three criteria. It did not prefer the adopted form, because the second criterion failed, and it still fails with thinning removals censored. The author adopted S1 on November 11, 2026 on a different ground: the system is then consistent between fitting and use and the ceiling varies with site. A single value of 742 with the equations refitted to it has a slightly lower benchmark basal area error and the same gate results.
+**Table 4.** Tests of the 1.15.1 system. Survival is a proportion, QMD error is in cm and basal area error in m² ha⁻¹.
 
-**Table 4.** The three preregistered criteria and their outcome with thinning removals censored. The benchmark is 53 remeasured plots (41 planted, 12 natural) and 182 plot-horizons, each projected from its first visit. Basal area error is in m² ha⁻¹.
-
-| Criterion | Result | Evidence |
-|:---:|:---:|:---:|
-| BYI coefficient in the direct quantile model excludes zero | Pass | 0.51 (bootstrap median 0.54, 0.30 to 0.83; 300 plot-cluster resamples) |
-| Benchmark basal area RMSE at least 5% below that with 742 | Fail | 6.74 for S1 against 6.60 for 742 with the equations refitted; paired difference +0.14 (−0.08 to +0.29) |
-| Every gate that passes with 742 still passes | Pass | The same five gates pass and the same one (Sukachev) fails |
-
-**Table 5.** Tests of the adopted system and their outcome. Held-out tests leave out whole installations. Equivalence tests are bootstrap tests of observed on predicted at each plot's longest horizon, with a 25% region.
-
-| Test | Result | Evidence |
-|:---:|:---:|:---:|
-| Annual diameter increment, held-out installations | Pass | Bias 0.030 cm yr⁻¹, RMSE 1.144 cm yr⁻¹, slope 0.905 |
-| Benchmark QMD, all plots | Pass | RMSE 2.78 cm (bias +0.54); passes intercept and slope tests |
-| Benchmark survival, all plots | Partial | RMSE 0.124 (bias −0.023); passes the intercept test, fails the slope test (0.87, 0.67 to 1.01) |
-| Benchmark basal area, all plots | Partial | RMSE 6.76 m² ha⁻¹ (bias +0.81); passes the intercept test, fails the slope test (0.82, 0.57 to 1.09) |
-| Benchmark, planted plots | Partial | 0.113, 2.59 cm, 5.79 m² ha⁻¹; QMD passes both tests, survival and basal area the intercept only |
-| Benchmark, natural plots | Fail | 0.176, 3.71 cm, 10.78 m² ha⁻¹ (bias −2.27); fails except the QMD intercept |
-| Benchmark, horizons of 10 years or more | Not tested for equivalence | 22 plot-horizons on 7 plots: 0.122, 3.57 cm, 7.93 m² ha⁻¹ |
-| Site ordering of basal area and QMD to 100 years | Pass | Basal area is never out of site order in 200 years for either origin |
-| SDI limit, basal area bound at 200 years, no rise in SDI between years 150 and 200, yield against density | Pass | Four gates, all pass |
-| Sukachev gate | Fail | Stems at 40 and 100 years are not lower on better sites in natural stands (they are in planted stands); the gate also fails for one SDImax and for the origin mean |
-| Response of mortality to relative density | Supported | Positive in every bootstrap resample |
-| Rise of mortality in large trees | Not established | DBH² term positive in 77.6% of resamples and its interval includes zero; lowest mortality at 66 cm |
-| Coverage of the nominal 90% Monte Carlo band, SDImax at its out-of-fold prediction | Close for basal area, short for the others | Basal area 89% (47 of 53 plots), QMD 85% (45 of 53), survival 72% (38 of 53) |
-| Coverage of the nominal 90% band, SDImax allowed to deviate | Close for basal area, short for survival | Basal area 92% (49 of 53), QMD 87% (46 of 53), survival 75% (40 of 53) |
-| Coverage by origin, SDImax at its out-of-fold prediction | Natural plots short | Planted 93%, 90% and 76%; natural 75%, 67% and 58% for basal area, QMD and survival |
-| Reference file against a separately coded loop | Pass | Largest absolute difference 2 × 10⁻¹³ |
-
-The Sukachev gate fails because mortality no longer rises with BYI once removals are censored. Planted trees have a lower mortality hazard than natural trees at the same size, competition, relative density and BYI (hazard ratio 0.35, 0.20 to 0.54); the ratio was above 1 before the correction. The Monte Carlo median of basal area is below the point projection at 100 years in every scenario.
-
-Four further findings limit how S1 should be read. The second-stage regression behind S1 explains 0.136 of the variance of ln(plot SDImax) held out by installation, against 0.113 for origin alone. The BYI coefficient is 0.268 (SE 0.054) weighted by posterior precision and −0.016 (0.048) unweighted. Planted SDImax is 0.57 of natural (0.49 to 0.66), which the data cannot separate from the youth and wide spacing of the planted plots. Each plot's own SDImax predicts the benchmark better than S1 (basal area RMSE 5.27 m² ha⁻¹), and that value is not available for a new stand.
-
-## Changed in version 1.14.1 (November 15, 2026)
-
-Two changes to the system of record, each under a rule written before it was fitted (`notes/2026-11-14_koa-height-crown-standmort_PREREG.md`, sections 7 to 13, in the order they were written).
-
-1. **The height curve (E2) and the height increment equation (E5) are fitted jointly and share one asymptote.** A = exp(a0 + a_lbyi ln(BYI)) is the asymptote of total height in both: HT = 1.37 + (A - 1.37)(1 - exp(-b DBH))^c (`koa_height(dbh, byi, cf)`) and dHT = m k HT [(A/HT)^(1/m) - 1] exp(x (BAL/BA) RD) with k = exp(lk + k_pl planted), m = exp(lc) (`koa_dht()`). In 1.14.0 the asymptote of E5 was estimated from the increment record alone, and a plot-cluster bootstrap of 500 resamples showed it weakly constrained from above (27.0 m at the median BYI of natural stands, 95% interval 22.3 to 54.4 m; script 43). Two further rounds of forms were tested with the adoption rule of 1.14.0 unchanged: BYI on the rate, by origin and with competition (round 3, script 42; none displaced the 1.14.0 form), then forms that inform the asymptote from the static height record, an asymptote bounded at 40.9 m, and maximum times modifier forms (round 4, scripts 44 and 46). The joint fit (form J1) passed every condition and was chosen, by a criterion written before round 4 was fitted, as the passing form with the narrowest bootstrap interval of the asymptote: 22.5 m at the median BYI of natural stands (21.2 to 24.1 m; 500 resamples of both records, script 45). Held out by installation, E5: bias 0.040 m/yr, RMSE 0.746 m/yr, slope 0.87 (0.76 to 1.01), both equivalence tests passed. E2: bias 0.00 m, RMSE 2.73 m, slope 0.95 (0.90 to 1.00), both passed, against RMSE 2.68 m for the three-parameter curve of 1.14.0 refitted in the same folds, a cost of 1.8% (script 52). The site coefficient a_lbyi is 0.063 (-0.013 to 0.116). The asymptote is that of the mean tree and lies below the tallest measured trees (34.1 m natural, 28.4 m planted). Rounds 2 to 4 are post hoc with respect to the round before each. The fallback rule (`height = "rule"`) now uses the joint curve.
-2. **Ingrowth for natural stands (`koa_ingrowth()`, `koa_project(..., ingrowth = TRUE)`).** A two-stage rate fitted to 48 remeasured FIA subplots of natural stands with 10 koa recruits past 12.7 cm on 5 subplots: the probability that a subplot gains any recruit in nine years, 1 - exp(-9 exp(t0 + t_qmd QMD)), times a mean of mu2 recruits, times 59.5 / 9 trees per ha per year; recruits enter at 12.7 cm with the height of E2. A density-dependent single-stage rate and two-stage forms with RD, basal area and BYI failed their rules (scripts 47 and 48). The QMD form was chosen after the fact from an exploratory screen of 22 forms (script 49) and checked (script 50): 86.2% of 2,000 bootstrap fits were clean against a bar of 90% set beforehand. It is a scenario assumption, not a tested equation: it falls toward zero as QMD rises, so natural projections describe a maturing cohort, and it is not meant for planted stands. `out/ingrowth_bracket_j1.csv` gives the natural scenarios without ingrowth, with this form, and with a constant rate of 1.38 trees per ha per year.
-
-Planted scenarios are unchanged from 1.14.0 in basal area, stems, QMD, SDI and RD (script 51 is script 39 with the three changes and reproduces them to the last digit), and so are the benchmark, the coverage of the bands and the six gates; height and assumed volume changed in every scenario, and the natural scenarios also changed through ingrowth. `scripts/56_release_1141.R` writes `koa_rdbyi_equations.csv` from the fitted objects and checks `koa_step_rdbyi.R` against script 51 (E5 with ingrowth) and script 53 (the rule) to 1e-14. The coefficient file drops the row E2 a0 (the asymptote is E5 a0 and a_lbyi) and adds three rows for ingrowth. New outputs carry no plot identifier: `out/*_j1.csv`, `out/longterm_metrics_53.csv`, `out/boot_round3_43_table.csv`, `out/boot_round4_45_tables.csv`, `out/boot_round4_45_choice.csv`.
-
-## Presentation pass of November 18, 2026 (no change to version 1.14.1)
-
-No equation, coefficient, table value or scenario changed. Figures 3 to 5 and S4 of the manuscript were redrawn from the same saved fits and scenarios by `scripts/57a_fig3_figS4_v137.R` and `scripts/57b_fig4_fig5_v137.R` (`scripts/mk57.py` writes 57a from script 54 by exact one-time replacements, and `scripts/57c_tiff600.R` reruns both at 600 dpi). Every relative density axis now stops at 1.0, long axis titles break onto two lines so panel tags clear them, the two crown records with a competition index above 1 (largest 1.176) are counted in the log and not drawn, and Fig. 5 marks the end of the benchmark record with a dashed vertical line and dashed projections in place of a shaded region. `Fig3_equations.png`, `Fig4_benchmark.png` and `Fig5_projections.png` in this folder are the November 18 drawings.
-
-A sensitivity run, `scripts/58_rd_cap_sensitivity.R`, holds stand relative density at or below 1.0 by a set rule and compares it with the published system on the six scenarios (500 paired draws), the benchmark and the six gates. It is **not deployed**; on November 18, 2026 it was reported as a sensitivity in supplement v129 (Section S6 and Table S39) with one sentence in Results 3.5 of manuscript v137. Natural scenarios are identical; planted basal area at 40 years is 2 to 8% lower; the benchmark is unchanged (basal area RMSE 6.80 against 6.76 m² ha⁻¹; the rule binds on 1 of 53 plots); and the yield-density gate fails under the rule, so four of six gates pass where the published system passes five. The record is `notes/2026-11-18_koa-rd-cap-sensitivity_REVIEW.md`, with `logs/58_rd_cap_sensitivity.log` and `out/rd_cap_table_58.csv`.
-
-## Added in version 1.14.0 (November 14, 2026)
-
-The scripts and logs added in this version are on GitHub in holoros/ForestVegetationSimulator-Interface (https://github.com/holoros/ForestVegetationSimulator-Interface/pull/22), commit d53c03f9e60dd7d82b665e4d2f077c1ee6afa9f9. This folder is deposited as `final_equations_20261114.zip` in version 1.14.0 of the Zenodo record (https://doi.org/10.5281/zenodo.24231258).
-
-
-Two equations were added and one was replaced, under rules written before fitting (`notes/2026-11-14_koa-height-crown-standmort_PREREG.md`, with addenda in the order they were written).
-
-1. **Height increment (E5) is now a fitted equation.** dHT = m k HT [(A/HT)^(1/m) - 1] exp(h5 x), with A = exp(a0 + a_lbyi ln(BYI)), k = exp(lk + k_pl planted), m = exp(lc), x = (BAL/BA) RD, and a zero increment for a tree taller than A (`koa_dht()`). It was fitted to 21,434 pairs of height measurements (1,382 trees, 97 plots). Held out by installation: bias 0.028 m/yr, RMSE 0.754 m/yr, slope 0.89 (0.77 to 1.03), both equivalence tests passed; the rule of earlier versions, E2(D + dD) - E2(D): bias 0.184, RMSE 0.811, slope 0.57, both failed. It is form B2 of a second round of forms, specified after every first-round form projected planted stands above the height bound of the rule (scripts 33 and 33b). Limits: the gain is in bias and in planted stands (for natural trees the rule has the lower held-out RMSE; with trees weighted equally the RMSE gain is 0.8%); the interval of the site coefficient a_lbyi includes zero; the asymptote is weakly constrained from above (script 38c). The rule remains available as the fallback: `koa_step(..., height = "rule")`.
-2. **Crown base (E3c) is added** (replaced by E3d in version 1.14.2, see CHANGELOG.md). HCB = HT / (1 + exp(b0 + lH ln(HT) + x (BAL/BA) RD)), fitted to 360 FIA trees in natural stands (`koa_hcb()`; script 34). Held-out RMSE 2.26 m; it passes the mean bias test and fails the slope test. Nothing else in the system uses it, and for planted stands it is an extrapolation.
-3. **Stand-level mortality was compared and not adopted.** A stand hazard, an occurrence and magnitude form, the whole-stand model of Garcia (2009), and E6r with relative density held at or below one, all fitted with no set constant (script 35). None was preferred to E6r under the rule (benchmark basal area RMSE 7.67, 9.98, 8.99 and 6.76 against 6.76 m2/ha).
-4. **Two assessment metrics** in the 200-year runs: height to diameter ratio and crown ratio (script 36).
-
-Basal area, stems, QMD, SDI, the benchmark, the coverage of the bands and the six gates do not use height and are unchanged from 1.13.1 (script 39 is script 23t with the E5 height step and reproduces them); only height and assumed volume changed. `scripts/41_release_check.R` projects the six scenarios with `koa_step_rdbyi.R` and matches script 39 (E5) and script 23t (rule). Coefficients of E3c and E5 are in `koa_rdbyi_equations.csv` with plot-cluster bootstrap standard errors and 95% percentile intervals (E5: 300 resamples). New outputs carry no plot identifier: `out/*_b2.csv`, `out/boot_B2_38c_summary.csv`, `out/height_increment_B2_sandwich.csv`, `out/longterm_metrics_36.csv`. Scripts 33 to 38 write `.rds` objects that are not deposited; rerun them in order (32 is sourced) to rebuild them.
-
-## Checks added in version 1.13.1 (November 13, 2026)
-
-
-The scripts and logs of this folder are on GitHub in holoros/ForestVegetationSimulator-Interface, pull request 21 (https://github.com/holoros/ForestVegetationSimulator-Interface/pull/21), commit 6c1aa6e90f78d48a9ad7a15642d5a8a2a0989bae. This folder is deposited as `final_equations_20261113.zip` in version 1.13.1 of the Zenodo record (https://doi.org/10.5281/zenodo.24203239).
-
-The system of record is unchanged. Scripts `28_common.R`, `28a_heldout_and_deathrules.R`, `28b_installation_bootstrap.R`, `29_verify_and_thinning.R` and `29b_s1_without_kap.R` add five checks, reported in supplement v125 (Tables S27 to S31).
-
-| Check | Result |
-|:---:|:---:|
-| Benchmark with S1, E4r and E6r all refitted without the plot's installation fold | RMSE 0.128, 3.08 cm, 7.13 m² ha⁻¹ (of record 0.124, 2.78, 6.76); the pooled QMD slope no longer passes |
-| Held-out mortality on tree-intervals | 845 deaths against 832.3 expected; AUC 0.896 (0.902 in sample) |
-| Joint bootstrap of installations (987 of 1,000 kept) | Site growth ratio 2.52 (1.24 to 4.43) natural, 1.62 (1.12 to 2.17) planted; S1 ln(BYI) 0.055 to 0.555 |
-| E6r under three death rules | Planted hazard ratio 0.35, 0.36, 0.43; planted basal area at 100 years 41.4, 42.4, 37.3 m² ha⁻¹ |
-| Benchmark after thinning (27 plots, 112 plot-horizons, 1 to 10 years) | RMSE 0.092, 2.21 cm, 3.96 m² ha⁻¹; basal area overpredicted by 8% |
-| S1 without the 53 Kap plots, whose BYI is one imputed value | s1 0.558 against 0.268; SDImax at the lowest natural BYI level 522 against 863 |
-
-The benchmark of record (6.76 m² ha⁻¹) and the comparison run (6.74) differ in the partition of installations into folds, which depends on the random number generator in force when `make_folds()` is called (L'Ecuyer-CMRG in script 23t, the R default in scripts 22t and 25). The coefficients are the same. Earlier documents attributed the difference to the fitting start.
-
-## Domain of use and known limits (historical version 1.13.0)
-
-The numerical summaries in this section describe the November 11 release. Use the version 1.14.1 section below and the current manuscript and supplement for the latest height and ingrowth results.
-
-
-The system is for stands of koa described by a tree list, a BYI and an origin. The scenario BYI levels, which are the 10th, 50th and 90th percentiles of each origin's plots, are 64, 248 and 386 Mg ha⁻¹ for natural plots and 121, 156 and 309 Mg ha⁻¹ for planted plots. A BYI of 309 Mg ha⁻¹ is the 90th percentile of planted plots, so SDImax for planted stands above it rests on about a tenth of the planted plots.
-
-The record is short. With benchmark horizons stopped before the first thinning, seven plots have a horizon of 10 years or more. The longest planted record is 52 years in one plot and the longest natural record is 33 years. Projections beyond the record rest on the form of the equations and on SDImax.
-
-Long projections have a definite shape that the record cannot confirm. On the measured starting lists, natural stands at low BYI lose basal area from the start (28.8 m² ha⁻¹ at year 0, 14.1 at 100 years) and peak at 46 to 50 years at median and high BYI. Planted stands peak at 51 to 71 years (39 to 55 m² ha⁻¹) and decline, with relative density reaching 1.02 to 1.09.
-
-Natural stands are indicative only, because the 12 natural benchmark plots fail the equivalence tests except the QMD intercept. The growth and mortality equations are fitted on all plots, including the benchmark plots, so the benchmark is out of fold for S1 only.
-
-The two parameters that make SDImax vary are the least secure in the system. A user with a local density record should supply `sdimax` directly.
-
-Version 1.13.0 had no ingrowth, no crown variables and no uneven-aged structure beyond what the tree list carried. Height comes from diameter only. Thinning is not modeled: the mortality equation describes death without removals. Volume is not modeled: where volume appears in the outputs it is 0.40 × basal area × basal-area-weighted height, a stated assumption for which no source is cited. Carbon is not computed.
-
-## How to reproduce
-
-The runnable part of this folder is the reference file and the coefficient CSV: `koa_step_rdbyi.R` with `koa_rdbyi_equations.csv` reproduces every point projection from a tree list, a BYI and an origin, with base R alone. The scripts document how the coefficients, tests and bands were obtained. From this version the Zenodo copy of this folder (not the GitHub copy, which holds code and logs only) also holds the inputs they read (`frames/frames.rds`, `frames/mf_confirmed.rds`, `release/koa_step.R`, `release/koa_final_equations.csv`, the plot SDImax table and the fitted objects of scripts 20 and 22t), so scripts 22t to 29b can be rerun after the working directory at the top of each script is changed; the thinning table is in `data_20260916.zip` of the record.
-
-The scripts run in the order 20, 21, 22t, 23t, 24b, 25 from the job folder `~/jobs/koa_final_eq_20261110`, which each script sets as its working directory. `scripts/utils.R` holds the fold assignment and the bootstrap equivalence test and is sourced by every script except 24b. The logs do not state run times.
-
-**Table 6.** Script order, purpose, outputs and seeds. Inputs are listed in Table 7. Scripts 22t and 23t write their outputs under `rdbyi2` names (coefficients to `release_rdbyi2/`, scenarios and figures to `ms_rdbyi2/`, the other files to `out/`); script 26 redraws Fig. 5 from the scenario file with the shading at years 33 (natural) and 10 (planted), and script 27 evaluates equation S1 with its bootstrap intervals at the exact scenario BYI percentiles (log 22t prints them at BYI rounded to whole numbers); the copies in this folder carry the `rdbyi` names of the file manifest. Random numbers use the L'Ecuyer-CMRG generator in parallel sections, so exact Monte Carlo values may differ if the number of cores is changed.
-
-| Script | Purpose | Outputs | Seed and settings |
+| Test | Result | Evidence | Log |
 |:---:|:---:|:---:|:---:|
-| `20_sdimax_byi.R` | Preregistered test of SDImax against BYI; candidate refits; 200-year gates. Run before the thinning correction; its benchmark comparisons are replaced by script 25 | `out/sdimax_byi.rds`, `logs/20_sdimax_byi.log` | 20261115; 300 quantile-model resamples (`KOA_NBQ`) |
-| `21_sdimax_followup.R` | Follow-up checks raised by the review of script 20. Run before the thinning correction | `logs/21_sdimax_followup.log` | 20261116; 2,000 paired resamples |
-| `22t_rdbyi_final.R` | Adopted fits with removal intervals censored, interval components, joint bootstrap, coefficient table, check of the reference file | Fitted objects, bootstrap rows, `koa_rdbyi_equations.csv`, `logs/22t_rdbyi_final.log` | 20261117; 2,000 resamples (`KOA_NBOOT`), 6 cores (`KOA_CORES`) |
-| `23t_rdbyi_items.R` | Benchmark with horizons stopped before the first removal year, gates, Monte Carlo bands, coverage, figures, workbook grid | `out/benchmark_rdbyi.csv`, `out/scenarios_long_rdbyi.csv`, `out/coverage_rdbyi.csv`, Figs. 3 to 5, four workbook CSVs, `logs/23t_rdbyi_items.log` | 20261118; 500 band draws (`KOA_NDRAW`), 300 coverage draws (`KOA_NDRAW_COV`), 6 cores |
-| `24b_thin_refit.R` | Diagnosis of the thinning defect: deaths in removal intervals, and the mortality equation with and without them | `logs/24b_thin_refit.log` | No random numbers |
-| `25_compare_censored.R` | Comparison of SDImax treatments under the censoring rule: benchmark, paired bootstrap and gates | `logs/25_compare_censored.log` | 20261119; 2,000 paired resamples |
+| Benchmark, all plots | QMD passes both tests; survival and basal area pass the intercept test only | RMSE 0.124, 2.72 cm, 6.71 m² ha⁻¹; basal area slope 0.81 (0.56 to 1.09) | `142/51.log` |
+| Benchmark, planted plots | QMD passes both; survival and basal area the intercept only | RMSE 0.112, 2.53 cm, 5.63 m² ha⁻¹ | `142/51.log` |
+| Benchmark, natural plots | Fails except the QMD intercept | RMSE 0.177, 3.66 cm, 11.02 m² ha⁻¹ (basal area bias −2.30) | `142/51.log` |
+| Benchmark, horizons of 10 years or more | Not tested for equivalence | 22 plot-horizons on 7 plots: 0.112, 3.46 cm, 7.82 m² ha⁻¹ | `142/51.log` |
+| Benchmark with S1, E4r and E6r refitted without each plot's installation | QMD slope no longer passes | RMSE 0.128, 3.00 cm, 7.13 m² ha⁻¹; QMD slope 0.82 (0.73 to 0.95) | `142/28a.log` |
+| Diameter increment E4r, installations held out | Passes both tests | Bias 0.025, RMSE 1.139 cm yr⁻¹, slope 0.918 (0.844 to 0.992) | `142/22t.log` |
+| Height E2, installations held out | Passes both tests | Bias 0.04 m, RMSE 2.65 m, slope 0.96 (0.91 to 1.01) | `142/52.log` |
+| Height increment E5, installations held out | Passes the intercept test, fails the slope test | Bias 0.040, RMSE 0.748 m yr⁻¹, slope 0.85 (0.74 to 0.99); the rule fallback has bias 0.189 and slope 0.56 | `142/52.log` |
+| Crown base E3e, held out (fitted in 1.14.3, unchanged) | Passes both tests | Bias −0.01 m, RMSE 2.20 m, slope 1.07 (0.97 to 1.16) | `CHANGELOG.md`, 1.14.3 |
+| Mortality E6r, tree-intervals held out | Calibrated overall | 845 deaths against 833.3 expected; AUC 0.896 (planted 0.726, natural 0.794) | `142/28a.log` |
+| Coverage of the nominal 90% band, in sample | Close for basal area, short for survival | Basal area 0.887, QMD 0.849, survival 0.736 | `142/51.log` |
+| Coverage of the nominal 90% band, equations held out by installation | Short, and short for natural plots | 0.849, 0.792, 0.679; with SDImax allowed to deviate 0.887, 0.811, 0.755; natural plots 0.667, 0.667, 0.333 | `142/83a.log`, `out/v142/coverage_heldout_83a_summary.csv` |
+| Six 200-year gates (site order to 100 years, SDI limit, basal area bound, no SDI rise in years 150 to 200, Sukachev, yield against density) | All six pass | Site order of basal area holds in every scenario | `142/51.log` |
+| Single SDImax of 742 against S1 | No benchmark difference | Basal area RMSE difference +0.196 (−0.018 to 0.343), paired bootstrap of 2,000 | `142/25.log` |
 
-**Table 7.** Inputs the scripts read that are not in this folder. None of them is among the files added in version 1.13.0. A reader who wants to rerun the scripts needs all of them.
+The full modified Bakuzis matrix (script 68, two origins, five BYI levels, four starting densities, 200 years) holds site order for height, QMD and assumed volume at every age and density. Basal area holds it except in planted runs after 168 to 198 years, when the highest BYI levels fall below lower ones. The Sukachev ratio is at most 1.003 (gate 1.02). Self-thinning slopes run from −1.54 to −2.30, with natural stands started at 4,000 stems ha⁻¹ at −2.24 to −2.30, steeper than Reineke's −1.605. Eichhorn's rule does not hold: the median coefficient of variation of volume across site at matched height is 0.14 to 0.20. Projected basal area and SDI stay below the observed 99.9th percentiles (`logs/142/68.log`). Across 42 planted starting lists (script 83b), QMD at 100 years from 2,400 stems ha⁻¹ relative to 300 ranges from 0.92 to 1.36, and 13 lists show a late basal-area inversion between the lowest and highest site levels (`out/v142/bakuzis_142_lists/bakuzis_lists_summary.csv`).
 
-| Input | Read by | What it is |
-|:---:|:---:|:---:|
-| `frames/frames.rds`, `frames/mf_confirmed.rds` | `frames.rds` by all six scripts; `mf_confirmed.rds` by 20, 22t, 24b and 25 | The R data frames (trees, increment intervals, confirmed-death mortality intervals), built by the earlier scripts of the November 10 job from `koa_frames.sqlite` (md5 42531bd2922405afa4aec79ad11cecf3), which is in the Zenodo record |
-| Plot SDImax table and fit frame of the brms SDImax job (`koa_brms_sdimax_20261102`) | 20, 21, 22t, 23t, 25 | Plot-level SDImax estimates to which S1 is fitted |
-| `psp_origin_thinning_2026-09-16_DATA.csv` | 22t, 23t, 24b, 25 | Removal years by PSP installation, which define the censored intervals |
-| `release/koa_step.R`, `release/koa_final_equations.csv` | 20, 21, 22t, 23t, 25 | Reference file and coefficients of the November 10 refit; the scripts take the stand, competition and height functions and the height coefficients from them |
-| `out/rd_final_fits.rds`, `out/E2_height_cr3.rds`, `out/rdbyi_fits.rds` | 20, 21 and 25; 23t; 24b | Fitted objects of earlier scripts of the same job that are not in this folder |
+With SDI held at the median plot value and *BAL* / *BA* at 0.5, diameter growth on the 90th-percentile BYI site is 1.62 times that on the 10th in natural stands and 1.86 times in planted stands (`out/v142/growth_ratio_fixed_sdi_83c.csv`, `logs/142/83c.log`).
 
-The plot-level origin and thinning table the scripts read (`psp_origin_thinning_2026-09-16_DATA.csv`) is in `data_20260916.zip` of the Zenodo record. True FIA plot coordinates are not distributed, so no step that depends on plot location can be repeated from the deposit; the frames carry each plot's BYI as stored.
+**Table 5.** Alternatives tested under 1.15.1 and not adopted. Each rule was written before its fit unless stated.
 
-Scripts 21, 22t and 23t contain one hard-coded plot identifier, the same in each, which selects the planted starting list used for the workbook grid and for the check of the reference file. It is not reproduced here. The scripts print no plot or installation identifier to the logs.
+| Alternative | Outcome | Evidence | Log |
+|:---:|:---:|:---:|:---:|
+| S1 with a ln(BYI) × origin interaction | Not adopted | Interaction 0.246 (SE 0.146); held-out R² of ln(*SDI*max) 0.126 against 0.153 for S1 | `142/20.log` |
+| S1 with origin only, or BYI only | Not adopted | Held-out R² 0.113 and 0.133 | `142/20.log` |
+| Planted contrast in E4r that fades with DBH | Not adopted; held-out RMSE gain under the 1% rule | Pseudo-AIC −51.5, held-out RMSE −0.27% | `142/82.log` |
+| Extra stand-density terms in E4r (PREREG section 10) | E4r itself is eligible and has the fewest coefficients, so it stays | Largest QMD rise in the density series 0.9% | `142/69.log` |
+| Anchored height form A2 | Picked by the interval-width rule of script 45; J1 kept by the authors' choice and reported | J1 asymptote at median natural BYI 21.98 m (20.95 to 23.16) | `142/45.log`, `142/67.log` |
+| Height forms A1 and B2 in the scenarios | Sensitivity only | 2.7 to 7.8 m taller than J1 at 100 years; assumed volume 14 to 36% larger | `142/83c.log` |
+| Relative density capped at 1.0 | Sensitivity only, not deployed | Reported in supplement v134 | `142/58.log` |
+| Stand-level mortality forms | None preferred to E6r | Reported in supplement v134 | `142/35.log` |
+
+## The thinning correction
+
+Twenty-seven of the 32 installations of the plantation permanent sample plot (PSP) network were thinned, and the PSP database records each thinned stem as dead. Mortality intervals that end in or span a thinning removal year of a PSP installation are censored, which leaves 6,722 tree-intervals and 845 deaths, and benchmark horizons of a thinned installation stop before its first removal year. Before this rule (frames of November 10 and the morning of November 11, 2026), 324 of 1,169 deaths fell in removal intervals. Whether thinned stems are coded dead in the PSP database is still to be confirmed with the data provider.
+
+## How to reproduce 1.15.1
+
+`koa_step_rdbyi.R` with `koa_rdbyi_equations.csv` reproduces every point projection with base R alone. The scripts document how the coefficients, tests and bands were obtained; their logs are in `logs/142` and every reported number was read from them.
+
+Script 80 recomputes BYI out of bag. It needs US Forest Service FIA true plot coordinates, so it runs only on the restricted server, and its plot-level output is not distributed; `out/v142/byi_oob_80_summary.csv` summarizes it. Script 81 writes the new BYI into the model frames. Every BYI-dependent script was then rerun in this order: 20, 21, 22t, 23t, 28a, 28b, 27, 29, 29b, 44, 45, 50, 51, 52, 58, 64, 64b, 57b, 33, 33b, 42, 35, 46, 15, 25, 67, 68, 69, 70, 71, 72, 74 and 73, followed by the new scripts 82, 83a, 83b, 83c and 84. Script 67 writes `koa_rdbyi_equations.csv`.
+
+The scripts read the model frames, which are not on GitHub. They are in the Zenodo record (`koa_frames.sqlite`, and the inputs listed in `HISTORY.md`, Table 7), and `site_byi_142.csv` in the record gives each plot's 1.15.1 BYI without coordinates. The scripts print no plot or installation identifier to the logs.
 
 ## File manifest
 
-**Table 8.** Files in this folder and their purpose. Column definitions for every data file are in `DATA_DICTIONARY.md`.
+**Table 6.** Current files. Column definitions are in `DATA_DICTIONARY.md`.
 
 | File | Purpose |
 |:---:|:---:|
-| `README.md` | This file |
+| `README.md` | This file (1.15.1) |
+| `CHANGELOG.md` | Every version from 1.12.2, with reasons |
+| `HISTORY.md` | The README as it stood before this rewrite, including the 1.13.0 to 1.14.1 sections |
 | `DATA_DICTIONARY.md` | Column type, unit and meaning for every data file |
-| `CHANGELOG.md` | What changed from 1.12.2 and why |
-| `METHODS_SUMMARY.md` | Data frames, estimators, evaluation design and Monte Carlo intervals, with script and log pointers |
-| `koa_step_rdbyi.R` | Standalone reference implementation in base R |
-| `koa_rdbyi_equations.csv` | Coefficients with standard errors and 95% intervals |
-| `scripts/` | `20_sdimax_byi.R`, `21_sdimax_followup.R`, `22t_rdbyi_final.R`, `23t_rdbyi_items.R`, `24b_thin_refit.R`, `25_compare_censored.R`, `26_fig5_shade.R`, `27_sdimax_at_percentiles.R`, `utils.R` |
-| `logs/` | Console log of each script; every reported number was read from these |
-| `out/scenarios_long_rdbyi.csv` | Point projections and 90% Monte Carlo bands for six scenarios to 100 years, with and without a deviation of SDImax |
-| `out/coverage_rdbyi.csv` | Observed values and 90% bands at each benchmark plot's longest horizon |
-| `out/benchmark_rdbyi.csv` | Observed and projected survival, QMD and basal area for each plot-horizon |
-| `workbook/workbook_grid_rdbyi.csv` | 200-year trajectories behind the yield workbook, by site class, starting density and SDImax case |
-| `workbook/workbook_logistic_rdbyi.csv` | Logistic curves fitted to the workbook basal area trajectories |
-| `workbook/workbook_diag_rdbyi.csv` | Diagnostics of each workbook trajectory |
-| `workbook/workbook_crossover_rdbyi.csv` | Age at which basal area stops being ordered by site class |
-| `Fig3_equations.png` | Manuscript v137 figure, 300 dpi: the fitted equations with bootstrap bands (script 57a) |
-| `Fig4_benchmark.png` | Manuscript v137 figure, 300 dpi: observed against projected at each plot's longest horizon (script 57b) |
-| `Fig5_projections.png` | Manuscript v137 figure, 300 dpi: scenario projections to 100 years, dashed past the end of the benchmark record (script 57b) |
+| `koa_step_rdbyi.R` | Reference implementation in base R |
+| `koa_rdbyi_equations.csv` | Coefficients with plot-cluster bootstrap standard errors and 95% intervals |
+| `fvs/HiByi.kcp`, `fvs/build_fvs_db_142.R`, `fvs/patch_higy_142.py` | FVS-HI keyword component, input database builder and the HiGy 0.5.2 parameter patch |
+| `scripts/`, `logs/142/` | Scripts and their 1.15.1 logs |
+| `out/v142/scenarios_long_j1.csv` | Point projections and 90% Monte Carlo bands for six scenarios to 100 years (Table 4 of manuscript v142) |
+| `out/v142/ingrowth_bracket_j1.csv` | Natural scenarios with no ingrowth, the QMD form and a constant rate |
+| `out/v142/benchmark_j1.csv` | Observed and projected survival, QMD and basal area for each plot-horizon |
+| `out/v142/coverage_j1.csv`, `out/v142/coverage_heldout_83a*.csv` | Band coverage in sample and with equations held out |
+| `out/v142/workbook_*_72.csv` | 200-year grid and fitted curves behind the Forest Solutions yield workbook |
+| `out/v142/`, `out/bakuzis_142/`, `out/figs_v142/` | Other 1.15.1 outputs, the Bakuzis matrix runs and the 1.15.1 figures |
+| `Fig3_equations.png`, `Fig4_benchmark.png`, `Fig5_projections.png` | Manuscript v142 figures 3 to 5 |
+
+`out/scenarios_long_rdbyi.csv`, `out/benchmark_rdbyi.csv`, `out/coverage_rdbyi.csv` and `workbook/*_rdbyi.csv` are the 1.13.0 outputs of November 11, 2026, kept because earlier deposits refer to them; do not use them for 1.15.1. `METHODS_SUMMARY.md` and `notes/` are provenance for earlier versions.
 
 ## How to cite
 
-Weiskittel, A.R., Sprecher, I., Gottesman, A., Rice, B., 2026. Acacia koa individual-tree growth and yield data and prediction functions (Hawaii, 1949–2025). Version 1.13.0. Zenodo. https://doi.org/10.5281/zenodo.24116922
+Weiskittel, A.R., Sprecher, I., Gottesman, A., Rice, B., 2026. Acacia koa individual-tree growth and yield data and prediction functions (Hawaii, 1949–2025). Version 1.15.1. Zenodo. https://doi.org/10.5281/zenodo.24432587
 
-Version 1.13.0 was published on November 11, 2026 with the DOI 10.5281/zenodo.24116922. The concept DOI for all versions is 10.5281/zenodo.21081014, and the version before it is 1.12.2 (https://doi.org/10.5281/zenodo.24039072).
-
-The authors and title are those of the dataset reference in manuscript v133. The superseded 1.13.0 texts file does not list creators: it carries the record's creators unchanged from version 1.12.2, and this version does the same.
+The previous version is 1.15.0 (https://doi.org/10.5281/zenodo.24425094). The concept DOI for all versions is 10.5281/zenodo.21081014.
 
 ## Licence and contact
 
 Licence: Creative Commons Attribution 4.0 International (CC BY 4.0), as stated on the Zenodo record.
 
-Contact: Aaron R. Weiskittel, Center for Research on Sustainable Forests, University of Maine, Orono, ME 04469, USA (aaron.weiskittel@maine.edu), the corresponding author of the manuscript.
+Contact: Aaron R. Weiskittel, Center for Research on Sustainable Forests, University of Maine, Orono, ME 04469, USA (aaron.weiskittel@maine.edu).
