@@ -1,0 +1,51 @@
+22:24:11 route 1 shape k 0.0284 p 2.171; rows 2312 plots 339 
+22:24:11 GATE G2: C0r vs archived plot index n 339 Pearson r 0.9799 Spearman 0.9520 median ratio 0.901 -> PASS 
+22:24:11 plot visits 564: no live tally 0, RD < 0.01 7 (floored to 0.01); Eq. 1 rows floored 9 of 2312; RD_ref (median plot RD, 339 plots) 0.4277 
+22:24:16 C1: gamma 0.6483 logLik -9966.41 (C0r -10179.32; LR 425.81); A fixed 324.6 (C0r 409.6); gamma at bound: FALSE 
+22:24:16 C2: ln C0r ~ ln RDplot slope 0.2205 (SE 0.0157) R2 0.370, n 339 
+   n_plots                        value     rho_SDI     rho_RD rho_C0arch
+     <int>                       <char>       <num>      <num>      <num>
+1:     339 C0 (archived Schmoldt index)  0.53305662  0.5359927  1.0000000
+2:     339                          C0r  0.70722257  0.7023980  0.9520353
+3:     339                           C1 -0.09865085 -0.1191650  0.5544015
+4:     339                           C2  0.13169546  0.1224923  0.8417962
+22:24:33 Kona predictors: PTYPE,rain,aws050wta,WHC50,temp,GEO_YR,Kona30mDEM,aws025wta,WHC25,KonaSKF | statewide: rain,temp,aws025wta,aws050wta,aws0100wta,aws0150wta,WHC100,WHC150,WHC25,WHC50,AWS100 
+22:24:33 route 1 shape k 0.0266 p 2.065; rows 1838 plots 339 
+22:24:34 GATE G2: C0r vs archived plot index n 339 Pearson r 0.9686 Spearman 0.9349 median ratio 0.902 -> FAIL 
+22:24:34 G2 below 0.975 (expected without duplicates) 
+22:24:34 plot visits 564: no live tally 0, RD < 0.01 7 (floored to 0.01); Eq. 1 rows floored 7 of 1838; RD_ref (median plot RD, 339 plots) 0.4277 
+22:24:39 C1: gamma 0.6967 logLik -7921.89 (C0r -8137.96; LR 432.14); A fixed 308.4 (C0r 407.0); gamma at bound: FALSE 
+22:24:39 C2: ln C0r ~ ln RDplot slope 0.2075 (SE 0.0147) R2 0.372, n 339 
+   n_plots                        value     rho_SDI     rho_RD rho_C0arch
+     <int>                       <char>       <num>      <num>      <num>
+1:     339 C0 (archived Schmoldt index)  0.53305662  0.5359927  1.0000000
+2:     339                          C0r  0.71813158  0.7114819  0.9348958
+3:     339                           C1 -0.08632123 -0.1108049  0.5262135
+4:     339                           C2  0.14400014  0.1322662  0.8205862
+22:24:51 Kona predictors: PTYPE,rain,aws050wta,WHC50,temp,GEO_YR,Kona30mDEM,aws025wta,WHC25,KonaSKF | statewide: rain,temp,aws025wta,aws050wta,aws0100wta,aws0150wta,WHC100,WHC150,WHC25,WHC50,AWS100 
+Warning message:
+In logLik.reStruct(object, conLin) :
+  Singular precision matrix in level -1, block 1
+Kualoa plots: 6 
+Key: <Plot>
+              Plot byi_1150 byi_v142
+            <char>    <num>    <num>
+1: Kalama triangle 89.69807 82.41395
+2:        KukuiZip 95.77855 93.23363
+3:    Lookout/Puna 87.13765 88.71908
+4:       Nahele Rd 77.04811 82.34745
+5:          Pohaku 93.15660 85.25868
+6:         ZipBase 79.89067 86.86243
+         Data records with_byi mean_1150 mean_v142
+       <char>   <int>    <int>     <num>     <num>
+ 1:     DOFAW    1861     1831     286.1     287.1
+ 2:       FIA     473      361     358.6     348.2
+ 3:   KMR CAR     268      268     141.9     139.5
+ 4:   KMR PSP     419      418     141.2     140.3
+ 5: Kahikinui    1060     1060     150.5     154.7
+ 6:       Kap      80       80     381.0     381.9
+ 7:    Kualoa     133      133      90.7      89.9
+ 8:     Mauka      76       76     241.2     234.0
+ 9:       PSP    5170     5170     293.9     291.8
+10:     Total    9540     9397     265.0     263.9
+84 done

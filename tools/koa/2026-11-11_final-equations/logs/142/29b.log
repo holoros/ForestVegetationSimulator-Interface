@@ -1,0 +1,28 @@
+fold RNG kind: L'Ecuyer-CMRG 
+(1) S1: (Intercept) 5.9368; lbyi 0.2167; planted -0.5728 ; plots 305 
+residual of ln(plot SDImax) about S1: sd 0.507 ; weighted sd 0.46 ; 10th, 50th, 90th percentile natural: -0.894 -0.439 0.367  planted: -0.71 -0.132 0.401 
+diameter increment frame: rows 5114 ; dropped for a PSP removal year strictly inside the interval: 0 
+common: mortality frame rows 6722 deaths 845 ; refit against the fit of record, largest difference 4.45e-06 
+
+S1 all plots: 5.9368 0.2167 -0.5728  n 305 
+S1 without Kap: 5.8548 0.2326 -0.579  n 252 ; Kap plots in S1: 53 
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)   5.8548     0.4472 13.0924    0.000
+lbyi          0.2326     0.0800  2.9073    0.004
+planted      -0.5790     0.0589 -9.8360    0.000
+Kap plots: weighted mean ln SDImax 7.16  exp 1286 ; S1 prediction at their BYI (weighted geometric mean) 1372 ; share of S1 weight held by Kap 0.05 
+natural BYI percentiles without Kap (10, 50, 90): 151.1 258.3 387.7 
+SDImax natural at BYI 170 317 399.5 : all plots 1152 1319 1387  without Kap 1152 1331 1405 ; planted at 121, 156, 309: all 599 641 739  without Kap 591 636 741 
+benchmark with S1 fitted without Kap (S1 in sample, E4r and E6r of record):
+       n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+   <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:   182    53    -0.023     0.124     0.52     2.72    0.73    6.66
+same with S1 of record in sample:
+       n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+   <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:   182    53    -0.024     0.124     0.52     2.72    0.73    6.64
+                             form     n  bias  rmse slope b1_lo b1_hi pass_int pass_slope
+                           <char> <int> <num> <num> <num> <num> <num>   <lgcl>     <lgcl>
+1: Chapman-Richards (BYI, origin)  3331 0.078 2.748 0.967 0.910 1.020     TRUE       TRUE
+2:                        Naslund  3331 0.458 2.918 1.169 1.104 1.229     TRUE       TRUE
+29b done

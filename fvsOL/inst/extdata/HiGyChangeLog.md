@@ -1,5 +1,17 @@
 # HiGy.R changelog 
 
+### Version 0.5.2
+
+#### Growth equations
+- Parameters from the koa model of record, version 1.15.1 (November 22, 2026).
+  BYI is recomputed: the FIA plots that trained the BYI forests now carry
+  out-of-bag predictions, and 474 duplicate rows of the biomass frame were
+  removed before refitting. Maximum SDI, height, height increment, diameter
+  increment and mortality were refit with forms unchanged; crown base (E3e)
+  and ingrowth are unchanged. 25 parameter values changed, nothing else.
+  On the nine test stands eight match the reference script to 2.6e-05 m2/ha
+  in basal area; all 310 first-measurement stands run 50 years.
+
 ### Version 0.5.1
 
 #### Growth equations

@@ -1,0 +1,99 @@
+(1) matched plots: 305 ; with rows in the brms fit frame: 305 ; without: 0 
+plots without fit-frame rows, by source and origin:
+Empty data.table (0 rows and 3 cols): Data,planted,N
+correlation of ln(plot SDImax) with the plot's largest ln(SDI) in the brms fit frame (slope 1.661):
+   one_row                    via plots r_fit_max r_growth_frame_max r_fit_vs_growth median_ratio_fitmax_to_smax
+    <lgcl>                 <char> <int>     <num>              <num>           <num>                       <num>
+1:   FALSE                plot id   118     0.975              0.114           0.171                        0.91
+2:    TRUE                plot id   123     0.895              0.564           0.798                        0.30
+3:    TRUE source and plot number    64     0.806              0.749           0.951                        0.38
+        Data plots r_fit_max r_growth_frame_max
+      <char> <int>     <num>              <num>
+1:     DOFAW     7     0.922              0.801
+2:       FIA    65     0.989              0.232
+3:   KMR CAR    33     0.770              0.753
+4:   KMR PSP    14     0.655              0.677
+5: Kahikinui    64     0.806              0.749
+6:       Kap    53     0.977              0.183
+7:     Mauka    37     0.848              0.848
+8:       PSP    32     0.970              0.864
+brms n_visits against visits in the growth frame (tr): share equal 0.856 
+
+(4) benchmark RMSE: A = 742 with current equations, B = 742 with equations refitted at 742, D = f(BYI, origin) refitted with out-of-fold SDImax, own = each plot's own value
+      set  surv   qmd    ba ba_h10
+   <char> <num> <num> <num>  <num>
+1:      A 0.218  3.94 10.65  13.74
+2:      B 0.214  3.96 10.42  12.77
+3:      D 0.215  4.02 10.67  13.25
+4:    own 0.177  3.87  6.63   7.12
+paired plot-cluster bootstrap (2,000) of the difference in RMSE, with 95% interval:
+  B minus A, ba   all horizons: -0.225 -1.181 0.371 ; horizons of 10 yr or more: -0.965 -3.433 0.173
+  B minus A, surv all horizons: -0.004 -0.01 0.002 ; horizons of 10 yr or more: -0.006 -0.018 0.006
+  B minus A, qmd  all horizons: 0.017 -0.097 0.115 ; horizons of 10 yr or more: -0.161 -0.377 0.008
+  D minus B, ba   all horizons: 0.247 0.024 0.457 ; horizons of 10 yr or more: 0.479 -0.023 0.863
+  D minus B, surv all horizons: 0.001 -0.001 0.003 ; horizons of 10 yr or more: 0.005 -0.001 0.012
+  D minus B, qmd  all horizons: 0.067 0.003 0.141 ; horizons of 10 yr or more: 0.162 0.056 0.3
+  D minus A, ba   all horizons: 0.022 -1.03 0.777 ; horizons of 10 yr or more: -0.487 -3.112 0.989
+  D minus A, surv all horizons: -0.003 -0.01 0.003 ; horizons of 10 yr or more: -0.002 -0.013 0.011
+  D minus A, qmd  all horizons: 0.084 -0.015 0.178 ; horizons of 10 yr or more: 0.002 -0.194 0.203
+  own minus B, ba   all horizons: -3.79 -5.877 -1.613 ; horizons of 10 yr or more: -5.651 -9.996 -1.403
+  own minus B, surv all horizons: -0.037 -0.049 -0.024 ; horizons of 10 yr or more: -0.044 -0.064 -0.026
+  own minus B, qmd  all horizons: -0.086 -0.417 0.226 ; horizons of 10 yr or more: -0.196 -0.772 0.43
+
+(5) residuals under B at each plot's longest horizon (55 plots): ln(observed/projected basal area) and observed minus projected survival, regressed on ln(BYI) and origin; then on ln(own SDImax / 742)
+  lr_ba ~ ln(BYI) + planted: (Intercept) 1.246 (1.271); lbyi -0.270 (0.216); planted -0.041 (0.272)  R2 0.030
+  lr_ba ~ ln(own SDImax / 742): -0.162 (0.153); 0.107 (0.205)  R2 0.006, plots 51
+  lr_surv ~ ln(BYI) + planted: (Intercept) -0.068 (0.376); lbyi 0.003 (0.064); planted -0.031 (0.080)  R2 0.003
+  lr_surv ~ ln(own SDImax / 742): 0.005 (0.043); 0.159 (0.057)  R2 0.138, plots 51
+
+(8) workbook site classes, planted, 200 stems per acre: basal area (ft2 per acre) by age; SDImax; peak; RD
+Key: <set, byi, sdimax>
+       set   byi sdimax    20    40    52   100   200
+    <char> <num>  <num> <num> <num> <num> <num> <num>
+ 1:      A   120    742 126.4 181.6 199.7 226.9 191.4
+ 2:      A   230    742 149.8 200.6 214.7 220.4 156.7
+ 3:      A   340    742 163.5 209.8 220.4 208.1 135.7
+ 4:      A   450    742 172.9 215.1 222.5 195.4 117.7
+ 5:      B   120    742  96.1 150.1 170.7 210.6 191.5
+ 6:      B   230    742 139.0 200.5 220.3 240.8 165.1
+ 7:      B   340    742 169.6 231.9 249.0 244.5 150.9
+ 8:      B   450    742 193.4 253.9 267.4 237.0 134.2
+ 9:      D   120    603 100.5 151.6 170.4 203.8 157.0
+10:      D   230    694 141.1 202.0 221.4 231.9 155.6
+11:      D   340    755 171.6 236.5 253.9 234.4 139.2
+12:      D   450    803 196.5 262.6 276.6 229.0 122.4
+       set   byi peak_ft2 peak_age rd_max qmd100_in stems100_ac
+    <char> <num>    <num>    <num>  <num>     <num>       <num>
+ 1:      A   450    223.2       58   0.98      28.5          44
+ 2:      B   450    270.6       62   1.13      31.7          43
+ 3:      D   450    278.7       59   1.07      32.1          41
+ 4:      A   340    224.0       66   0.98      27.5          50
+ 5:      B   340    258.7       72   1.07      30.6          48
+ 6:      D   340    261.3       67   1.06      31.0          45
+ 7:      A   230    225.2       79   0.98      26.2          59
+ 8:      B   230    242.2       89   1.00      28.7          54
+ 9:      D   230    238.5       81   1.06      29.4          49
+10:      A   120    227.2      107   0.99      23.7          74
+11:      B   120    215.3      128   0.89      25.3          60
+12:      D   120    204.6      110   1.05      26.2          55
+first age at which basal area is not ordered by site class:
+Key: <set>
+      set first
+   <char> <num>
+1:      A    59
+2:      B    87
+3:      D    89
+natural stand under A, basal area by BYI level in the first years (the site gate failed at year 1):
+Key: <year>
+    year    hi    lo    md
+   <num> <num> <num> <num>
+1:     0 28.80 28.80 28.80
+2:     1 27.89 28.25 28.00
+3:     2 27.31 27.85 27.47
+4:     3 26.95 27.55 27.13
+5:     5 26.67 27.20 26.81
+6:    10 27.11 27.12 27.07
+7:    15 28.15 27.59 27.94
+8:    20 29.33 28.28 28.98
+
+21 done

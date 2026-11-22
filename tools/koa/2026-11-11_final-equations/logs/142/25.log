@@ -1,0 +1,37 @@
+mortality frame after censoring: rows 6722 deaths 845 
+
+E6r by treatment of SDImax (fitted with the full-data SDImax of each treatment):
+       SDImax (Intercept)      ld   dbh_m I(dbh_m^2)    BAL    lrd    lbyi planted    AIC    gmax
+       <char>       <num>   <num>   <num>      <num>  <num>  <num>   <num>   <num>  <num>   <num>
+1:        own     -0.4986 -0.7459 -0.0387      5e-04 0.0371 0.6816 -0.0616 -0.7577 3104.0 0.00008
+2:     one742      0.8124 -0.8543 -0.0247      3e-04 0.0341 0.7382 -0.2771 -0.6250 3104.0 0.00170
+3:     origin      1.2108 -0.8536 -0.0248      3e-04 0.0341 0.7384 -0.2770 -1.0549 3104.1 0.00035
+4: byi_origin      0.3154 -0.8533 -0.0249      3e-04 0.0341 0.7394 -0.1170 -1.0477 3104.1 0.00013
+
+benchmark with removals censored: plots 53  plot-horizons 182  planted plots 41  natural 12 ; longest horizon by origin (natural, planted): 33 52 ; plots with a horizon of 10 years or more: 7 
+       SDImax surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse ba_rmse_planted ba_rmse_natural ba_rmse_h10
+       <char>     <num>     <num>    <num>    <num>   <num>   <num>           <num>           <num>       <num>
+1:        own    -0.015     0.117     0.26     2.49    0.40    5.20            3.95            9.61        6.59
+2:     one742    -0.023     0.123     0.52     2.70    0.78    6.52            5.52           10.55        7.65
+3:     origin    -0.024     0.124     0.55     2.80    0.73    6.69            5.67           10.82        7.87
+4: byi_origin    -0.025     0.124     0.50     2.73    0.66    6.72            5.68           10.91        7.94
+paired plot-cluster bootstrap (2,000) of the difference in RMSE with 95% interval:
+  byi_origin minus one742, ba  : 0.196 -0.018 0.343
+  byi_origin minus one742, surv: 0.001 -0.001 0.003
+  byi_origin minus one742, qmd : 0.021 -0.064 0.1
+  byi_origin minus origin, ba  : 0.027 -0.014 0.064
+  byi_origin minus origin, surv: 0 0 0.001
+  byi_origin minus origin, qmd : -0.076 -0.14 -0.023
+  own minus byi_origin, ba  : -1.518 -2.892 -0.094
+  own minus byi_origin, surv: -0.007 -0.012 -0.002
+  own minus byi_origin, qmd : -0.234 -0.631 0.101
+residuals of the one-value system at each plot's longest horizon, ln(observed/projected basal area) on ln(BYI) and origin: (Intercept) 0.993 (0.978); lbyi -0.215 (0.167); planted 0.158 (0.214)  R2 0.059, plots 53
+
+200-year gates by treatment (starting plot's own value not run: it is not available for a new stand)
+       SDImax site_to_100 sdi_lim  ba200 no_rise sukachev yield_dens ba_out_nat ba_out_plt      ba100_nat      ba100_plt ba200_max
+       <char>      <lgcl>  <lgcl> <lgcl>  <lgcl>   <lgcl>     <lgcl>      <int>      <int>         <char>         <char>     <num>
+1:     one742        TRUE    TRUE   TRUE    TRUE     TRUE       TRUE         NA         NA 23.9/30.2/32.5 39.7/43.1/49.4      33.2
+2:     origin        TRUE    TRUE   TRUE    TRUE     TRUE       TRUE         NA        190 24.6/32.1/34.8 40.2/43.5/49.5      31.5
+3: byi_origin        TRUE    TRUE   TRUE    TRUE     TRUE       TRUE         NA         NA 24.7/32.1/34.9 38.4/42.2/49.6      31.1
+
+25 done

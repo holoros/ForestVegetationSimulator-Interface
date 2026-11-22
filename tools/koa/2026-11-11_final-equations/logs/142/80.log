@@ -1,0 +1,67 @@
+20:05:24 route 1 shape k 0.0284 p 2.171; rows 2312 plots 339 
+20:05:24 GATE G2: C0r vs archived plot index n 339 Pearson r 0.9799 Spearman 0.9520 median ratio 0.901 -> PASS 
+20:05:25 plot visits 564: no live tally 0, RD < 0.01 7 (floored to 0.01); Eq. 1 rows floored 9 of 2312; RD_ref (median plot RD, 339 plots) 0.4277 
+20:05:29 C1: gamma 0.6483 logLik -9966.41 (C0r -10179.32; LR 425.81); A fixed 324.6 (C0r 409.6); gamma at bound: FALSE 
+20:05:29 C2: ln C0r ~ ln RDplot slope 0.2205 (SE 0.0157) R2 0.370, n 339 
+   n_plots                        value     rho_SDI     rho_RD rho_C0arch
+     <int>                       <char>       <num>      <num>      <num>
+1:     339 C0 (archived Schmoldt index)  0.53305662  0.5359927  1.0000000
+2:     339                          C0r  0.70722257  0.7023980  0.9520353
+3:     339                           C1 -0.09865085 -0.1191650  0.5544015
+4:     339                           C2  0.13169546  0.1224923  0.8417962
+20:05:47 Kona predictors: PTYPE,rain,aws050wta,WHC50,temp,GEO_YR,Kona30mDEM,aws025wta,WHC25,KonaSKF | statewide: rain,temp,aws025wta,aws050wta,aws0100wta,aws0150wta,WHC100,WHC150,WHC25,WHC50,AWS100 
+orig : rows 2312 OOB R2 Kona 0.261 statewide 0.257 
+20:05:51 route 1 shape k 0.0266 p 2.065; rows 1838 plots 339 
+20:05:52 GATE G2: C0r vs archived plot index n 339 Pearson r 0.9686 Spearman 0.9349 median ratio 0.902 -> FAIL 
+20:05:52 G2 below 0.975: expected once duplicates are removed, since the archived index carried them; continuing 
+20:05:53 plot visits 564: no live tally 0, RD < 0.01 7 (floored to 0.01); Eq. 1 rows floored 7 of 1838; RD_ref (median plot RD, 339 plots) 0.4277 
+20:05:57 C1: gamma 0.6967 logLik -7921.89 (C0r -8137.96; LR 432.14); A fixed 308.4 (C0r 407.0); gamma at bound: FALSE 
+20:05:57 C2: ln C0r ~ ln RDplot slope 0.2075 (SE 0.0147) R2 0.372, n 339 
+   n_plots                        value     rho_SDI     rho_RD rho_C0arch
+     <int>                       <char>       <num>      <num>      <num>
+1:     339 C0 (archived Schmoldt index)  0.53305662  0.5359927  1.0000000
+2:     339                          C0r  0.71813158  0.7114819  0.9348958
+3:     339                           C1 -0.08632123 -0.1108049  0.5262135
+4:     339                           C2  0.14400014  0.1322662  0.8205862
+20:06:09 Kona predictors: PTYPE,rain,aws050wta,WHC50,temp,GEO_YR,Kona30mDEM,aws025wta,WHC25,KonaSKF | statewide: rain,temp,aws025wta,aws050wta,aws0100wta,aws0150wta,WHC100,WHC150,WHC25,WHC50,AWS100 
+dedup : rows 1838 OOB R2 Kona 0.261 statewide 0.268 
+Warning message:
+In logLik.reStruct(object, conLin) :
+  Singular precision matrix in level -1, block 1
+     mode eq1_rows dup_rows_in_input plots          k        p     gamma
+   <char>    <int>             <int> <int>      <num>    <num>     <num>
+1:   orig     2312               474   339 0.02839510 2.171329 0.6483072
+2:  dedup     1838               474   339 0.02657843 2.065500 0.6966849
+    C2_slope      G2_r oobR2_kona oobR2_statewide   med_C2
+       <num>     <num>      <num>           <num>    <num>
+1: 0.2205203 0.9798619  0.2611961       0.2571639 368.3395
+2: 0.2075343 0.9685555  0.2611577       0.2684038 368.2361
+
+reproduction of frames BYI (orig full forest): by source, n, max |diff|, r
+Key: <Data>
+        Data     n  n_na      maxdiff         r
+      <char> <int> <int>        <num>     <num>
+1:     DOFAW     7     0 5.115908e-13 1.0000000
+2:       FIA    69     0 1.477929e-12 1.0000000
+3:   KMR CAR    33     0 5.115908e-13 1.0000000
+4:   KMR PSP    15     0 4.831691e-13 1.0000000
+5: Kahikinui    64     0 4.831691e-13 1.0000000
+6:       Kap    53     0 2.361183e-01 0.9999974
+7:     Mauka    37     0 5.115908e-13 1.0000000
+8:       PSP    32     0 5.684342e-13 1.0000000
+
+FIA subplots that are forest training plots: 69 of 69 ; plots 36 
+FIA members: in-bag BYI 237.9 353.3 428.2 | OOB 186.7 284.3 383.4 | ratio OOB/in-bag 0.6 0.9 1.1 | OOB trees 172.8 183 196 
+v142 BYI vs frames BYI, all plots: r 0.9248 | median ratio by source:
+Key: <Data>
+        Data     n med_ratio   p10   p90
+      <char> <int>     <num> <num> <num>
+1:     DOFAW     7     1.006 0.902 1.041
+2:       FIA    69     0.897 0.647 1.078
+3:   KMR CAR    33     0.990 0.947 1.061
+4:   KMR PSP    15     0.999 0.963 1.035
+5: Kahikinui    64     1.023 1.007 1.054
+6:       Kap    53     1.013 0.977 1.018
+7:     Mauka    37     0.970 0.920 1.065
+8:       PSP    32     0.989 0.957 1.023
+done 80

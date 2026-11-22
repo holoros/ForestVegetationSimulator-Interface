@@ -1,0 +1,64 @@
+bootstrap rows: 1986 ; S1 residual sd (ln scale): 0.507 ; sigma 1.057  tau 0.4038  delta 0.44  phi 0.0295 
+benchmark basal area RMSE (1.14.x was 6.763): 6.706 
+height pairs: all 21903 ; kept (annualized change -2 to 4 m) 21434 ; trees 1382 ; plots 97 ; installations 60 
+   planted   ylen pairs trees plots mean_adh  wsum
+     <int> <fctr> <int> <int> <int>    <num> <num>
+1:       0      1    57    52     3    0.416    21
+2:       0    2-3    20     5     1    0.823     8
+3:       0    4-9  1217   561    50    0.259   736
+4:       0     >9   846   199     4    0.365   326
+5:       1      1  3064   784    46    1.184   935
+6:       1    2-3  5097   716    44    1.105  1302
+7:       1    4-9  8313   449    31    0.890  1526
+8:       1     >9  2820   275    25    0.817   484
+height increment drawn: J1 (adopted); height curve: joint curve of J1 at the median BYI of each origin
+crown records drawn in Fig. 3c: 360 ; koa BAL above 25 m2 per ha, not drawn: 0 ; median koa BA 7.3 
+Fig. S4c crown base E3e held out on the folds of record: n 360  RMSE 2.2022 
+Fig. 3 (180 x 125 mm) and Fig. S4 (160 x 150 mm) written to ms_v136, 300 dpi
+     origin       hc     n      x    obs   fit  rule
+     <fctr>   <fctr> <num>  <num>  <num> <num> <num>
+ 1: Natural [1.37,4]   155  3.594  0.193 0.355 0.201
+ 2: Natural    (4,7]   681  5.611  0.263 0.335 0.343
+ 3: Natural   (7,10]   642  8.293  0.252 0.280 0.259
+ 4: Natural  (10,13]   301 11.364  0.317 0.221 0.213
+ 5: Natural  (13,16]   169 14.524  0.217 0.161 0.128
+ 6: Natural  (16,19]   119 17.506  0.132 0.097 0.098
+ 7: Natural  (19,22]    51 20.423  0.206 0.036 0.095
+ 8: Natural  (22,25]    15 23.474 -0.102 0.000 0.066
+ 9: Planted [1.37,4]  3737  2.726  1.565 1.502 1.575
+10: Planted    (4,7]  4055  5.505  1.206 1.266 1.022
+11: Planted   (7,10]  4251  8.489  0.952 0.956 0.674
+12: Planted  (10,13]  3805 11.417  0.736 0.715 0.407
+13: Planted  (13,16]  2145 14.354  0.599 0.524 0.285
+14: Planted  (16,19]   882 17.399  0.514 0.314 0.232
+15: Planted  (19,22]   329 20.373  0.442 0.114 0.177
+16: Planted  (22,25]    59 23.263  0.230 0.000 0.102
+17: Planted  (25,28]    30 26.028  0.146 0.000 0.110
+bootstrap rows: 1986 ; S1 residual sd (ln scale): 0.507 ; sigma 1.057  tau 0.4038  delta 0.44  phi 0.0295 
+B2: 2.40064 0.16453 -4.03464 -0.0949 -0.7756 1.32897 
+
+(1) benchmark, S1 out of fold (earlier systems: own SDImax 0.177, 3.89, 6.70; 742 0.217, 3.99, 10.76)
+      set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+   <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:    all   182    53    -0.023     0.124     0.52     2.72    0.75    6.71
+   planted     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+     <int> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:       1   155    41    -0.024     0.112     0.43     2.53    1.28    5.63
+2:       0    27    12    -0.018     0.177     1.06     3.66   -2.30   11.02
+                     set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+                  <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1: horizon 10 yr or more    22     7    -0.034     0.112     2.52     3.46    1.31    7.82
+equivalence at each plot's longest horizon (25% region, convention)
+       set      var    bias_rel     slope      b1_lo     b1_hi pass_int pass_slope
+    <char>   <char>       <num>     <num>      <num>     <num>   <lgcl>     <lgcl>
+1:     all survival -0.06624211 0.8678734  0.6644216 1.0139019     TRUE      FALSE
+2:     all      QMD  0.02594401 0.8935647  0.7933807 1.0208376     TRUE       TRUE
+3:     all       BA -0.04136170 0.8103024  0.5634951 1.0893845     TRUE      FALSE
+4: planted survival -0.08210787 0.8283220 -1.2147124 0.9882717     TRUE      FALSE
+5: planted      QMD  0.04877044 0.9554264  0.8589743 1.0903737     TRUE       TRUE
+6: planted       BA  0.06483552 1.1964625  0.9373466 1.4335899     TRUE      FALSE
+7: natural survival  0.04846878 1.0002203  0.7472041 1.5084692    FALSE      FALSE
+8: natural      QMD -0.02642679 0.5285887  0.1479814 1.7112105     TRUE      FALSE
+9: natural       BA -0.23591076 0.1841371 -0.4932318 0.8699252    FALSE      FALSE
+Figs. 4 and 5 written to ms_v137
+600 dpi figures written

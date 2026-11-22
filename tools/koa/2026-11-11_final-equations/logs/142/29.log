@@ -1,0 +1,85 @@
+fold RNG kind: L'Ecuyer-CMRG 
+(1) S1: (Intercept) 5.9368; lbyi 0.2167; planted -0.5728 ; plots 305 
+residual of ln(plot SDImax) about S1: sd 0.507 ; weighted sd 0.46 ; 10th, 50th, 90th percentile natural: -0.894 -0.439 0.367  planted: -0.71 -0.132 0.401 
+diameter increment frame: rows 5114 ; dropped for a PSP removal year strictly inside the interval: 0 
+common: mortality frame rows 6722 deaths 845 ; refit against the fit of record, largest difference 4.45e-06 
+
+(V1) increment frame by origin and interval length
+   planted intervals plots  inst
+     <int>     <int> <int> <int>
+1:       1      4022    47    33
+2:       0      1092    50    28
+all: plots 97 installations 60 
+   planted    len     n
+     <int> <fctr> <int>
+1:       0 1 to 3    67
+2:       0 4 to 9  1015
+3:       0 over 9    10
+4:       1 1 to 3  3921
+5:       1 4 to 9    69
+6:       1 over 9    32
+planted plots: record length in the increment frame, by source
+      Data plots intervals max_years
+    <char> <int>     <int>     <int>
+1:   DOFAW     1       101        52
+2: KMR PSP    15       268         3
+3:     PSP    31      3653        18
+     yrs     n
+   <int> <int>
+1:    52   101
+2:    18   179
+3:    18   225
+natural intervals with yip 4 to 9: 1015 of 1092 ; planted intervals with yip 1 to 3: 3921 of 4022 
+
+(V2) BYI percentiles (10, 50, 90) by origin
+   planted plots      q10      q50      q90      min      max
+     <int> <int>    <num>    <num>    <num>    <num>    <num>
+1:       1   144 116.4912 159.3568 307.6297  22.5305 451.6265
+2:       0   166 170.0050 317.0024 399.5312 107.3879 469.7285
+type 7 against other quantile types, natural median: 316.2 316.2 317 317 317 
+over increment-frame plots only:
+   planted plots      q10      q50      q90
+     <int> <int>    <num>    <num>    <num>
+1:       1    47 133.0114 234.9874 346.1330
+2:       0    50 170.0050 297.0187 400.5746
+over plots with a plot SDImax:
+   planted plots      q10      q50      q90
+     <int> <int>    <num>    <num>    <num>
+1:       1   143 116.2651 158.2720 307.6564
+2:       0   162 170.0050 315.7647 398.5042
+natural plots by source, with the share at BYI 64 to 65:
+     Data plots  at64 byi_min byi_med
+   <char> <int> <int>   <num>   <num>
+1:  DOFAW     6     0   120.6   318.9
+2:    FIA    69     0   107.4   282.5
+3:    Kap    53     0   204.7   394.5
+4:  Mauka    37     0   132.7   226.6
+5:    PSP     1     0   400.4   400.4
+
+(V3) height: held-out file and tallest trees
+ [1] "form"             "n"                "bias"             "mae"              "rmse"             "clusters"         "bias_rel"         "b0_lo"            "b0_hi"            "slope"            "b1_lo"           
+[12] "b1_hi"            "pass_int"         "pass_slope"       "min_region_int"   "min_region_slope"
+[1] 2
+   planted trees plots tallest
+     <int> <int> <int>   <num>
+1:       1  2198   144 28.4000
+2:       0  1133   166 34.1376
+trees 3331 plots 310 
+
+(D) benchmark started at the first visit at or after the last thinning removal of a thinned installation
+thinned installations with removal years: 30 ; plots with a start visit at or after the last removal: 27 ; with a later visit: 27 
+              set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+           <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1: after thinning   112    27    -0.024     0.092    -0.71      2.2   -1.51    3.89
+   horizon     n plots
+    <fctr> <int> <int>
+1:   (0,2]    34    27
+2:   (2,5]    49    27
+3:  (5,10]    29    17
+start QMD and stems of these plots (median): QMD 20.3  stems per ha 496 ; planted share 0.962963 
+        var    bias_rel     slope     b1_lo    b1_hi pass_int pass_slope
+     <char>       <num>     <num>     <num>    <num>   <lgcl>     <lgcl>
+1: survival -0.01093948 0.6230673 0.2838553 1.025840     TRUE      FALSE
+2:      QMD -0.06056565 1.2031902 0.9975960 1.381937     TRUE      FALSE
+3:       BA -0.08082655 1.1206931 1.0116691 1.216124     TRUE       TRUE
+29 done

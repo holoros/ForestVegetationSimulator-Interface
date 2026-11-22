@@ -49,5 +49,5 @@ for (FORM in FORMS) { b <- FIT[[FORM]]$b
 RT <- merge(CVT, rbindlist(RES), by = "form"); RT[, r_negative := sapply(form, function(f) if (f == "E4r") NA else FIT[[f]]$b[["r"]] < 0)]
 RT[, eligible := rmse_ratio <= 1.02 & pass_int & pass_slope & (is.na(r_negative) | r_negative) & ds_pass & ba_in_range & site_order & sdi_lim & ba200 & no_rise & sukachev & yield_dens]
 cat("\nrule of PREREG section 10:\n"); print(RT[, .(form, k, rmse = round(rmse, 4), rmse_ratio = round(rmse_ratio, 4), slope = round(slope, 3), pass_int, pass_slope, r_negative, qmd_rise_max = round(qmd_rise_max, 3), ds_pass, ba_in_range, site_order, sdi_lim, ba200, no_rise, sukachev, yield_dens, eligible)])
-el <- RT[eligible == TRUE & form != "E4r"][order(k, rmse)]; cat("adopted:", if (nrow(el)) el$form[1] else "none (E4r stays)", "\n")
+el <- RT[eligible == TRUE][order(k, rmse)]; cat("adopted:", if (nrow(el)) el$form[1] else "none (E4r stays)", "(rule text of PREREG section 10 addendum: among eligible forms, fewest coefficients first; E4r is one of the listed forms)\n")
 saveRDS(list(FIT = FIT, CVT = CVT, RT = RT, TRJ = rbindlist(TRJ)), "out/e4_density_69.rds"); cat("69 done\n")

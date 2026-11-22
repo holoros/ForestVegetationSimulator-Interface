@@ -1,0 +1,146 @@
+(1) S1: (Intercept) 5.9368; lbyi 0.2167; planted -0.5728 ; plots 305 
+residual of ln(plot SDImax) about S1: sd 0.507 ; weighted sd 0.46 ; 10th, 50th, 90th percentile natural: -0.894 -0.439 0.367  planted: -0.71 -0.132 0.401 
+diameter increment frame: rows 5114 ; dropped for a PSP removal year strictly inside the interval: 0 
+
+ E4r : convergence 0  delta 0.44 
+      b0       ls        s      xrd     lbyi       pl 
+-3.33597  0.25691 -0.02841 -2.19045  0.51596  1.31258 
+
+ D1 : convergence 0  delta 0.4309 
+      b0       ls        s      xrd     lbyi       pl        r 
+-3.40636  0.31179 -0.03667 -2.32524  0.51676  1.31765  0.16857 
+
+ D2 : convergence 0  delta 0.4337 
+      b0       ls        s      xrd     lbyi       pl        r 
+-3.47740  0.30118 -0.02958 -2.11620  0.51516  1.30594 -0.03488 
+
+ D3 : convergence 0  delta 0.4339 
+      b0       ls        s      xrd     lbyi       pl        r 
+-3.35242  0.30202 -0.03396 -2.25421  0.50777  1.33271  0.00183 
+
+held-out annual diameter increment (folds of record):
+Index: <form>
+     form     k    bias  rmse  slope  b1_lo  b1_hi pass_int pass_slope rmse_ratio
+   <char> <int>   <num> <num>  <num>  <num>  <num>   <lgcl>     <lgcl>      <num>
+1:    E4r     6 0.02517 1.139 0.9177 0.8437 0.9918     TRUE       TRUE      1.000
+2:     D1     7 0.02430 1.141 0.9127 0.8392 0.9879     TRUE       TRUE      1.002
+3:     D2     7 0.02639 1.141 0.9104 0.8348 0.9844     TRUE       TRUE      1.002
+4:     D3     7 0.02742 1.139 0.9157 0.8410 0.9914     TRUE       TRUE      1.000
+bootstrap rows: 1986 ; S1 residual sd (ln scale): 0.507 ; sigma 1.057  tau 0.4038  delta 0.44  phi 0.0295 
+ingrowth bootstrap rows: 1723 
+J1: 2.45138 0.11092 -3.47989 0.15329 -0.80132 1.36926 -3.07032 0.0795 
+
+(1) benchmark, S1 out of fold (earlier systems: own SDImax 0.177, 3.89, 6.70; 742 0.217, 3.99, 10.76)
+      set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+   <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:    all   182    53    -0.023     0.124     0.52     2.72    0.75    6.71
+   planted     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+     <int> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:       1   155    41    -0.024     0.112     0.43     2.53    1.28    5.63
+2:       0    27    12    -0.018     0.177     1.06     3.66   -2.30   11.02
+                     set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+                  <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1: horizon 10 yr or more    22     7    -0.034     0.112     2.52     3.46    1.31    7.82
+equivalence at each plot's longest horizon (25% region, convention)
+       set      var    bias_rel     slope      b1_lo     b1_hi pass_int pass_slope
+    <char>   <char>       <num>     <num>      <num>     <num>   <lgcl>     <lgcl>
+1:     all survival -0.06624211 0.8678734  0.6644216 1.0139019     TRUE      FALSE
+2:     all      QMD  0.02594401 0.8935647  0.7933807 1.0208376     TRUE       TRUE
+3:     all       BA -0.04136170 0.8103024  0.5634951 1.0893845     TRUE      FALSE
+4: planted survival -0.08210787 0.8283220 -1.2147124 0.9882717     TRUE      FALSE
+5: planted      QMD  0.04877044 0.9554264  0.8589743 1.0903737     TRUE       TRUE
+6: planted       BA  0.06483552 1.1964625  0.9373466 1.4335899     TRUE      FALSE
+7: natural survival  0.04846878 1.0002203  0.7472041 1.5084692    FALSE      FALSE
+8: natural      QMD -0.02642679 0.5285887  0.1479814 1.7112105     TRUE      FALSE
+9: natural       BA -0.23591076 0.1841371 -0.4932318 0.8699252    FALSE      FALSE
+
+ E4r : QMD by starting density (lev md) at 20, 40, 100 years
+Key: <planted, year>
+   planted  year   300   500   600  1000  1200  2000  2400  4000
+     <num> <num> <num> <num> <num> <num> <num> <num> <num> <num>
+1:       0    20    NA  25.9    NA  25.0    NA  24.7    NA  25.5
+2:       0    40    NA  35.6    NA  34.7    NA  34.7    NA  35.5
+3:       0   100    NA  57.1    NA  56.6    NA  56.9    NA  57.8
+4:       1    20  35.6    NA  31.1    NA  27.3    NA  25.1    NA
+5:       1    40  48.0    NA  43.0    NA  40.2    NA  40.1    NA
+6:       1   100  71.6    NA  68.7    NA  68.7    NA  73.2    NA
+Key: <planted, year>
+   planted  year   300   500   600  1000  1200  2000  2400  4000
+     <num> <num> <num> <num> <num> <num> <num> <num> <num> <num>
+1:       0    20    NA  20.7    NA  27.7    NA  32.5    NA  35.3
+2:       0    40    NA  27.8    NA  31.8    NA  33.8    NA  35.0
+3:       0   100    NA  30.6    NA  31.6    NA  32.0    NA  32.5
+4:       1    20  25.5    NA  33.4    NA  38.5    NA  40.8    NA
+5:       1    40  36.7    NA  41.7    NA  43.3    NA  44.3    NA
+6:       1   100  39.7    NA  40.9    NA  41.4    NA  43.3    NA
+
+ D1 : QMD by starting density (lev md) at 20, 40, 100 years
+Key: <planted, year>
+   planted  year   300   500   600  1000  1200  2000  2400  4000
+     <num> <num> <num> <num> <num> <num> <num> <num> <num> <num>
+1:       0    20    NA  25.5    NA  24.7    NA  24.6    NA  25.5
+2:       0    40    NA  34.4    NA  33.7    NA  33.9    NA  34.8
+3:       0   100    NA  53.3    NA  53.1    NA  53.4    NA  54.3
+4:       1    20  34.8    NA  30.9    NA  27.5    NA  25.8    NA
+5:       1    40  46.4    NA  42.2    NA  39.9    NA  40.1    NA
+6:       1   100  67.1    NA  64.8    NA  64.8    NA  68.7    NA
+Key: <planted, year>
+   planted  year   300   500   600  1000  1200  2000  2400  4000
+     <num> <num> <num> <num> <num> <num> <num> <num> <num> <num>
+1:       0    20    NA  20.1    NA  27.2    NA  32.2    NA  35.1
+2:       0    40    NA  26.4    NA  30.7    NA  32.7    NA  33.9
+3:       0   100    NA  28.3    NA  29.4    NA  29.9    NA  30.3
+4:       1    20  24.5    NA  33.1    NA  38.7    NA  41.4    NA
+5:       1    40  34.8    NA  40.5    NA  42.4    NA  43.5    NA
+6:       1   100  37.5    NA  38.9    NA  39.4    NA  40.8    NA
+
+ D2 : QMD by starting density (lev md) at 20, 40, 100 years
+Key: <planted, year>
+   planted  year   300   500   600  1000  1200  2000  2400  4000
+     <num> <num> <num> <num> <num> <num> <num> <num> <num> <num>
+1:       0    20    NA  26.2    NA  25.1    NA  24.7    NA  25.5
+2:       0    40    NA  36.0    NA  34.9    NA  34.8    NA  35.6
+3:       0   100    NA  57.6    NA  57.0    NA  57.2    NA  58.0
+4:       1    20  35.7    NA  31.1    NA  27.2    NA  24.9    NA
+5:       1    40  48.1    NA  43.0    NA  40.1    NA  39.6    NA
+6:       1   100  71.5    NA  68.5    NA  68.3    NA  72.2    NA
+Key: <planted, year>
+   planted  year   300   500   600  1000  1200  2000  2400  4000
+     <num> <num> <num> <num> <num> <num> <num> <num> <num> <num>
+1:       0    20    NA  21.1    NA  27.9    NA  32.6    NA  35.4
+2:       0    40    NA  28.2    NA  32.1    NA  34.0    NA  35.1
+3:       0   100    NA  30.8    NA  31.8    NA  32.3    NA  32.7
+4:       1    20  25.7    NA  33.5    NA  38.4    NA  40.7    NA
+5:       1    40  36.9    NA  41.8    NA  43.3    NA  44.3    NA
+6:       1   100  39.8    NA  41.1    NA  41.6    NA  43.3    NA
+
+ D3 : QMD by starting density (lev md) at 20, 40, 100 years
+Key: <planted, year>
+   planted  year   300   500   600  1000  1200  2000  2400  4000
+     <num> <num> <num> <num> <num> <num> <num> <num> <num> <num>
+1:       0    20    NA  25.7    NA  24.9    NA  24.7    NA  25.6
+2:       0    40    NA  35.0    NA  34.3    NA  34.3    NA  35.3
+3:       0   100    NA  55.0    NA  54.7    NA  55.1    NA  56.0
+4:       1    20  35.3    NA  31.0    NA  27.3    NA  25.2    NA
+5:       1    40  47.2    NA  42.5    NA  39.8    NA  39.6    NA
+6:       1   100  68.9    NA  66.2    NA  66.1    NA  69.8    NA
+Key: <planted, year>
+   planted  year   300   500   600  1000  1200  2000  2400  4000
+     <num> <num> <num> <num> <num> <num> <num> <num> <num> <num>
+1:       0    20    NA  20.4    NA  27.5    NA  32.5    NA  35.3
+2:       0    40    NA  27.1    NA  31.3    NA  33.4    NA  34.6
+3:       0   100    NA  29.4    NA  30.5    NA  30.9    NA  31.3
+4:       1    20  25.1    NA  33.2    NA  38.4    NA  40.8    NA
+5:       1    40  35.7    NA  41.0    NA  42.6    NA  43.6    NA
+6:       1   100  38.4    NA  39.8    NA  40.3    NA  41.8    NA
+
+rule of PREREG section 10:
+Key: <form>
+     form     k   rmse rmse_ratio slope pass_int pass_slope r_negative qmd_rise_max ds_pass ba_in_range site_order sdi_lim  ba200 no_rise sukachev yield_dens eligible
+   <char> <int>  <num>      <num> <num>   <lgcl>     <lgcl>     <lgcl>        <num>  <lgcl>      <lgcl>     <lgcl>  <lgcl> <lgcl>  <lgcl>   <lgcl>     <lgcl>   <lgcl>
+1:     D1     7 1.1406     1.0016 0.913     TRUE       TRUE      FALSE        0.009    TRUE        TRUE       TRUE    TRUE   TRUE    TRUE     TRUE       TRUE    FALSE
+2:     D2     7 1.1407     1.0016 0.910     TRUE       TRUE       TRUE        0.006    TRUE        TRUE       TRUE    TRUE   TRUE    TRUE     TRUE       TRUE     TRUE
+3:     D3     7 1.1393     1.0003 0.916     TRUE       TRUE      FALSE        0.008    TRUE        TRUE       TRUE    TRUE   TRUE    TRUE     TRUE       TRUE    FALSE
+4:    E4r     6 1.1389     1.0000 0.918     TRUE       TRUE         NA        0.009    TRUE        TRUE       TRUE    TRUE   TRUE    TRUE     TRUE       TRUE     TRUE
+adopted: E4r (rule text of PREREG section 10 addendum: among eligible forms, fewest coefficients first; E4r is one of the listed forms)
+69 done

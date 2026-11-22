@@ -1,0 +1,104 @@
+bootstrap rows: 1986 ; S1 residual sd (ln scale): 0.507 ; sigma 1.057  tau 0.4038  delta 0.44  phi 0.0295 
+benchmark basal area RMSE (1.14.x was 6.763): 6.706 
+height forms compared: R0 (fallback rule with the joint curve) and J1 (adopted); crown base form: E3e ; natural scenarios with QMD ingrowth
+
+observed height to diameter ratio (m per m), live trees with DBH of 2.5 cm or more: 5th, 50th, 95th percentile
+   planted    5%   50%   95%
+     <int> <num> <num> <num>
+1:       1    41    70   134
+2:       0    26    80   137
+   planted   dclass     n    hd
+     <int>   <fctr> <int> <num>
+1:       0   (0,10]  1004   102
+2:       0  (10,20]   668    72
+3:       0  (20,40]   369    64
+4:       0 (40,200]   176    25
+5:       0     <NA>     6    11
+6:       1   (0,10]  2526    89
+7:       1  (10,20]  1985    67
+8:       1  (20,40]  1529    54
+9:       1 (40,200]   119    46
+observed crown ratio, 360 FIA trees in natural stands: 5th, 50th, 95th percentile 0.05 0.25 0.6 
+
+height to diameter ratio and crown ratio in the 200-year runs (stand value is basal-area weighted; small and large are the smallest and largest fifth of stems by DBH)
+      form planted  level  year    HT   QMD    hd hd_small hd_large    cr cr_small cr_large
+    <char>   <num> <char> <int> <num> <num> <num>    <num>    <num> <num>    <num>    <num>
+ 1:     J1       0     lo     0   8.4  13.2    60       80       52  0.16     0.10     0.21
+ 2:     J1       0     lo    20  13.4  22.1    58       78       48  0.18     0.12     0.23
+ 3:     J1       0     lo    40  16.4  29.9    53       72       44  0.19     0.12     0.24
+ 4:     J1       0     lo   100  19.7  48.7    40       54       34  0.21     0.14     0.27
+ 5:     J1       0     lo   200  20.5  69.7    29       36       26  0.26     0.19     0.32
+ 6:     J1       0     md     0   8.4  13.2    60       80       52  0.16     0.10     0.21
+ 7:     J1       0     md    20  14.0  24.7    54       73       45  0.16     0.09     0.21
+ 8:     J1       0     md    40  17.3  34.7    48       66       41  0.16     0.09     0.22
+ 9:     J1       0     md   100  21.1  57.0    36       47       32  0.19     0.11     0.27
+10:     J1       0     md   200  21.9  80.0    27       33       24  0.24     0.17     0.33
+11:     J1       0     hi     0   8.4  13.2    60       80       52  0.16     0.10     0.21
+12:     J1       0     hi    20  14.2  25.9    52       71       44  0.15     0.08     0.21
+13:     J1       0     hi    40  17.7  36.8    47       63       39  0.15     0.08     0.22
+14:     J1       0     hi   100  21.6  60.3    35       45       31  0.18     0.10     0.26
+15:     J1       0     hi   200  22.5  84.1    27       32       24  0.24     0.16     0.32
+16:     J1       1     lo     0   5.9   7.8    72      108       66  0.25     0.20     0.27
+17:     J1       1     lo    20  17.4  23.7    66      128       52  0.15     0.07     0.19
+18:     J1       1     lo    40  19.3  36.3    49      105       37  0.18     0.06     0.22
+19:     J1       1     lo   100  19.7  65.2    29       55       21  0.24     0.08     0.37
+20:     J1       1     lo   200  19.7  92.2    21       32       17  0.29     0.14     0.40
+21:     J1       1     md     0   5.9   7.8    72      108       66  0.25     0.20     0.27
+22:     J1       1     md    20  18.0  25.8    63      121       48  0.15     0.05     0.19
+23:     J1       1     md    40  19.9  39.8    46       98       36  0.17     0.05     0.21
+24:     J1       1     md   100  20.4  70.7    27       52       21  0.24     0.07     0.37
+25:     J1       1     md   200  20.4  98.1    20       30       16  0.29     0.14     0.40
+26:     J1       1     hi     0   5.9   7.8    72      108       66  0.25     0.20     0.27
+27:     J1       1     hi    20  19.2  31.1    55      107       43  0.13     0.04     0.17
+28:     J1       1     hi    40  21.4  48.6    41       84       31  0.16     0.04     0.23
+29:     J1       1     hi   100  21.9  83.5    25       46       20  0.24     0.06     0.37
+30:     J1       1     hi   200  21.9 110.8    19       27       16  0.29     0.14     0.40
+31:     R0       0     lo     0   8.4  13.2    60       80       52  0.16     0.10     0.21
+32:     R0       0     lo    20  11.6  22.1    50       66       42  0.19     0.12     0.24
+33:     R0       0     lo    40  13.6  29.9    43       60       36  0.20     0.13     0.26
+34:     R0       0     lo   100  16.1  48.7    32       44       28  0.23     0.15     0.29
+35:     R0       0     lo   200  17.3  69.7    25       31       22  0.27     0.20     0.34
+36:     R0       0     md     0   8.4  13.2    60       80       52  0.16     0.10     0.21
+37:     R0       0     md    20  12.7  24.7    49       65       41  0.16     0.09     0.22
+38:     R0       0     md    40  14.9  34.7    41       57       35  0.17     0.10     0.24
+39:     R0       0     md   100  17.2  57.0    30       40       25  0.20     0.12     0.29
+40:     R0       0     md   200  18.1  80.0    23       28       20  0.26     0.18     0.35
+41:     R0       0     hi     0   8.4  13.2    60       80       52  0.16     0.10     0.21
+42:     R0       0     hi    20  13.1  25.9    48       65       40  0.15     0.08     0.22
+43:     R0       0     hi    40  15.4  36.8    40       56       33  0.16     0.09     0.24
+44:     R0       0     hi   100  17.6  60.3    29       38       25  0.20     0.11     0.28
+45:     R0       0     hi   200  18.4  84.1    22       27       19  0.25     0.17     0.34
+46:     R0       1     lo     0   5.9   7.8    72      108       66  0.25     0.20     0.27
+47:     R0       1     lo    20  12.8  23.7    47       72       40  0.17     0.08     0.20
+48:     R0       1     lo    40  14.8  36.3    37       61       30  0.19     0.08     0.23
+49:     R0       1     lo   100  16.3  65.2    24       43       16  0.25     0.09     0.39
+50:     R0       1     lo   200  16.8  92.2    18       30       13  0.31     0.15     0.42
+51:     R0       1     md     0   5.9   7.8    72      108       66  0.25     0.20     0.27
+52:     R0       1     md    20  13.6  25.8    46       71       38  0.16     0.07     0.21
+53:     R0       1     md    40  15.5  39.8    35       59       29  0.19     0.06     0.22
+54:     R0       1     md   100  16.8  70.7    23       41       16  0.25     0.08     0.39
+55:     R0       1     md   200  17.3  98.1    17       28       13  0.31     0.14     0.43
+56:     R0       1     hi     0   5.9   7.8    72      108       66  0.25     0.20     0.27
+57:     R0       1     hi    20  15.3  31.1    43       69       36  0.14     0.04     0.18
+58:     R0       1     hi    40  17.1  48.6    32       56       25  0.18     0.04     0.25
+59:     R0       1     hi   100  17.9  83.5    21       38       15  0.25     0.06     0.40
+60:     R0       1     hi   200  18.4 110.8    17       25       12  0.30     0.15     0.43
+      form planted  level  year    HT   QMD    hd hd_small hd_large    cr cr_small cr_large
+    <char>   <num> <char> <int> <num> <num> <num>    <num>    <num> <num>    <num>    <num>
+
+ordering and range checks by scenario (data range is the 5th to 95th percentile; crown range is from natural stands only)
+      form planted  level hd_small_above_large hd_falls hd_in_range cr_in_range
+    <char>   <num> <char>               <lgcl>   <lgcl>      <lgcl>      <lgcl>
+ 1:     J1       0     lo                 TRUE     TRUE        TRUE        TRUE
+ 2:     J1       0     md                 TRUE     TRUE        TRUE        TRUE
+ 3:     J1       0     hi                 TRUE     TRUE        TRUE        TRUE
+ 4:     J1       1     lo                 TRUE     TRUE       FALSE        TRUE
+ 5:     J1       1     md                 TRUE     TRUE       FALSE        TRUE
+ 6:     J1       1     hi                 TRUE     TRUE       FALSE        TRUE
+ 7:     R0       0     lo                 TRUE     TRUE       FALSE        TRUE
+ 8:     R0       0     md                 TRUE     TRUE       FALSE        TRUE
+ 9:     R0       0     hi                 TRUE     TRUE       FALSE        TRUE
+10:     R0       1     lo                 TRUE     TRUE       FALSE        TRUE
+11:     R0       1     md                 TRUE     TRUE       FALSE        TRUE
+12:     R0       1     hi                 TRUE     TRUE       FALSE        TRUE
+done

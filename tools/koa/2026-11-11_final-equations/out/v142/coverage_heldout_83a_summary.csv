@@ -1,0 +1,37 @@
+equations,site_dev,var,planted,plots,coverage,width
+in-sample (script 51),FALSE,surv,1,41,0.804878048780488,0.170140231978745
+in-sample (script 51),FALSE,qmd,1,41,0.902439024390244,9.61982840172943
+in-sample (script 51),FALSE,ba,1,41,0.926829268292683,15.9660497836099
+in-sample (script 51),TRUE,surv,1,41,0.804878048780488,0.179237202722057
+in-sample (script 51),TRUE,qmd,1,41,0.926829268292683,10.4239610595852
+in-sample (script 51),TRUE,ba,1,41,0.926829268292683,18.5970527571291
+in-sample (script 51),FALSE,surv,0,12,0.5,0.273432743636932
+in-sample (script 51),FALSE,qmd,0,12,0.666666666666667,9.94334978976275
+in-sample (script 51),FALSE,ba,0,12,0.75,32.3566080064207
+in-sample (script 51),TRUE,surv,0,12,0.583333333333333,0.315732618261903
+in-sample (script 51),TRUE,qmd,0,12,0.666666666666667,10.4960267452986
+in-sample (script 51),TRUE,ba,0,12,0.833333333333333,39.2694685626298
+held out by installation (28a folds),FALSE,surv,1,41,0.780487804878049,0.174723907751445
+held out by installation (28a folds),FALSE,qmd,1,41,0.829268292682927,9.50866178970454
+held out by installation (28a folds),FALSE,ba,1,41,0.902439024390244,15.752727422451
+held out by installation (28a folds),TRUE,surv,1,41,0.780487804878049,0.187893923727944
+held out by installation (28a folds),TRUE,qmd,1,41,0.853658536585366,10.2750631392172
+held out by installation (28a folds),TRUE,ba,1,41,0.902439024390244,18.4508022412509
+held out by installation (28a folds),FALSE,surv,0,12,0.333333333333333,0.27549024306887
+held out by installation (28a folds),FALSE,qmd,0,12,0.666666666666667,10.0809841500716
+held out by installation (28a folds),FALSE,ba,0,12,0.666666666666667,33.3898183348718
+held out by installation (28a folds),TRUE,surv,0,12,0.666666666666667,0.317276827778673
+held out by installation (28a folds),TRUE,qmd,0,12,0.666666666666667,10.8188747631148
+held out by installation (28a folds),TRUE,ba,0,12,0.833333333333333,39.6441079788189
+in-sample (script 51),FALSE,surv,,53,0.735849056603774,0.19352721575041
+in-sample (script 51),FALSE,qmd,,53,0.849056603773585,9.69307852732188
+in-sample (script 51),FALSE,ba,,53,0.886792452830189,19.6771195699067
+in-sample (script 51),TRUE,surv,,53,0.754716981132076,0.210141825108437
+in-sample (script 51),TRUE,qmd,,53,0.867924528301887,10.4402778186147
+in-sample (script 51),TRUE,ba,,53,0.905660377358491,23.2775997319594
+held out by installation (28a folds),FALSE,surv,,53,0.679245283018868,0.197538927068598
+held out by installation (28a folds),FALSE,qmd,,53,0.792452830188679,9.63824421091972
+held out by installation (28a folds),FALSE,ba,,53,0.849056603773585,19.7460310252633
+held out by installation (28a folds),TRUE,surv,,53,0.754716981132076,0.217188166154524
+held out by installation (28a folds),TRUE,qmd,,53,0.811320754716981,10.398190299345
+held out by installation (28a folds),TRUE,ba,,53,0.886792452830189,23.2492865591908

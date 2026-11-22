@@ -1,0 +1,246 @@
+bootstrap rows: 1986 ; S1 residual sd (ln scale): 0.507 ; sigma 1.057  tau 0.4038  delta 0.44  phi 0.0295 
+ingrowth bootstrap rows: 1723 
+J1: 2.45138 0.11092 -3.47989 0.15329 -0.80132 1.36926 -3.07032 0.0795 
+
+(1) benchmark, S1 out of fold (earlier systems: own SDImax 0.177, 3.89, 6.70; 742 0.217, 3.99, 10.76)
+      set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+   <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:    all   182    53    -0.023     0.124     0.52     2.72    0.75    6.71
+   planted     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+     <int> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:       1   155    41    -0.024     0.112     0.43     2.53    1.28    5.63
+2:       0    27    12    -0.018     0.177     1.06     3.66   -2.30   11.02
+                     set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+                  <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1: horizon 10 yr or more    22     7    -0.034     0.112     2.52     3.46    1.31    7.82
+equivalence at each plot's longest horizon (25% region, convention)
+       set      var    bias_rel     slope      b1_lo     b1_hi pass_int pass_slope
+    <char>   <char>       <num>     <num>      <num>     <num>   <lgcl>     <lgcl>
+1:     all survival -0.06624211 0.8678734  0.6644216 1.0139019     TRUE      FALSE
+2:     all      QMD  0.02594401 0.8935647  0.7933807 1.0208376     TRUE       TRUE
+3:     all       BA -0.04136170 0.8103024  0.5634951 1.0893845     TRUE      FALSE
+4: planted survival -0.08210787 0.8283220 -1.2147124 0.9882717     TRUE      FALSE
+5: planted      QMD  0.04877044 0.9554264  0.8589743 1.0903737     TRUE       TRUE
+6: planted       BA  0.06483552 1.1964625  0.9373466 1.4335899     TRUE      FALSE
+7: natural survival  0.04846878 1.0002203  0.7472041 1.5084692    FALSE      FALSE
+8: natural      QMD -0.02642679 0.5285887  0.1479814 1.7112105     TRUE      FALSE
+9: natural       BA -0.23591076 0.1841371 -0.4932318 0.8699252    FALSE      FALSE
+BYI levels by origin (5th, 10th, 50th, 90th, 95th percentile of plots):
+   planted      p05      p10      p50      p90      p95
+     <int>    <num>    <num>    <num>    <num>    <num>
+1:       1 104.7666 116.4912 159.3568 307.6297 341.6357
+2:       0 144.4830 170.0050 317.0024 399.5312 408.7108
+
+observed plot visits (live koa): 99th and 99.9th percentiles of basal area and SDI
+   planted     n  BA99 BA999 BAobs_max SDI99 SDI999 SDImax_obs
+     <int> <int> <num> <num>     <num> <num>  <num>      <num>
+1:       1   468 63.57  68.8     68.94  1137   1309       1407
+2:       0   234 67.83  74.2     74.75  1411   1718       1807
+
+projected maxima against the observed tail (published configuration):
+     origin    lev    n0 BAmax BA999 SDImax SDI999 RDmax ba_above_999 sdi_above_999
+     <char> <char> <num> <num> <num>  <num>  <num> <num>       <lgcl>        <lgcl>
+ 1: natural    p05   500  21.5  74.2    356   1718  0.32        FALSE         FALSE
+ 2: natural    p05  1000  22.7  74.2    417   1718  0.37        FALSE         FALSE
+ 3: natural    p05  2000  27.3  74.2    699   1718  0.63        FALSE         FALSE
+ 4: natural    p05  4000  54.7  74.2   1397   1718  1.26        FALSE         FALSE
+ 5: natural    p10   500  23.2  74.2    381   1718  0.33        FALSE         FALSE
+ 6: natural    p10  1000  24.6  74.2    443   1718  0.38        FALSE         FALSE
+ 7: natural    p10  2000  27.3  74.2    699   1718  0.61        FALSE         FALSE
+ 8: natural    p10  4000  54.7  74.2   1397   1718  1.21        FALSE         FALSE
+ 9: natural    p50   500  31.0  74.2    486   1718  0.37        FALSE         FALSE
+10: natural    p50  1000  32.7  74.2    561   1718  0.43        FALSE         FALSE
+11: natural    p50  2000  33.9  74.2    699   1718  0.53        FALSE         FALSE
+12: natural    p50  4000  54.7  74.2   1397   1718  1.06        FALSE         FALSE
+13: natural    p90   500  34.2  74.2    530   1718  0.38        FALSE         FALSE
+14: natural    p90  1000  36.2  74.2    612   1718  0.44        FALSE         FALSE
+15: natural    p90  2000  37.3  74.2    728   1718  0.53        FALSE         FALSE
+16: natural    p90  4000  54.7  74.2   1397   1718  1.01        FALSE         FALSE
+17: natural    p95   500  34.5  74.2    534   1718  0.38        FALSE         FALSE
+18: natural    p95  1000  36.5  74.2    617   1718  0.44        FALSE         FALSE
+19: natural    p95  2000  37.7  74.2    733   1718  0.53        FALSE         FALSE
+20: natural    p95  4000  54.7  74.2   1397   1718  1.00        FALSE         FALSE
+21: planted    p05   300  35.2  68.8    508   1309  0.87        FALSE         FALSE
+22: planted    p05   600  37.0  68.8    583   1309  1.00        FALSE         FALSE
+23: planted    p05  1200  37.6  68.8    646   1309  1.10        FALSE         FALSE
+24: planted    p05  2400  38.8  68.8    712   1309  1.22        FALSE         FALSE
+25: planted    p10   300  36.6  68.8    525   1309  0.88        FALSE         FALSE
+26: planted    p10   600  38.5  68.8    604   1309  1.01        FALSE         FALSE
+27: planted    p10  1200  39.1  68.8    670   1309  1.12        FALSE         FALSE
+28: planted    p10  2400  40.3  68.8    739   1309  1.23        FALSE         FALSE
+29: planted    p50   300  40.8  68.8    579   1309  0.90        FALSE         FALSE
+30: planted    p50   600  43.0  68.8    669   1309  1.04        FALSE         FALSE
+31: planted    p50  1200  43.8  68.8    743   1309  1.16        FALSE         FALSE
+32: planted    p50  2400  45.1  68.8    820   1309  1.28        FALSE         FALSE
+33: planted    p90   300  50.5  68.8    700   1309  0.95        FALSE         FALSE
+34: planted    p90   600  53.6  68.8    816   1309  1.10        FALSE         FALSE
+35: planted    p90  1200  54.5  68.8    912   1309  1.23        FALSE         FALSE
+36: planted    p90  2400  56.0  68.8   1008   1309  1.36        FALSE         FALSE
+37: planted    p95   300  52.2  68.8    720   1309  0.95        FALSE         FALSE
+38: planted    p95   600  55.4  68.8    840   1309  1.11        FALSE         FALSE
+39: planted    p95  1200  56.4  68.8    941   1309  1.24        FALSE         FALSE
+40: planted    p95  2400  57.9  68.8   1040   1309  1.38        FALSE         FALSE
+     origin    lev    n0 BAmax BA999 SDImax SDI999 RDmax ba_above_999 sdi_above_999
+     <char> <char> <num> <num> <num>  <num>  <num> <num>       <lgcl>        <lgcl>
+
+site ordering (better BYI not below poorer BYI) by age; share of origin x density x age cells that hold:
+    origin    HT   QMD    BA   VOL
+    <char> <num> <num> <num> <num>
+1: natural     1     1 1.000     1
+2: planted     1     1 0.875     1
+first age at which each variable leaves site order (published, reference density):
+  HT : none 
+  QMD : none 
+  BAPH : planted 198 
+  VOL : none 
+  TPH : natural 23; planted 11 
+Warning messages:
+1: In min(age) : no non-missing arguments to min; returning Inf
+2: In min(age) : no non-missing arguments to min; returning Inf
+3: In min(age) : no non-missing arguments to min; returning Inf
+
+culmination of mean annual volume increment (assumed volume) and age of peak basal area:
+Key: <origin, n0>
+    origin    n0     1     2     3     4     5
+    <char> <num> <int> <int> <int> <int> <int>
+1: natural   500     5     5     5     5     5
+2: natural  1000     5     5     5     5     5
+3: natural  2000     5     5     5     5     5
+4: natural  4000     5     5     5     5     5
+5: planted   300    17    17    17    15    15
+6: planted   600    12    12    12    11    11
+7: planted  1200     5     5     5     6     6
+8: planted  2400     5     5     5     5     5
+Key: <origin, n0>
+    origin    n0     1     2     3     4     5
+    <char> <num> <int> <int> <int> <int> <int>
+1: natural   500    97    93    80    75    74
+2: natural  1000    75    73    63    59    58
+3: natural  2000     5     5    49    47    46
+4: natural  4000     5     5     5     5     5
+5: planted   300    84    81    74    60    58
+6: planted   600    69    67    60    47    45
+7: planted  1200    64    61    54    42    40
+8: planted  2400    70    68    61    48    46
+better sites culminate no later (share of origin x density rows):  0.875 
+
+competition: share of origin x site cells where QMD falls, BA rises and stems rise with starting density, by age
+     origin   age qmd_falls_with_density ba_rises_with_density tph_rises
+     <char> <int>                  <num>                 <num>     <num>
+ 1: planted    10                    1.0                   1.0       1.0
+ 2: planted    20                    1.0                   1.0       1.0
+ 3: planted    40                    0.6                   1.0       0.6
+ 4: planted   100                    0.0                   1.0       0.0
+ 5: planted   200                    0.0                   0.6       0.0
+ 6: natural    10                    0.0                   1.0       1.0
+ 7: natural    20                    0.0                   1.0       1.0
+ 8: natural    40                    0.0                   1.0       0.0
+ 9: natural   100                    0.0                   1.0       0.0
+10: natural   200                    0.0                   1.0       0.0
+convergence across starting densities (coefficient of variation; constant final yield expects BA and VOL CV to shrink with age):
+Key: <origin, site>
+     origin  site    10    20     40    100    200
+     <char> <int> <num> <num>  <num>  <num>  <num>
+ 1: natural     1 0.388 0.245 0.1224 0.0356 0.0137
+ 2: natural     2 0.386 0.241 0.1179 0.0335 0.0131
+ 3: natural     3 0.372 0.220 0.0984 0.0257 0.0117
+ 4: natural     4 0.364 0.211 0.0905 0.0232 0.0114
+ 5: natural     5 0.364 0.210 0.0897 0.0230 0.0114
+ 6: planted     1 0.379 0.218 0.0933 0.0353 0.0174
+ 7: planted     2 0.373 0.212 0.0900 0.0353 0.0160
+ 8: planted     3 0.355 0.197 0.0805 0.0354 0.0113
+ 9: planted     4 0.318 0.164 0.0625 0.0362 0.0180
+10: planted     5 0.312 0.159 0.0600 0.0362 0.0221
+Key: <origin, site>
+     origin  site    10    20    40    100     200
+     <char> <int> <num> <num> <num>  <num>   <num>
+ 1: natural     1 0.366 0.233 0.112 0.0261 0.00971
+ 2: natural     2 0.370 0.235 0.113 0.0263 0.00964
+ 3: natural     3 0.382 0.238 0.109 0.0233 0.00892
+ 4: natural     4 0.385 0.236 0.104 0.0211 0.00853
+ 5: natural     5 0.385 0.236 0.104 0.0209 0.00849
+ 6: planted     1 0.653 0.478 0.260 0.0662 0.05127
+ 7: planted     2 0.652 0.473 0.252 0.0638 0.05332
+ 8: planted     3 0.647 0.455 0.229 0.0584 0.05991
+ 9: planted     4 0.625 0.403 0.176 0.0554 0.07642
+10: planted     5 0.620 0.393 0.167 0.0558 0.07946
+mean annual mortality rate, years 1 to 10, by starting density (should rise with density):
+Key: <origin, site>
+     origin  site     300    500    600   1000   1200   2000   2400  4000
+     <char> <int>   <num>  <num>  <num>  <num>  <num>  <num>  <num> <num>
+ 1: natural     1      NA 0.0201     NA 0.0368     NA 0.0690     NA 0.120
+ 2: natural     2      NA 0.0193     NA 0.0357     NA 0.0675     NA 0.119
+ 3: natural     3      NA 0.0169     NA 0.0321     NA 0.0630     NA 0.115
+ 4: natural     4      NA 0.0161     NA 0.0310     NA 0.0618     NA 0.114
+ 5: natural     5      NA 0.0160     NA 0.0309     NA 0.0616     NA 0.114
+ 6: planted     1 0.00716     NA 0.0131     NA 0.0248     NA 0.0470    NA
+ 7: planted     2 0.00702     NA 0.0129     NA 0.0246     NA 0.0471    NA
+ 8: planted     3 0.00664     NA 0.0124     NA 0.0244     NA 0.0477    NA
+ 9: planted     4 0.00603     NA 0.0120     NA 0.0251     NA 0.0517    NA
+10: planted     5 0.00596     NA 0.0120     NA 0.0254     NA 0.0527    NA
+share of origin x site rows where early mortality rises with density:  1 
+
+Sukachev: largest ratio of stems at a higher BYI level to the next lower level (gate 1.02):
+Key: <origin, n0>
+    origin    n0    40   100   200
+    <char> <num> <num> <num> <num>
+1: natural   500 1.001 0.997 0.995
+2: natural  1000 1.003 0.997 0.995
+3: natural  2000 1.002 0.997 0.995
+4: natural  4000 1.002 0.997 0.995
+5: planted   300 0.999 0.989 0.979
+6: planted   600 0.994 0.985 0.978
+7: planted  1200 0.986 0.981 0.977
+8: planted  2400 0.979 0.977 0.972
+Reineke slope of ln(stems) on ln(QMD) over the self-thinning years (QMD growth at least 0.10 cm per year, stems below 95% of start); evaluated 40 of 40 
+    origin    n0   min median   max not_eval
+    <char> <num> <num>  <num> <num>    <int>
+1: natural   500 -1.78  -1.75 -1.67        0
+2: natural  1000 -1.96  -1.92 -1.92        0
+3: natural  2000 -2.14  -2.12 -2.11        0
+4: natural  4000 -2.30  -2.25 -2.24        0
+5: planted   300 -2.05  -1.68 -1.54        0
+6: planted   600 -2.14  -1.85 -1.74        0
+7: planted  1200 -2.16  -1.94 -1.86        0
+8: planted  2400 -2.13  -1.99 -1.93        0
+Eichhorn: coefficient of variation of volume across BYI levels at matched mean height (1 m bins, bins with 3 or more sites): median by origin x density
+    origin    n0 median_cv max_cv  bins
+    <char> <num>     <num>  <num> <int>
+1: natural   500     0.143  0.234    15
+2: natural  1000     0.175  0.251    15
+3: natural  2000     0.170  0.256    15
+4: natural  4000     0.174  0.258    15
+5: planted   300     0.179  0.306    14
+6: planted   600     0.198  0.304    14
+7: planted  1200     0.199  0.228    14
+8: planted  2400     0.183  0.214    15
+
+long-term bounds (published configuration, all 40 runs): crown ratio range 0.1 0.32 ; height to diameter ratio range 19 82 ; final stems range 28 55 ; BA at 200 as share of peak 0.36 0.88 
+
+tree-level responses: diameter increment (cm/yr) of a 30 cm tree by BYI and competition x = (BAL/BA) x RD; annual mortality probability by RD at BYI 300
+Key: <planted, byi>
+    planted   byi     0   0.1   0.3   0.6
+      <num> <num> <num> <num> <num> <num>
+ 1:       0   100 0.395 0.317 0.205 0.106
+ 2:       0   200 0.564 0.453 0.292 0.152
+ 3:       0   300 0.696 0.559 0.361 0.187
+ 4:       0   400 0.807 0.648 0.418 0.217
+ 5:       0   500 0.905 0.727 0.469 0.243
+ 6:       1   100 1.466 1.178 0.760 0.394
+ 7:       1   200 2.097 1.684 1.087 0.563
+ 8:       1   300 2.584 2.076 1.340 0.694
+ 9:       1   400 2.998 2.408 1.554 0.805
+10:       1   500 3.364 2.702 1.744 0.904
+Key: <planted, bal>
+   planted   bal     0.3     0.6       1
+     <num> <num>   <num>   <num>   <num>
+1:       0     0 0.00933 0.01552 0.02257
+2:       0    15 0.01550 0.02574 0.03734
+3:       1     0 0.00328 0.00547 0.00797
+4:       1    15 0.00546 0.00911 0.01326
+Key: <planted>
+   planted     100     200     300     400     500
+     <num>   <num>   <num>   <num>   <num>   <num>
+1:       0 0.01763 0.01627 0.01552 0.01501 0.01463
+2:       1 0.00622 0.00574 0.00547 0.00529 0.00516
+68 done

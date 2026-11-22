@@ -1,0 +1,31 @@
+bootstrap rows: 1986 ; S1 residual sd (ln scale): 0.507 ; sigma 1.057  tau 0.4038  delta 0.44  phi 0.0295 
+B2: 2.73699 0.10739 -4.02169 -0.10029 -0.84591 1.29838 
+
+(1) benchmark, S1 out of fold (earlier systems: own SDImax 0.177, 3.89, 6.70; 742 0.217, 3.99, 10.76)
+      set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+   <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:    all   182    53    -0.023     0.124     0.52     2.72    0.75    6.71
+   planted     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+     <int> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:       1   155    41    -0.024     0.112     0.43     2.53    1.28    5.63
+2:       0    27    12    -0.018     0.177     1.06     3.66   -2.30   11.02
+                     set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+                  <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1: horizon 10 yr or more    22     7    -0.034     0.112     2.52     3.46    1.31    7.82
+equivalence at each plot's longest horizon (25% region, convention)
+       set      var    bias_rel     slope      b1_lo     b1_hi pass_int pass_slope
+    <char>   <char>       <num>     <num>      <num>     <num>   <lgcl>     <lgcl>
+1:     all survival -0.06624211 0.8678734  0.6644216 1.0139019     TRUE      FALSE
+2:     all      QMD  0.02594401 0.8935647  0.7933807 1.0208376     TRUE       TRUE
+3:     all       BA -0.04136170 0.8103024  0.5634951 1.0893845     TRUE      FALSE
+4: planted survival -0.08210787 0.8283220 -1.2147124 0.9882717     TRUE      FALSE
+5: planted      QMD  0.04877044 0.9554264  0.8589743 1.0903737     TRUE       TRUE
+6: planted       BA  0.06483552 1.1964625  0.9373466 1.4335899     TRUE      FALSE
+7: natural survival  0.04846878 1.0002203  0.7472041 1.5084692    FALSE      FALSE
+8: natural      QMD -0.02642679 0.5285887  0.1479814 1.7112105     TRUE      FALSE
+9: natural       BA -0.23591076 0.1841371 -0.4932318 0.8699252    FALSE      FALSE
+Warning message:
+Using ragg device as default. Ignoring `type` and `antialias` arguments 
+Warning message:
+Using ragg device as default. Ignoring `type` and `antialias` arguments 
+Figs. 4 and 5 written to ms_v137

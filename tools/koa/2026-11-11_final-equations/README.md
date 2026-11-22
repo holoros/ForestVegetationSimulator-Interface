@@ -2,7 +2,7 @@
 
 ## Current release and scope
 
-The current system of record is version **1.15.0** (1.14.3 with BYI predicted for the 53 Kapapala plots and the affected equations refit; see CHANGELOG.md). It is published as [10.5281/zenodo.24425094](https://doi.org/10.5281/zenodo.24425094) (November 21, 2026); version 1.14.3 ([10.5281/zenodo.24418330](https://doi.org/10.5281/zenodo.24418330)) is superseded. The corresponding source and analysis scripts are in this folder on the `ClaudeDevelopment` branch, and HiGy.R (0.5.1) carries the same equations. Manuscript v141 and supplement v133 (November 21, 2026) are the matching drafts; journal submission and coauthor approval must be checked separately.
+The current system of record is version **1.15.1** (November 22, 2026): BYI recomputed with out-of-bag predictions at the FIA plots that trained the BYI forests and with 474 duplicate rows of the Eq. 1 frame removed, and every BYI-dependent equation refit with forms unchanged (see CHANGELOG.md). Its Zenodo version is drafted (version DOI 10.5281/zenodo.24432587, reserved, not yet published). Version 1.15.0 is published as [10.5281/zenodo.24425094](https://doi.org/10.5281/zenodo.24425094). The 1.15.1 logs are in `logs/142`, its new outputs in `out/v142`, `out/bakuzis_142` and `out/figs_v142`.
 
 `koa_step_rdbyi.R` is the base-R reference implementation. It reads `koa_rdbyi_equations.csv` and projects a koa tree list in annual steps. Maximum stand density index depends on Biomass Yield Index (BYI) and origin. Height and height increment share a fitted asymptote; diameter growth and mortality depend on tree and stand conditions. Crown base is an output only. Natural-stand ingrowth is an optional scenario assumption, estimated from ten recruits on five subplots, and is not validated for planted stands. There is no fitted volume or carbon equation. Competition uses live koa only. See the version 1.14.1 section below for the evidence, limitations, and changes from earlier releases.
 
@@ -21,7 +21,7 @@ The correction is a censoring rule. Mortality intervals that end in or span a th
 
 ## Quick start
 
-The example needs only base R and the two files `koa_step_rdbyi.R` and `koa_rdbyi_equations.csv` in the working directory. It was rerun in R 4.5.2 on November 21, 2026 with the 1.15.0 files and returned an SDImax of 540.767 and basal areas of 30.651 and 39.913 m² ha⁻¹ at years 20 and 40. These are illustrative projections, not independent validation. The tree list and the BYI are illustrative inputs, not data.
+The example needs only base R and the two files `koa_step_rdbyi.R` and `koa_rdbyi_equations.csv` in the working directory. It was rerun in R 4.5.2 on November 22, 2026 with the 1.15.1 files and returned an SDImax of 637.921 and basal areas of 30.904 and 41.409 m² ha⁻¹ at years 20 and 40. These are illustrative projections, not independent validation. The tree list and the BYI are illustrative inputs, not data.
 
 ```r
 source("koa_step_rdbyi.R")

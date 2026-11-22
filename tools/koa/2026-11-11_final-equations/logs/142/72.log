@@ -1,0 +1,52 @@
+bootstrap rows: 1986 ; S1 residual sd (ln scale): 0.507 ; sigma 1.057  tau 0.4038  delta 0.44  phi 0.0295 
+ingrowth bootstrap rows: 1723 
+J1: 2.45138 0.11092 -3.47989 0.15329 -0.80132 1.36926 -3.07032 0.0795 
+workbook starting visit: PSP|206|6 2015 trees 37 
+
+(6) workbook grid. Starting list: trees 37 , QMD rescaled to 7.24 cm, starting BA-weighted height 7.14 m. SDImax multipliers for the low and high cases (10th and 90th percentile of planted plot residuals about S1): 0.491 1.494 
+anchor height: 21.86 m; SDImax by site class (central): Excellent 803; Good 755; Marginal 694; Low Feasibility 603 
+     sdimax            site   byi stems_ac sdimax_value   BA20   BA40   BA52  BA100  BA200 peakBA peak_age decline_pct stems52 qmd52 reineke rises_to_peak rd_max sdi_max
+     <char>          <char> <num>    <num>        <num>  <num>  <num>  <num>  <num>  <num>  <num>    <num>       <num>   <num> <num>   <num>        <lgcl>  <num>   <num>
+ 1: central       Excellent   450      100       802.52 165.94 229.08 238.53 216.41 132.89 239.34       58       44.48   59.05 27.22   -1.30          TRUE   0.91  732.23
+ 2: central       Excellent   450      200       802.52 220.07 259.16 258.45 224.04 137.70 259.82       44       47.00   74.61 25.20   -1.65          TRUE   1.09  873.25
+ 3: central       Excellent   450      300       802.52 241.56 265.03 261.67 225.68 137.90 265.03       39       47.97   79.21 24.61   -1.81          TRUE   1.18  943.53
+ 4: central       Excellent   450      400       802.52 251.17 266.75 262.82 226.82 137.03 266.95       37       48.67   80.59 24.45   -1.90          TRUE   1.23  989.63
+ 5: central            Good   340      100       755.23 144.02 205.93 217.70 205.61 134.77 220.34       63       38.84   60.94 25.59   -1.22          TRUE   0.90  681.06
+ 6: central            Good   340      200       755.23 193.37 236.09 238.28 213.20 139.38 238.43       49       41.54   79.00 23.52   -1.58          TRUE   1.07  808.84
+ 7: central            Good   340      300       755.23 214.22 242.58 241.82 214.74 139.72 242.96       44       42.49   84.90 22.85   -1.74          TRUE   1.15  872.11
+ 8: central            Good   340      400       755.23 224.15 244.56 242.98 215.80 139.16 244.62       42       43.11   86.98 22.63   -1.84          TRUE   1.21  913.45
+ 9: central        Marginal   230      100       693.90 117.13 175.31 189.04 188.21 133.72 195.18       71       31.49   62.95 23.46   -1.13          TRUE   0.88  612.21
+10: central        Marginal   230      200       693.90 159.83 204.61 209.97 195.80 137.99 210.30       57       34.39   84.34 21.36   -1.50          TRUE   1.04  722.90
+11: central        Marginal   230      300       693.90 179.20 211.83 214.00 197.22 138.50 214.01       51       35.29   92.27 20.62   -1.67          TRUE   1.12  777.28
+12: central        Marginal   230      400       693.90 189.14 214.21 215.27 198.14 138.30 215.39       49       35.79   95.51 20.33   -1.76          TRUE   1.17  812.69
+13: central Low Feasibility   120      100       602.67  81.31 130.15 144.59 155.99 124.13 156.94       87       20.91   64.78 20.23   -1.02          TRUE   0.84  504.72
+14: central Low Feasibility   120      200       602.67 113.79 156.14 164.58 163.60 127.78 167.98       71       23.93   90.76 18.23   -1.39          TRUE   0.98  590.38
+15: central Low Feasibility   120      300       602.67 129.97 163.91 169.29 164.94 128.42 170.65       65       24.75  102.12 17.43   -1.57          TRUE   1.05  632.09
+16: central Low Feasibility   120      400       602.67 139.07 166.88 170.89 165.65 128.61 171.69       62       25.09  107.65 17.06   -1.67          TRUE   1.09  659.22
+     sdimax            site   byi stems_ac      A     B     C  rmse rmse_pct   e40   e52   A100  B100  C100 rmse_pct100
+     <char>          <char> <num>    <num>  <num> <num> <num> <num>    <num> <num> <num>  <num> <num> <num>       <num>
+ 1: central       Excellent   450      100 235.11 14.14  6.69  7.33     4.12 -1.20  4.24 231.54 13.83  6.40        3.76
+ 2: central       Excellent   450      200 256.30  9.92  4.85  6.71     3.15  3.38  2.19 247.34  9.43  4.36        4.61
+ 3: central       Excellent   450      300 261.12  7.96  4.02  6.24     2.77  3.99  0.55 251.24  7.52  3.58        4.87
+ 4: central       Excellent   450      400 262.92  6.80  3.58  5.96     2.56  3.86 -0.10 253.06  6.42  3.17        4.87
+ 5: central            Good   340      100 215.07 15.22  7.20  6.79     4.28 -2.47  3.92 215.08 15.22  7.19        3.34
+ 6: central            Good   340      200 235.25 10.79  5.39  6.37     3.33  1.87  3.14 229.70 10.41  5.01        3.73
+ 7: central            Good   340      300 239.81  8.67  4.54  5.89     2.89  3.01  2.03 233.21  8.31  4.16        3.88
+ 8: central            Good   340      400 241.45  7.40  4.08  5.60     2.66  3.19  1.53 234.79  7.08  3.72        3.86
+ 9: central        Marginal   230      100 187.98 16.69  7.87  5.92     4.42 -3.41  3.16 192.04 17.21  8.34        3.23
+10: central        Marginal   230      200 206.79 12.00  6.15  5.82     3.55 -0.02  3.49 205.11 11.86  5.99        2.99
+11: central        Marginal   230      300 211.07  9.66  5.30  5.44     3.10  1.44  3.00 208.14  9.45  5.06        2.97
+12: central        Marginal   230      400 212.57  8.23  4.83  5.19     2.86  1.94  2.73 209.44  8.04  4.58        2.90
+13: central Low Feasibility   120      100 146.29 19.02  8.90  4.37     4.44 -3.50  1.81 154.82 20.61 10.27        3.53
+14: central Low Feasibility   120      200 162.75 13.96  7.41  4.60     3.75 -1.90  2.79 165.62 14.35  7.81        2.79
+15: central Low Feasibility   120      300 166.74 11.27  6.61  4.44     3.33 -0.69  2.91 168.04 11.41  6.79        2.51
+16: central Low Feasibility   120      400 168.16  9.54  6.16  4.28     3.08 -0.08  2.90 169.02  9.62  6.28        2.36
+Key: <stems_ac>
+   stems_ac first_inversion exc_minus_low_100 low_minus_exc_200
+      <num>           <num>             <num>             <num>
+1:      100             179              60.4              -8.8
+2:      200             181              60.4              -9.9
+3:      300             180              60.7              -9.5
+4:      400             177              61.2              -8.4
+
+51 done

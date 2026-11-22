@@ -1,0 +1,16 @@
+(1) S1: (Intercept) 5.9368; lbyi 0.2167; planted -0.5728 ; plots 305 
+residual of ln(plot SDImax) about S1: sd 0.507 ; weighted sd 0.46 ; 10th, 50th, 90th percentile natural: -0.894 -0.439 0.367  planted: -0.71 -0.132 0.401 
+diameter increment frame: rows 5114 ; dropped for a PSP removal year strictly inside the interval: 0 
+E4r refit on v142 frames: convergence 0 delta 0.44 
+      b0       ls        s      xrd     lbyi       pl 
+-3.33597  0.25691 -0.02841 -2.19045  0.51596  1.31258 
+E4r done
+pD done
+pL done
+     form     k  conv  delta    b5       b6 pseudoAIC cv_rmse cv_bias cv_bias_planted cv_bias_natural mult_d5 mult_d20 mult_d40 mult_d60   dAIC rmse_change   pass
+   <char> <int> <int>  <num> <num>    <num>     <num>   <num>   <num>           <num>           <num>   <num>    <num>    <num>    <num>  <num>       <num> <lgcl>
+1:    E4r     6     0 0.4400 1.313       NA      1510   1.139 0.02517         0.03910        -0.02611   3.716    3.716    3.716    3.716   0.00    0.000000  FALSE
+2:     pD     7     0 0.4208 1.551 -0.01581      1458   1.136 0.02558         0.03651        -0.01465   4.359    3.439    2.507    1.828 -51.52   -0.002693  FALSE
+3:     pL     7     0 0.4232 1.802 -0.19065      1491   1.137 0.02493         0.03717        -0.02015   4.310    3.394    2.988    2.770 -18.74   -0.001815  FALSE
+RULE OUTCOME: E4r (no fading form passed; constant multiplier retained) 
+82 done

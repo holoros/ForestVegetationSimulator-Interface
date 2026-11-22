@@ -1,0 +1,44 @@
+BYI 10th and 90th percentiles and median plot SDI by origin:
+Key: <planted>
+   planted      b10      b90    sdi50
+     <int>    <num>    <num>    <num>
+1:       0 170.0050 399.5312 277.2415
+2:       1 116.4912 307.6297 350.1901
+
+(D) diameter growth ratio, 90th against 10th percentile BYI (point and 95% bootstrap interval); single-742 system has ln(BYI) coefficient 0.65 (script 20 refit, no interval)
+   planted     r   SDI at_fixed_RD fixed_RD_lo fixed_RD_hi at_fixed_SDI
+     <int> <num> <num>       <num>       <num>       <num>        <num>
+1:       0  0.25   277        1.55        1.19        1.76         1.59
+2:       0  0.50   277        1.55        1.19        1.76         1.62
+3:       0  0.75   277        1.55        1.19        1.76         1.66
+4:       1  0.25   350        1.65        1.22        1.90         1.75
+5:       1  0.50   350        1.65        1.22        1.90         1.86
+6:       1  0.75   350        1.65        1.22        1.90         1.98
+   fixed_SDI_lo fixed_SDI_hi single742
+          <num>        <num>     <num>
+1:         1.22         1.78      1.74
+2:         1.25         1.79      1.74
+3:         1.27         1.82      1.74
+4:         1.30         1.95      1.88
+5:         1.36         2.04      1.88
+6:         1.40         2.20      1.88
+
+(C) scenario height (and volume where recorded) at 100 and 200 years by height increment form
+Key: <planted, level>
+   planted  level HT_A1_100 HT_A1_200 HT_B2_100 HT_B2_200 HT_J1_100 HT_J1_200
+     <num> <char>     <num>     <num>     <num>     <num>     <num>     <num>
+1:       0     hi      25.9      29.8      25.5      28.8      21.6      22.5
+2:       0     lo      23.3      26.7      22.4      25.1      19.7      20.5
+3:       0     md      25.2      28.9      24.6      27.8      21.1      21.9
+4:       1     hi      29.7      30.0      28.2      28.4      21.9      21.9
+5:       1     lo      26.2      26.4      24.1      24.2      19.7      19.7
+6:       1     md      27.3      27.5      25.4      25.5      20.4      20.4
+   VOL_A1_100 VOL_A1_200 VOL_B2_100 VOL_B2_200 VOL_J1_100 VOL_J1_200
+        <num>      <num>      <num>      <num>      <num>      <num>
+1:      361.1      315.8      356.3      305.2      301.9      238.3
+2:      230.4      220.2      221.5      207.1      194.8      168.8
+3:      322.6      289.9      316.0      278.2      270.6      219.8
+4:      589.8      372.6      560.3      352.7      434.5      272.3
+5:      402.4      310.6      370.5      285.0      302.3      231.5
+6:      460.3      336.2      428.2      311.6      343.7      249.0
+83c done

@@ -1,0 +1,78 @@
+script 45 adopted: A2 
+kept J1 by Aaron's choice of 21 Nov 2026 (the rule of script 45 picks A2 by asymptote interval width)
+coefficients, 1.14.3 against 1.15.0:
+                  equation        term       v1143        v1150
+                    <char>      <char>       <num>        <num>
+ 1:              E2_height           b  0.04152840  0.046406200
+ 2:              E2_height           c  1.05366000  1.082740000
+ 3:              S1_sdimax (Intercept)  5.64535000  5.936810000
+ 4:              S1_sdimax        lbyi  0.26770900  0.216673000
+ 5:              S1_sdimax     planted -0.56546900 -0.572766000
+ 6: E4r_diameter_increment          b0 -3.34389000 -3.335970000
+ 7: E4r_diameter_increment          ls  0.25894400  0.256911000
+ 8: E4r_diameter_increment           s -0.02875410 -0.028407300
+ 9: E4r_diameter_increment         xrd -2.19340000 -2.190450000
+10: E4r_diameter_increment        lbyi  0.51703700  0.515956000
+11: E4r_diameter_increment          pl  1.30520000  1.312580000
+12:    E5_height_increment          a0  2.76907000  2.451380000
+13:    E5_height_increment      a_lbyi  0.06250770  0.110922000
+14:    E5_height_increment          lk -3.58396000 -3.479890000
+15:    E5_height_increment          lc  0.07764840  0.153289000
+16:    E5_height_increment           x -0.80994300 -0.801318000
+17:    E5_height_increment        k_pl  1.35008000  1.369260000
+18:          E6r_mortality (Intercept)  0.34042600  0.315350000
+19:          E6r_mortality          ld -0.86965800 -0.853341000
+20:          E6r_mortality       dbh_m -0.02366980 -0.024877300
+21:          E6r_mortality      dbh_m2  0.00027546  0.000276054
+22:          E6r_mortality         BAL  0.03407210  0.034072700
+23:          E6r_mortality         lrd  0.74494600  0.739394000
+24:          E6r_mortality        lbyi -0.11654000 -0.116952000
+25:          E6r_mortality     planted -1.04977000 -1.047660000
+26:            IG_ingrowth          t0 -1.22577000 -1.225770000
+27:            IG_ingrowth       t_qmd -0.13062100 -0.130621000
+28:            IG_ingrowth         mu2  2.00000000  2.000000000
+29:         E3e_crown_base          b0 -0.82892100 -0.828921000
+30:         E3e_crown_base         lsl -0.44435300 -0.444353000
+31:         E3e_crown_base    sbalba_k -0.03967160 -0.039671600
+32:         E3e_crown_base       lba_k -0.09939680 -0.099396800
+                  equation        term       v1143        v1150
+                    <char>      <char>       <num>        <num>
+bootstrap rows: 1986 ; S1 residual sd (ln scale): 0.507 ; sigma 1.057  tau 0.4038  delta 0.44  phi 0.0295 
+ingrowth bootstrap rows: 1723 
+J1: 2.45138 0.11092 -3.47989 0.15329 -0.80132 1.36926 -3.07032 0.0795 
+
+(1) benchmark, S1 out of fold (earlier systems: own SDImax 0.177, 3.89, 6.70; 742 0.217, 3.99, 10.76)
+      set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+   <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:    all   182    53    -0.023     0.124     0.52     2.72    0.75    6.71
+   planted     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+     <int> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:       1   155    41    -0.024     0.112     0.43     2.53    1.28    5.63
+2:       0    27    12    -0.018     0.177     1.06     3.66   -2.30   11.02
+                     set     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+                  <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1: horizon 10 yr or more    22     7    -0.034     0.112     2.52     3.46    1.31    7.82
+equivalence at each plot's longest horizon (25% region, convention)
+       set      var    bias_rel     slope      b1_lo     b1_hi pass_int pass_slope
+    <char>   <char>       <num>     <num>      <num>     <num>   <lgcl>     <lgcl>
+1:     all survival -0.06624211 0.8678734  0.6644216 1.0139019     TRUE      FALSE
+2:     all      QMD  0.02594401 0.8935647  0.7933807 1.0208376     TRUE       TRUE
+3:     all       BA -0.04136170 0.8103024  0.5634951 1.0893845     TRUE      FALSE
+4: planted survival -0.08210787 0.8283220 -1.2147124 0.9882717     TRUE      FALSE
+5: planted      QMD  0.04877044 0.9554264  0.8589743 1.0903737     TRUE       TRUE
+6: planted       BA  0.06483552 1.1964625  0.9373466 1.4335899     TRUE      FALSE
+7: natural survival  0.04846878 1.0002203  0.7472041 1.5084692    FALSE      FALSE
+8: natural      QMD -0.02642679 0.5285887  0.1479814 1.7112105     TRUE      FALSE
+9: natural       BA -0.23591076 0.1841371 -0.4932318 0.8699252    FALSE      FALSE
+scenario BYI levels:
+   planted  level      byi    sdimax
+     <num> <char>    <num>     <num>
+1:       0     lo 170.0050 1152.4078
+2:       0     md 317.0024 1318.9796
+3:       0     hi 399.5312 1386.7915
+4:       1     lo 116.4912  598.8061
+5:       1     md 159.3568  640.8708
+6:       1     hi 307.6297  739.0347
+largest relative difference, koa_project against script 51 (6 scenarios x 4 variables x 3 years): 1.04e-14 
+asymptote (m) at the median BYI natural and planted: 21.98 20.37 
+PASS

@@ -1,0 +1,165 @@
+bootstrap rows: 1986 ; S1 residual sd (ln scale): 0.507 ; sigma 1.057  tau 0.4038  delta 0.44  phi 0.0295 
+benchmark basal area RMSE (1.14.x was 6.763): 6.706 
+plot-interval stand values rebuilt from the tree rows where the stand table had none: tree-intervals with QMD missing 245 ; with SDI of zero 245 
+censored frame: tree-intervals 6722 deaths 845 ; plot-intervals 350 ; with at least one death 105 ; plots 100 
+
+(1) full fits
+E6r refit here against the coefficients of record: largest difference 4.21e-06 
+S1m stand hazard (intercept, ln RD, ln QMD, ln BYI, planted): -0.1759 1.0703 -0.763 0.0485 -1.0473 
+S2m occurrence (intercept, ln RD, ln QMD, ln BYI, planted, ln stems per ha): -2.8793 0.4341 -0.2013 -0.3534 0.534 0.5941 
+S2m hazard among plot-intervals with deaths: -2.6614 0.6684 -0.4539 0.3136 -0.1338 
+allocation risk, S1m (ln(DBH+1), DBH/10, (DBH/10)^2, BAL/10): -0.4299 -0.8977 0.1112 0.3382 ; S2m: -0.3899 -0.7977 0.0749 0.2145 ; S4m: -0.552 -0.7358 0.0951 0.355 
+S4m Garcia: exponent a 2.3884 ; b natural 0.15262 ; b planted 0.09418 
+
+(2) held-out installations
+     form tree_logscore deaths predicted_deaths
+   <char>         <num>  <int>            <num>
+1:     T0        0.2381    845            833.2
+2:    S1m        0.2516    845            743.2
+3:    S2m        0.3307    845            365.9
+4:    S4m        0.2560    845            751.4
+     form plot_intervals surv_bias surv_rmse surv_rmse_w
+   <char>          <int>     <num>     <num>       <num>
+1:     T0            350   -0.0093    0.1469      0.0965
+2:    S1m            350   -0.0129    0.1430      0.1120
+3:    S2m            350   -0.0374    0.1656      0.1838
+4:    S4m            350   -0.0135    0.1482      0.1019
+Key: <planted>
+   planted bias_S1m bias_S2m bias_S4m bias_T0 rmse_S1m rmse_S2m rmse_S4m rmse_T0
+     <int>    <num>    <num>    <num>   <num>    <num>    <num>    <num>   <num>
+1:       0  -0.0618  -0.1703  -0.0673 -0.0427   0.2934   0.3389   0.3033  0.3026
+2:       1   0.0000  -0.0024   0.0007 -0.0005   0.0560   0.0661   0.0592  0.0560
+
+(3) benchmark, 53 plots, S1 out of fold, E4r of record
+     form     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+   <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:     T0   182    53    -0.023     0.124     0.52     2.72    0.75    6.71
+2:    S1m   182    53    -0.019     0.124     0.56     2.57    0.67    7.64
+3:    S2m   182    53    -0.069     0.168     0.95     2.98   -1.11   10.03
+4:    S4m   182    53    -0.037     0.163     0.83     2.85   -0.04    8.97
+5:    S3m   182    53    -0.023     0.124     0.52     2.72    0.75    6.71
+      form planted     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+    <char>   <int> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+ 1:     T0       1   155    41    -0.024     0.112     0.43     2.53    1.28    5.63
+ 2:     T0       0    27    12    -0.018     0.177     1.06     3.66   -2.30   11.02
+ 3:    S1m       1   155    41    -0.017     0.113     0.41     2.51    1.41    5.81
+ 4:    S1m       0    27    12    -0.032     0.171     1.44     2.87   -3.61   14.12
+ 5:    S2m       1   155    41    -0.031     0.113     0.50     2.55    1.19    5.70
+ 6:    S2m       0    27    12    -0.282     0.341     3.56     4.75  -14.35   22.16
+ 7:    S4m       1   155    41    -0.019     0.146     0.56     2.73    1.36    6.25
+ 8:    S4m       0    27    12    -0.141     0.239     2.37     3.48   -8.03   17.83
+ 9:    S3m       1   155    41    -0.024     0.112     0.43     2.53    1.28    5.63
+10:    S3m       0    27    12    -0.018     0.177     1.06     3.66   -2.30   11.02
+     form     n plots surv_bias surv_rmse qmd_bias qmd_rmse ba_bias ba_rmse
+   <char> <int> <int>     <num>     <num>    <num>    <num>   <num>   <num>
+1:     T0    22     7    -0.034     0.112     2.52     3.46    1.31    7.82
+2:    S1m    22     7    -0.021     0.103     2.33     3.26    1.80    8.31
+3:    S2m    22     7    -0.231     0.294     4.46     5.38   -7.87   14.91
+4:    S4m    22     7    -0.218     0.301     4.25     4.92   -3.37   11.28
+5:    S3m    22     7    -0.034     0.112     2.52     3.46    1.31    7.82
+
+(4) six gates, 200-year runs
+     form site_to_100 sdi_lim  ba200 no_rise sukachev yield_dens
+   <char>      <lgcl>  <lgcl> <lgcl>  <lgcl>   <lgcl>     <lgcl>
+1:     T0        TRUE    TRUE   TRUE    TRUE     TRUE       TRUE
+2:    S1m        TRUE    TRUE   TRUE    TRUE     TRUE      FALSE
+3:    S2m        TRUE    TRUE  FALSE    TRUE     TRUE       TRUE
+4:    S4m       FALSE   FALSE   TRUE    TRUE     TRUE       TRUE
+5:    S3m        TRUE    TRUE   TRUE    TRUE     TRUE      FALSE
+
+stems per ha at 40 and 100 years, and basal area at 100 and 200 years (low, median, high BYI)
+Key: <form, planted, year>
+      form planted  year    lo    md    hi
+    <char>   <num> <int> <num> <num> <num>
+ 1:    S1m       0    40   315   319   319
+ 2:    S1m       0   100   102   101   101
+ 3:    S1m       1    40   400   397   389
+ 4:    S1m       1   100   127   128   130
+ 5:    S2m       0    40   928   947   953
+ 6:    S2m       0   100   475   481   483
+ 7:    S2m       1    40   508   503   496
+ 8:    S2m       1   100   217   217   219
+ 9:    S3m       0    40   348   349   345
+10:    S3m       0   100   129   125   121
+11:    S3m       1    40   319   290   241
+12:    S3m       1   100   112   105    88
+13:    S4m       0    40   661   450   386
+14:    S4m       0   100   268   169   144
+15:    S4m       1    40  1036   940   732
+16:    S4m       1   100   742   648   461
+17:     T0       0    40   348   349   345
+18:     T0       0   100   129   125   121
+19:     T0       1    40   375   352   298
+20:     T0       1   100   115   108    91
+      form planted  year    lo    md    hi
+    <char>   <num> <int> <num> <num> <num>
+Key: <form, planted, year>
+      form planted  year    lo    md    hi
+    <char>   <num> <int> <num> <num> <num>
+ 1:    S1m       0   100  20.1  26.2  28.8
+ 2:    S1m       0   200  15.6  19.6  21.3
+ 3:    S1m       1   100  31.4  34.0  42.2
+ 4:    S1m       1   200  24.7  27.6  34.7
+ 5:    S2m       0   100  58.2  77.1  85.4
+ 6:    S2m       0   200  63.5  82.1  90.0
+ 7:    S2m       1   100  50.5  56.2  68.4
+ 8:    S2m       1   200  43.5  47.4  59.4
+ 9:    S3m       0   100  24.7  32.1  34.9
+10:    S3m       0   200  20.6  25.1  26.5
+11:    S3m       1   100  38.0  41.5  48.6
+12:    S3m       1   200  29.3  30.4  30.9
+13:    S4m       0   100  41.4  39.6  38.8
+14:    S4m       0   200  38.7  36.3  35.6
+15:    S4m       1   100  80.5  86.7  93.1
+16:    S4m       1   200  78.9  70.2  70.3
+17:     T0       0   100  24.7  32.1  34.9
+18:     T0       0   200  20.6  25.1  26.5
+19:     T0       1   100  38.4  42.2  49.6
+20:     T0       1   200  29.4  30.6  31.1
+      form planted  year    lo    md    hi
+    <char>   <num> <int> <num> <num> <num>
+      form planted  level max_RD peak_BA peak_year
+    <char>   <num> <char>  <num>   <num>     <int>
+ 1:    S1m       0     lo   0.64    28.8         0
+ 2:    S1m       0     md   0.56    32.2        26
+ 3:    S1m       0     hi   0.53    35.8        29
+ 4:    S1m       1     lo   1.20    40.5        46
+ 5:    S1m       1     md   1.26    46.2        43
+ 6:    S1m       1     hi   1.39    60.7        37
+ 7:    S2m       0     lo   0.84    63.5       200
+ 8:    S2m       0     md   0.92    82.1       200
+ 9:    S2m       0     hi   0.95    90.1       187
+10:    S2m       1     lo   1.32    50.5        95
+11:    S2m       1     md   1.37    56.6        85
+12:    S2m       1     hi   1.49    71.7        69
+13:    S3m       0     lo   0.64    28.8         0
+14:    S3m       0     md   0.56    33.9        50
+15:    S3m       0     hi   0.54    37.4        47
+16:    S3m       1     lo   1.07    38.7        73
+17:    S3m       1     md   1.08    42.9        69
+18:    S3m       1     hi   1.10    52.3        60
+19:    S4m       0     lo   0.67    41.5        87
+20:    S4m       0     md   0.59    40.8        55
+21:    S4m       0     hi   0.56    40.6        47
+22:    S4m       1     lo   2.34    86.0       151
+23:    S4m       1     md   2.21    88.9       127
+24:    S4m       1     hi   1.96    94.3        87
+25:     T0       0     lo   0.64    28.8         0
+26:     T0       0     md   0.56    33.9        50
+27:     T0       0     hi   0.54    37.4        47
+28:     T0       1     lo   1.19    39.6        64
+29:     T0       1     md   1.23    44.3        57
+30:     T0       1     hi   1.31    55.1        44
+      form planted  level max_RD peak_BA peak_year
+    <char>   <num> <char>  <num>   <num>     <int>
+
+(5) rule: every gate E6r passes, the Sukachev gate as well, benchmark basal area RMSE within 2% of 6.76 and survival RMSE within 2% of 0.124
+Key: <form>
+     form surv_rmse ba_rmse  keeps sukachev preferred
+   <char>     <num>   <num> <lgcl>   <lgcl>    <lgcl>
+1:    S1m     0.124    7.64  FALSE     TRUE     FALSE
+2:    S2m     0.168   10.03  FALSE     TRUE     FALSE
+3:    S3m     0.124    6.71  FALSE     TRUE     FALSE
+4:    S4m     0.163    8.97  FALSE     TRUE     FALSE
+5:     T0     0.124    6.71   TRUE     TRUE     FALSE
+done

@@ -1,0 +1,13 @@
+[1] FALSE
+tr         rows  11371 | unmatched rows 0 | median ratio new/old 1.000
+iv         rows   7996 | unmatched rows 0 | median ratio new/old 1.000
+mf         rows   7996 | unmatched rows 0 | median ratio new/old 1.000
+df         rows   5396 | unmatched rows 0 | median ratio new/old 1.000
+hf         rows   5407 | unmatched rows 0 | median ratio new/old 1.000
+hd         rows   3331 | unmatched rows 0 | median ratio new/old 1.000
+fl         rows   6750 | unmatched rows 0 | median ratio new/old 1.000
+recruits   rows     25 | unmatched rows 0 | median ratio new/old 1.000
+[1] FALSE
+mf         rows   7478 | unmatched rows 0 | median ratio new/old 1.000
+natural BYI percentiles (10, 50, 90) after patch: 170 317 399.5 | planted: 116.5 159.4 307.6 
+81 done
