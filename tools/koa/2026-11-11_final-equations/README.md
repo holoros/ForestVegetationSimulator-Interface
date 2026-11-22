@@ -2,7 +2,7 @@
 
 ## Status
 
-Version 1.15.1 is the system of record. It is published on Zenodo as [10.5281/zenodo.24432587](https://doi.org/10.5281/zenodo.24432587), and the concept DOI for all versions is [10.5281/zenodo.21081014](https://doi.org/10.5281/zenodo.21081014). It is carried in FVS-HI by `fvsOL/inst/extdata/HiGy.R` version 0.5.2, whose parameters match `koa_rdbyi_equations.csv` to full precision for every equation except the optional ingrowth scenario, which HiGy.R does not implement, and in manuscript v142 and supplement v134.
+Version 1.15.1 is the system of record. Its equations are published on Zenodo in version 1.15.2, [10.5281/zenodo.24442327](https://doi.org/10.5281/zenodo.24442327), a documentation and provenance release that carries this folder with the 1.15.1 equations unchanged (version 1.15.1 is [10.5281/zenodo.24432587](https://doi.org/10.5281/zenodo.24432587)), and the concept DOI for all versions is [10.5281/zenodo.21081014](https://doi.org/10.5281/zenodo.21081014). It is carried in FVS-HI by `fvsOL/inst/extdata/HiGy.R` version 0.5.2, whose parameters match `koa_rdbyi_equations.csv` to full precision for every equation except the optional ingrowth scenario, which HiGy.R does not implement, and in manuscript v142 and supplement v134.
 
 Two files are the model: `koa_rdbyi_equations.csv`, which holds every coefficient with its plot-cluster bootstrap interval, and `koa_step_rdbyi.R`, a base-R reference implementation that reads the CSV and projects a koa tree list in annual steps. Nothing in the code is hard-coded except unit constants and three numerical guards.
 
@@ -268,9 +268,9 @@ The scripts read the model frames, which are not on GitHub. They are in the Zeno
 
 ## How to cite
 
-Weiskittel, A.R., Sprecher, I., Gottesman, A., Rice, B., 2026. Acacia koa individual-tree growth and yield data and prediction functions (Hawaii, 1949–2025). Version 1.15.1. Zenodo. https://doi.org/10.5281/zenodo.24432587
+Weiskittel, A.R., Sprecher, I., Gottesman, A., Rice, B., 2026. Acacia koa individual-tree growth and yield data and prediction functions (Hawaii, 1949–2025). Version 1.15.2. Zenodo. https://doi.org/10.5281/zenodo.24442327
 
-The previous version is 1.15.0 (https://doi.org/10.5281/zenodo.24425094). The concept DOI for all versions is 10.5281/zenodo.21081014.
+Version 1.15.2 carries the 1.15.1 equations with updated documentation. The previous versions are 1.15.1 (https://doi.org/10.5281/zenodo.24432587) and 1.15.0 (https://doi.org/10.5281/zenodo.24425094). The concept DOI for all versions is 10.5281/zenodo.21081014.
 
 ## Licence and contact
 
