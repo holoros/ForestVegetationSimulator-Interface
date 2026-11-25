@@ -11,6 +11,12 @@
   and ingrowth are unchanged. 25 parameter values changed, nothing else.
   On the nine test stands eight match the reference script to 2.6e-05 m2/ha
   in basal area; all 310 first-measurement stands run 50 years.
+- Test note (November 22, 2026, no code change): the ninth stand, PSP_202_2, has
+  14 trees with a DBH and a recorded height below breast height, which the
+  `ht < 1.3716` gate gives no diameter growth. With those heights written as
+  missing in the input database, HiGy imputes them from the height equation
+  and all nine stands match the reference script to 1e-6 in basal area, stems
+  and diameter.
 
 ### Version 0.5.1
 
